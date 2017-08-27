@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.HardType, HelpDesk.Entity" 
+         table="HardType" lazy="false">
+    <id name="Id" column="Id" unsaved-value="0">
+      <generator class="sequence">
+        <param name="sequence">SQ_GLOBAL</param>
+      </generator>
+    </id>
+    <property name="Name" length="200" not-null="true"/>
+    
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" 
+         table="StatusRequest" 
+         mutable="false" lazy="false">
+    <id name="Id" type="Int64" column="Id" />
+    <property insert="false" update="false" unique="true" name="Name" length="200" not-null="true" />
+    <property insert="false" update="false" name="BackColor"/>
+    
+  </class>
+</hibernate-mapping>

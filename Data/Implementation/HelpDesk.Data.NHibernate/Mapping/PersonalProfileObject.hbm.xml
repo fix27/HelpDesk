@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.PersonalProfileObject, HelpDesk.Entity" table="PersonalProfileObject" lazy="false">
+    <id name="Id" column="Id" unsaved-value="0">
+      <generator class="sequence">
+        <param name="sequence">SQ_GLOBAL</param>
+      </generator>
+    </id>
+
+    <many-to-one  foreign-key="PersonalProfileObject_PersonalProfile_FK" name="PersonalProfile" fetch="join" column="PersonalProfileId" class="HelpDesk.Entity.PersonalProfile, HelpDesk.Entity" not-null="true"/>
+    <many-to-one  foreign-key="PersonalProfileObject_RequestObject_FK" name="Object" fetch="join" column="ObjectId" class="HelpDesk.Entity.RequestObject, HelpDesk.Entity" not-null="true"/>
+    
+  </class>
+</hibernate-mapping>

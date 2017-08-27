@@ -1,0 +1,9 @@
+﻿При необходимости бросить исключение в бизнес-логике при работе с 
+записью журнала требуется установить:
+
+errorMessages.Add("Id", new List<string>() { id.ToString() });
+
+Потом в контроллере журнала будет обработано так:
+
+vm.errors = results.data.errors;
+vm.errorRecordId = vm.errors.Id.Errors[0].ErrorMessage || 0;

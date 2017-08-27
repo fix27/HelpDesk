@@ -1,0 +1,11 @@
+﻿<pagination ng-show="vm.count > vm.pageSize"
+            ng-model="vm.currentPage"
+            total-items="vm.count"
+            items-per-page="vm.pageSize"
+            max-size="5"
+            force-ellipses="false"
+            previous-text="<"
+            next-text=">"
+            boundary-link-numbers="true"
+            ng-change="vm.pageChanged()">
+</pagination>

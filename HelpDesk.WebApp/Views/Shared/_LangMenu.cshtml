@@ -1,0 +1,11 @@
+﻿@using HelpDesk.WebApp.Helpers
+
+@if (ViewBag.Cultures != null && ((IList<string>)ViewBag.Cultures).Count > 1)
+{
+<ul class="nav nav-pills pull-right">
+    @foreach (string s in (IList<string>)ViewBag.Cultures)
+    {
+        @Url.LangSwitcher(s, ViewContext.RouteData, s)
+    }
+</ul>
+}

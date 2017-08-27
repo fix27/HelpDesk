@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.BaseRequestEvent, HelpDesk.Entity" lazy="false">
+    <id name="Id" column="Id" unsaved-value="0">
+      <generator class="sequence">
+        <param name="sequence">SQ_GLOBAL</param>
+      </generator>
+    </id>
+
+    
+    
+    <property name="RequestId"        type="Int64" not-null="true"/>
+    
+    <property name="TypeRequestEventId" type="Int64"/>
+    <property name="Name"  length="2000"    />
+    <property name="OrdGroup"         type="Int32"    not-null="true"/>
+    <property name="DateEvent"        type="DateTime" not-null="true"/>
+    <property name="DateInsert"       type="DateTime" not-null="true"/>
+    
+    <union-subclass name="HelpDesk.Entity.RequestEvent, HelpDesk.Entity" table="RequestEvent">
+      <many-to-one  foreign-key="RequestEvent_StatusRequest_FK" name="StatusRequest" column="StatusRequestId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" />
+    </union-subclass>
+
+    <union-subclass name="HelpDesk.Entity.RequestEventArch, HelpDesk.Entity" table="RequestEventArch">
+      <many-to-one  foreign-key="RequestEventArch_StatusRequest_FK" name="StatusRequest" column="StatusRequestId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" />
+    </union-subclass>
+  </class>
+  
+</hibernate-mapping>

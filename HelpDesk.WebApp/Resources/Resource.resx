@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Action_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Action_Login" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="Action_Register" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="Action_Transfer" xml:space="preserve">
+    <value>Перевести</value>
+  </data>
+  <data name="ErrorMessage_ConfirmPassword" xml:space="preserve">
+    <value>Пароль и его подтверждение не совпадают</value>
+  </data>
+  <data name="ErrorMessage_StringLengthConstraint" xml:space="preserve">
+    <value>Значение поля {0} должно содержать не менее {2} и не более {1} символов</value>
+  </data>
+  <data name="InvalidReCaptcha" xml:space="preserve">
+    <value>Вы не подтвердили, что Вы не робот</value>
+  </data>
+  <data name="Label_Amount" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="Label_Balance" xml:space="preserve">
+    <value>Баланс</value>
+  </data>
+  <data name="Label_ChooseLang" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="Label_ConfirmPassword" xml:space="preserve">
+    <value>Подтверждение пароля</value>
+  </data>
+  <data name="Label_Correspondent" xml:space="preserve">
+    <value>Корреспондент</value>
+  </data>
+  <data name="Label_DateTime" xml:space="preserve">
+    <value>Дата/время</value>
+  </data>
+  <data name="Label_Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Label_Login" xml:space="preserve">
+    <value>Логин или E-mail</value>
+  </data>
+  <data name="Label_Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Label_RememberMe" xml:space="preserve">
+    <value>Запомнить меня</value>
+  </data>
+  <data name="Label_TotalCount" xml:space="preserve">
+    <value>Всего записей</value>
+  </data>
+  <data name="Label_ToWhom" xml:space="preserve">
+    <value>Кому</value>
+  </data>
+  <data name="Label_FM" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="Menu_Request" xml:space="preserve">
+    <value>Подать заявку</value>
+  </data>
+  <data name="Menu_RequestHistory" xml:space="preserve">
+    <value>Мои заявки</value>
+  </data>
+  <data name="Message_Error" xml:space="preserve">
+    <value>Произошла ошибка</value>
+  </data>
+  <data name="Message_LoginError" xml:space="preserve">
+    <value>Неверное имя пользователя или пароль</value>
+  </data>
+  <data name="Message_NotFound" xml:space="preserve">
+    <value>Записей не найдено</value>
+  </data>
+  <data name="Message_RequestComplete" xml:space="preserve">
+    <value>Заявка успешно сохранена</value>
+  </data>
+  <data name="Placeholder_Amount" xml:space="preserve">
+    <value>Введите сумму</value>
+  </data>
+  <data name="Placeholder_Name" xml:space="preserve">
+    <value>Введите имя</value>
+  </data>
+  <data name="Label_Logout" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="Action_ApplyFilter" xml:space="preserve">
+    <value>Применить фильтр</value>
+  </data>
+  <data name="Action_ResetFilter" xml:space="preserve">
+    <value>Сбросить фильтр</value>
+  </data>
+  <data name="Label_From" xml:space="preserve">
+    <value>От</value>
+  </data>
+  <data name="Label_To" xml:space="preserve">
+    <value>До</value>
+  </data>
+  <data name="Label_Of" xml:space="preserve">
+    <value>из</value>
+  </data>
+  <data name="Label_IM" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Label_OT" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>help-desk</value>
+  </data>
+  <data name="Label_ForgetPassword" xml:space="preserve">
+    <value>Не помните пароль?</value>
+  </data>
+  <data name="Action_RecoveryPassword" xml:space="preserve">
+    <value>Восстановить пароль</value>
+  </data>
+  <data name="Text_RecoveryPassword" xml:space="preserve">
+    <value>Введите адрес E-mail, с которым вы были зарегестрированы в системе. Пароль будет отправлен на этот адрес электронной почты</value>
+  </data>
+  <data name="Action_Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Menu_PersonalProfile" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
+  <data name="Menu_RequestProfile" xml:space="preserve">
+    <value>Мои объекты</value>
+  </data>
+  <data name="Label_Cabinet" xml:space="preserve">
+    <value>Кабинет</value>
+  </data>
+  <data name="Label_Phone" xml:space="preserve">
+    <value>№ телефона</value>
+  </data>
+  <data name="Label_Post" xml:space="preserve">
+    <value>Должность</value>
+  </data>
+  <data name="Placeholder_Post" xml:space="preserve">
+    <value>Ввведите или выберите должность</value>
+  </data>
+  <data name="Label_Organization" xml:space="preserve">
+    <value>Организация</value>
+  </data>
+  <data name="Placeholder_Organization" xml:space="preserve">
+    <value>Выберите организацию</value>
+  </data>
+  <data name="Action_Select" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="Label_ObjectName" xml:space="preserve">
+    <value>Наименование объекта заявки</value>
+  </data>
+  <data name="Label_WorkTypeName" xml:space="preserve">
+    <value>Тип работ</value>
+  </data>
+  <data name="Title_CreateRequest" xml:space="preserve">
+    <value>Создать заявку</value>
+  </data>
+  <data name="Action_AddIS" xml:space="preserve">
+    <value>Добавить ПО</value>
+  </data>
+  <data name="Action_AddTO" xml:space="preserve">
+    <value>Добавить оборудование</value>
+  </data>
+  <data name="Label_AddIS" xml:space="preserve">
+    <value>Добавление информационной системы/ПО</value>
+  </data>
+  <data name="Label_IS" xml:space="preserve">
+    <value>Информационная система/ПО</value>
+  </data>
+  <data name="Placeholder_IS" xml:space="preserve">
+    <value>Выберите информационную систему/ПО</value>
+  </data>
+  <data name="Label_AddTO" xml:space="preserve">
+    <value>Оборудование</value>
+  </data>
+  <data name="Label_ObjectType" xml:space="preserve">
+    <value>Вид работ (определяет исполнителя работ)</value>
+  </data>
+  <data name="Label_HardType" xml:space="preserve">
+    <value>Тип оборудования (принтер, монитор, сканер и т.п.)</value>
+  </data>
+  <data name="Label_Manufacturer" xml:space="preserve">
+    <value>Производитель (SONY, SAMSUNG  и т.п.)</value>
+  </data>
+  <data name="Label_Model" xml:space="preserve">
+    <value>Модель</value>
+  </data>
+  <data name="Placeholder_HardType" xml:space="preserve">
+    <value>Выберите или введите тип оборудования</value>
+  </data>
+  <data name="Placeholder_Manufacturer" xml:space="preserve">
+    <value>Выберите или введите производителя</value>
+  </data>
+  <data name="Placeholder_Model" xml:space="preserve">
+    <value>Выберите или введите модель</value>
+  </data>
+  <data name="Label_DescriptionProblem" xml:space="preserve">
+    <value>Описание проблемы</value>
+  </data>
+  <data name="Placeholder_ObjectName" xml:space="preserve">
+    <value>Выберите объект заявки (задается в {0})</value>
+  </data>
+  <data name="Action_NewRequest" xml:space="preserve">
+    <value>Новая заявка</value>
+  </data>
+  <data name="Label_RequestNumber" xml:space="preserve">
+    <value>№ заявки</value>
+  </data>
+  <data name="Label_StatusName" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="Label_RequestDate" xml:space="preserve">
+    <value>Дата подачи</value>
+  </data>
+  <data name="Label_DateEndPlan" xml:space="preserve">
+    <value>Плановая дата окончания</value>
+  </data>
+  <data name="Text_AllDataAreRequiredToApply" xml:space="preserve">
+    <value>Для подачи заявки требуется заполнить данные</value>
+  </data>
+  <data name="Text_ItIsNecessaryToFillInTheFormCompletely" xml:space="preserve">
+    <value>Необходимо полностью заполнить форму</value>
+  </data>
+  <data name="Text_YouMustAddAtLeastOneObject" xml:space="preserve">
+    <value>Необходимо добавить хотя бы один объект, на который будет подаваться заявка, в форму</value>
+  </data>
+  <data name="Title_EditRequest" xml:space="preserve">
+    <value>Редактировать заявку</value>
+  </data>
+  <data name="Action_Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Action_DeleteRequest" xml:space="preserve">
+    <value>Удалить заявку</value>
+  </data>
+  <data name="Action_EditRequest" xml:space="preserve">
+    <value>Редактировать заявку</value>
+  </data>
+  <data name="Message_NewRequestCreate" xml:space="preserve">
+    <value>Создание новой заявки</value>
+  </data>
+  <data name="Message_RequestEdit" xml:space="preserve">
+    <value>Редактирование заявки</value>
+  </data>
+  <data name="Action_AddFile" xml:space="preserve">
+    <value>Добавить файлы</value>
+  </data>
+  <data name="Action_Сancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Label_Subscribe" xml:space="preserve">
+    <value>Получать рассылку на E-mail</value>
+  </data>
+  <data name="Message_EmailNotRegitered" xml:space="preserve">
+    <value>Указанные E-mail не зарегистрирован в системе</value>
+  </data>
+  <data name="Text_RecoveryPasswordSubject" xml:space="preserve">
+    <value>Пароль от личного кабинета {0}</value>
+  </data>
+  <data name="Text_RecoveredPassword" xml:space="preserve">
+    <value>Пароль направлен на указанный E-mail</value>
+  </data>
+  <data name="Text_RegisterNow" xml:space="preserve">
+    <value>Регистрация в личном кабинете {0}</value>
+  </data>
+  <data name="Text_CountRequestRequiresConfirmation" xml:space="preserve">
+    <value>Количество заявок, требующих подтверждения готовности</value>
+  </data>
+  <data name="Title_Transfer" xml:space="preserve">
+    <value>Перенос срока</value>
+  </data>
+  <data name="Text_PressCtrlF5" xml:space="preserve">
+    <value>Обновите страницу, нажав Ctrl + F5</value>
+  </data>
+  <data name="Text_ManualUrl" xml:space="preserve">
+    <value>Руководство пользователя</value>
+  </data>
+  <data name="Text_ServiceLevelAgreementUrl" xml:space="preserve">
+    <value>Соглашение об уровне сервиса</value>
+  </data>
+  <data name="Text_Copyright" xml:space="preserve">
+    <value>Разработка и сопровождение &lt;a href='http://google.com'&gt;ООО "Рога и Копыта"&lt;/a&gt;</value>
+  </data>
+  <data name="Label_EventDateEvent" xml:space="preserve">
+    <value>Дата события</value>
+  </data>
+  <data name="Label_EventNote" xml:space="preserve">
+    <value>Примечание</value>
+  </data>
+  <data name="Label_EventStatusName" xml:space="preserve">
+    <value>Событие</value>
+  </data>
+  <data name="Title_RequestHistory" xml:space="preserve">
+    <value>История событий заявки</value>
+  </data>
+  <data name="Text_TechSupportPhones" xml:space="preserve">
+    <value>Техническая поддержка</value>
+  </data>
+  <data name="ErrorMessage_AcceptFileTypesConstraint" xml:space="preserve">
+    <value>Не допустимый тип файла</value>
+  </data>
+  <data name="ErrorMessage_MaxFileSizeConstraint" xml:space="preserve">
+    <value>Превышен максимальный размер файла {0} KB</value>
+  </data>
+  <data name="ErrorMessage_MaxNumberOfFilesConstraint" xml:space="preserve">
+    <value>Превышено допустимое количество файлов</value>
+  </data>
+  <data name="ErrorMessage_MinFileSizeConstraint" xml:space="preserve">
+    <value>Слишком маленький размер файла</value>
+  </data>
+</root>

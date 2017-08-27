@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.ObjectType, HelpDesk.Entity" 
+         table="ObjectType" 
+         mutable="false" lazy="false" where="Archive = 0">
+    <id name="Id" type="Int64" column="Id" />
+    <property insert="false" update="false" name="Name" length="200" not-null="true"/>
+    <property insert="false" update="false" name="Soft" type="Boolean" not-null="true"/>
+    <property insert="false" update="false" name="Archive" type="Boolean" not-null="true"/>
+    
+  </class>
+</hibernate-mapping>

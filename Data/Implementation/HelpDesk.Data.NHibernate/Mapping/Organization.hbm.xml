@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.Organization, HelpDesk.Entity" table="Organization" lazy="false" where="Archive=0">
+    <id name="Id" column="Id" unsaved-value="0"></id>
+   
+    
+    <property name="Name" length="300" not-null="true"/>
+    <property name="Address" length="300" not-null="true"/>
+    <property name="ParentId"  type="Int64"/>
+    <property name="HasChild"  type="Boolean" not-null="true"/>
+    <property insert="false" update="false" name="Archive" type="Boolean" not-null="true"/>
+
+  </class>
+</hibernate-mapping>

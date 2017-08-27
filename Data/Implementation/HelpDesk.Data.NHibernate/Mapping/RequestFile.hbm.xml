@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.RequestFile, HelpDesk.Entity" table="RequestFile" lazy="false">
+    <id name="Id" column="Id" unsaved-value="0">
+      <generator class="sequence">
+        <param name="sequence">SQ_GLOBAL</param>
+      </generator>
+    </id>
+    
+    <property name="Name"             length="200" not-null="true"/>
+    <property name="Body" type="BinaryBlob" not-null="true"/>
+    <property name="Thumbnail" type="BinaryBlob" not-null="true"/>
+    <property name="Type" length="10"   not-null="true"/>
+    <property type="Int32" name="Size"  not-null="true"/>
+    <property name="TempRequestKey"     type="Guid" not-null="true"/>
+       
+    <property type="Int64" name="RequestId"/>
+  </class>
+</hibernate-mapping>

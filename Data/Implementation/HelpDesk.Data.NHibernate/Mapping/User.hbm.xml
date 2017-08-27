@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.User, HelpDesk.Entity" table="[User]" lazy="false">
+    <id name="Id" column="Id" unsaved-value="0">
+      <generator class="sequence">
+        <param name="sequence">SQ_GLOBAL</param>
+      </generator>
+    </id>
+        
+    <property name="Email"    length="200"  unique="true" index="User_Email_idx" not-null="true"/>
+    <property name="Password" length="100" not-null="true"/>
+
+    <one-to-one name="PersonalProfile" class="HelpDesk.Entity.PersonalProfile, HelpDesk.Entity"/>
+  </class>
+</hibernate-mapping>

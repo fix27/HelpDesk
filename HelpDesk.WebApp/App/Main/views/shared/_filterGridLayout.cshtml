@@ -1,0 +1,20 @@
+﻿@using HelpDesk.WebApp.Resources
+@model HelpDesk.WebApp.Models.FilterGridDialogModel
+
+<div class="modal fade" id="@Model.DialogId-filter-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: left">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Model.DialogTitle</h4>
+            </div>
+            <div class="modal-body" style="text-align: left">
+                @RenderBody()
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="vm.resetFilter('@Model.DialogId')" class="btn btn-info fa-align-right">@Resource.Action_ResetFilter</button>
+                <button type="button" id="buttonApplyFilter" ng-click="vm.applyFilter('@Model.DialogId')" ng-disabled="vm.isNotValidFilter('@Model.DialogId')" class="btn btn-primary">@Resource.Action_ApplyFilter</button>
+            </div>
+        </div>
+    </div>
+</div>

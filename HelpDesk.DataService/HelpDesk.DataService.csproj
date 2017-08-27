@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B0535568-F554-4F6C-9520-B3195BE0EC62}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HelpDesk.DataService</RootNamespace>
+    <AssemblyName>HelpDesk.DataService</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.4.0.1\lib\Net45\Microsoft.Practices.Unity.Interception.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.4.0.1\lib\Net45\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseDataService.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="Command\DeleteRequestFileCommand.cs" />
+    <Compile Include="Command\UpdateRequestFileCommand.cs" />
+    <Compile Include="Common\DataServiceException.cs" />
+    <Compile Include="Common\DataServiceExceptionData.cs" />
+    <Compile Include="Common\DataServiceInfo.cs" />
+    <Compile Include="Common\DataServiceWarning.cs" />
+    <Compile Include="Common\FormatConfirm.cs" />
+    <Compile Include="ConstantStatusRequestService.cs" />
+    <Compile Include="CultureService.cs" />
+    <Compile Include="DataServiceInstaller.cs" />
+    <Compile Include="DateTimeService.cs" />
+    <Compile Include="Filters\RequestFilter.cs" />
+    <Compile Include="Filters\PersonalObjectFilter.cs" />
+    <Compile Include="Interface\IConstantStatusRequestService.cs" />
+    <Compile Include="Interface\ICultureService.cs" />
+    <Compile Include="Interface\IDateTimeService.cs" />
+    <Compile Include="Interface\IRequestFileService.cs" />
+    <Compile Include="Interface\IFileUploadService.cs" />
+    <Compile Include="Interface\IRequestService.cs" />
+    <Compile Include="Interface\IRequestProfileService.cs" />
+    <Compile Include="Interface\IPersonalProfileService.cs" />
+    <Compile Include="Interface\IOrganizationService.cs" />
+    <Compile Include="Interface\IObjectService.cs" />
+    <Compile Include="Interface\IPostService.cs" />
+    <Compile Include="Interface\ISettingsService.cs" />
+    <Compile Include="Interface\IRequestConstraintsService.cs" />
+    <Compile Include="Interface\IStatusRequestMapService.cs" />
+    <Compile Include="Interface\IUserService.cs" />
+    <Compile Include="Query\AllowableObjectTypeQuery.cs" />
+    <Compile Include="Query\AllowableObjectISQuery.cs" />
+    <Compile Include="Query\ArchiveYearQuery.cs" />
+    <Compile Include="Query\RequestLastEventQuery.cs" />
+    <Compile Include="Query\PersonalRequestQuery.cs" />
+    <Compile Include="RequestFileService.cs" />
+    <Compile Include="RequestConstraintsService.cs" />
+    <Compile Include="RequestService.cs" />
+    <Compile Include="OrganizationService.cs" />
+    <Compile Include="ObjectService.cs" />
+    <Compile Include="RequestProfileService.cs" />
+    <Compile Include="PostService.cs" />
+    <Compile Include="Query\PersonalObjectQuery.cs" />
+    <Compile Include="Resources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PersonalProfileService.cs" />
+    <Compile Include="Specification\SimpleEntityAllOrByNameLikeSpecification.cs" />
+    <Compile Include="Specification\SimpleEntityByNameEqualSpecification.cs" />
+    <Compile Include="Specification\ModelByManufacturerAndNameLikeSpecification.cs" />
+    <Compile Include="Specification\SimpleEntityByNameLikeSpecification.cs" />
+    <Compile Include="Specification\RequestFileByNameAndForignKeyOrTempKeySpecification.cs" />
+    <Compile Include="SettingsService.cs" />
+    <Compile Include="StatusRequestFactorization.cs" />
+    <Compile Include="StatusRequestMapService.cs" />
+    <Compile Include="UserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="ReadMy.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\HelpDesk.Data\HelpDesk.Data.csproj">
+      <Project>{a13ca957-a9b4-4476-bf79-cb115bb611cb}</Project>
+      <Name>HelpDesk.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HelpDesk.Common\HelpDesk.Common.csproj">
+      <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
+      <Name>HelpDesk.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HelpDesk.DTO\HelpDesk.DTO.csproj">
+      <Project>{ef4a1993-435a-4fe1-a81d-b37617bdcbea}</Project>
+      <Name>HelpDesk.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HelpDesk.Entity\HelpDesk.Entity.csproj">
+      <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>
+      <Name>HelpDesk.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

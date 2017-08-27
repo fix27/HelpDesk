@@ -1,0 +1,27 @@
+﻿@using HelpDesk.WebApp.Resources
+
+<td colspan="9">
+    <table class="table">
+        <colgroup>
+            <col style="width: 33%" />
+            <col style="width: 33%" />
+            <col style="width: 34%" />
+        </colgroup>
+        
+        <thead>
+            <tr>
+                <th style="text-align:center; vertical-align: top">@Resource.Label_EventStatusName</th>
+                <th style="text-align:center; vertical-align: top">@Resource.Label_EventDateEvent/@Resource.Label_DateEndPlan</th>
+                <th style="text-align:center; vertical-align: top">@Resource.Label_EventNote</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="{{ {true: 'success', false: ''}[t.DateEnd==true] }}" ng-repeat="t in vm.recs">
+                <td><span ng-hide="t.DateEnd==true">{{t.StatusName}}</span><span ng-hide="t.DateEnd!=true">@Resource.Label_DateEndPlan</span></td>
+                <td style="text-align:center">{{t.DateEvent | date:'dd.MM.yyyy HH:mm'}}</td>
+                <td>{{t.Note}}</td>
+            </tr>
+        </tbody>
+    </table>
+</td>

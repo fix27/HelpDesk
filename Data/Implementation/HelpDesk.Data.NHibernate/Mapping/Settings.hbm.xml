@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.Settings, HelpDesk.Entity" table="Settings" lazy="false">
+    <id name="Id" type="Int64" column="Id" unsaved-value="0"/>
+    
+    <property name="MinInterval"  type="Decimal" not-null="true"/>
+    <property name="LimitRequestCount"  type="Int32"  not-null="true" />
+    <property name="MaxRequestFileCount"  type="Int32" not-null="true" />
+    <property name="MaxRequestFileSize"  type="Int32" not-null="true" />
+    <property name="MaxFileNameLength"  type="Int32"  not-null="true" />
+    <property name="ManualUrl"    length="200" />
+    <property name="ServiceLevelAgreementUrl"  length="200" />
+    <property name="Message"  length="4000" />
+    <property name="TechSupportPhones" length="200" />
+    
+  </class>
+</hibernate-mapping>
