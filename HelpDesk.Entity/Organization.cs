@@ -1,7 +1,7 @@
 ﻿namespace HelpDesk.Entity
 {
     /// <summary>
-    /// Организация/подразделение/отдел
+    /// Обслуживаемая организация/подразделение/отдел
     /// </summary>
     public class Organization : SimpleEntity
     {

@@ -11,7 +11,9 @@ namespace HelpDesk.Data.NHibernate.Repository
             
             //регистрация репозиториев
             container.RegisterType<IRepository, BaseRepository>();
-            container.RegisterType<IBaseRepository<PersonalProfileObject>, BaseRepository<PersonalProfileObject>>();
+            container.RegisterType<IBaseRepository<AccessWorkerUser>, BaseRepository<AccessWorkerUser>>();
+            container.RegisterType<IBaseRepository<WorkerUser>, BaseRepository<WorkerUser>>();
+            container.RegisterType<IBaseRepository<EmployeeObject>, BaseRepository<EmployeeObject>>();
             container.RegisterType<IBaseRepository<RequestFile>, BaseRepository<RequestFile>>();
             
             container.RegisterType<IBaseRepository<StatusRequest>, BaseRepository<StatusRequest>>();
@@ -30,12 +32,12 @@ namespace HelpDesk.Data.NHibernate.Repository
             container.RegisterType<IBaseRepository<RequestEventArch>, BaseRepository<RequestEventArch>>();
 
             container.RegisterType<IBaseRepository<Worker>, BaseRepository<Worker>>();
-            container.RegisterType<IBaseRepository<User>, BaseRepository<User>>();
+            container.RegisterType<IBaseRepository<CabinetUser>, BaseRepository<CabinetUser>>();
             container.RegisterType<IBaseRepository<Post>, BaseRepository<Post>>();
             container.RegisterType<IBaseRepository<OrganizationObjectTypeWorker>, BaseRepository<OrganizationObjectTypeWorker>>();
             
             container.RegisterType<IBaseRepository<Organization>, BaseRepository<Organization>>();
-            container.RegisterType<IBaseRepository<PersonalProfile>, BaseRepository<PersonalProfile>>();
+            container.RegisterType<IBaseRepository<Employee>, BaseRepository<Employee>>();
             container.RegisterType<ISettingsRepository, SettingsRepository>("SettingsRepository");
             
         }

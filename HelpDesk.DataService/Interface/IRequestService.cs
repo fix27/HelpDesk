@@ -13,13 +13,16 @@ namespace HelpDesk.DataService.Interface
 
         void Delete(long id);
 
-        IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, PageInfo pageInfo);
+        IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo);
+
+        IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo);
+
         long Save(CreateOrUpdateRequestDTO dto);
 
         IEnumerable<StatusRequestDTO> GetListStatus(bool archive);
-        int GetCountRequiresConfirmation(long userId);
+        int GetCountRequiresConfirmation(long employeeId);
 
-        IEnumerable<Year> GetListArchiveYear(long userId);
+        IEnumerable<Year> GetListArchiveYear(long employeeId);
 
         IEnumerable<RequestEventDTO> GetListRequestEvent(long requestId);
     }

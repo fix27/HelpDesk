@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.DTO;
 using HelpDesk.DataService.Specification;
-using HelpDesk.DataService.Resources;
 
 namespace HelpDesk.DataService
 {

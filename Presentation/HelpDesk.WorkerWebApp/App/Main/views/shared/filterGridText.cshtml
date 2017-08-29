@@ -1,0 +1,10 @@
+﻿@using HelpDesk.WorkerWebApp.Resources
+@model HelpDesk.WorkerWebApp.Models.FilterGridDialogModel
+
+@{
+    Layout = "~/App/Main/views/shared/_filterGridLayout.cshtml";
+}
+
+<div class="form-group">
+    <input class="form-control" ng-keypress="($event.which === 13)?vm.applyFilter('@Model.DialogId'):0" ng-model="@Model.NgModelValue" id="text-value" type="text">
+</div>

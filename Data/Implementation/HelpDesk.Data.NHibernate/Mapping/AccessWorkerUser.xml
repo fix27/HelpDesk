@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.AccessWorkerUser, HelpDesk.Entity" table="AccessWorkerUser" lazy="false">
+    <id name="Id" column="Id" unsaved-value="0">
+      <generator class="sequence">
+        <param name="sequence">SQ_GLOBAL</param>
+      </generator>
+    </id>
+
+    <property name="Type" type="HelpDesk.Entity.TypeAccessWorkerUserEnum, HelpDesk.Entity" not-null="true"/>
+    <many-to-one foreign-key="AccessWorkerUser_WorkerUser_FK"   name="User"       fetch="join"    column="UserId"       class="HelpDesk.Entity.WorkerUser, HelpDesk.Entity" not-null="true"/>
+    <many-to-one foreign-key="AccessWorkerUser_ObjectType_FK"   name="ObjectType" fetch="join"    column="ObjectTypeId" class="HelpDesk.Entity.ObjectType, HelpDesk.Entity"/>
+    <many-to-one foreign-key="AccessWorkerUser_Organization_FK" name="Organization" fetch="join"  column="OrganizationId" class="HelpDesk.Entity.Organization, HelpDesk.Entity"/>
+    <many-to-one foreign-key="AccessWorkerUser_Object_FK"       name="Object"     fetch="join"    column="ObjectId"     class="HelpDesk.Entity.RequestObject, HelpDesk.Entity"/>
+    <many-to-one foreign-key="AccessWorkerUser_Worker_FK"       name="Worker"     fetch="join"    column="WorkerId"     class="HelpDesk.Entity.Worker, HelpDesk.Entity"/>
+    
+    <property name="OrganizationAddress" length="1000"/>
+    
+  </class>
+</hibernate-mapping>

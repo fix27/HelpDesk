@@ -63,7 +63,7 @@ namespace HelpDesk.Entity
         /// <summary>
         /// Заявитель
         /// </summary>
-        public virtual PersonalProfile Employee { get; set; }
+        public virtual Employee Employee { get; set; }
 
         /// <summary>
         /// Исполнитель

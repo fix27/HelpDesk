@@ -1,0 +1,48 @@
+﻿@using HelpDesk.WorkerWebApp.Resources
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Resource.AppName</title>
+        
+    
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
+    <link href="~/App/Main/main.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        .container {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+                
+    </style>
+</head>
+<body>
+    
+    <div class="lang">
+        @Html.Partial("_LangMenu")
+    </div>
+
+    <div class="container">
+        <div>
+            <div style="width: 100%; text-align: center"><h2>@Resource.AppName</h2></div>
+            <div style="width: 400px" class="center-block">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+          
+    
+    @Scripts.Render("~/Bundles/App/vendor/js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

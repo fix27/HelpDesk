@@ -11,18 +11,18 @@ namespace HelpDesk.DataService.Query
     /// </summary>
     public class ArchiveYearQuery : IQuery<Year, RequestArch>
     {
-        private readonly long userId;
+        private readonly long employeeId;
 
-        public ArchiveYearQuery(long userId)
+        public ArchiveYearQuery(long employeeId)
         {
-            this.userId = userId;
+            this.employeeId = employeeId;
         }
                 
         public IEnumerable<Year> Run(IQueryable<RequestArch> requests)
         {
        
             var q = from e in requests
-                    where e.Employee.Id == userId
+                    where e.Employee.Id == employeeId
                     group e by e.DateInsert.Year into g
                     select new Year
                     {

@@ -1,0 +1,14 @@
+﻿@model HelpDesk.CabinetWebApp.Models.FilterGridDialogModel
+
+@{
+    Layout = "~/App/Main/views/shared/_filterGridLayout.cshtml";
+}
+
+<div ng-repeat="item in @Model.NgModelItems">
+    <input type="checkbox"
+           value="{{item.@Model.NgModelItemValue}}" id="item{{item.@Model.NgModelItemValue}}"
+           ng-model="item.Checked"> 
+    <label style="font-weight: normal" for="item{{item.@Model.NgModelItemValue}}">{{item.@Model.NgModelItemName}}</label>
+</div>
+
+

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.WebApp", "HelpDesk.WebApp\HelpDesk.WebApp.csproj", "{EF02CF86-4885-44B3-B930-37A408252067}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.CabinetWebApp", "Presentation\HelpDesk.CabinetWebApp\HelpDesk.CabinetWebApp.csproj", "{EF02CF86-4885-44B3-B930-37A408252067}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.DataService", "HelpDesk.DataService\HelpDesk.DataService.csproj", "{B0535568-F554-4F6C-9520-B3195BE0EC62}"
 EndProject
@@ -28,6 +28,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.Data.NHibernate", "Data\Implementation\HelpDesk.Data.NHibernate\HelpDesk.Data.NHibernate.csproj", "{C480A8C6-A30E-4519-B2CA-E48B62E53CA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaGenerator", "Data\Implementation\SchemaGenerator\SchemaGenerator.csproj", "{830D0361-E3E5-4E5C-967D-9BC201CDDC32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{14B598DA-6A8E-4CAD-AA93-64B4D1DBA3B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.WorkerWebApp", "Presentation\HelpDesk.WorkerWebApp\HelpDesk.WorkerWebApp.csproj", "{9EC84C82-F2E3-43A7-8ECD-79BD418D659B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,15 +83,21 @@ Global
 		{830D0361-E3E5-4E5C-967D-9BC201CDDC32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{830D0361-E3E5-4E5C-967D-9BC201CDDC32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{830D0361-E3E5-4E5C-967D-9BC201CDDC32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EC84C82-F2E3-43A7-8ECD-79BD418D659B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EC84C82-F2E3-43A7-8ECD-79BD418D659B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EC84C82-F2E3-43A7-8ECD-79BD418D659B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EC84C82-F2E3-43A7-8ECD-79BD418D659B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{EF02CF86-4885-44B3-B930-37A408252067} = {14B598DA-6A8E-4CAD-AA93-64B4D1DBA3B9}
 		{A13CA957-A9B4-4476-BF79-CB115BB611CB} = {B640F64A-ACE6-42FB-B902-E280A36E47A4}
 		{B2C53EC7-C7D8-4DAD-8BCC-F644E3F5D217} = {67A7F1C9-E879-4EF9-8F71-6C9D747A47A4}
 		{67A7F1C9-E879-4EF9-8F71-6C9D747A47A4} = {B640F64A-ACE6-42FB-B902-E280A36E47A4}
 		{C480A8C6-A30E-4519-B2CA-E48B62E53CA6} = {67A7F1C9-E879-4EF9-8F71-6C9D747A47A4}
 		{830D0361-E3E5-4E5C-967D-9BC201CDDC32} = {67A7F1C9-E879-4EF9-8F71-6C9D747A47A4}
+		{9EC84C82-F2E3-43A7-8ECD-79BD418D659B} = {14B598DA-6A8E-4CAD-AA93-64B4D1DBA3B9}
 	EndGlobalSection
 EndGlobal

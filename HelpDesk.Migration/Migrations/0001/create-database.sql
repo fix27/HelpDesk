@@ -1,4 +1,8 @@
-﻿
+﻿     
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[WorkerUser_Worker_FK]') AND parent_object_id = OBJECT_ID('WorkerUser'))
+alter table WorkerUser  drop constraint WorkerUser_Worker_FK
+
+
     if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[OrganizationObjectTypeWorker_ObjectType_FK]') AND parent_object_id = OBJECT_ID('OrganizationObjectTypeWorker'))
 alter table OrganizationObjectTypeWorker  drop constraint OrganizationObjectTypeWorker_ObjectType_FK
 
@@ -67,25 +71,27 @@ alter table RequestObject  drop constraint RequestObject_Model_FK
 alter table Model  drop constraint Model_Manufacturer_FK
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[PersonalProfileObject_PersonalProfile_FK]') AND parent_object_id = OBJECT_ID('PersonalProfileObject'))
-alter table PersonalProfileObject  drop constraint PersonalProfileObject_PersonalProfile_FK
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[EmployeeObject_Employee_FK]') AND parent_object_id = OBJECT_ID('EmployeeObject'))
+alter table EmployeeObject  drop constraint EmployeeObject_Employee_FK
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[PersonalProfileObject_RequestObject_FK]') AND parent_object_id = OBJECT_ID('PersonalProfileObject'))
-alter table PersonalProfileObject  drop constraint PersonalProfileObject_RequestObject_FK
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[EmployeeObject_RequestObject_FK]') AND parent_object_id = OBJECT_ID('EmployeeObject'))
+alter table EmployeeObject  drop constraint EmployeeObject_RequestObject_FK
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[PersonalProfile_Post_FK]') AND parent_object_id = OBJECT_ID('PersonalProfile'))
-alter table PersonalProfile  drop constraint PersonalProfile_Post_FK
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Employee_Post_FK]') AND parent_object_id = OBJECT_ID('Employee'))
+alter table Employee  drop constraint Employee_Post_FK
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[PersonalProfile_Organization_FK]') AND parent_object_id = OBJECT_ID('PersonalProfile'))
-alter table PersonalProfile  drop constraint PersonalProfile_Organization_FK
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Employee_Organization_FK]') AND parent_object_id = OBJECT_ID('Employee'))
+alter table Employee  drop constraint Employee_Organization_FK
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[PersonalProfile_User_FK]') AND parent_object_id = OBJECT_ID('PersonalProfile'))
-alter table PersonalProfile  drop constraint PersonalProfile_User_FK
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Employee_CabinetUser_FK]') AND parent_object_id = OBJECT_ID('Employee'))
+alter table Employee  drop constraint Employee_CabinetUser_FK
 
+
+    if exists (select * from dbo.sysobjects where id = object_id(N'WorkerUser') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table WorkerUser
 
     if exists (select * from dbo.sysobjects where id = object_id(N'RequestFile') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table RequestFile
 
@@ -117,21 +123,31 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
 
     if exists (select * from dbo.sysobjects where id = object_id(N'ObjectType') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table ObjectType
 
-    if exists (select * from dbo.sysobjects where id = object_id(N'PersonalProfileObject') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table PersonalProfileObject
+    if exists (select * from dbo.sysobjects where id = object_id(N'EmployeeObject') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table EmployeeObject
 
     if exists (select * from dbo.sysobjects where id = object_id(N'Organization') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Organization
 
-    if exists (select * from dbo.sysobjects where id = object_id(N'[User]') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table [User]
+    if exists (select * from dbo.sysobjects where id = object_id(N'CabinetUser') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table CabinetUser
 
     if exists (select * from dbo.sysobjects where id = object_id(N'Settings') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Settings
 
     if exists (select * from dbo.sysobjects where id = object_id(N'Post') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Post
 
-    if exists (select * from dbo.sysobjects where id = object_id(N'PersonalProfile') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table PersonalProfile
+    if exists (select * from dbo.sysobjects where id = object_id(N'Employee') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Employee
 
     IF EXISTS (select * from sys.sequences where name = N'SQ_GLOBAL') DROP SEQUENCE SQ_GLOBAL
 
     IF EXISTS (select * from sys.sequences where name = N'SQ_REQUEST') DROP SEQUENCE SQ_REQUEST
+
+    create table WorkerUser (
+        Id BIGINT not null,
+       Name NVARCHAR(200) not null,
+       Email NVARCHAR(200) not null unique,
+       Password NVARCHAR(100) not null,
+       UserType INT not null,
+       WorkerId BIGINT null,
+       primary key (Id)
+    )
 
     create table RequestFile (
         Id BIGINT not null,
@@ -285,9 +301,9 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
        primary key (Id)
     )
 
-    create table PersonalProfileObject (
+    create table EmployeeObject (
         Id BIGINT not null,
-       PersonalProfileId BIGINT not null,
+       EmployeeId BIGINT not null,
        ObjectId BIGINT not null,
        primary key (Id)
     )
@@ -302,7 +318,7 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
        primary key (Id)
     )
 
-    create table [User] (
+    create table CabinetUser (
         Id BIGINT not null,
        Email NVARCHAR(200) not null unique,
        Password NVARCHAR(100) not null,
@@ -329,7 +345,7 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
        primary key (Id)
     )
 
-    create table PersonalProfile (
+    create table Employee (
         Id BIGINT not null,
        FM NVARCHAR(200) not null,
        IM NVARCHAR(200) not null,
@@ -341,6 +357,13 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
        OrganizationId BIGINT not null,
        primary key (Id)
     )
+
+    create index User_Email_idx on WorkerUser (Email)
+
+    alter table WorkerUser 
+        add constraint WorkerUser_Worker_FK 
+        foreign key (WorkerId) 
+        references Worker
 
     alter table OrganizationObjectTypeWorker 
         add constraint OrganizationObjectTypeWorker_ObjectType_FK 
@@ -370,7 +393,7 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
     alter table Request 
         add constraint Request_Employee_FK 
         foreign key (EmployeeId) 
-        references PersonalProfile
+        references Employee
 
     alter table Request 
         add constraint Request_Worker_FK 
@@ -390,7 +413,7 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
     alter table RequestArch 
         add constraint RequestArch_Employee_FK 
         foreign key (EmployeeId) 
-        references PersonalProfile
+        references Employee
 
     alter table RequestArch 
         add constraint RequestArch_Worker_FK 
@@ -427,34 +450,34 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
         foreign key (ManufacturerId) 
         references Manufacturer
 
-    alter table PersonalProfileObject 
-        add constraint PersonalProfileObject_PersonalProfile_FK 
-        foreign key (PersonalProfileId) 
-        references PersonalProfile
+    alter table EmployeeObject 
+        add constraint EmployeeObject_Employee_FK 
+        foreign key (EmployeeId) 
+        references Employee
 
-    alter table PersonalProfileObject 
-        add constraint PersonalProfileObject_RequestObject_FK 
+    alter table EmployeeObject 
+        add constraint EmployeeObject_RequestObject_FK 
         foreign key (ObjectId) 
         references RequestObject
 
-    create index User_Email_idx on [User] (Email)
+    create index User_Email_idx on CabinetUser (Email)
 
     create index Post_Name_idx on Post (Name)
 
-    alter table PersonalProfile 
-        add constraint PersonalProfile_Post_FK 
+    alter table Employee 
+        add constraint Employee_Post_FK 
         foreign key (PostId) 
         references Post
 
-    alter table PersonalProfile 
-        add constraint PersonalProfile_Organization_FK 
+    alter table Employee 
+        add constraint Employee_Organization_FK 
         foreign key (OrganizationId) 
         references Organization
 
-    alter table PersonalProfile 
-        add constraint PersonalProfile_User_FK 
+    alter table Employee 
+        add constraint Employee_CabinetUser_FK 
         foreign key (Id) 
-        references [User]
+        references CabinetUser
 
     create sequence SQ_GLOBAL as int start with 100000 increment by 1
 
@@ -462,18 +485,17 @@ alter table PersonalProfile  drop constraint PersonalProfile_User_FK
 
 
 
-
 insert into Settings(Id, MinInterval, LimitRequestCount,  MaxRequestFileCount,  MaxRequestFileSize,  MaxFileNameLength) values(1, 1, 10, 5, 500, 200);
 
-insert into ObjectType(Id, Name, Soft, Archive) values(1, 'Сопровождение ИС', 1, 0);
-insert into ObjectType(Id, Name, Soft, Archive) values(2, 'ТО ВТ', 1, 0);
-insert into ObjectType(Id, Name, Soft, Archive) values(3, 'ТО КМТ', 1, 0);
-insert into ObjectType(Id, Name, Soft, Archive) values(4, 'Сетевое администрирование', 1, 0);
+insert into ObjectType(Id, Name, Soft, Archive) values(1, 'Сопровождение ИС',			1, 0);
+insert into ObjectType(Id, Name, Soft, Archive) values(2, 'ТО ВТ',						0, 0);
+insert into ObjectType(Id, Name, Soft, Archive) values(3, 'ТО КМТ',						0, 0);
+insert into ObjectType(Id, Name, Soft, Archive) values(4, 'Сетевое администрирование',	0, 0);
 
-insert into RequestObject (Id, SoftName, ObjectTypeId, Archive) values(1, 'ПП "Парус-Бюджет"', 1, 0);
-insert into RequestObject (Id, SoftName, ObjectTypeId, Archive) values(2, 'ПП "1C: Бухгалтерия"', 0, 0);
-insert into RequestObject (Id, SoftName, ObjectTypeId, Archive) values(3, 'ПП "Кодекс: Документооборот"', 0, 0);
-insert into RequestObject (Id, SoftName, ObjectTypeId, Archive) values(4, 'ПП "1C: Кадры"', 0, 0);
+insert into RequestObject (Id, SoftName, ObjectTypeId, Archive) values(1, 'ПП "Галактика"',			1, 0);
+insert into RequestObject (Id, SoftName, ObjectTypeId, Archive) values(2, 'ПП "1C: Кадры"',			1, 0);
+insert into RequestObject (Id, SoftName, ObjectTypeId, Archive) values(3, 'ПП "Документооборот"',	1, 0);
+insert into RequestObject (Id, SoftName, ObjectTypeId, Archive) values(4, 'ПП "Компас"',			1, 0);
 
 insert into Manufacturer(Id, Name) values(1,'SONY');
 insert into Manufacturer(Id, Name) values(2,'HP');
@@ -484,40 +506,44 @@ insert into HardType(Id, Name) values(2,'МОНИТОР');
 insert into HardType(Id, Name) values(3,'СКАНЕР');
 insert into HardType(Id, Name) values(4,'КЛАВИАТУРА');
 
-insert into StatusRequest(Id, Name, BackColor) values(824,'Отказано', '#FFA07A');
-insert into StatusRequest(Id, Name, BackColor) values(825,'Перенос', '#FFC0CB');
-insert into StatusRequest(Id, Name, BackColor) values(826,'Отказано в готовности', '#FFA500');
-insert into StatusRequest(Id, Name, BackColor) values(191,'Рассмотрение', '#6B8E23');
-insert into StatusRequest(Id, Name, BackColor) values(192,'Принята', '#FFE4B5');
-insert into StatusRequest(Id, Name, BackColor) values(193,'Подтверждение переноса', '#E6E6FA');
-insert into StatusRequest(Id, Name, BackColor) values(194,'Подтверждение отказа', '#D2B48C');
-insert into StatusRequest(Id, Name, BackColor) values(195,'Подтверждение готовности', '#40E0D0');
-insert into StatusRequest(Id, Name, BackColor) values(196,'Выполнена', '#7B68EE');
+insert into StatusRequest(Id, Name, BackColor) values(824,'Отказано',		'#FFA07A');
+insert into StatusRequest(Id, Name, BackColor) values(825,'Перенос',		'#FFC0CB');
+insert into StatusRequest(Id, Name, BackColor) values(826,'Отказано в готовности',		'#FFA500');
+insert into StatusRequest(Id, Name, BackColor) values(191,'Рассмотрение',	'#6B8E23');
+insert into StatusRequest(Id, Name, BackColor) values(192,'Принята',		'#FFE4B5');
+insert into StatusRequest(Id, Name, BackColor) values(193,'Подтверждение переноса',		'#E6E6FA');
+insert into StatusRequest(Id, Name, BackColor) values(194,'Подтверждение отказа',		'#D2B48C');
+insert into StatusRequest(Id, Name, BackColor) values(195,'Подтверждение готовности',	'#40E0D0');
+insert into StatusRequest(Id, Name, BackColor) values(196,'Выполнена',		'#7B68EE');
 insert into StatusRequest(Id, Name, BackColor) values(839,'Отказ после принятия', '#ADD8E6');
-insert into StatusRequest(Id, Name, BackColor) values(22464,'Пасив', '#F0E68C');
+insert into StatusRequest(Id, Name, BackColor) values(22464,'Пасив',		'#F0E68C');
 insert into StatusRequest(Id, Name, BackColor) values(383343,'Перенос готовности', '#FF4500');
 insert into StatusRequest(Id, Name, BackColor) values(197,'Дата окончания', null);
 
-insert into [User](Id, Email, Password) values(1, 'admin@mail.ru','admin@mail.ru');
-insert into [User](Id, Email, Password) values(2, 'user@mail.ru','user@mail.ru');
-
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(1, 'Управление строительства', 'ул. Мира 1, стр 2', null, 1, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(2, 'Управление муниципального заказа', 'ул. Мира 1, стр 2', null, 1, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(3, 'Руководство', 'ул. Мира 1, стр 2', null, 1, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(4, 'Отдел ценообразования', 'ул. Мира 1, стр 2', 1, 0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(5, 'Отдел общего обеспечения', 'ул. Мира 1, стр 2', 1, 0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(6, 'Плановый отдел', 'ул. Мира 1, стр 2', 1, 0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(7, 'Отдел закупок', 'ул. Мира 1, стр 2', 2, 0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(8, 'Отдел контроля цен', 'ул. Мира 1, стр 2', 2, 0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(9, 'Контрольный отдел', 'ул. Мира 1, стр 2', 2, 0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(10, 'Бухгалтерия', 'ул. Мира 1, стр 2', 3, 0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(11, 'Отдел кадров', 'ул. Мира 1, стр 2', 3, 0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(12, 'Отдел охраны труда', 'ул. Мира 1, стр 2', 3, 0, 0);
+insert into CabinetUser(Id, Email, Password) values(1, 'admin@mail.ru','admin@mail.ru');
+insert into CabinetUser(Id, Email, Password) values(2, 'user@mail.ru','user@mail.ru');
 
 insert into Worker(Id, Name) values(1, 'ООО "Автоматика"');
 insert into Worker(Id, Name) values(2, 'ООО "Старт"');
-insert into Worker(Id, Name) values(3, 'ООО "Первый"');
-insert into Worker(Id, Name) values(4, 'ООО "Деловые решения"');
+insert into Worker(Id, Name) values(3, 'ООО "Пусковой комплекс"');
+insert into Worker(Id, Name) values(4, 'ООО "Комплексные решения"');
+
+insert into WorkerUser(Id, Email, Password, Name, UserType, WorkerId) values(1, 'worker@mail.ru',		'worker@mail.ru',		'Иванов И.И.',	0, 1);
+insert into WorkerUser(Id, Email, Password, Name, UserType, WorkerId) values(2, 'disp@mail.ru',			'disp@mail.ru',			'Петров П.П.',	1, NULL);
+insert into WorkerUser(Id, Email, Password, Name, UserType, WorkerId) values(3, 'worker-disp@mail.ru',	'worker-disp@mail.ru',	'Сидоров С.С.', 2, 2);
+
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(1, 'Управление строительства',	'ул. Мира 1, стр 2', null,	1, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(2, 'Управление связи',			'ул. Мира 1, стр 2', null,	1, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(3, 'Руководство',				'ул. Мира 1, стр 2', null,	1, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(4, 'Отдел ценообразования',		'ул. Мира 1, стр 2', 1,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(5, 'Отдел общего обеспечения',	'ул. Мира 1, стр 2', 1,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(6, 'Плановый отдел',			'ул. Мира 1, стр 2', 1,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(7, 'Отдел закупок',				'ул. Мира 1, стр 2', 2,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(8, 'Отдел контроля качества',	'ул. Мира 1, стр 2', 2,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(9, 'Отдел разработки',			'ул. Мира 1, стр 2', 2,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(10, 'Бухгалтерия',				'ул. Мира 1, стр 2', 3,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(11, 'Отдел кадров',				'ул. Мира 1, стр 2', 3,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(12, 'Отдел охраны труда',		'ул. Мира 1, стр 2', 3,		0, 0);
 
 insert into OrganizationObjectTypeWorker(Id, ObjectTypeId, OrganizationId, WorkerId) values(1, 1, 1, 1);
 insert into OrganizationObjectTypeWorker(Id, ObjectTypeId, OrganizationId, WorkerId) values(2, 1, 2, 2);

@@ -4,34 +4,32 @@ using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.Common.Helpers;
-using HelpDesk.DataService.Interface;
 
 namespace HelpDesk.DataService.Query
 {
     /// <summary>
     /// Запрос: доступные для выбора пользователем ИС
     /// </summary>
-    public class AllowableObjectISQuery : IQuery<RequestObjectISDTO, RequestObject, OrganizationObjectTypeWorker, PersonalProfile>
+    public class AllowableObjectISQuery : IQuery<RequestObjectISDTO, RequestObject, OrganizationObjectTypeWorker, Employee>
     {
         private readonly long userId;
         private readonly string name;
-        private readonly IConstantStatusRequestService constantService;
+        
 
-
-        public AllowableObjectISQuery(long userId, IConstantStatusRequestService constantService, string name):this(userId, constantService)
+        public AllowableObjectISQuery(long userId, string name)
+            :this(userId)
         {
             this.name = name;
         }
 
-        public AllowableObjectISQuery(long userId, IConstantStatusRequestService constantService)
+        public AllowableObjectISQuery(long userId)
         {
             this.userId = userId;
-            this.constantService = constantService;
         }
 
         public IEnumerable<RequestObjectISDTO> Run(IQueryable<RequestObject> objects, 
             IQueryable<OrganizationObjectTypeWorker> organizationObjectTypeWorkers,
-            IQueryable<PersonalProfile> employees)
+            IQueryable<Employee> employees)
         {
 
             var q = from o in objects

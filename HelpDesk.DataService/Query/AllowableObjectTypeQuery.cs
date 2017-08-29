@@ -4,26 +4,23 @@ using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.Common.Helpers;
-using HelpDesk.DataService.Interface;
 
 namespace HelpDesk.DataService.Query
 {
     /// <summary>
     /// Запрос: доступные для выбора пользователем типы работ по ТО (чтобы потом определился исполнитель)
     /// </summary>
-    public class AllowableObjectTypeQuery : IQuery<SimpleDTO, OrganizationObjectTypeWorker, PersonalProfile>
+    public class AllowableObjectTypeQuery : IQuery<SimpleDTO, OrganizationObjectTypeWorker, Employee>
     {
         private readonly long userId;
-        private readonly IConstantStatusRequestService constantService;
 
-        public AllowableObjectTypeQuery(long userId, IConstantStatusRequestService constantService)
+        public AllowableObjectTypeQuery(long userId)
         {
             this.userId = userId;
-            this.constantService = constantService;
         }
 
         public IEnumerable<SimpleDTO> Run(IQueryable<OrganizationObjectTypeWorker> organizationObjectTypeWorkers,
-            IQueryable<PersonalProfile> employees)
+            IQueryable<Employee> employees)
         {
 
             var q = from ootw in organizationObjectTypeWorkers

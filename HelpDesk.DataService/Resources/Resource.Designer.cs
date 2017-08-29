@@ -270,9 +270,9 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Только владелец профиля может удалить запись.
         /// </summary>
-        internal static string OnlyOwnerPersonalProfileObjectCanDeleteRecordConstraintMsg {
+        internal static string OnlyOwnerEmployeeObjectCanDeleteRecordConstraintMsg {
             get {
-                return ResourceManager.GetString("OnlyOwnerPersonalProfileObjectCanDeleteRecordConstraintMsg", resourceCulture);
+                return ResourceManager.GetString("OnlyOwnerEmployeeObjectCanDeleteRecordConstraintMsg", resourceCulture);
             }
         }
         
@@ -324,9 +324,9 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Объект уже присутствует в профиле заявителя.
         /// </summary>
-        internal static string UniquePersonalProfileObjectConstraintMsg {
+        internal static string UniqueEmployeeObjectConstraintMsg {
             get {
-                return ResourceManager.GetString("UniquePersonalProfileObjectConstraintMsg", resourceCulture);
+                return ResourceManager.GetString("UniqueEmployeeObjectConstraintMsg", resourceCulture);
             }
         }
         

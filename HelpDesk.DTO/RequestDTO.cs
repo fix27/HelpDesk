@@ -41,16 +41,10 @@ namespace HelpDesk.DTO
         public DateTime DateInsert { get; set; }
 
         /// <summary>
-        /// Дата последнего изменения (меняется из новой и старой системы системы)
+        /// Дата последнего изменения заявки
         /// </summary>
-        public DateTime DateUpdate { get; set; }
-
-        /// <summary>
-        /// Дата последнего изменения заявки (меняется только из новой системы)
-        /// </summary>
-        public DateTime? DateUpdateNew { get; set; }
-
-       
+        public DateTime? DateUpdate { get; set; }
+                       
 
         /// <summary>
         /// Плановая дата окончания работ по заявке (изначально проставляется системой автоматически)
@@ -110,6 +104,8 @@ namespace HelpDesk.DTO
 
         public bool ConfirmationStatusRequest { get { return StatusRequest == StatusRequestEnum.Closing; } }
 
+        public Employee Employee { get; set; }
+        
         #region только для активных заявок
         /// <summary>
         /// Просрочена

@@ -68,6 +68,11 @@
   <ItemGroup>
     <Compile Include="BaseDataService.cs" />
     <Compile Include="BaseService.cs" />
+    <Compile Include="Interface\IAccessWorkerUserService.cs" />
+    <Compile Include="Interface\IWorkerUserService.cs" />
+    <Compile Include="AccessWorkerUserService.cs" />
+    <Compile Include="Query\RequestQuery.cs" />
+    <Compile Include="WorkerUserService.cs" />
     <Compile Include="Command\DeleteRequestFileCommand.cs" />
     <Compile Include="Command\UpdateRequestFileCommand.cs" />
     <Compile Include="Common\DataServiceException.cs" />
@@ -80,42 +85,42 @@
     <Compile Include="DataServiceInstaller.cs" />
     <Compile Include="DateTimeService.cs" />
     <Compile Include="Filters\RequestFilter.cs" />
-    <Compile Include="Filters\PersonalObjectFilter.cs" />
+    <Compile Include="Filters\EmployeeObjectFilter.cs" />
     <Compile Include="Interface\IConstantStatusRequestService.cs" />
     <Compile Include="Interface\ICultureService.cs" />
     <Compile Include="Interface\IDateTimeService.cs" />
     <Compile Include="Interface\IRequestFileService.cs" />
     <Compile Include="Interface\IFileUploadService.cs" />
     <Compile Include="Interface\IRequestService.cs" />
-    <Compile Include="Interface\IRequestProfileService.cs" />
-    <Compile Include="Interface\IPersonalProfileService.cs" />
+    <Compile Include="Interface\IEmployeeObjectService.cs" />
+    <Compile Include="Interface\IEmployeeService.cs" />
     <Compile Include="Interface\IOrganizationService.cs" />
     <Compile Include="Interface\IObjectService.cs" />
     <Compile Include="Interface\IPostService.cs" />
     <Compile Include="Interface\ISettingsService.cs" />
     <Compile Include="Interface\IRequestConstraintsService.cs" />
     <Compile Include="Interface\IStatusRequestMapService.cs" />
-    <Compile Include="Interface\IUserService.cs" />
+    <Compile Include="Interface\ICabinetUserService.cs" />
     <Compile Include="Query\AllowableObjectTypeQuery.cs" />
     <Compile Include="Query\AllowableObjectISQuery.cs" />
     <Compile Include="Query\ArchiveYearQuery.cs" />
     <Compile Include="Query\RequestLastEventQuery.cs" />
-    <Compile Include="Query\PersonalRequestQuery.cs" />
+    <Compile Include="Query\EmployeeRequestQuery.cs" />
     <Compile Include="RequestFileService.cs" />
     <Compile Include="RequestConstraintsService.cs" />
     <Compile Include="RequestService.cs" />
     <Compile Include="OrganizationService.cs" />
     <Compile Include="ObjectService.cs" />
-    <Compile Include="RequestProfileService.cs" />
+    <Compile Include="EmployeeObjectService.cs" />
     <Compile Include="PostService.cs" />
-    <Compile Include="Query\PersonalObjectQuery.cs" />
+    <Compile Include="Query\EmployeeObjectQuery.cs" />
     <Compile Include="Resources\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PersonalProfileService.cs" />
+    <Compile Include="EmployeeService.cs" />
     <Compile Include="Specification\SimpleEntityAllOrByNameLikeSpecification.cs" />
     <Compile Include="Specification\SimpleEntityByNameEqualSpecification.cs" />
     <Compile Include="Specification\ModelByManufacturerAndNameLikeSpecification.cs" />
@@ -124,7 +129,7 @@
     <Compile Include="SettingsService.cs" />
     <Compile Include="StatusRequestFactorization.cs" />
     <Compile Include="StatusRequestMapService.cs" />
-    <Compile Include="UserService.cs" />
+    <Compile Include="CabinetUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

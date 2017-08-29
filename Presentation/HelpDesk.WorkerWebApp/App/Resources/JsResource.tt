@@ -1,0 +1,18 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="HelpDesk.WorkerWebApp.Resources" #>
+<#@ import namespace="HelpDesk.Entity" #>
+<#@ parameter type="HelpDesk.Entity.Settings" name="settings" #>
+
+var HelpDesk = {};
+HelpDesk.WorkerWebApp={};
+HelpDesk.WorkerWebApp.Resources = 
+{
+	ErrorMessage_MaxNumberOfFilesConstraint	:'<#= Resource.ErrorMessage_MaxNumberOfFilesConstraint #>',
+	ErrorMessage_AcceptFileTypesConstraint	:'<#= Resource.ErrorMessage_AcceptFileTypesConstraint #>',
+	ErrorMessage_MaxFileSizeConstraint		:'<#= String.Format(Resource.ErrorMessage_MaxFileSizeConstraint, settings.MaxRequestFileSize) #>',
+	ErrorMessage_MinFileSizeConstraint		:'<#= Resource.ErrorMessage_MinFileSizeConstraint #>'
+}

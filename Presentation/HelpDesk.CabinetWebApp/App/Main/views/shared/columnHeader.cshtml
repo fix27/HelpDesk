@@ -1,0 +1,26 @@
+﻿@using HelpDesk.CabinetWebApp.Models;
+@model ColumnHeaderModel
+
+<table align="center">
+    <tr>
+        <td style="text-align: center"><a @if (Model.Sortable) { <text> style="cursor: pointer" ng-click="vm.sort('@Model.PropertyName')" </text>  }>@Model.Name</a></td>
+        @if (Model.TypeFilter != TypeColumnHeaderFilter.None)
+        {
+            <td style="vertical-align: top">
+                <span ng-click="vm.openFilter('@Model.PropertyName')"  style="color: {{ {true: 'red', false: 'lightgrey'}[vm.isFilter('@Model.PropertyName')==true] }}; cursor: pointer" class="glyphicon glyphicon-filter"></span>
+            </td>
+        }
+
+        @if (Model.Sortable)
+        {
+            <td style="vertical-align: top">
+                <span ng-click="vm.sort('@Model.PropertyName')" style="cursor: pointer; color: lightgrey" ng-class="vm.getOrderArrow('@Model.PropertyName')"></span>
+            </td>
+        }
+    </tr>
+</table>
+
+@if (Model.TypeFilter != TypeColumnHeaderFilter.None)
+{
+    Html.RenderPartial(Model.GetFilterFormUrl(), Model.GetFilterGridDialogModel());
+}

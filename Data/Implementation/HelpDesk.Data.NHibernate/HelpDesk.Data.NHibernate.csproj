@@ -89,6 +89,8 @@
     <Content Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Mapping\AccessWorkerUser.xml" />
+    <EmbeddedResource Include="Mapping\WorkerUser.hbm.xml" />
     <EmbeddedResource Include="Mapping\RequestFile.hbm.xml" />
     <EmbeddedResource Include="Mapping\OrganizationObjectTypeWorker.hbm.xml" />
     <EmbeddedResource Include="Mapping\BaseRequest.hbm.xml" />
@@ -100,12 +102,12 @@
     <EmbeddedResource Include="Mapping\Manufacturer.hbm.xml" />
     <EmbeddedResource Include="Mapping\Model.hbm.xml" />
     <EmbeddedResource Include="Mapping\ObjectType.hbm.xml" />
-    <EmbeddedResource Include="Mapping\PersonalProfileObject.hbm.xml" />
+    <EmbeddedResource Include="Mapping\EmployeeObject.hbm.xml" />
     <EmbeddedResource Include="Mapping\Organization.hbm.xml" />
-    <EmbeddedResource Include="Mapping\User.hbm.xml" />
+    <EmbeddedResource Include="Mapping\CabinetUser.hbm.xml" />
     <EmbeddedResource Include="Mapping\Settings.hbm.xml" />
     <EmbeddedResource Include="Mapping\Post.hbm.xml" />
-    <EmbeddedResource Include="Mapping\PersonalProfile.hbm.xml" />
+    <EmbeddedResource Include="Mapping\Employee.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

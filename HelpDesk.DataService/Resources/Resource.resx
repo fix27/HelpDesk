@@ -174,10 +174,10 @@
   <data name="NotCyrillicConstraintMsg" xml:space="preserve">
     <value>Не кириллический символ {0} на позиции {1}</value>
   </data>
-  <data name="UniquePersonalProfileObjectConstraintMsg" xml:space="preserve">
+  <data name="UniqueEmployeeObjectConstraintMsg" xml:space="preserve">
     <value>Объект уже присутствует в профиле заявителя</value>
   </data>
-  <data name="OnlyOwnerPersonalProfileObjectCanDeleteRecordConstraintMsg" xml:space="preserve">
+  <data name="OnlyOwnerEmployeeObjectCanDeleteRecordConstraintMsg" xml:space="preserve">
     <value>Только владелец профиля может удалить запись</value>
   </data>
   <data name="AnotherUserDeleteRecordConstraintMsg" xml:space="preserve">

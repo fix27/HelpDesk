@@ -1,0 +1,61 @@
+﻿@using HelpDesk.CabinetWebApp.Models
+@using HelpDesk.CabinetWebApp.Resources
+@using HelpDesk.CabinetWebApp.Helpers
+
+@model RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@using (@Html.BeginForm("Register", "Account", FormMethod.Post))
+{
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.AntiForgeryToken()
+
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", required = true, autofocus = true })
+    </div>
+
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.FM)
+        @Html.TextBoxFor(m => m.FM, new { @class = "form-control", required = true })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.IM)
+        @Html.TextBoxFor(m => m.IM, new { @class = "form-control", required = true })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.OT)
+        @Html.TextBoxFor(m => m.OT, new { @class = "form-control", required = true })
+    </div>*@
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", required = true })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword)
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", required = true })
+    </div>
+    <div class="form-group">
+        @Html.reCaptcha()
+    </div>
+    
+
+    <div class="row">
+        <div class="col-md-7">
+            <button class="btn btn-lg btn-block btn-default" type="submit">@Resource.Action_Register</button>
+        </div>
+        <div class="col-md-5">
+            <a class="btn btn-lg btn-block btn-default" href="@Url.Action("Login", "Account")">@Resource.Action_Login</a>
+        </div>
+    </div>    
+    
+}
+
+

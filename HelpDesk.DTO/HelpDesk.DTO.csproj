@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WorkerUserDTO.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FileUpload\Interface\IFileUploadDTO.cs" />
     <Compile Include="FileUpload\Interface\IFileUploadInfoDTO.cs" />
@@ -51,11 +52,11 @@
     <Compile Include="Month.cs" />
     <Compile Include="RequestDTO.cs" />
     <Compile Include="IChecked.cs" />
-    <Compile Include="PersonalProfileObjectDTO.cs" />
+    <Compile Include="EmployeeObjectDTO.cs" />
     <Compile Include="RequestObjectTODTO.cs" />
     <Compile Include="RequestObjectISDTO.cs" />
     <Compile Include="RequestObjectDTO.cs" />
-    <Compile Include="PersonalProfileDTO.cs" />
+    <Compile Include="EmployeeDTO.cs" />
     <Compile Include="RequestEventDTO.cs" />
     <Compile Include="Resources\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -66,7 +67,7 @@
     <Compile Include="SimpleDTO.cs" />
     <Compile Include="CreateOrUpdateRequestDTO.cs" />
     <Compile Include="StatusRequestEnum.cs" />
-    <Compile Include="UserDTO.cs" />
+    <Compile Include="CabinetUserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WareDTO.cs" />
     <Compile Include="Year.cs" />

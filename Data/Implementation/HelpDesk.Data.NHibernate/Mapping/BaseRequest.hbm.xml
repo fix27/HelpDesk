@@ -23,14 +23,14 @@
     <union-subclass name="HelpDesk.Entity.Request, HelpDesk.Entity" table="Request">
       <many-to-one  foreign-key="Request_Status_FK" name="Status" column="StatusId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" not-null="true"/>
       <many-to-one  foreign-key="Request_Object_FK" name="Object" column="ObjectId" class="HelpDesk.Entity.RequestObject, HelpDesk.Entity" not-null="true"/>
-      <many-to-one  foreign-key="Request_Employee_FK" name="Employee" column="EmployeeId" class="HelpDesk.Entity.PersonalProfile, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="Request_Employee_FK" name="Employee" column="EmployeeId" class="HelpDesk.Entity.Employee, HelpDesk.Entity" not-null="true"/>
       <many-to-one  foreign-key="Request_Worker_FK" name="Worker" column="WorkerId" class="HelpDesk.Entity.Worker, HelpDesk.Entity" not-null="true"/>
     </union-subclass>
 
     <union-subclass name="HelpDesk.Entity.RequestArch, HelpDesk.Entity" table="RequestArch">
       <many-to-one  foreign-key="RequestArch_Status_FK" name="Status" column="StatusId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" not-null="true"/>
       <many-to-one  foreign-key="RequestArch_Object_FK" name="Object" column="ObjectId" class="HelpDesk.Entity.RequestObject, HelpDesk.Entity" not-null="true"/>
-      <many-to-one  foreign-key="RequestArch_Employee_FK" name="Employee" column="EmployeeId" class="HelpDesk.Entity.PersonalProfile, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="RequestArch_Employee_FK" name="Employee" column="EmployeeId" class="HelpDesk.Entity.Employee, HelpDesk.Entity" not-null="true"/>
       <many-to-one  foreign-key="RequestArch_Worker_FK" name="Worker" column="WorkerId" class="HelpDesk.Entity.Worker, HelpDesk.Entity" not-null="true"/>
     </union-subclass>
   </class>

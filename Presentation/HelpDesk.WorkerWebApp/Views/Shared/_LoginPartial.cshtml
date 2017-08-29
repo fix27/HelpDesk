@@ -1,0 +1,27 @@
+﻿@using HelpDesk.WorkerWebApp.Controllers
+@using HelpDesk.DTO
+@using HelpDesk.WorkerWebApp.Resources
+
+@if (Request.IsAuthenticated)
+{
+    WorkerUserDTO currentUser = ((AngularTemplateController)this.ViewContext.Controller).CurrentUser;
+
+    using (Html.BeginForm("LogOff", "Account", new { lang = (string)ViewBag.CurrentCulture }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+        
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="UserMenu">
+                    <span id="span-fio">@(String.IsNullOrEmpty(currentUser.UserName)? currentUser.Email: currentUser.UserName)</span>                    
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="UserMenu">
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.Label_Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+   
+    }
+}
+

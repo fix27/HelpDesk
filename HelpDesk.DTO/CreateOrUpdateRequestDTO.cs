@@ -13,9 +13,9 @@ namespace HelpDesk.DTO
         public long Id { get; set; }
 
         /// <summary>
-        /// Id профиля пользователя
+        /// Id сотрудника
         /// </summary>
-        public long PersonalProfileId { get; set; }
+        public long EmployeeId { get; set; }
 
         /// <summary>
         /// Id объекта заявки

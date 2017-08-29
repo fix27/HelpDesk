@@ -6,7 +6,7 @@ using HelpDesk.DTO;
 namespace HelpDesk.DataService.Filters
 {
     /// <summary>
-    /// Для фильтрации в гриде "Мои заявки"
+    /// Для фильтрации заявок
     /// </summary>
     public class RequestFilter
     {
@@ -15,20 +15,54 @@ namespace HelpDesk.DataService.Filters
         /// </summary>
         public string Id { get; set; }
 
+        /// <summary>
+        /// Список Id заявок ч/з запятую
+        /// </summary>
         public IList<long> Ids { get { return Id.ToArrayValues<long>(); } }
 
+        /// <summary>
+        /// Наименование объекта (включая тип, модель, производителя)
+        /// </summary>
         public string ObjectName { get; set; }
-        
+
+        /// <summary>
+        /// Информация о заявителе (ФИО, телефон, кабинет, наименование/адрес обслуживаемой организации)
+        /// </summary>
+        public string EmployeeInfo { get; set; }
+
+        /// <summary>
+        /// Нименование исполнителя
+        /// </summary>
+        public string WorkerName { get; set; }
+
         /// <summary>
         /// Описание проблемы
         /// </summary>
         public string DescriptionProblem { get; set; }
 
+        /// <summary>
+        /// Список состояний заявки
+        /// </summary>
         public IList<StatusRequestEnum> StatusIds { get; set; }
 
+        /// <summary>
+        /// Дата подачи заявки "С"
+        /// </summary>
         public DateTime? DateInsert1 { get; set; }
+
+        /// <summary>
+        /// Дата подачи заявки "По"
+        /// </summary>
         public DateTime? DateInsert2 { get; set; }
+
+        /// <summary>
+        /// Дата окончания срока выполнения работ по заявке "С"
+        /// </summary>
         public DateTime? DateEndPlan1 { get; set; }
+
+        /// <summary>
+        /// Дата окончания срока выполнения работ по заявке "По"
+        /// </summary>
         public DateTime? DateEndPlan2 { get; set; }
 
 
