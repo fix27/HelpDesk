@@ -178,7 +178,7 @@
                     <div style="color: red" ng-show="t.LastEvent.Transfer == true">@Resource.Title_Transfer</div>
                 </td>
                 <td rowspan="2">
-                    <div>{{t.EmployeeName}}, {{t.EmployeePostName}}</div>
+                    <div style="padding-bottom:5px;">{{t.EmployeeName}}, {{t.EmployeePostName}}</div>
                     <div>{{t.EmployeeOrganizationName}}, {{t.EmployeeOrganizationAddress}}</div>
                     <div>каб. {{t.EmployeeCabinet}}, тел. {{t.EmployeePhone}}</div>
                 </td>
@@ -208,8 +208,8 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <span style="margin-right:10px; margin-left:10px; text-align: center" ng-repeat="s in t.AllowableStates">
-                        <a style="text-decoration:underline">{{s.ActionName}}</a>
+                    <span style="margin-right:10px; margin-left:10px; padding:3px; text-align: center; background-color: {{s.BackColor}}" ng-repeat="s in t.AllowableStates">
+                        <a ng-click="vm.openNewRequestEventForm(t.Id, s.Id)" href="" style="text-decoration:underline">{{s.ActionName}}</a>
                     </span>
                 </td>
             </tr>

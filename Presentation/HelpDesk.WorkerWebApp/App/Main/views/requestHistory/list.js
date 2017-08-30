@@ -137,6 +137,12 @@
                 
             }
         };
+
+        vm.openNewRequestEventForm = function (requestId, statusRequestId)
+        {
+            alert(requestId + " - " + statusRequestId);
+        }
+
         vm.refreshFilterStatuses();
         vm.refresh();
 
