@@ -14,7 +14,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: заявки исполнителя/дипетчера
     /// </summary>
-    public class RequestQuery<T> : IQuery<RequestDTO, T> 
+    public class RequestQuery<T> : IQuery<RequestDTO, T>
         where T : BaseRequest
     {
         private readonly OrderInfo orderInfo;
@@ -25,33 +25,40 @@ namespace HelpDesk.DataService.Query
         public RequestQuery(Expression<Func<BaseRequest, bool>> accessPredicate, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
         {
             this.accessPredicate = accessPredicate;
-            this.orderInfo  = orderInfo;
-            this.pageInfo   = pageInfo;
-            this.filter     = filter;
+            this.orderInfo = orderInfo;
+            this.pageInfo = pageInfo;
+            this.filter = filter;
         }
-                
+
         public IEnumerable<RequestDTO> Run(IQueryable<T> requests)
         {
-        
+
             var qb = (from r in requests.Where(accessPredicate)
                       select new RequestDTO()
                       {
-                           Id = r.Id,
-                           WorkerId = r.Worker.Id,
-                           WorkerName = r.Worker.Name,
-                           Status = r.Status,
-                           Object = r.Object, 
-                           DateEndFact = r.DateEndFact,
-                           DateEndPlan = r.DateEndPlan,
-                           DateInsert = r.DateInsert,
-                           DateUpdate = r.DateUpdate,
-                           DescriptionProblem = r.DescriptionProblem,
-                           CountCorrectionDateEndPlan = r.CountCorrectionDateEndPlan,
-                           Employee = r.Employee
+                          Id = r.Id,
+                          WorkerId = r.Worker.Id,
+                          WorkerName = r.Worker.Name,
+                          Status = r.Status,
+                          Object = r.Object,
+                          DateEndFact = r.DateEndFact,
+                          DateEndPlan = r.DateEndPlan,
+                          DateInsert = r.DateInsert,
+                          DateUpdate = r.DateUpdate,
+                          DescriptionProblem = r.DescriptionProblem,
+                          CountCorrectionDateEndPlan = r.CountCorrectionDateEndPlan,
+                          EmployeeFM = r.Employee.FM,
+                          EmployeeIM = r.Employee.IM,
+                          EmployeeOT = r.Employee.OT,
+                          EmployeeCabinet = r.Employee.Cabinet,
+                          EmployeePhone = r.Employee.Phone,
+                          EmployeePostName = r.Employee.Post.Name,
+                          EmployeeOrganizationName = r.Employee.Organization.Name,
+                          EmployeeOrganizationAddress = r.Employee.Organization.Address
                       });
 
             var q = qb;
-            if (filter!= null && !String.IsNullOrWhiteSpace(filter.ObjectName))
+            if (filter != null && !String.IsNullOrWhiteSpace(filter.ObjectName))
                 q = q.Where(t => t.Object.SoftName.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
                     t.Object.HardType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
                     t.Object.Model.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
@@ -67,22 +74,24 @@ namespace HelpDesk.DataService.Query
             if (filter != null && filter.Ids != null && filter.Ids.Any())
                 q = q.Where(t => filter.Ids.Contains(t.Id));
 
-            if (filter != null && filter.StatusIds != null && filter.StatusIds.Any())
+            if (filter != null && filter.RawStatusIds != null && filter.RawStatusIds.Any())
             {
-                IList<long> statusIds = new List<long>();
-                foreach (var s in filter.StatusIds)
-                {
-                    IEnumerable<long> items = StatusRequestFactorization.GetElementsByEquivalence(s);
-                    foreach (var statuId in items)
-                        statusIds.Add(statuId);
-                }
-
-                q = q.Where(t => statusIds.Contains(t.Status.Id));
+                q = q.Where(t => filter.RawStatusIds.Contains(t.Status.Id));
             }
-                
+
 
             if (filter != null && !String.IsNullOrWhiteSpace(filter.DescriptionProblem))
                 q = q.Where(t => t.DescriptionProblem.ToUpper().Contains(filter.DescriptionProblem.ToUpper()));
+
+            if (filter != null && !String.IsNullOrWhiteSpace(filter.WorkerName))
+                q = q.Where(t => t.WorkerName.ToUpper().Contains(filter.WorkerName.ToUpper()));
+
+            if (filter != null && !String.IsNullOrWhiteSpace(filter.EmployeeInfo))
+                q = q.Where(t => t.EmployeeFM.ToUpper().Contains(filter.EmployeeInfo.ToUpper()) ||
+                t.EmployeePhone.ToUpper()==filter.EmployeeInfo.ToUpper() ||
+                t.EmployeeCabinet.ToUpper() == filter.EmployeeInfo.ToUpper() ||
+                t.EmployeeOrganizationName.ToUpper().Contains(filter.EmployeeInfo.ToUpper()) ||
+                t.EmployeeOrganizationAddress.ToUpper().Contains(filter.EmployeeInfo.ToUpper()));
 
             if (filter.Archive)
             {
@@ -115,6 +124,20 @@ namespace HelpDesk.DataService.Query
                             .ThenByDescending(t => t.Object.SoftName)
                             .ThenByDescending(t => t.Object.Model.Name)
                             .ThenByDescending(t => t.Object.Model.Manufacturer.Name);
+                        break;
+                    case "EmployeeInfo":
+                        if (orderInfo.Asc)
+                            q = q.OrderBy(t => t.EmployeeOrganizationName)
+                                .ThenBy(t => t.EmployeeOrganizationAddress)
+                                .ThenBy(t => t.EmployeeFM)
+                                .ThenBy(t => t.EmployeeIM)
+                                .ThenBy(t => t.EmployeeOT);
+                        else
+                            q = q.OrderByDescending(t => t.EmployeeOrganizationName)
+                                .ThenByDescending(t => t.EmployeeOrganizationAddress)
+                                .ThenByDescending(t => t.EmployeeFM)
+                                .ThenByDescending(t => t.EmployeeIM)
+                                .ThenByDescending(t => t.EmployeeOT);
                         break;
                     case "Statuses":
                         if (orderInfo.Asc)

@@ -61,9 +61,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
             ViewBag.Menu = new Dictionary<string, string>()
             {
                 { "request", Resource.Menu_Request },
-                { "requestHistory", Resource.Menu_RequestHistory },
-                { "employeeObject", Resource.Menu_EmployeeObject },
-                { "employee", Resource.Menu_Employee }
+                { "requestHistory", Resource.Menu_RequestHistory }
             };
 
             Settings settings = settingsService.Get();
@@ -95,10 +93,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
         {
             long userId = User.Identity.GetUserId<long>();
             
-            return PartialView("~/App/Main/views/request/request.cshtml", new RequestModel()
-            {
-                
-            });
+            return PartialView("~/App/Main/views/request/request.cshtml");
         }
         #endregion Request
 

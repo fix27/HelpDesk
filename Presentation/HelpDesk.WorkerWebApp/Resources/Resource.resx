@@ -240,12 +240,6 @@
   <data name="Action_Save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
-  <data name="Menu_Employee" xml:space="preserve">
-    <value>Мои данные</value>
-  </data>
-  <data name="Menu_EmployeeObject" xml:space="preserve">
-    <value>Мои объекты</value>
-  </data>
   <data name="Label_Cabinet" xml:space="preserve">
     <value>Кабинет</value>
   </data>
@@ -428,5 +422,11 @@
   </data>
   <data name="ErrorMessage_MinFileSizeConstraint" xml:space="preserve">
     <value>Слишком маленький размер файла</value>
+  </data>
+  <data name="Label_Employee" xml:space="preserve">
+    <value>Заявитель</value>
+  </data>
+  <data name="Label_Worker" xml:space="preserve">
+    <value>Исполнитель</value>
   </data>
 </root>

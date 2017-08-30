@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WorkerUserDTO.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="FileUpload\Interface\IFileUploadDTO.cs" />
     <Compile Include="FileUpload\Interface\IFileUploadInfoDTO.cs" />
     <Compile Include="FileUpload\Interface\IFileUploadThumbnailDTO.cs" />

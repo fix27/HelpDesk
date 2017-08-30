@@ -394,6 +394,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Заявитель.
+        /// </summary>
+        public static string Label_Employee {
+            get {
+                return ResourceManager.GetString("Label_Employee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата события.
         /// </summary>
         public static string Label_EventDateEvent {
@@ -655,29 +664,20 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Исполнитель.
+        /// </summary>
+        public static string Label_Worker {
+            get {
+                return ResourceManager.GetString("Label_Worker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Тип работ.
         /// </summary>
         public static string Label_WorkTypeName {
             get {
                 return ResourceManager.GetString("Label_WorkTypeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Мои данные.
-        /// </summary>
-        public static string Menu_Employee {
-            get {
-                return ResourceManager.GetString("Menu_Employee", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Мои объекты.
-        /// </summary>
-        public static string Menu_EmployeeObject {
-            get {
-                return ResourceManager.GetString("Menu_EmployeeObject", resourceCulture);
             }
         }
         

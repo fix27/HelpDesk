@@ -21,23 +21,11 @@ namespace HelpDesk.DTO
         {
             get
             {
-                switch (UserType)
-                {
-                    case TypeWorkerUserEnum.Dispatcher:
-                        return String.Format("{0} ({1})", 
-                            Name, TypeWorkerUserEnum.Dispatcher.GetDisplayName());
+                if(Worker == null)
+                    return String.Format("{0} ({1})", Name, UserType.Name);
 
-                    case TypeWorkerUserEnum.Worker:
-                        return String.Format("{0} ({1})", 
-                            Name, Worker.Name);
+                return String.Format("{0} ({1} - {2})", Name, UserType.Name, Worker.Name);
 
-                    case TypeWorkerUserEnum.WorkerAndDispatcher:
-                        return String.Format("{0} ({1} - {2})", 
-                            Name, Worker.Name, TypeWorkerUserEnum.WorkerAndDispatcher.GetDisplayName());
-                }
-
-                return null;
-                
             }
         }
 
@@ -59,7 +47,7 @@ namespace HelpDesk.DTO
         /// <summary>
         /// Тип пользователя
         /// </summary>
-        public TypeWorkerUserEnum UserType { get; set; }
+        public TypeWorkerUser UserType { get; set; }
 
         /// <summary>
         /// Исполнитель (null для Диспетчера)

@@ -15,14 +15,7 @@
             $state.go("request", { objectId: null, requestId: null, mode: null });
         }
 
-        vm.createRequestByObject = function (objectId) {
-            $state.go("request", { objectId: objectId, requestId: null, mode: null });
-        }
-
-        vm.createRequestByRequest = function (requestId) {
-            $state.go("request", { requestId: requestId, objectId: null, mode: 'create' });
-        }
-
+        
         vm.edit = function (requestId) {
             $state.go("request", { requestId: requestId, objectId: null, mode: 'edit' });
         }
@@ -31,8 +24,10 @@
         vm.filter = {
             Id: null,
             ObjectName: null,
+            EmployeeInfo: null,
             DescriptionProblem: null,
             Statuses: [],
+            WorkerName: null,
             DateInsert: { Value1: null, Value2: null },
             DateEndPlan: { Value1: null, Value2: null }
         };

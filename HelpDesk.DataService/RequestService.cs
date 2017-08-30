@@ -20,12 +20,31 @@ using System.Linq.Expressions;
 
 namespace HelpDesk.DataService
 {
+    
     /// <summary>
     /// Для работы с заявками
     /// </summary>
     [Transaction]
     public class RequestService : BaseService, IRequestService
     {
+        /// <summary>
+        /// Состояния заявок, которые не отображаются в UI
+        /// </summary>
+        private readonly long[] ignoredRawRequestStates = new long[]
+        {
+            (long)RawStatusRequestEnum.DateEnd
+        };
+
+        /// <summary>
+        /// Архивные состояния
+        /// </summary>
+        private readonly long[] arсhiveRawRequestStates = new long[]
+        {
+            (long)RawStatusRequestEnum.ApprovedRejected,
+            (long)RawStatusRequestEnum.ApprovedComplete,
+            (long)RawStatusRequestEnum.Passive
+        };
+
         private readonly ICommandRunner commandRunner;
         private readonly IQueryRunner queryRunner;
         private readonly IBaseRepository<RequestObject> objectRepository;
@@ -43,8 +62,8 @@ namespace HelpDesk.DataService
         private readonly IDateTimeService dateTimeService;
         private readonly IRequestConstraintsService requestConstraintsService;
         private readonly IStatusRequestMapService statusRequestMapService;
-        private readonly IConstantStatusRequestService constantService;
-        private readonly IAccessWorkerUserService accessWorkerUserService;
+        private readonly IBaseRepository<AccessWorkerUser> accessWorkerUserRepository;
+        private readonly IAccessWorkerUserExpressionService accessWorkerUserExpressionService;
 
         public RequestService(ICommandRunner commandRunner,
             IQueryRunner queryRunner,
@@ -63,8 +82,8 @@ namespace HelpDesk.DataService
             IDateTimeService dateTimeService,
             IRequestConstraintsService requestConstraintsService,
             IStatusRequestMapService statusRequestMapService,
-            IConstantStatusRequestService constantService,
-            IAccessWorkerUserService accessWorkerUserService)
+            IBaseRepository<AccessWorkerUser> accessWorkerUserRepository,
+            IAccessWorkerUserExpressionService accessWorkerUserExpressionService)
         {
             this.queryRunner            = queryRunner;
             this.objectRepository       = objectRepository;
@@ -83,8 +102,8 @@ namespace HelpDesk.DataService
             this.dateTimeService        = dateTimeService;
             this.requestConstraintsService = requestConstraintsService;
             this.statusRequestMapService = statusRequestMapService;
-            this.constantService        = constantService;
-            this.accessWorkerUserService = accessWorkerUserService;
+            this.accessWorkerUserRepository = accessWorkerUserRepository;
+            this.accessWorkerUserExpressionService = accessWorkerUserExpressionService;
         }
 
         
@@ -157,7 +176,10 @@ namespace HelpDesk.DataService
             repository.SaveChanges();
         }
 
-        public IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
+        #region GetList
+        public delegate IEnumerable<RequestDTO> GetListRequestDelegate(ref PageInfo pageInfo);
+        private IEnumerable<RequestDTO> getList(GetListRequestDelegate getListActive, GetListRequestDelegate getListArchive, 
+            RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
         {
             IEnumerable<RequestDTO> list = null;
 
@@ -175,89 +197,8 @@ namespace HelpDesk.DataService
                     PageSize = int.MaxValue
                 };
 
-                IEnumerable<RequestDTO> listActive = queryRunner.Run(new EmployeeRequestQuery<Request>(employeeId, filter, orderInfo, pageInfoActive));
-                IEnumerable<RequestDTO> listArchive = queryRunner.Run(new EmployeeRequestQuery<RequestArch>(employeeId, filter, orderInfo, pageInfoArchive));
-
-                pageInfo.Count = pageInfoActive.Count + pageInfoArchive.Count;
-                pageInfo.TotalCount = pageInfoActive.TotalCount + pageInfoArchive.TotalCount;
-
-                list = listActive.Union(listArchive);
-                
-            }
-            else if (filter.Archive)
-            {
-                list = queryRunner.Run(new EmployeeRequestQuery<RequestArch>(employeeId, filter, orderInfo, pageInfo));
-                foreach (RequestDTO r in list)
-                    r.Archive = true;
-            }
-            else
-            {
-                list = queryRunner.Run(new EmployeeRequestQuery<Request>(employeeId, filter, orderInfo, pageInfo));
-            }
-
-            IEnumerable<long> requestIds = list.Select(r => r.Id).ToList();
-            #region files 
-            IEnumerable<RequestFileInfoDTO> files = requestFileRepository.GetList(t => t.RequestId!= null && requestIds.Contains(t.RequestId.Value))
-                .Select(t => new RequestFileInfoDTO()
-                {
-                    Id = t.Id,
-                    ForignKeyId = t.RequestId,
-                    Name = t.Name,
-                    Size = t.Size,
-                    TempRequestKey = t.TempRequestKey,
-                    Type = t.Type
-                });
-
-            IDictionary<long, IList<RequestFileInfoDTO>> fileIndex = new Dictionary<long, IList<RequestFileInfoDTO>>();
-            foreach (RequestFileInfoDTO r in files)
-            {
-                if (fileIndex.ContainsKey(r.ForignKeyId.Value))
-                    fileIndex[r.ForignKeyId.Value].Add(r);
-                else
-                    fileIndex[r.ForignKeyId.Value] = new List<RequestFileInfoDTO>(){ r };
-            }
-            #endregion files
-
-            #region LastEvent
-            IEnumerable<RequestEventDTO> events = queryRunner.Run(new RequestLastEventQuery(requestIds, constantService));
-            IDictionary<long, RequestEventDTO> eventIndex = new Dictionary<long, RequestEventDTO>();
-            foreach (RequestEventDTO e in events)
-            {
-                eventIndex[e.RequestId] = e;
-            }
-            #endregion LastEvent
-
-            foreach (RequestDTO r in list)
-            {
-                r.Files = fileIndex.ContainsKey(r.Id) ? fileIndex[r.Id] : null;
-                r.LastEvent = eventIndex.ContainsKey(r.Id) ? eventIndex[r.Id] : null;
-                r.StatusRequest = statusRequestMapService.GetEquivalenceByElement(r.Status.Id);
-            }
-            return list;
-        }
-
-        public IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
-        {
-            Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserService.GetAccessExpression(userId);
-
-            IEnumerable<RequestDTO> list = null;
-
-            if (filter.Ids != null && filter.Ids.Any())
-            {
-                PageInfo pageInfoActive = new PageInfo()
-                {
-                    CurrentPage = 0,
-                    PageSize = int.MaxValue
-                };
-
-                PageInfo pageInfoArchive = new PageInfo()
-                {
-                    CurrentPage = 0,
-                    PageSize = int.MaxValue
-                };
-
-                IEnumerable<RequestDTO> listActive = queryRunner.Run(new RequestQuery<Request>(accessPredicate, filter, orderInfo, ref pageInfoActive));
-                IEnumerable<RequestDTO> listArchive = queryRunner.Run(new RequestQuery<RequestArch>(accessPredicate, filter, orderInfo, ref pageInfoArchive));
+                IEnumerable<RequestDTO> listActive = getListActive(ref pageInfoActive);
+                IEnumerable<RequestDTO> listArchive = getListArchive(ref pageInfoArchive);
 
                 pageInfo.Count = pageInfoActive.Count + pageInfoArchive.Count;
                 pageInfo.TotalCount = pageInfoActive.TotalCount + pageInfoArchive.TotalCount;
@@ -267,13 +208,13 @@ namespace HelpDesk.DataService
             }
             else if (filter.Archive)
             {
-                list = queryRunner.Run(new RequestQuery<RequestArch>(accessPredicate, filter, orderInfo, ref pageInfo));
+                list = getListArchive(ref pageInfo);
                 foreach (RequestDTO r in list)
                     r.Archive = true;
             }
             else
             {
-                list = queryRunner.Run(new RequestQuery<Request>(accessPredicate, filter, orderInfo, ref pageInfo));
+                list = getListActive(ref pageInfo);
             }
 
             IEnumerable<long> requestIds = list.Select(r => r.Id).ToList();
@@ -300,7 +241,7 @@ namespace HelpDesk.DataService
             #endregion files
 
             #region LastEvent
-            IEnumerable<RequestEventDTO> events = queryRunner.Run(new RequestLastEventQuery(requestIds, constantService));
+            IEnumerable<RequestEventDTO> events = queryRunner.Run(new RequestLastEventQuery(requestIds));
             IDictionary<long, RequestEventDTO> eventIndex = new Dictionary<long, RequestEventDTO>();
             foreach (RequestEventDTO e in events)
             {
@@ -316,10 +257,59 @@ namespace HelpDesk.DataService
             }
             return list;
         }
+        
+        public IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
+        {
+            return getList(
+                delegate (ref PageInfo _pageInfo)
+                {
+                    return queryRunner.Run(new EmployeeRequestQuery<Request>(employeeId, filter, orderInfo, ref _pageInfo));
+                },
+                delegate (ref PageInfo _pageInfo)
+                {
+                    return queryRunner.Run(new EmployeeRequestQuery<RequestArch>(employeeId, filter, orderInfo, ref _pageInfo));
+                },
+                filter, orderInfo, ref pageInfo);
+
+        }
+
+        public IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
+        {
+            Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
+                .GetAccessPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+
+            IEnumerable<RequestDTO> list = getList(
+                delegate (ref PageInfo _pageInfo)
+                {
+                    return queryRunner.Run(new RequestQuery<Request>(accessPredicate, filter, orderInfo, ref _pageInfo));
+                },
+                delegate (ref PageInfo _pageInfo)
+                {
+                    return queryRunner.Run(new RequestQuery<RequestArch>(accessPredicate, filter, orderInfo, ref _pageInfo));
+                },
+                filter, orderInfo, ref pageInfo);
+
+            if(filter.Archive)
+                return list;
+
+            #region AllowableStates
+            IEnumerable<StatusRequest> statuses = statusRepository.GetList(s => s.AllowableStates != null).ToList();
+             IDictionary<long, IEnumerable<StatusRequest>> graph = new Dictionary<long, IEnumerable<StatusRequest>>();
+            foreach (StatusRequest status in statuses)
+                graph[status.Id] = statuses.Where(s => status.AllowableStates.ToEnumerable<long>().Contains(s.Id));
+
+            foreach (RequestDTO r in list)
+                r.AllowableStates = graph[r.Status.Id];
+            #endregion AllowableStates
+            
+            return list;
+
+        }
+        #endregion GetList
 
         public IEnumerable<StatusRequestDTO> GetListStatus(bool archive)
         {
-            IEnumerable<StatusRequestDTO> list = statusRepository.GetList(t => !constantService.IgnoredRawRequestStates.Contains(t.Id)).OrderBy(s => s.Name)
+            IEnumerable<StatusRequestDTO> list = statusRepository.GetList(t => !ignoredRawRequestStates.Contains(t.Id)).OrderBy(s => s.Name)
                 .ToList()
                 .Select(s => new StatusRequestDTO()
                 {
@@ -327,14 +317,22 @@ namespace HelpDesk.DataService
                     Name = statusRequestMapService.GetEquivalenceByElement(s.Id).GetDisplayName()
                 });
 
-            IList<StatusRequestEnum> archiveStates = new List<StatusRequestEnum>()
+            IEnumerable<StatusRequestEnum> archiveStates = new List<StatusRequestEnum>()
                 {
                     StatusRequestEnum.ApprovedComplete,
                     StatusRequestEnum.Passive
                 };
 
             return list.Where(t => (archive) ? archiveStates.Contains(t.Id) : !archiveStates.Contains(t.Id)).Distinct();
+        }
 
+        public IEnumerable<StatusRequest> GetListRawStatus(bool archive)
+        {
+            IEnumerable<StatusRequest> list = statusRepository.GetList(t => !ignoredRawRequestStates.Contains(t.Id))
+                .OrderBy(s => s.Name)
+                .ToList();
+
+            return list.Where(t => (archive) ? arсhiveRawRequestStates.Contains(t.Id) : !arсhiveRawRequestStates.Contains(t.Id));
         }
 
         [Transaction]
@@ -402,7 +400,7 @@ namespace HelpDesk.DataService
             }
            
             
-            StatusRequest newStatusRequest = statusRepository.Get(constantService.NewStatusRequest);
+            StatusRequest newStatusRequest = statusRepository.Get((long)RawStatusRequestEnum.New);
             r = new Request()
             {
                 CountCorrectionDateEndPlan = 0,
@@ -428,7 +426,7 @@ namespace HelpDesk.DataService
 
             RequestEvent dateEndRequestEvent = new RequestEvent()
             {
-                StatusRequest = statusRepository.Get(constantService.DateEndStatusRequest),
+                StatusRequest = statusRepository.Get((long)RawStatusRequestEnum.DateEnd),
                 DateEvent = r.DateEndPlan.Value,
                 DateInsert = currentDateTime,
                 RequestId = r.Id
@@ -443,7 +441,7 @@ namespace HelpDesk.DataService
 
         public int GetCountRequiresConfirmation(long employeeId)
         {
-            return requestRepository.Count(t => t.Employee.Id == employeeId && t.Status.Id == constantService.ConfirmationStatusRequest);
+            return requestRepository.Count(t => t.Employee.Id == employeeId && t.Status.Id == (long)RawStatusRequestEnum.Closing);
         }
 
         public IEnumerable<Year> GetListArchiveYear(long employeeId)
@@ -481,7 +479,7 @@ namespace HelpDesk.DataService
                 {
                      DateEvent  = t.DateEvent,
                      Note       = t.Name,
-                     DateEnd    = t.StatusRequest.Id == constantService.DateEndStatusRequest,
+                     DateEnd    = t.StatusRequest.Id == (long)RawStatusRequestEnum.DateEnd,
                      Status     = t.StatusRequest,
                      RequestId  = t.RequestId,
                      Transfer   = t.TypeRequestEventId.HasValue,

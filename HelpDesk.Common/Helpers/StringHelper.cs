@@ -53,12 +53,11 @@ namespace HelpDesk.Common.Helpers
             }
         }
 
-        public static T[] ToArrayValues<T>(this string listStr)
+        public static IEnumerable<T> ToEnumerable<T>(this string listStr)
         {
             if (String.IsNullOrWhiteSpace(listStr))
                 return null;
 
-            T v = default(T);
             string[] values = listStr.Split(',');
             IList<T> list = new List<T>();
             foreach (string s in values)
@@ -66,7 +65,7 @@ namespace HelpDesk.Common.Helpers
                 list.Add(s.Convert<T>());
             }
 
-            return list.ToArray();
+            return list;
         }
     }
 }

@@ -89,7 +89,8 @@
     <Content Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Mapping\AccessWorkerUser.xml" />
+    <EmbeddedResource Include="Mapping\TypeWorkerUser.hbm.xml" />
+    <EmbeddedResource Include="Mapping\AccessWorkerUser.hbm.xml" />
     <EmbeddedResource Include="Mapping\WorkerUser.hbm.xml" />
     <EmbeddedResource Include="Mapping\RequestFile.hbm.xml" />
     <EmbeddedResource Include="Mapping\OrganizationObjectTypeWorker.hbm.xml" />

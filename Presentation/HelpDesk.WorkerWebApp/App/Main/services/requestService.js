@@ -53,6 +53,8 @@
                 
                 var s = (filter.ObjectName != null && filter.ObjectName != 'null') ? "&objectName=" + filter.ObjectName : "";
                 s += (filter.DescriptionProblem != null && filter.DescriptionProblem != 'null') ? "&descriptionProblem=" + filter.DescriptionProblem : "";
+                s += (filter.WorkerName != null && filter.WorkerName != 'null') ? "&workerName=" + filter.WorkerName : "";
+                s += (filter.EmployeeInfo != null && filter.EmployeeInfo != 'null') ? "&employeeInfo=" + filter.EmployeeInfo : "";
                 s += (filter.Id != null && filter.Id != 'null') ? "&id=" + filter.Id : "";
 
                 s += "&dateInsert1=" + (filter.DateInsert.Value1 != null ? filter.DateInsert.Value1.toISOString() : "null");
@@ -61,7 +63,7 @@
                 s += "&dateEndPlan2=" + (filter.DateEndPlan.Value2 != null ? filter.DateEndPlan.Value2.toISOString() : "null");
                 
                 for (var i = 0; i < filter.Statuses.length; i++)
-                    s += "&statusIds=" + filter.Statuses[i].Id;
+                    s += "&rawStatusIds=" + filter.Statuses[i].Id;
 
                 if (filter.Archive && filter.Archive!="null")
                 {

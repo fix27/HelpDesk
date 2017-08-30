@@ -1,11 +1,12 @@
 ﻿using HelpDesk.DTO;
+using HelpDesk.Entity;
 using System;
 using System.Collections.Generic;
 
 namespace HelpDesk.DataService
 {
     /// <summary>
-    /// Прямое и обратное преобразование StatusRequestEnum - statusRequestId
+    /// Прямое и обратное преобразование StatusRequestEnum - StatusRequestId
     /// </summary>
     public static class StatusRequestFactorization 
     {
@@ -13,18 +14,17 @@ namespace HelpDesk.DataService
         {
             IDictionary<long, StatusRequestEnum> map = new Dictionary<long, StatusRequestEnum>()
             {
-                {824,  StatusRequestEnum.Rejected },                //Отказано
-                {825,  StatusRequestEnum.ExtendedDeadLine },        //Перенос
-                {826,  StatusRequestEnum.NotApprovedComplete },     //Отказано в готовности
-                {191,  StatusRequestEnum.New },                     //Рассмотрение
-                {192,  StatusRequestEnum.Accepted },                //Принята
-                {193,  StatusRequestEnum.ExtendedDeadLine },        //Подтверждение переноса
-                {194,  StatusRequestEnum.Rejected },                //Подтверждение отказа
-                {195,  StatusRequestEnum.Closing },                 //Подтверждение готовности
-                {196,  StatusRequestEnum.ApprovedComplete },        //Выполнена
-                {839,  StatusRequestEnum.Rejected },                //Отказ после принятия
-                {22464,  StatusRequestEnum.Passive },               //Пасив
-                {383343,  StatusRequestEnum.ExtendedConfirmation }  //Перенос готовности
+                {(long)RawStatusRequestEnum.New,            StatusRequestEnum.New },                    //Рассмотрение
+                {(long)RawStatusRequestEnum.Accepted,       StatusRequestEnum.Accepted },               //Принята
+                {(long)RawStatusRequestEnum.Rejected,       StatusRequestEnum.Rejected },               //Отказано
+                {(long)RawStatusRequestEnum.RejectedAfterAccepted,  StatusRequestEnum.Rejected },       //Отказ после принятия
+                {(long)RawStatusRequestEnum.ExtendedDeadLine,  StatusRequestEnum.ExtendedDeadLine },    //Перенос
+                {(long)RawStatusRequestEnum.Closing,        StatusRequestEnum.Closing },                //Выполнена
+                {(long)RawStatusRequestEnum.ExtendedConfirmation,  StatusRequestEnum.ExtendedConfirmation },    //Перенос подтверждения
+                {(long)RawStatusRequestEnum.NotApprovedComplete,  StatusRequestEnum.NotApprovedComplete },      //Отказано в готовности
+                {(long)RawStatusRequestEnum.ApprovedRejected,  StatusRequestEnum.Rejected },            //Подтверждение отказа
+                {(long)RawStatusRequestEnum.ApprovedComplete,  StatusRequestEnum.ApprovedComplete },    //Подтверждение выполнения
+                {(long)RawStatusRequestEnum.Passive,        StatusRequestEnum.Passive }                 //Пасив
             };
             return map;
         });

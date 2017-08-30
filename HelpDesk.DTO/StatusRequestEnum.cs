@@ -13,60 +13,60 @@ namespace HelpDesk.DTO
         /// Для ненастроенного отображения состояний
         /// </summary>
         [Display(Name = "StatusRequestEnum_Unknown", ResourceType = typeof(Resource))]
-        Unknown = 0,
+        Unknown,
 
         /// <summary>
         /// Новая
         /// </summary>
         [Display(Name = "StatusRequestEnum_New", ResourceType = typeof(Resource))]
-        New = 100,
+        New,
 
         /// <summary>
         /// Принята в работу
         /// </summary>
         [Display(Name = "StatusRequestEnum_Accepted", ResourceType = typeof(Resource))]
-        Accepted = 110,
+        Accepted,
 
         /// <summary>
         /// Отказано
         /// </summary>
         [Display(Name = "StatusRequestEnum_Rejected", ResourceType = typeof(Resource))]
-        Rejected = 120,
+        Rejected,
 
         /// <summary>
         /// Перенос срока выполнения
         /// </summary>
         [Display(Name = "StatusRequestEnum_ExtendedDeadLine", ResourceType = typeof(Resource))]
-        ExtendedDeadLine = 130,
+        ExtendedDeadLine,
 
         /// <summary>
         /// Закрыта исполнителем
         /// </summary>
         [Display(Name = "StatusRequestEnum_Closing", ResourceType = typeof(Resource))]
-        Closing = 140,
+        Closing,
 
         /// <summary>
-        /// Перенос подтверждения готовности
+        /// Перенос подтверждения
         /// </summary>
         [Display(Name = "StatusRequestEnum_ExtendedConfirmation", ResourceType = typeof(Resource))]
-        ExtendedConfirmation = 150,
+        ExtendedConfirmation,
 
         /// <summary>
         /// Подтверждение готовности
         /// </summary>
         [Display(Name = "StatusRequestEnum_ApprovedComplete", ResourceType = typeof(Resource))]
-        ApprovedComplete = 160,
+        ApprovedComplete,
 
         /// <summary>
         /// Не подтверждение готовности
         /// </summary>
         [Display(Name = "StatusRequestEnum_NotApprovedComplete", ResourceType = typeof(Resource))]
-        NotApprovedComplete = 170,
+        NotApprovedComplete,
 
         /// <summary>
         /// Пассивная (в архиве, но не выполненная)
         /// </summary>
         [Display(Name = "StatusRequestEnum_Passive", ResourceType = typeof(Resource))]
-        Passive = 180
+        Passive
     }
 }

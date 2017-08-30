@@ -44,6 +44,7 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseRequest.cs" />
     <Compile Include="BaseRequestEvent.cs" />
+    <Compile Include="RawStatusRequestEnum.cs" />
     <Compile Include="TypeAccessWorkerUserEnum.cs" />
     <Compile Include="WorkerUser.cs" />
     <Compile Include="RequestObject.cs" />
@@ -52,7 +53,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="TypeWorkerUserEnum.cs" />
+    <Compile Include="TypeWorkerUser.cs" />
     <Compile Include="Worker.cs" />
     <Compile Include="HardType.cs" />
     <Compile Include="Manufacturer.cs" />

@@ -61,14 +61,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return View();
         }
 
-        //
-        // GET: /Account/Login
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
+        
         //
         // POST: /Account/Login
         [HttpPost]
@@ -99,56 +92,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
             }
         }
 
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, bool CaptchaValid)
-        {
-            if (!CaptchaValid)
-            {
-                //Captcha failed to validate
-                ModelState.AddModelError("reCaptcha", Resource.InvalidReCaptcha);
-            }
-
-            if (!ModelState.IsValid)
-                return View(model);
-
-            try
-            {
-                userService.Create(model.Email, model.Password);
-            }
-            catch (DataServiceException ex)
-            {
-                addErrors(ex);
-                return View(model);
-            }
-
-
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
-
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    Session[AppConstants.CURRENT_APPLICATION_USER_SESSION_KEY] = userService.GetDTO(model.Email);
-                    
-                    Task task = new Task(() => sendEmail(model.Email,
-                        String.Format(Resource.Text_RegisterNow, Resource.AppName),
-                        String.Format("{0}: {1}, {2}: {3}",
-                        Resource.Label_Email, model.Email, Resource.Label_Password, model.Password)));
-                    task.Start();
-
-                    return RedirectToAction("Index", "AngularTemplate");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", Resource.Message_Error);
-                    return View(model);
-            }
-            
-            
-        }
-
-
+        
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -104,32 +104,5 @@ namespace HelpDesk.Entity.Resources {
                 return ResourceManager.GetString("TypeAccessWorkerUserEnum_Worker", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Диспетчер.
-        /// </summary>
-        internal static string UserGroupEnum_Dispatcher {
-            get {
-                return ResourceManager.GetString("UserGroupEnum_Dispatcher", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Исполнитель.
-        /// </summary>
-        internal static string UserGroupEnum_Worker {
-            get {
-                return ResourceManager.GetString("UserGroupEnum_Worker", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Исполнитель-диспетчер.
-        /// </summary>
-        internal static string UserGroupEnum_WorkerAndDispatcher {
-            get {
-                return ResourceManager.GetString("UserGroupEnum_WorkerAndDispatcher", resourceCulture);
-            }
-        }
     }
 }

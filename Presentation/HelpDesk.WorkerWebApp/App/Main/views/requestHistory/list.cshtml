@@ -36,20 +36,20 @@
             <button type="button" ng-click="vm.createRequest()" class="btn btn-primary">@Resource.Menu_Request</button>
         </div>
     </div>
-    <table class="table table-striped">
+    <table class="table">
         <colgroup>
             <col style="width: 1%" />
-            <col style="width: 8%" />
-            <col style="width: 8%" />
-            <col style="width: 20%" />
-            <col style="width: 4%" />
-
-            <col style="width: 31%" />
-            
-            <col style="width: 9%" />
-            <col style="width: 9%" />
-
             <col style="width: 5%" />
+            <col style="width: 8%" />
+            <col style="width: 19%" />
+            <col style="width: 10%" />
+            
+            <col style="width: 21%" />
+            <col style="width: 10%" />
+            <col style="width: 8%" />
+            <col style="width: 8%" />
+
+            <col style="width: 4%" />
         </colgroup>
         <thead>
             <tr>
@@ -79,7 +79,19 @@
                         });}
                 </th>
 
-                <th style="text-align:center; vertical-align: top" colspan="2">
+                <th style="text-align:center; vertical-align: top">
+
+                    @{Html.RenderPartial("~/App/Main/views/shared/columnHeader.cshtml",
+                      new ColumnHeaderModel()
+                      {
+                          Name = Resource.Label_Employee,
+                          PropertyName = "EmployeeInfo",
+                          TypeFilter = TypeColumnHeaderFilter.Text,
+                          NgModelValue = "vm.filterEmployeeInfo"
+                      });}
+                </th>
+                
+                <th style="text-align:center; vertical-align: top" colspan="1">
                 
                     @{Html.RenderPartial("~/App/Main/views/shared/columnHeader.cshtml",
                           new ColumnHeaderModel()
@@ -101,6 +113,18 @@
                             TypeFilter = TypeColumnHeaderFilter.Text,
                             NgModelValue = "vm.filterDescriptionProblem"
                         });}
+                </th>
+
+                <th style="text-align:center; vertical-align: top">
+
+                    @{Html.RenderPartial("~/App/Main/views/shared/columnHeader.cshtml",
+                    new ColumnHeaderModel()
+                    {
+                        Name = Resource.Label_Worker,
+                        PropertyName = "WorkerName",
+                        TypeFilter = TypeColumnHeaderFilter.Text,
+                        NgModelValue = "vm.filterWorkerName"
+                    });}
                 </th>
 
                 <th style="text-align:center; vertical-align: top">
@@ -133,29 +157,35 @@
             </tr>
         </thead>
         
-        <tbody>
-            <tr ng-show="vm.count == 0 && vm.loaded == true">
-                <td style="text-align:center" colspan="9">@Resource.Message_NotFound</td>
+        <tbody ng-show="vm.count == 0 && vm.loaded == true">
+            <tr>
+                <td style="text-align:center" colspan="11">@Resource.Message_NotFound</td>
             </tr>
-            <tr id="rec{{t.Id}}" ng-repeat="t in vm.recs">
-                <td style="vertical-align:middle;">
+        </tbody>
+
+        <tbody id="rec{{t.Id}}" ng-repeat="t in vm.recs">
+            
+            <tr>
+                <td rowspan="2" style="vertical-align:middle;">
                     <span title="@Resource.Title_RequestHistory"><a id="buttonShowEvents{{t.Id}}" href="#" ng-click="vm.showEvents(t)" style="color: lightgrey; text-decoration: none;">{{ { true: '&#9660;', false: '&#9658;'}[t.openEvents==true]}}</a></span>
                 </td>
-                <td style="vertical-align:middle; font-weight: bold">
+                <td rowspan="2" style="vertical-align:middle; font-weight: bold">
                     <span style="font-size:14pt" class="{{ {true: 'badge', false: ''}[t.ConfirmationStatusRequest==true] }}">{{t.Id}}</span>
                 </td>
-                <td style="text-align:center; background-color: {{t.StatusBackColor}}">
-                    <div>{{t.StatusName}}</div>
+                <td rowspan="2" style="text-align:center; background-color: {{t.StatusBackColor}}">
+                    <div>{{t.Status.Name}}</div>
                     <div>{{t.LastEvent.DateEvent | date:'dd.MM.yyyy HH:mm'}}</div>
                     <div style="color: red" ng-show="t.LastEvent.Transfer == true">@Resource.Title_Transfer</div>
                 </td>
-                <td>
+                <td rowspan="2">
+                    <div>{{t.EmployeeName}}, {{t.EmployeePostName}}</div>
+                    <div>{{t.EmployeeOrganizationName}}, {{t.EmployeeOrganizationAddress}}</div>
+                    <div>каб. {{t.EmployeeCabinet}}, тел. {{t.EmployeePhone}}</div>
+                </td>
+                <td rowspan="2">
                     <span>{{t.ObjectName}}</span>
                 </td>
-                <td>
-                    <span ng-click="vm.createRequestByObject(t.Object.Id)" title="@Resource.Title_CreateRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-send"></span>
-                </td>
-                <td>
+                <td rowspan="2">
                     <div>{{t.DescriptionProblem}}</div>
                     <div>
                         <span  style="margin-right:20px; text-align: left" ng-repeat="f in t.Files">
@@ -167,15 +197,22 @@
                     </div>
                     <div style="font-style:italic; color: darkgreen; margin-top: 10px">{{t.LastEvent.Note}}</div>
                 </td>
+                <td><span>{{t.WorkerName}}</span></td>
                 <td><span>{{t.DateInsert | date:'dd.MM.yyyy HH:mm'}}</span></td>
                 <td><span style="color:{{vm.getDeadlineColor(t)}}">{{t.DateEndPlan | date:'dd.MM.yyyy HH:mm'}}</span></td>
                 <td>
                     <span ng-show="t.Archive != true" ng-click="vm.delete(t.Id)" style="color: lightgrey; cursor: pointer; font-size: 14pt" class="glyphicon glyphicon-remove-circle"></span>
                     <span ng-show="t.Archive != true" ng-click="vm.edit(t.Id)" title="@Resource.Title_EditRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-pencil"></span>
-                    <span ng-click="vm.createRequestByRequest(t.Id)" title="@Resource.Title_CreateRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-send"></span>
+                    
                 </td> 
             </tr>
-            
+            <tr>
+                <td colspan="4">
+                    <span style="margin-right:10px; margin-left:10px; text-align: center" ng-repeat="s in t.AllowableStates">
+                        <a style="text-decoration:underline">{{s.ActionName}}</a>
+                    </span>
+                </td>
+            </tr>
         </tbody>
 
     </table>

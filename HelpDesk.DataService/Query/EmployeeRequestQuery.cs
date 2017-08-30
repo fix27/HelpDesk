@@ -21,7 +21,7 @@ namespace HelpDesk.DataService.Query
         private readonly PageInfo pageInfo;
         private readonly RequestFilter filter;
 
-        public EmployeeRequestQuery(long employeeId, RequestFilter filter, OrderInfo orderInfo, PageInfo pageInfo)
+        public EmployeeRequestQuery(long employeeId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
             :this(employeeId, filter)
         {
             this.orderInfo = orderInfo;

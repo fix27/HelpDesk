@@ -66,8 +66,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessWorkerUserExpressionService.cs" />
     <Compile Include="BaseDataService.cs" />
     <Compile Include="BaseService.cs" />
+    <Compile Include="Interface\IAccessWorkerUserExpressionService.cs" />
     <Compile Include="Interface\IAccessWorkerUserService.cs" />
     <Compile Include="Interface\IWorkerUserService.cs" />
     <Compile Include="AccessWorkerUserService.cs" />
@@ -80,13 +82,11 @@
     <Compile Include="Common\DataServiceInfo.cs" />
     <Compile Include="Common\DataServiceWarning.cs" />
     <Compile Include="Common\FormatConfirm.cs" />
-    <Compile Include="ConstantStatusRequestService.cs" />
     <Compile Include="CultureService.cs" />
     <Compile Include="DataServiceInstaller.cs" />
     <Compile Include="DateTimeService.cs" />
     <Compile Include="Filters\RequestFilter.cs" />
     <Compile Include="Filters\EmployeeObjectFilter.cs" />
-    <Compile Include="Interface\IConstantStatusRequestService.cs" />
     <Compile Include="Interface\ICultureService.cs" />
     <Compile Include="Interface\IDateTimeService.cs" />
     <Compile Include="Interface\IRequestFileService.cs" />

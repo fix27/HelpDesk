@@ -5,7 +5,8 @@
          mutable="false" lazy="false">
     <id name="Id" type="Int64" column="Id" />
     <property insert="false" update="false" unique="true" name="Name" length="200" not-null="true" />
-    <property insert="false" update="false" name="BackColor"/>
-    
+    <property insert="false" update="false" name="BackColor" length="40"/>
+    <property insert="false" update="false" name="AllowableStates" length="200"/>
+    <property insert="false" update="false" name="ActionName" length="200"/>
   </class>
 </hibernate-mapping>

@@ -1,6 +1,7 @@
 ﻿using HelpDesk.Common;
 using HelpDesk.DataService.Filters;
 using HelpDesk.DTO;
+using HelpDesk.Entity;
 using System.Collections.Generic;
 
 namespace HelpDesk.DataService.Interface
@@ -20,6 +21,8 @@ namespace HelpDesk.DataService.Interface
         long Save(CreateOrUpdateRequestDTO dto);
 
         IEnumerable<StatusRequestDTO> GetListStatus(bool archive);
+        IEnumerable<StatusRequest> GetListRawStatus(bool archive);
+
         int GetCountRequiresConfirmation(long employeeId);
 
         IEnumerable<Year> GetListArchiveYear(long employeeId);

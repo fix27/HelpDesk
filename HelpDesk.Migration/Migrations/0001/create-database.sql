@@ -1,160 +1,38 @@
-﻿     
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[WorkerUser_Worker_FK]') AND parent_object_id = OBJECT_ID('WorkerUser'))
-alter table WorkerUser  drop constraint WorkerUser_Worker_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[OrganizationObjectTypeWorker_ObjectType_FK]') AND parent_object_id = OBJECT_ID('OrganizationObjectTypeWorker'))
-alter table OrganizationObjectTypeWorker  drop constraint OrganizationObjectTypeWorker_ObjectType_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[OrganizationObjectTypeWorker_Organization_FK]') AND parent_object_id = OBJECT_ID('OrganizationObjectTypeWorker'))
-alter table OrganizationObjectTypeWorker  drop constraint OrganizationObjectTypeWorker_Organization_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[OrganizationObjectTypeWorker_Worker_FK]') AND parent_object_id = OBJECT_ID('OrganizationObjectTypeWorker'))
-alter table OrganizationObjectTypeWorker  drop constraint OrganizationObjectTypeWorker_Worker_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Request_Status_FK]') AND parent_object_id = OBJECT_ID('Request'))
-alter table Request  drop constraint Request_Status_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Request_Object_FK]') AND parent_object_id = OBJECT_ID('Request'))
-alter table Request  drop constraint Request_Object_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Request_Employee_FK]') AND parent_object_id = OBJECT_ID('Request'))
-alter table Request  drop constraint Request_Employee_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Request_Worker_FK]') AND parent_object_id = OBJECT_ID('Request'))
-alter table Request  drop constraint Request_Worker_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestArch_Status_FK]') AND parent_object_id = OBJECT_ID('RequestArch'))
-alter table RequestArch  drop constraint RequestArch_Status_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestArch_Object_FK]') AND parent_object_id = OBJECT_ID('RequestArch'))
-alter table RequestArch  drop constraint RequestArch_Object_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestArch_Employee_FK]') AND parent_object_id = OBJECT_ID('RequestArch'))
-alter table RequestArch  drop constraint RequestArch_Employee_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestArch_Worker_FK]') AND parent_object_id = OBJECT_ID('RequestArch'))
-alter table RequestArch  drop constraint RequestArch_Worker_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestEvent_StatusRequest_FK]') AND parent_object_id = OBJECT_ID('RequestEvent'))
-alter table RequestEvent  drop constraint RequestEvent_StatusRequest_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestEventArch_StatusRequest_FK]') AND parent_object_id = OBJECT_ID('RequestEventArch'))
-alter table RequestEventArch  drop constraint RequestEventArch_StatusRequest_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestObject_ObjectType_FK]') AND parent_object_id = OBJECT_ID('RequestObject'))
-alter table RequestObject  drop constraint RequestObject_ObjectType_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestObject_HardType_FK]') AND parent_object_id = OBJECT_ID('RequestObject'))
-alter table RequestObject  drop constraint RequestObject_HardType_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[RequestObject_Model_FK]') AND parent_object_id = OBJECT_ID('RequestObject'))
-alter table RequestObject  drop constraint RequestObject_Model_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Model_Manufacturer_FK]') AND parent_object_id = OBJECT_ID('Model'))
-alter table Model  drop constraint Model_Manufacturer_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[EmployeeObject_Employee_FK]') AND parent_object_id = OBJECT_ID('EmployeeObject'))
-alter table EmployeeObject  drop constraint EmployeeObject_Employee_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[EmployeeObject_RequestObject_FK]') AND parent_object_id = OBJECT_ID('EmployeeObject'))
-alter table EmployeeObject  drop constraint EmployeeObject_RequestObject_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Employee_Post_FK]') AND parent_object_id = OBJECT_ID('Employee'))
-alter table Employee  drop constraint Employee_Post_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Employee_Organization_FK]') AND parent_object_id = OBJECT_ID('Employee'))
-alter table Employee  drop constraint Employee_Organization_FK
-
-
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[Employee_CabinetUser_FK]') AND parent_object_id = OBJECT_ID('Employee'))
-alter table Employee  drop constraint Employee_CabinetUser_FK
-
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'WorkerUser') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table WorkerUser
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'RequestFile') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table RequestFile
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'OrganizationObjectTypeWorker') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table OrganizationObjectTypeWorker
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'BaseRequest') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table BaseRequest
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'Request') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Request
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'RequestArch') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table RequestArch
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'BaseRequestEvent') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table BaseRequestEvent
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'RequestEvent') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table RequestEvent
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'RequestEventArch') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table RequestEventArch
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'StatusRequest') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table StatusRequest
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'RequestObject') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table RequestObject
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'Worker') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Worker
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'HardType') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table HardType
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'Manufacturer') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Manufacturer
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'Model') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Model
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'ObjectType') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table ObjectType
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'EmployeeObject') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table EmployeeObject
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'Organization') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Organization
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'CabinetUser') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table CabinetUser
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'Settings') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Settings
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'Post') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Post
-
-    if exists (select * from dbo.sysobjects where id = object_id(N'Employee') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Employee
-
-    IF EXISTS (select * from sys.sequences where name = N'SQ_GLOBAL') DROP SEQUENCE SQ_GLOBAL
-
-    IF EXISTS (select * from sys.sequences where name = N'SQ_REQUEST') DROP SEQUENCE SQ_REQUEST
+﻿    create table TypeWorkerUser (
+        Id BIGINT not null,
+       Name VARCHAR(200) not null,
+       AllowableStates VARCHAR(200) null,
+       primary key (Id)
+    )
+
+    create table AccessWorkerUser (
+        Id BIGINT not null,
+       Type INT not null,
+       UserId BIGINT not null,
+       ObjectTypeId BIGINT null,
+       OrganizationId BIGINT null,
+       ObjectId BIGINT null,
+       WorkerId BIGINT null,
+       OrganizationAddress VARCHAR(1000) null,
+       primary key (Id)
+    )
 
     create table WorkerUser (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null,
-       Email NVARCHAR(200) not null unique,
-       Password NVARCHAR(100) not null,
-       UserType INT not null,
+       Name VARCHAR(200) not null,
+       Email VARCHAR(200) not null unique,
+       Password VARCHAR(100) not null,
        WorkerId BIGINT null,
+       TypeWorkerUserId BIGINT not null,
        primary key (Id)
     )
 
     create table RequestFile (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null,
+       Name VARCHAR(200) not null,
        Body VARBINARY(MAX) not null,
        Thumbnail VARBINARY(MAX) not null,
-       Type NVARCHAR(10) not null,
+       Type VARCHAR(10) not null,
        Size INT not null,
        TempRequestKey UNIQUEIDENTIFIER not null,
        RequestId BIGINT null,
@@ -169,19 +47,6 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
        primary key (Id)
     )
 
-    create table BaseRequest (
-        Id BIGINT not null,
-       Version INT not null,
-       DateInsert DATETIME not null,
-       DateUpdate DATETIME not null,
-       DateEndPlan DATETIME not null,
-       DateEndFact DATETIME null,
-       DescriptionProblem NVARCHAR(2000) not null,
-       UserId BIGINT null,
-       CountCorrectionDateEndPlan INT not null,
-       primary key (Id)
-    )
-
     create table Request (
         Id BIGINT not null,
        Version INT not null,
@@ -189,7 +54,7 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
        DateUpdate DATETIME not null,
        DateEndPlan DATETIME not null,
        DateEndFact DATETIME null,
-       DescriptionProblem NVARCHAR(2000) not null,
+       DescriptionProblem VARCHAR(2000) not null,
        UserId BIGINT null,
        CountCorrectionDateEndPlan INT not null,
        StatusId BIGINT not null,
@@ -206,7 +71,7 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
        DateUpdate DATETIME not null,
        DateEndPlan DATETIME not null,
        DateEndFact DATETIME null,
-       DescriptionProblem NVARCHAR(2000) not null,
+       DescriptionProblem VARCHAR(2000) not null,
        UserId BIGINT null,
        CountCorrectionDateEndPlan INT not null,
        StatusId BIGINT not null,
@@ -215,23 +80,12 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
        WorkerId BIGINT not null,
        primary key (Id)
     )
-
-    create table BaseRequestEvent (
-        Id BIGINT not null,
-       RequestId BIGINT not null,
-       TypeRequestEventId BIGINT null,
-       Name NVARCHAR(2000) null,
-       OrdGroup INT not null,
-       DateEvent DATETIME not null,
-       DateInsert DATETIME not null,
-       primary key (Id)
-    )
-
+	
     create table RequestEvent (
         Id BIGINT not null,
        RequestId BIGINT not null,
        TypeRequestEventId BIGINT null,
-       Name NVARCHAR(2000) null,
+       Name VARCHAR(2000) null,
        OrdGroup INT not null,
        DateEvent DATETIME not null,
        DateInsert DATETIME not null,
@@ -243,7 +97,7 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
         Id BIGINT not null,
        RequestId BIGINT not null,
        TypeRequestEventId BIGINT null,
-       Name NVARCHAR(2000) null,
+       Name VARCHAR(2000) null,
        OrdGroup INT not null,
        DateEvent DATETIME not null,
        DateInsert DATETIME not null,
@@ -253,14 +107,16 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
 
     create table StatusRequest (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null unique,
-       BackColor NVARCHAR(255) null,
+       Name VARCHAR(200) not null unique,
+       BackColor VARCHAR(40) null,
+       AllowableStates VARCHAR(200) null,
+       ActionName VARCHAR(200) null,
        primary key (Id)
     )
 
     create table RequestObject (
         Id BIGINT not null,
-       SoftName NVARCHAR(200) null,
+       SoftName VARCHAR(200) null,
        ObjectTypeId BIGINT not null,
        HardTypeId BIGINT null,
        ModelId BIGINT null,
@@ -270,32 +126,32 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
 
     create table Worker (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null,
+       Name VARCHAR(200) not null,
        primary key (Id)
     )
 
     create table HardType (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null,
+       Name VARCHAR(200) not null,
        primary key (Id)
     )
 
     create table Manufacturer (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null,
+       Name VARCHAR(200) not null,
        primary key (Id)
     )
 
     create table Model (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null,
+       Name VARCHAR(200) not null,
        ManufacturerId BIGINT not null,
        primary key (Id)
     )
 
     create table ObjectType (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null,
+       Name VARCHAR(200) not null,
        Soft BIT not null,
        Archive BIT not null,
        primary key (Id)
@@ -310,8 +166,8 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
 
     create table Organization (
         Id BIGINT not null,
-       Name NVARCHAR(300) not null,
-       Address NVARCHAR(300) not null,
+       Name VARCHAR(300) not null,
+       Address VARCHAR(300) not null,
        ParentId BIGINT null,
        HasChild BIT not null,
        Archive BIT not null,
@@ -320,8 +176,8 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
 
     create table CabinetUser (
         Id BIGINT not null,
-       Email NVARCHAR(200) not null unique,
-       Password NVARCHAR(100) not null,
+       Email VARCHAR(200) not null unique,
+       Password VARCHAR(100) not null,
        primary key (Id)
     )
 
@@ -332,31 +188,56 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
        MaxRequestFileCount INT not null,
        MaxRequestFileSize INT not null,
        MaxFileNameLength INT not null,
-       ManualUrl NVARCHAR(200) null,
-       ServiceLevelAgreementUrl NVARCHAR(200) null,
-       Message NVARCHAR(4000) null,
-       TechSupportPhones NVARCHAR(200) null,
+       ManualUrl VARCHAR(200) null,
+       ServiceLevelAgreementUrl VARCHAR(200) null,
+       Message VARCHAR(4000) null,
+       TechSupportPhones VARCHAR(200) null,
        primary key (Id)
     )
 
     create table Post (
         Id BIGINT not null,
-       Name NVARCHAR(200) not null unique,
+       Name VARCHAR(200) not null unique,
        primary key (Id)
     )
 
     create table Employee (
         Id BIGINT not null,
-       FM NVARCHAR(200) not null,
-       IM NVARCHAR(200) not null,
-       OT NVARCHAR(200) not null,
-       Phone NVARCHAR(200) not null,
-       Cabinet NVARCHAR(200) not null,
+       FM VARCHAR(200) not null,
+       IM VARCHAR(200) not null,
+       OT VARCHAR(200) not null,
+       Phone VARCHAR(200) not null,
+       Cabinet VARCHAR(200) not null,
        Subscribe BIT not null,
        PostId BIGINT not null,
        OrganizationId BIGINT not null,
        primary key (Id)
     )
+
+    alter table AccessWorkerUser 
+        add constraint AccessWorkerUser_WorkerUser_FK 
+        foreign key (UserId) 
+        references WorkerUser
+
+    alter table AccessWorkerUser 
+        add constraint AccessWorkerUser_ObjectType_FK 
+        foreign key (ObjectTypeId) 
+        references ObjectType
+
+    alter table AccessWorkerUser 
+        add constraint AccessWorkerUser_Organization_FK 
+        foreign key (OrganizationId) 
+        references Organization
+
+    alter table AccessWorkerUser 
+        add constraint AccessWorkerUser_Object_FK 
+        foreign key (ObjectId) 
+        references RequestObject
+
+    alter table AccessWorkerUser 
+        add constraint AccessWorkerUser_Worker_FK 
+        foreign key (WorkerId) 
+        references Worker
 
     create index User_Email_idx on WorkerUser (Email)
 
@@ -364,6 +245,11 @@ alter table Employee  drop constraint Employee_CabinetUser_FK
         add constraint WorkerUser_Worker_FK 
         foreign key (WorkerId) 
         references Worker
+
+    alter table WorkerUser 
+        add constraint WorkerUser_TypeWorkerUser_FK 
+        foreign key (TypeWorkerUserId) 
+        references TypeWorkerUser
 
     alter table OrganizationObjectTypeWorker 
         add constraint OrganizationObjectTypeWorker_ObjectType_FK 
@@ -506,31 +392,34 @@ insert into HardType(Id, Name) values(2,'МОНИТОР');
 insert into HardType(Id, Name) values(3,'СКАНЕР');
 insert into HardType(Id, Name) values(4,'КЛАВИАТУРА');
 
-insert into StatusRequest(Id, Name, BackColor) values(824,'Отказано',		'#FFA07A');
-insert into StatusRequest(Id, Name, BackColor) values(825,'Перенос',		'#FFC0CB');
-insert into StatusRequest(Id, Name, BackColor) values(826,'Отказано в готовности',		'#FFA500');
-insert into StatusRequest(Id, Name, BackColor) values(191,'Рассмотрение',	'#6B8E23');
-insert into StatusRequest(Id, Name, BackColor) values(192,'Принята',		'#FFE4B5');
-insert into StatusRequest(Id, Name, BackColor) values(193,'Подтверждение переноса',		'#E6E6FA');
-insert into StatusRequest(Id, Name, BackColor) values(194,'Подтверждение отказа',		'#D2B48C');
-insert into StatusRequest(Id, Name, BackColor) values(195,'Подтверждение готовности',	'#40E0D0');
-insert into StatusRequest(Id, Name, BackColor) values(196,'Выполнена',		'#7B68EE');
-insert into StatusRequest(Id, Name, BackColor) values(839,'Отказ после принятия', '#ADD8E6');
-insert into StatusRequest(Id, Name, BackColor) values(22464,'Пасив',		'#F0E68C');
-insert into StatusRequest(Id, Name, BackColor) values(383343,'Перенос готовности', '#FF4500');
-insert into StatusRequest(Id, Name, BackColor) values(197,'Дата окончания', null);
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(1000, null,						'Рассмотрение',				'#6B8E23',	'2100, 2200');
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(1100, null,						'Дата окончания',			null,		null);
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(2000,'Принять',					'Принята',					'#FFE4B5',	'2300, 2400, 2500');
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(2100,'Отказать',					'Отказано',					'#FFA07A',	'3200');
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(2200,'Отказать',					'Отказ после принятия',		'#ADD8E6',	'3200');
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(2300,'Перенести',				'Перенос',					'#FFC0CB',	'2400, 2500, 3400');
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(2400,'Выполнена',				'Выполнена',				'#7B68EE',	'3000, 3100, 3300');
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(3000,'Перенести подтверждение',	'Перенос подтверждения',	'#FF4500',	'3000, 3100, 3300, 3400');
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(3100,'Отказать в готовности',	'Отказано в готовности',	'#FFA500',	'2400, 2500, 3400');
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(3200,'Подтвердить отказ',		'Подтверждение отказа',		'#D2B48C',	null);
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(3300,'Подтвердить готовность',	'Подтверждение выполнения',	'#40E0D0',	null);
+insert into StatusRequest(Id, ActionName, Name, BackColor, AllowableStates) values(3400,'В пассив',					'Пасив',					'#F0E68C',	null);
 
-insert into CabinetUser(Id, Email, Password) values(1, 'admin@mail.ru','admin@mail.ru');
-insert into CabinetUser(Id, Email, Password) values(2, 'user@mail.ru','user@mail.ru');
+insert into CabinetUser(Id, Email, Password) values(1, 'admin@mail.ru',	'admin@mail.ru');
+insert into CabinetUser(Id, Email, Password) values(2, 'user@mail.ru',	'user@mail.ru');
 
 insert into Worker(Id, Name) values(1, 'ООО "Автоматика"');
 insert into Worker(Id, Name) values(2, 'ООО "Старт"');
 insert into Worker(Id, Name) values(3, 'ООО "Пусковой комплекс"');
 insert into Worker(Id, Name) values(4, 'ООО "Комплексные решения"');
 
-insert into WorkerUser(Id, Email, Password, Name, UserType, WorkerId) values(1, 'worker@mail.ru',		'worker@mail.ru',		'Иванов И.И.',	0, 1);
-insert into WorkerUser(Id, Email, Password, Name, UserType, WorkerId) values(2, 'disp@mail.ru',			'disp@mail.ru',			'Петров П.П.',	1, NULL);
-insert into WorkerUser(Id, Email, Password, Name, UserType, WorkerId) values(3, 'worker-disp@mail.ru',	'worker-disp@mail.ru',	'Сидоров С.С.', 2, 2);
+insert into TypeWorkerUser(Id, Name, AllowableStates) values(1,'Исполнитель',			'2000, 2100, 2200, 2300, 2400');
+insert into TypeWorkerUser(Id, Name, AllowableStates) values(2,'Диспетчер',				'3000, 3100, 3200, 3300, 3400');
+insert into TypeWorkerUser(Id, Name, AllowableStates) values(3,'Исполнитель-диспетчер',	'2000, 2100, 2200, 2300, 2400, 3000, 3100, 3200, 3300, 3400');
+
+insert into WorkerUser(Id, Email, Password, Name, TypeWorkerUserId, WorkerId) values(1, 'worker@mail.ru',		'worker@mail.ru',		'Иванов И.И.',	1, 1);
+insert into WorkerUser(Id, Email, Password, Name, TypeWorkerUserId, WorkerId) values(2, 'disp@mail.ru',			'disp@mail.ru',			'Петров П.П.',	2, NULL);
+insert into WorkerUser(Id, Email, Password, Name, TypeWorkerUserId, WorkerId) values(3, 'worker-disp@mail.ru',	'worker-disp@mail.ru',	'Сидоров С.С.', 3, 2);
 
 insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(1, 'Управление строительства',	'ул. Мира 1, стр 2', null,	1, 0);
 insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(2, 'Управление связи',			'ул. Мира 1, стр 2', null,	1, 0);

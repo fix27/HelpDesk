@@ -36,17 +36,6 @@
                     templateUrl: '/' + culture + '/AngularTemplate/RequestHistory',
                     menu: 'requestHistory',
 
-                })
-                .state('employeeObject', {
-                    url: '/',
-                    templateUrl: '/' + culture + '/AngularTemplate/EmployeeObjects',
-                    menu: 'employeeObject',
-
-                })
-                .state('employee', {
-                    url: '/',
-                    templateUrl: '/' + culture + '/AngularTemplate/Employee',
-                    menu: 'employee'
                 });
 
             delete $httpProvider.defaults.headers.common['X-Requested-With'];

@@ -18,7 +18,7 @@ namespace HelpDesk.DataService.Filters
         /// <summary>
         /// Список Id заявок ч/з запятую
         /// </summary>
-        public IList<long> Ids { get { return Id.ToArrayValues<long>(); } }
+        public IEnumerable<long> Ids { get { return Id.ToEnumerable<long>(); } }
 
         /// <summary>
         /// Наименование объекта (включая тип, модель, производителя)
@@ -44,6 +44,11 @@ namespace HelpDesk.DataService.Filters
         /// Список состояний заявки
         /// </summary>
         public IList<StatusRequestEnum> StatusIds { get; set; }
+
+        /// <summary>
+        /// Список RAW-состояний заявки
+        /// </summary>
+        public IList<long> RawStatusIds { get; set; }
 
         /// <summary>
         /// Дата подачи заявки "С"

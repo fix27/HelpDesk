@@ -132,13 +132,4 @@
   <data name="TypeAccessWorkerUserEnum_Worker" xml:space="preserve">
     <value>Права на исполнителя</value>
   </data>
-  <data name="UserGroupEnum_Dispatcher" xml:space="preserve">
-    <value>Диспетчер</value>
-  </data>
-  <data name="UserGroupEnum_Worker" xml:space="preserve">
-    <value>Исполнитель</value>
-  </data>
-  <data name="UserGroupEnum_WorkerAndDispatcher" xml:space="preserve">
-    <value>Исполнитель-диспетчер</value>
-  </data>
 </root>

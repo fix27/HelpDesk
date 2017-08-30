@@ -104,8 +104,22 @@ namespace HelpDesk.DTO
 
         public bool ConfirmationStatusRequest { get { return StatusRequest == StatusRequestEnum.Closing; } }
 
-        public Employee Employee { get; set; }
-        
+        public string EmployeeFM { get; set; }
+        public string EmployeeIM { get; set; }
+        public string EmployeeOT { get; set; }
+
+        public string EmployeeName { get { return String.Format("{0} {1} {2}", EmployeeFM, EmployeeIM, EmployeeOT); } }
+        public string EmployeePostName { get; set; }
+
+        public string EmployeeCabinet { get; set; }
+
+        public string EmployeePhone { get; set; }
+
+        public string EmployeeOrganizationName { get; set; }
+        public string EmployeeOrganizationAddress { get; set; }
+
+        public IEnumerable<StatusRequest> AllowableStates { get; set; }
+
         #region только для активных заявок
         /// <summary>
         /// Просрочена

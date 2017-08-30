@@ -10,8 +10,8 @@
     <property name="Name"     length="200"  not-null="true"/>
     <property name="Email"    length="200"  unique="true" index="User_Email_idx" not-null="true"/>
     <property name="Password" length="100" not-null="true"/>
-    <property name="UserType" type="HelpDesk.Entity.TypeWorkerUserEnum, HelpDesk.Entity" not-null="true"/>
-
+    
     <many-to-one foreign-key="WorkerUser_Worker_FK" name="Worker" fetch="join" column="WorkerId" class="HelpDesk.Entity.Worker, HelpDesk.Entity"/>
+    <many-to-one  not-null="true" foreign-key="WorkerUser_TypeWorkerUser_FK" name="UserType" fetch="join" column="TypeWorkerUserId" class="HelpDesk.Entity.TypeWorkerUser, HelpDesk.Entity"/>
   </class>
 </hibernate-mapping>

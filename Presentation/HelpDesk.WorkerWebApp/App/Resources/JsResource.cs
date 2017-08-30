@@ -30,8 +30,8 @@ namespace HelpDesk.WorkerWebApp.App.Resources
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\nvar HelpDesk = {};\r\nHelpDesk.CabinetWebApp={};\r\nHelpDesk.CabinetWebApp.Resource" +
-                    "s = \r\n{\r\n\tErrorMessage_MaxNumberOfFilesConstraint\t:\'");
+            this.Write("\r\nvar HelpDesk = {};\r\nHelpDesk.WorkerWebApp={};\r\nHelpDesk.WorkerWebApp.Resources " +
+                    "= \r\n{\r\n\tErrorMessage_MaxNumberOfFilesConstraint\t:\'");
             
             #line 14 "D:\GIT\HelpDesk\Presentation\HelpDesk.WorkerWebApp\App\Resources\JsResource.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.ErrorMessage_MaxNumberOfFilesConstraint));

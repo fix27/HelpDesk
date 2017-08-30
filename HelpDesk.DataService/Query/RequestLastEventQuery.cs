@@ -13,18 +13,16 @@ namespace HelpDesk.DataService.Query
     public class RequestLastEventQuery : IQuery<RequestEventDTO, RequestEvent>
     {
         private readonly IEnumerable<long> requestIds;
-        private readonly IConstantStatusRequestService constantService;
-        public RequestLastEventQuery(IEnumerable<long> requestIds, IConstantStatusRequestService constantService)
+        public RequestLastEventQuery(IEnumerable<long> requestIds)
         {
             this.requestIds = requestIds;
-            this.constantService = constantService;
         }
                 
         public IEnumerable<RequestEventDTO> Run(IQueryable<RequestEvent> events)
         {
        
             var q = from e in events
-                    where requestIds.Contains(e.RequestId) && e.StatusRequest.Id != constantService.DateEndStatusRequest
+                    where requestIds.Contains(e.RequestId) && e.StatusRequest.Id != (long)RawStatusRequestEnum.DateEnd
                     group e by e.RequestId into g
                     select new RequestEventDTO
                     {

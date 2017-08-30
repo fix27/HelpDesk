@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using HelpDesk.DataService.Filters;
 using HelpDesk.Common;
 using System.Linq;
+using HelpDesk.Entity;
 
 namespace HelpDesk.WorkerWebApp.Controllers
 {
@@ -79,7 +80,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return execute(delegate ()
             {
                 long userId = User.Identity.GetUserId<long>();
-                IEnumerable<RequestDTO> list = requestService.GetListByEmployee(userId, filter, orderInfo, ref pageInfo);
+                IEnumerable<RequestDTO> list = requestService.GetList(userId, filter, orderInfo, ref pageInfo);
                 result = Json(new { success = true, data = list, totalCount = pageInfo.TotalCount, count = pageInfo.Count });
             });
         }
@@ -109,12 +110,12 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetListStatus")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<StatusRequestDTO>))]
+        [ResponseType(typeof(IEnumerable<StatusRequest>))]
         public IHttpActionResult GetListStatus(bool archive)
         {
             return execute(delegate ()
             {
-                IEnumerable<StatusRequestDTO> list = requestService.GetListStatus(archive);
+                IEnumerable<StatusRequest> list = requestService.GetListRawStatus(archive);
                 result = Json(new { success = true, data = list });
             });
         }

@@ -28,6 +28,6 @@
         /// <summary>
         /// Тип пользователя
         /// </summary>
-        public TypeWorkerUserEnum UserType { get; set; }
+        public TypeWorkerUser UserType { get; set; }
     }
 }

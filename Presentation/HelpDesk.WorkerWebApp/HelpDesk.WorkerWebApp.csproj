@@ -236,8 +236,6 @@
     <Compile Include="Models\jstree.cs" />
     <Compile Include="Models\RecoveryPassvordViewModel.cs" />
     <Compile Include="Models\AppLayoutModel.cs" />
-    <Compile Include="Models\RequestModel.cs" />
-    <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -266,12 +264,8 @@
     <Content Include="App\Main\views\layout\layout.js" />
     <Content Include="App\Main\views\object\list.js" />
     <Content Include="App\Main\views\organization\list.js" />
-    <Content Include="App\Main\views\employee\profile.js" />
     <Content Include="App\Main\views\requestHistory\events.js" />
     <Content Include="App\Main\views\requestHistory\list.js" />
-    <Content Include="App\Main\views\employeeObject\addTO.js" />
-    <Content Include="App\Main\views\employeeObject\list.js" />
-    <Content Include="App\Main\views\employeeObject\addIS.js" />
     <Content Include="App\Main\views\shared\fileDelete.js" />
     <Content Include="App\Main\views\request\fileUpload.js" />
     <Content Include="App\Main\views\request\request.js" />
@@ -369,13 +363,9 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="App\Main\views\request\request.cshtml" />
     <Content Include="App\Main\views\requestHistory\list.cshtml" />
-    <Content Include="App\Main\views\employee\profile.cshtml" />
     <Content Include="App\Main\views\organization\list.cshtml" />
-    <Content Include="App\Main\views\employeeObject\list.cshtml" />
     <Content Include="App\Main\views\shared\filterGridText.cshtml" />
     <Content Include="App\Main\views\shared\pagination.cshtml" />
-    <Content Include="App\Main\views\employeeObject\addIS.cshtml" />
-    <Content Include="App\Main\views\employeeObject\addTO.cshtml" />
     <Content Include="App\Main\views\shared\columnHeader.cshtml" />
     <Content Include="Scripts\blueimp-gallery2\js\blueimp-gallery-fullscreen.min.js.map" />
     <Content Include="Scripts\blueimp-gallery2\js\blueimp-gallery-indicator.min.js.map" />
@@ -455,7 +445,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LangMenu.cshtml" />
     <Content Include="Views\Account\RecoveryPassword.cshtml" />
     <None Include="Web.Debug.config">

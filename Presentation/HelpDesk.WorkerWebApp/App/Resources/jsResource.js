@@ -1,7 +1,7 @@
 
 var HelpDesk = {};
-HelpDesk.CabinetWebApp={};
-HelpDesk.CabinetWebApp.Resources = 
+HelpDesk.WorkerWebApp={};
+HelpDesk.WorkerWebApp.Resources = 
 {
 	ErrorMessage_MaxNumberOfFilesConstraint	:'Превышено допустимое количество файлов',
 	ErrorMessage_AcceptFileTypesConstraint	:'Не допустимый тип файла',
