@@ -17,6 +17,7 @@ using HelpDesk.DTO.FileUpload;
 using HelpDesk.Common.Helpers;
 using HelpDesk.Common.Aspects;
 using System.Linq.Expressions;
+using HelpDesk.DTO.Parameters;
 
 namespace HelpDesk.DataService
 {
@@ -58,6 +59,7 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<RequestEventArch> requestEventArchRepository;
         private readonly IBaseRepository<RequestFile> requestFileRepository;
         private readonly IBaseRepository<Worker> workerRepository;
+        private readonly IBaseRepository<WorkerUser> workerUserRepository;
         private readonly IRepository repository;
         private readonly IDateTimeService dateTimeService;
         private readonly IRequestConstraintsService requestConstraintsService;
@@ -78,6 +80,7 @@ namespace HelpDesk.DataService
             IBaseRepository<RequestEventArch> requestEventArchRepository,
             IBaseRepository<RequestFile> requestFileRepository,
             IBaseRepository<Worker> workerRepository,
+            IBaseRepository<WorkerUser> workerUserRepository,
             IRepository repository,
             IDateTimeService dateTimeService,
             IRequestConstraintsService requestConstraintsService,
@@ -98,6 +101,7 @@ namespace HelpDesk.DataService
             this.requestEventArchRepository = requestEventArchRepository;
             this.requestFileRepository  = requestFileRepository;
             this.workerRepository       = workerRepository;
+            this.workerUserRepository   = workerUserRepository;
             this.repository             = repository;
             this.dateTimeService        = dateTimeService;
             this.requestConstraintsService = requestConstraintsService;
@@ -105,12 +109,8 @@ namespace HelpDesk.DataService
             this.accessWorkerUserRepository = accessWorkerUserRepository;
             this.accessWorkerUserExpressionService = accessWorkerUserExpressionService;
         }
-
         
-
-        
-
-        private CreateOrUpdateRequestDTO getCreateOrUpdateRequest(long id)
+        private RequestParameter getCreateOrUpdateRequest(long id)
         {
             BaseRequest request = requestRepository.Get(id);
             if (request == null)
@@ -119,7 +119,7 @@ namespace HelpDesk.DataService
             if (request == null)
                 throw new DataServiceException(Resource.NoDataFoundMsg);
 
-            return new CreateOrUpdateRequestDTO()
+            return new RequestParameter()
             {
                 Id = request.Id,
                 ObjectId = request.Object.Id,
@@ -131,31 +131,29 @@ namespace HelpDesk.DataService
                 DescriptionProblem = request.DescriptionProblem
             };
         }
-
-
-        public CreateOrUpdateRequestDTO Get(long id = 0)
+        public RequestParameter Get(long id = 0)
         {
             if(id == 0)
-                return new CreateOrUpdateRequestDTO()
+                return new RequestParameter()
                 {
                     TempRequestKey = Guid.NewGuid()
                 };
 
             return getCreateOrUpdateRequest(id);
         }
-        public CreateOrUpdateRequestDTO GetNewByRequestId(long requestId)
+        public RequestParameter GetNewByRequestId(long requestId)
         {
-            CreateOrUpdateRequestDTO r = getCreateOrUpdateRequest(requestId);
+            RequestParameter r = getCreateOrUpdateRequest(requestId);
             r.Id = 0;
             r.DescriptionProblem = String.Format(Resource.NewRequestByRequestTemplate, requestId, r.DescriptionProblem);
             return r;
 
         }
-        public CreateOrUpdateRequestDTO GetNewByObjectId(long objectId)
+        public RequestParameter GetNewByObjectId(long objectId)
         {
             RequestObject edsObject = objectRepository.Get(objectId);
 
-            return new CreateOrUpdateRequestDTO()
+            return new RequestParameter()
             {
                 ObjectId = objectId,
                 ObjectName = RequestObjectDTO.GetObjectName(edsObject.ObjectType.Name,
@@ -166,7 +164,16 @@ namespace HelpDesk.DataService
             };
         }
 
-        
+        private IDictionary<long, IEnumerable<StatusRequest>> getGraphState()
+        {
+            IEnumerable<StatusRequest> statuses = statusRepository.GetList(s => s.AllowableStates != null).ToList();
+            IDictionary<long, IEnumerable<StatusRequest>> graphState = new Dictionary<long, IEnumerable<StatusRequest>>();
+            foreach (StatusRequest status in statuses)
+                graphState[status.Id] = statuses.Where(s => status.AllowableStates.ToEnumerable<long>().Contains(s.Id));
+
+            return graphState;
+        }
+
         public void Delete(long id)
         {
             requestConstraintsService.CheckExistsRequest(id);
@@ -293,13 +300,10 @@ namespace HelpDesk.DataService
                 return list;
 
             #region AllowableStates
-            IEnumerable<StatusRequest> statuses = statusRepository.GetList(s => s.AllowableStates != null).ToList();
-             IDictionary<long, IEnumerable<StatusRequest>> graph = new Dictionary<long, IEnumerable<StatusRequest>>();
-            foreach (StatusRequest status in statuses)
-                graph[status.Id] = statuses.Where(s => status.AllowableStates.ToEnumerable<long>().Contains(s.Id));
+            IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState();
 
             foreach (RequestDTO r in list)
-                r.AllowableStates = graph[r.Status.Id];
+                r.AllowableStates = graphState[r.Status.Id];
             #endregion AllowableStates
             
             return list;
@@ -334,111 +338,7 @@ namespace HelpDesk.DataService
 
             return list.Where(t => (archive) ? arсhiveRawRequestStates.Contains(t.Id) : !arсhiveRawRequestStates.Contains(t.Id));
         }
-
-        [Transaction]
-        public long Save(CreateOrUpdateRequestDTO dto)
-        {
-            if (dto.Id == 0)
-            {
-                DateTime currentDate = dateTimeService.GetCurrent();
-                Settings settings = settingsRepository.Get();
-                IList<Request> list = requestRepository.GetList(t => t.DateInsert.Date == currentDate.Date && 
-                t.Employee.Id == dto.EmployeeId && t.UserId == null)
-                    .OrderByDescending(t => t.Id)
-                    .ToList();
-
-                if (list != null && list.Any())
-                {
-                    
-                    if (list[0].DateInsert.AddMinutes(Convert.ToDouble(settings.MinInterval)) > currentDate)
-                        throw new DataServiceException(String.Format(Resource.MinIntervalRequestConstraintMsg, settings.MinInterval.ToString("0.00")));
-
-                    if (list.Count > settings.LimitRequestCount)
-                        throw new DataServiceException(String.Format(Resource.LimitRequestCountConstraintMsg, settings.LimitRequestCount));
-                }
-                
-            }
-
-
-            checkStringConstraint("DescriptionProblem", dto.DescriptionProblem, true, 2000, 3);
-
-            if (dto.ObjectId == 0)
-                setErrorMsg("ObjectId", Resource.RequiredConstraintMsg);
-
-            if (dto.EmployeeId == 0)
-                setErrorMsg("EmployeeId", Resource.RequiredConstraintMsg);
-
-            
-            
-            Employee personalProfile = employeeRepository.Get(dto.EmployeeId);
-            RequestObject requestObject = objectRepository.Get(dto.ObjectId);
-
-
-            OrganizationObjectTypeWorker organizationObjectTypeWorker 
-                = organizationObjectTypeWorkerRepository.Get(t => t.Organization.Id == personalProfile.Organization.Id && t.ObjectType.Id == requestObject.ObjectType.Id);
-
-            if (organizationObjectTypeWorker == null)
-                setErrorMsg("Worker", Resource.WorkerNotDefinedConstraintMsg);
-
-            if (errorMessages.Count > 0)
-                throw new DataServiceException(Resource.GeneralConstraintMsg, errorMessages);
-
-            Request r = null;
-            DateTime currentDateTime = dateTimeService.GetCurrent();
-            if (dto.Id > 0)
-            {
-                requestConstraintsService.CheckExistsRequest(dto.Id);
-                                
-                r = requestRepository.Get(dto.Id);
-
-                r.DateUpdate = currentDateTime;
-                r.DescriptionProblem = dto.DescriptionProblem;
-                requestRepository.Save(r);
-                repository.SaveChanges();
-                commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, dto.Id));
-                return dto.Id;
-            }
-           
-            
-            StatusRequest newStatusRequest = statusRepository.Get((long)RawStatusRequestEnum.New);
-            r = new Request()
-            {
-                CountCorrectionDateEndPlan = 0,
-                DateEndPlan = currentDateTime.AddDays(3),
-                DateInsert = currentDateTime,
-                DateUpdate = currentDateTime,
-                DescriptionProblem = dto.DescriptionProblem,
-                Worker = workerRepository.Get(organizationObjectTypeWorker.Worker.Id),
-                Object = objectRepository.Get(dto.ObjectId),
-                Employee = employeeRepository.Get(dto.EmployeeId),
-                Status = newStatusRequest
-            };
-            requestRepository.Save(r);
-
-            RequestEvent newRequestEvent = new RequestEvent()
-            {
-                 StatusRequest = newStatusRequest,
-                 DateEvent = currentDateTime,
-                 DateInsert = currentDateTime,
-                 RequestId = r.Id                     
-            };
-            requestEventRepository.Save(newRequestEvent);
-
-            RequestEvent dateEndRequestEvent = new RequestEvent()
-            {
-                StatusRequest = statusRepository.Get((long)RawStatusRequestEnum.DateEnd),
-                DateEvent = r.DateEndPlan.Value,
-                DateInsert = currentDateTime,
-                RequestId = r.Id
-            };
-            requestEventRepository.Save(dateEndRequestEvent);
-
-            repository.SaveChanges();
-                        
-            commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, r.Id));
-            return r.Id;
-        }
-
+        
         public int GetCountRequiresConfirmation(long employeeId)
         {
             return requestRepository.Count(t => t.Employee.Id == employeeId && t.Status.Id == (long)RawStatusRequestEnum.Closing);
@@ -478,15 +378,166 @@ namespace HelpDesk.DataService
                 return list.Select(t => new RequestEventDTO
                 {
                      DateEvent  = t.DateEvent,
-                     Note       = t.Name,
+                     Note       = t.Note,
                      DateEnd    = t.StatusRequest.Id == (long)RawStatusRequestEnum.DateEnd,
                      Status     = t.StatusRequest,
                      RequestId  = t.RequestId,
-                     Transfer   = t.TypeRequestEventId.HasValue,
+                     Transfer   = t.StatusRequest.Id == (long)RawStatusRequestEnum.ExtendedDeadLine,
                      StatusRequest = statusRequestMapService.GetEquivalenceByElement(t.StatusRequest.Id)              
                 });
 
             return null;
+        }
+
+        [Transaction]
+        public long Save(RequestParameter dto)
+        {
+            if (dto.Id == 0)
+            {
+                DateTime currentDate = dateTimeService.GetCurrent();
+                Settings settings = settingsRepository.Get();
+                IList<Request> list = requestRepository.GetList(t => t.DateInsert.Date == currentDate.Date &&
+                t.Employee.Id == dto.EmployeeId && t.User == null)
+                    .OrderByDescending(t => t.Id)
+                    .ToList();
+
+                if (list != null && list.Any())
+                {
+
+                    if (list[0].DateInsert.AddMinutes(Convert.ToDouble(settings.MinInterval)) > currentDate)
+                        throw new DataServiceException(String.Format(Resource.MinIntervalRequestConstraintMsg, settings.MinInterval.ToString("0.00")));
+
+                    if (list.Count > settings.LimitRequestCount)
+                        throw new DataServiceException(String.Format(Resource.LimitRequestCountConstraintMsg, settings.LimitRequestCount));
+                }
+
+            }
+
+
+            checkStringConstraint("DescriptionProblem", dto.DescriptionProblem, true, 2000, 3);
+
+            if (dto.ObjectId == 0)
+                setErrorMsg("ObjectId", Resource.RequiredConstraintMsg);
+
+            if (dto.EmployeeId == 0)
+                setErrorMsg("EmployeeId", Resource.RequiredConstraintMsg);
+
+
+
+            Employee personalProfile = employeeRepository.Get(dto.EmployeeId);
+            RequestObject requestObject = objectRepository.Get(dto.ObjectId);
+
+
+            OrganizationObjectTypeWorker organizationObjectTypeWorker
+                = organizationObjectTypeWorkerRepository.Get(t => t.Organization.Id == personalProfile.Organization.Id && t.ObjectType.Id == requestObject.ObjectType.Id);
+
+            if (organizationObjectTypeWorker == null)
+                setErrorMsg("Worker", Resource.WorkerNotDefinedConstraintMsg);
+
+            if (errorMessages.Count > 0)
+                throw new DataServiceException(Resource.GeneralConstraintMsg, errorMessages);
+
+            Request r = null;
+            DateTime currentDateTime = dateTimeService.GetCurrent();
+            if (dto.Id > 0)
+            {
+                requestConstraintsService.CheckExistsRequest(dto.Id);
+
+                r = requestRepository.Get(dto.Id);
+
+                r.DateUpdate = currentDateTime;
+                r.DescriptionProblem = dto.DescriptionProblem;
+                requestRepository.Save(r);
+                repository.SaveChanges();
+                commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, dto.Id));
+                return dto.Id;
+            }
+
+
+            StatusRequest newStatusRequest = statusRepository.Get((long)RawStatusRequestEnum.New);
+            r = new Request()
+            {
+                CountCorrectionDateEndPlan = 0,
+                DateEndPlan = currentDateTime.AddDays(3),
+                DateInsert = currentDateTime,
+                DateUpdate = currentDateTime,
+                DescriptionProblem = dto.DescriptionProblem,
+                Worker = workerRepository.Get(organizationObjectTypeWorker.Worker.Id),
+                Object = objectRepository.Get(dto.ObjectId),
+                Employee = employeeRepository.Get(dto.EmployeeId),
+                Status = newStatusRequest
+            };
+            requestRepository.Save(r);
+
+            RequestEvent newRequestEvent = new RequestEvent()
+            {
+                StatusRequest = newStatusRequest,
+                DateEvent = currentDateTime,
+                DateInsert = currentDateTime,
+                RequestId = r.Id
+            };
+            requestEventRepository.Save(newRequestEvent);
+
+            RequestEvent dateEndRequestEvent = new RequestEvent()
+            {
+                StatusRequest = statusRepository.Get((long)RawStatusRequestEnum.DateEnd),
+                DateEvent = r.DateEndPlan.Value,
+                DateInsert = currentDateTime,
+                RequestId = r.Id
+            };
+            requestEventRepository.Save(dateEndRequestEvent);
+
+            repository.SaveChanges();
+
+            commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, r.Id));
+            return r.Id;
+        }
+
+        [Transaction]
+        public void CreateRequestEvent(long userId, RequestEventParameter dto)
+        {
+            DateTime currentDate = dateTimeService.GetCurrent();
+            IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState();
+            StatusRequest statusRequest = statusRepository.Get(dto.StatusRequestId);
+            WorkerUser user = workerUserRepository.Get(userId);
+            RequestEventDTO lastEvent = queryRunner.Run(new RequestLastEventQuery(new long[] { dto.RequestId })).FirstOrDefault();
+            Request request = requestRepository.Get(dto.RequestId);
+            RequestEvent newEvent = new RequestEvent()
+            {
+                 RequestId  = request.Id,
+                 DateInsert = currentDate,
+                 DateEvent  = currentDate,
+                 OrdGroup   = lastEvent.OrdGroup,
+                 User       = user,
+                 StatusRequest = statusRequest,
+                 Note       = dto.Note
+            };
+
+            RequestEvent dateEndEvent = null;
+            if (dto.StatusRequestId == (long)RawStatusRequestEnum.ExtendedDeadLine)
+            {
+                dateEndEvent = new RequestEvent()
+                {
+                    RequestId = request.Id,
+                    DateInsert = currentDate,
+                    DateEvent = dto.NewDeadLineDate.Value,
+                    OrdGroup = lastEvent.OrdGroup + 1,
+                    User = user,
+                    StatusRequest = statusRequest,
+                    Note = dto.Note
+                };
+            }
+
+            request.User        = user;
+            request.DateUpdate  = currentDate;
+            request.Status      = statusRequest;
+
+            requestRepository.Save(request);
+            requestEventRepository.Save(newEvent);
+            if (dateEndEvent != null)
+                requestEventRepository.Save(dateEndEvent);
+
+            repository.SaveChanges();
         }
     }
 }

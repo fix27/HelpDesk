@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using HelpDesk.DataService.Filters;
 using HelpDesk.Common;
 using System.Linq;
+using HelpDesk.DTO.Parameters;
 
 namespace HelpDesk.CabinetWebApp.Controllers
 {
@@ -24,43 +25,43 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/Request/GetNewByObjectId")]
         [HttpGet]
-        [ResponseType(typeof(CreateOrUpdateRequestDTO))]
+        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult GetNewByObjectId(long objectId)
         {
             return execute(delegate()
             {
-                CreateOrUpdateRequestDTO obj = requestService.GetNewByObjectId(objectId);
+                RequestParameter obj = requestService.GetNewByObjectId(objectId);
                 result = Json(new { success = true, data = obj });
             });
         }
 
         [Route("api/{lang}/Request/GetNewByRequestId")]
         [HttpGet]
-        [ResponseType(typeof(CreateOrUpdateRequestDTO))]
+        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult GetNewByRequestId(long requestId)
         {
             return execute(delegate ()
             {
-                CreateOrUpdateRequestDTO obj = requestService.GetNewByRequestId(requestId);
+                RequestParameter obj = requestService.GetNewByRequestId(requestId);
                 result = Json(new { success = true, data = obj });
             });
         }
 
         [Route("api/{lang}/Request/Get")]
         [HttpGet]
-        [ResponseType(typeof(CreateOrUpdateRequestDTO))]
+        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult Get(long requestId = 0)
         {
             return execute(delegate ()
             {
-                CreateOrUpdateRequestDTO obj = requestService.Get(requestId);
+                RequestParameter obj = requestService.Get(requestId);
                 result = Json(new { success = true, data = obj });
             });
         }
 
         [Route("api/{lang}/Request/Save")]
         [HttpPost]
-        public IHttpActionResult Save(CreateOrUpdateRequestDTO dto)
+        public IHttpActionResult Save(RequestParameter dto)
         {
             return execute(delegate ()
             {

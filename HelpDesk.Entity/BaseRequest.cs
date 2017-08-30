@@ -19,7 +19,7 @@ namespace HelpDesk.Entity
         
         
         /// <summary>
-        /// ID состояния заявки
+        /// Состояние заявки
         /// </summary>
         public virtual StatusRequest Status { get; set; }
         
@@ -48,7 +48,7 @@ namespace HelpDesk.Entity
         /// <summary>
         /// Пользователь, последним изменивший состояние заявки
         /// </summary>
-        public virtual long? UserId { get; set; }
+        public virtual WorkerUser User { get; set; }
 
         /// <summary>
         /// Количество переносов срока

@@ -46,7 +46,7 @@
        WorkerId BIGINT not null,
        primary key (Id)
     )
-
+	
     create table Request (
         Id BIGINT not null,
        Version INT not null,
@@ -55,12 +55,12 @@
        DateEndPlan DATETIME not null,
        DateEndFact DATETIME null,
        DescriptionProblem VARCHAR(2000) not null,
-       UserId BIGINT null,
        CountCorrectionDateEndPlan INT not null,
        StatusId BIGINT not null,
        ObjectId BIGINT not null,
        EmployeeId BIGINT not null,
        WorkerId BIGINT not null,
+       UserId BIGINT null,
        primary key (Id)
     )
 
@@ -72,36 +72,36 @@
        DateEndPlan DATETIME not null,
        DateEndFact DATETIME null,
        DescriptionProblem VARCHAR(2000) not null,
-       UserId BIGINT null,
        CountCorrectionDateEndPlan INT not null,
        StatusId BIGINT not null,
        ObjectId BIGINT not null,
        EmployeeId BIGINT not null,
        WorkerId BIGINT not null,
+       UserId BIGINT null,
        primary key (Id)
     )
 	
     create table RequestEvent (
         Id BIGINT not null,
        RequestId BIGINT not null,
-       TypeRequestEventId BIGINT null,
-       Name VARCHAR(2000) null,
+       Note VARCHAR(2000) null,
        OrdGroup INT not null,
        DateEvent DATETIME not null,
        DateInsert DATETIME not null,
        StatusRequestId BIGINT null,
+       UserId BIGINT null,
        primary key (Id)
     )
 
     create table RequestEventArch (
         Id BIGINT not null,
        RequestId BIGINT not null,
-       TypeRequestEventId BIGINT null,
-       Name VARCHAR(2000) null,
+       Note VARCHAR(2000) null,
        OrdGroup INT not null,
        DateEvent DATETIME not null,
        DateInsert DATETIME not null,
        StatusRequestId BIGINT null,
+       UserId BIGINT null,
        primary key (Id)
     )
 
@@ -286,6 +286,11 @@
         foreign key (WorkerId) 
         references Worker
 
+    alter table Request 
+        add constraint Request_User_FK 
+        foreign key (UserId) 
+        references WorkerUser
+
     alter table RequestArch 
         add constraint RequestArch_Status_FK 
         foreign key (StatusId) 
@@ -306,15 +311,30 @@
         foreign key (WorkerId) 
         references Worker
 
+    alter table RequestArch 
+        add constraint RequestArch_User_FK 
+        foreign key (UserId) 
+        references WorkerUser
+
     alter table RequestEvent 
         add constraint RequestEvent_StatusRequest_FK 
         foreign key (StatusRequestId) 
         references StatusRequest
 
+    alter table RequestEvent 
+        add constraint RequestEvent_User_FK 
+        foreign key (UserId) 
+        references WorkerUser
+
     alter table RequestEventArch 
         add constraint RequestEventArch_StatusRequest_FK 
         foreign key (StatusRequestId) 
         references StatusRequest
+
+    alter table RequestEventArch 
+        add constraint RequestEventArch_User_FK 
+        foreign key (UserId) 
+        references WorkerUser
 
     alter table RequestObject 
         add constraint RequestObject_ObjectType_FK 

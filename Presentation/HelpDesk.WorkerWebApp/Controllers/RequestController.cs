@@ -8,6 +8,7 @@ using HelpDesk.DataService.Filters;
 using HelpDesk.Common;
 using System.Linq;
 using HelpDesk.Entity;
+using HelpDesk.DTO.Parameters;
 
 namespace HelpDesk.WorkerWebApp.Controllers
 {
@@ -25,52 +26,39 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetNewByObjectId")]
         [HttpGet]
-        [ResponseType(typeof(CreateOrUpdateRequestDTO))]
+        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult GetNewByObjectId(long objectId)
         {
             return execute(delegate()
             {
-                CreateOrUpdateRequestDTO obj = requestService.GetNewByObjectId(objectId);
+                RequestParameter obj = requestService.GetNewByObjectId(objectId);
                 result = Json(new { success = true, data = obj });
             });
         }
 
         [Route("api/{lang}/Request/GetNewByRequestId")]
         [HttpGet]
-        [ResponseType(typeof(CreateOrUpdateRequestDTO))]
+        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult GetNewByRequestId(long requestId)
         {
             return execute(delegate ()
             {
-                CreateOrUpdateRequestDTO obj = requestService.GetNewByRequestId(requestId);
+                RequestParameter obj = requestService.GetNewByRequestId(requestId);
                 result = Json(new { success = true, data = obj });
             });
         }
 
         [Route("api/{lang}/Request/Get")]
         [HttpGet]
-        [ResponseType(typeof(CreateOrUpdateRequestDTO))]
+        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult Get(long requestId = 0)
         {
             return execute(delegate ()
             {
-                CreateOrUpdateRequestDTO obj = requestService.Get(requestId);
+                RequestParameter obj = requestService.Get(requestId);
                 result = Json(new { success = true, data = obj });
             });
-        }
-
-        [Route("api/{lang}/Request/Save")]
-        [HttpPost]
-        public IHttpActionResult Save(CreateOrUpdateRequestDTO dto)
-        {
-            return execute(delegate ()
-            {
-                long userId = User.Identity.GetUserId<long>();
-                dto.EmployeeId = userId;
-                long requestId = requestService.Save(dto);
-                result = Json(new { success = true, requestId = requestId });
-            });
-        }
+        }   
 
         [Route("api/{lang}/Request/GetList")]
         [HttpGet]
@@ -156,6 +144,29 @@ namespace HelpDesk.WorkerWebApp.Controllers
             });
         }
 
+        [Route("api/{lang}/Request/Save")]
+        [HttpPost]
+        public IHttpActionResult Save(RequestParameter dto)
+        {
+            return execute(delegate ()
+            {
+                long userId = User.Identity.GetUserId<long>();
+                dto.EmployeeId = userId;
+                long requestId = requestService.Save(dto);
+                result = Json(new { success = true, requestId = requestId });
+            });
+        }
 
+        [Route("api/{lang}/Request/CreateRequestEvent")]
+        [HttpPost]
+        public IHttpActionResult CreateRequestEvent(RequestEventParameter dto)
+        {
+            return execute(delegate ()
+            {
+                long userId = User.Identity.GetUserId<long>();
+                requestService.CreateRequestEvent(userId, dto);
+                result = Json(new { success = true });
+            });
+        }
     }
 }

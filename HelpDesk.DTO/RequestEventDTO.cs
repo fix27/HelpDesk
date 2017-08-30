@@ -41,5 +41,7 @@ namespace HelpDesk.DTO
         /// </summary>
         public bool DateEnd { get; set; }
 
+        public int OrdGroup { get; set; }
+
     }
 }

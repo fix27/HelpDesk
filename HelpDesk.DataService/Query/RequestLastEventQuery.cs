@@ -28,8 +28,9 @@ namespace HelpDesk.DataService.Query
                     {
                         RequestId = g.Key,
                         DateEvent = g.Max(t => t.DateEvent),
-                        Note = g.Max(t => t.Name),
-                        Transfer = g.Max(t => t.TypeRequestEventId).HasValue
+                        Note = g.Max(t => t.Note),
+                        Transfer = g.Max(t => t.StatusRequest.Id) == (long)RawStatusRequestEnum.ExtendedDeadLine,
+                        OrdGroup = g.Max(t => t.OrdGroup)
                     };
 
             return q.ToList();

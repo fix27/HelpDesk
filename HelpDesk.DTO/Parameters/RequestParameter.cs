@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace HelpDesk.DTO
+namespace HelpDesk.DTO.Parameters
 {
     /// <summary>
-    /// Новая заявка
+    /// Параметр: Новая или сущуствующая заявка
     /// </summary>
-    public class CreateOrUpdateRequestDTO
+    public class RequestParameter
     {
         /// <summary>
         /// Id существующей заявки

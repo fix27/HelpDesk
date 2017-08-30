@@ -1,7 +1,8 @@
 ﻿namespace HelpDesk.Entity
 {
     /// <summary>
-    /// Права исполнителя/диспетчера
+    /// Права исполнителя/диспетчера. Используется только одно свойство ObjectType, Worker, 
+    /// Object, OrganizationAddress или Organization в зависимости от Type 
     /// </summary>
     public class AccessWorkerUser : BaseEntity
     {

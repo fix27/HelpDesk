@@ -10,28 +10,25 @@
         
     <property name="DateInsert"       type="DateTime" not-null="true"/>
     <property name="DateUpdate"       type="DateTime" not-null="true"/>
-       
-
     <property name="DateEndPlan"      type="DateTime" not-null="true"/>
     <property name="DateEndFact"      type="DateTime" />
-
     <property name="DescriptionProblem" length="2000" not-null="true"/>
-    
-    <property name="UserId"                     type="Int64" />
     <property name="CountCorrectionDateEndPlan" type="Int32" not-null="true"/>
 
     <union-subclass name="HelpDesk.Entity.Request, HelpDesk.Entity" table="Request">
-      <many-to-one  foreign-key="Request_Status_FK" name="Status" column="StatusId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" not-null="true"/>
-      <many-to-one  foreign-key="Request_Object_FK" name="Object" column="ObjectId" class="HelpDesk.Entity.RequestObject, HelpDesk.Entity" not-null="true"/>
-      <many-to-one  foreign-key="Request_Employee_FK" name="Employee" column="EmployeeId" class="HelpDesk.Entity.Employee, HelpDesk.Entity" not-null="true"/>
-      <many-to-one  foreign-key="Request_Worker_FK" name="Worker" column="WorkerId" class="HelpDesk.Entity.Worker, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="Request_Status_FK"   name="Status"   fetch="join" column="StatusId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="Request_Object_FK"   name="Object"   fetch="join" column="ObjectId" class="HelpDesk.Entity.RequestObject, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="Request_Employee_FK" name="Employee" fetch="join" column="EmployeeId" class="HelpDesk.Entity.Employee, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="Request_Worker_FK"   name="Worker"   fetch="join" column="WorkerId" class="HelpDesk.Entity.Worker, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="Request_User_FK"     name="User"     fetch="join" column="UserId" class="HelpDesk.Entity.WorkerUser, HelpDesk.Entity"/>
     </union-subclass>
 
     <union-subclass name="HelpDesk.Entity.RequestArch, HelpDesk.Entity" table="RequestArch">
-      <many-to-one  foreign-key="RequestArch_Status_FK" name="Status" column="StatusId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" not-null="true"/>
-      <many-to-one  foreign-key="RequestArch_Object_FK" name="Object" column="ObjectId" class="HelpDesk.Entity.RequestObject, HelpDesk.Entity" not-null="true"/>
-      <many-to-one  foreign-key="RequestArch_Employee_FK" name="Employee" column="EmployeeId" class="HelpDesk.Entity.Employee, HelpDesk.Entity" not-null="true"/>
-      <many-to-one  foreign-key="RequestArch_Worker_FK" name="Worker" column="WorkerId" class="HelpDesk.Entity.Worker, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="RequestArch_Status_FK"   name="Status"   fetch="join" column="StatusId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="RequestArch_Object_FK"   name="Object"   fetch="join" column="ObjectId" class="HelpDesk.Entity.RequestObject, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="RequestArch_Employee_FK" name="Employee" fetch="join" column="EmployeeId" class="HelpDesk.Entity.Employee, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="RequestArch_Worker_FK"   name="Worker"   fetch="join" column="WorkerId" class="HelpDesk.Entity.Worker, HelpDesk.Entity" not-null="true"/>
+      <many-to-one  foreign-key="RequestArch_User_FK"     name="User"     fetch="join" column="UserId" class="HelpDesk.Entity.WorkerUser, HelpDesk.Entity"/>
     </union-subclass>
   </class>
   
