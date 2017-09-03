@@ -1,6 +1,5 @@
 ﻿using HelpDesk.Entity;
 using System;
-using HelpDesk.Common.Helpers;
 
 namespace HelpDesk.DTO
 {

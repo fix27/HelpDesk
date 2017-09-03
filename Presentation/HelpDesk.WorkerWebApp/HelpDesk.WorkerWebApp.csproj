@@ -265,6 +265,7 @@
     <Content Include="App\Main\views\object\list.js" />
     <Content Include="App\Main\views\organization\list.js" />
     <Content Include="App\Main\views\requestHistory\events.js" />
+    <Content Include="App\Main\views\requestHistory\event.js" />
     <Content Include="App\Main\views\requestHistory\list.js" />
     <Content Include="App\Main\views\shared\fileDelete.js" />
     <Content Include="App\Main\views\request\fileUpload.js" />
@@ -378,6 +379,8 @@
     <Content Include="App\Main\views\shared\fileUpload.cshtml" />
     <Content Include="App\Main\views\object\list.cshtml" />
     <Content Include="App\Main\views\requestHistory\events.cshtml" />
+    <Content Include="App\Main\views\requestHistory\event.cshtml" />
+    <Content Include="App\Main\views\requestHistory\eventDeadLine.cshtml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <None Include="Scripts\jquery-2.1.4-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />

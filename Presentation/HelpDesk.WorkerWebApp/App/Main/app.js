@@ -80,6 +80,30 @@
                 }
             }
         })
-    })
-     
+    });
+
+    app.filter('timezone', function () {
+
+        return function (val, offset) {
+            if (val != null && val.length > 16) {
+                return val.substring(0, 16)
+            }
+            return val;
+        };
+    });
+
 })();
+
+function convertUTCDateToLocalDate(date) {
+    if (!date)
+        return null;
+
+    var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;
+}

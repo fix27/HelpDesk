@@ -1,0 +1,36 @@
+﻿@using HelpDesk.WorkerWebApp.Resources
+
+<div class="modal fade" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close({ cancel: true }, 300)" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Resource.Label_Request №{{vm.requestEvent.RequestId}} - {{vm.requestEvent.StatusName}}</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-show="vm.errors.ErrorGeneralMessage.Errors.length > 0 && vm.showAlert == true" class="alert alert-danger alert-dismissable">
+                    <button type="button" ng-click="vm.closeAlert()" class="close" data-hide="alert">&times;</button>
+                    <div ng-repeat="e in vm.errors.ErrorGeneralMessage.Errors">
+                        {{e.ErrorMessage}}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="note">@Resource.Label_Note:</label>
+                    <div>
+                        <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.DescriptionProblem !=null] }}" id="note" ng-model="vm.requestEvent.Note"></textarea>
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.Note.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="vm.save()" ng-disabled="vm.invalidForm()" class="btn {{ {true: 'btn-primary', false: 'btn-success'}[vm.invalidForm() == true] }}">@Resource.Action_Save</button>
+                <button type="button" ng-click="vm.cancel()" class="btn btn-info fa-align-right">@Resource.Action_Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

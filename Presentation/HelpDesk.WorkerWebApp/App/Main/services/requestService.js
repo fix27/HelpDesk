@@ -49,6 +49,7 @@
             };
 
             var _createRequestEvent = function (requestEvent) {
+                requestEvent.NewDeadLineDate = convertUTCDateToLocalDate(requestEvent.NewDeadLineDate);
                 return $http.post(localizedWebAPIService.get("Request/CreateRequestEvent"), JSON.stringify(requestEvent)).then(function (results) {
                     return results;
                 });
@@ -115,7 +116,7 @@
 
             factory.getNewByObjectId    = _getNewByObjectId;
             factory.getNewByRequestId   = _getNewByRequestId;
-            factory.save = _save;
+            factory.save                = _save;
             factory.createRequestEvent  = _createRequestEvent;
             factory.getCountRequiresConfirmation = _getCountRequiresConfirmation;
             factory.getList             = _getList;

@@ -3,9 +3,10 @@
 <td colspan="10">
     <table class="table">
         <colgroup>
-            <col style="width: 33%" />
-            <col style="width: 33%" />
-            <col style="width: 34%" />
+            <col style="width: 25%" />
+            <col style="width: 25%" />
+            <col style="width: 25%" />
+            <col style="width: 25%" />
         </colgroup>
         
         <thead>
@@ -13,6 +14,7 @@
                 <th style="text-align:center; vertical-align: top">@Resource.Label_EventStatusName</th>
                 <th style="text-align:center; vertical-align: top">@Resource.Label_EventDateEvent/@Resource.Label_DateEndPlan</th>
                 <th style="text-align:center; vertical-align: top">@Resource.Label_EventNote</th>
+                <th style="text-align:center; vertical-align: top">@Resource.Label_User</th>
             </tr>
         </thead>
 
@@ -21,6 +23,7 @@
                 <td><span ng-hide="t.DateEnd==true">{{t.StatusName}}</span><span ng-hide="t.DateEnd!=true">@Resource.Label_DateEndPlan</span></td>
                 <td style="text-align:center">{{t.DateEvent | date:'dd.MM.yyyy HH:mm'}}</td>
                 <td>{{t.Note}}</td>
+                <td>{{t.User.Name}} <span ng-hide="t.User.Worker == null">({{t.User.Worker.Name}})</span></td>
             </tr>
         </tbody>
     </table>

@@ -138,9 +138,24 @@
             }
         };
 
-        vm.openNewRequestEventForm = function (requestId, statusRequestId)
+        vm.openNewRequestEventForm = function (requestId, statusRequestId, statusName)
         {
-            alert(requestId + " - " + statusRequestId);
+            modalService.showModal({
+                templateUrl: "/AngularTemplate/RequestEvent?statusRequestId=" + statusRequestId,
+                controller: "app.views.requestHistory.event as vm",
+                inputs: {
+                    params: { requestId: requestId, statusRequestId: statusRequestId, statusName: statusName }
+                }
+            }).then(function (modal) {
+                modal.element.modal();
+                modal.close.then(function (result) {
+
+                    if (result.cancel)
+                        return;
+                    
+                    vm.refresh();
+                });
+            });
         }
 
         vm.refreshFilterStatuses();

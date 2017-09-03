@@ -43,5 +43,7 @@ namespace HelpDesk.DTO
 
         public int OrdGroup { get; set; }
 
+        public WorkerUser User { get; set; }
+
     }
 }

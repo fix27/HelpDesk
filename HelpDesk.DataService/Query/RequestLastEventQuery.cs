@@ -1,5 +1,4 @@
 ﻿using HelpDesk.Data.Query;
-using HelpDesk.DataService.Interface;
 using HelpDesk.DTO;
 using HelpDesk.Entity;
 using System.Collections.Generic;
@@ -20,17 +19,21 @@ namespace HelpDesk.DataService.Query
                 
         public IEnumerable<RequestEventDTO> Run(IQueryable<RequestEvent> events)
         {
-       
+
+            IEnumerable<long> ids = (from z in events
+                                     where requestIds.Contains(z.RequestId) && z.StatusRequest.Id != (long)RawStatusRequestEnum.DateEnd
+                                     group z by z.RequestId into g
+                                     select g.Max(d => d.Id)).ToList();
+
             var q = from e in events
-                    where requestIds.Contains(e.RequestId) && e.StatusRequest.Id != (long)RawStatusRequestEnum.DateEnd
-                    group e by e.RequestId into g
+                    where ids.Contains(e.Id)
                     select new RequestEventDTO
                     {
-                        RequestId = g.Key,
-                        DateEvent = g.Max(t => t.DateEvent),
-                        Note = g.Max(t => t.Note),
-                        Transfer = g.Max(t => t.StatusRequest.Id) == (long)RawStatusRequestEnum.ExtendedDeadLine,
-                        OrdGroup = g.Max(t => t.OrdGroup)
+                        RequestId = e.RequestId,
+                        DateEvent = e.DateEvent,
+                        Note = e.Note,
+                        Transfer = e.StatusRequest.Id == (long)RawStatusRequestEnum.ExtendedDeadLine,
+                        OrdGroup = e.OrdGroup
                     };
 
             return q.ToList();

@@ -120,6 +120,8 @@ namespace HelpDesk.DTO
 
         public IEnumerable<StatusRequest> AllowableStates { get; set; }
 
+        public WorkerUser User { get; set; }
+
         #region только для активных заявок
         /// <summary>
         /// Просрочена

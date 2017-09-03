@@ -54,7 +54,8 @@ namespace HelpDesk.DataService.Query
                           EmployeePhone = r.Employee.Phone,
                           EmployeePostName = r.Employee.Post.Name,
                           EmployeeOrganizationName = r.Employee.Organization.Name,
-                          EmployeeOrganizationAddress = r.Employee.Organization.Address
+                          EmployeeOrganizationAddress = r.Employee.Organization.Address,
+                          User = r.User
                       });
 
             var q = qb;

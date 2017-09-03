@@ -141,9 +141,6 @@
   <data name="Label_Amount" xml:space="preserve">
     <value>Сумма</value>
   </data>
-  <data name="Label_Balance" xml:space="preserve">
-    <value>Баланс</value>
-  </data>
   <data name="Label_ChooseLang" xml:space="preserve">
     <value>Язык</value>
   </data>
@@ -428,5 +425,14 @@
   </data>
   <data name="Label_Worker" xml:space="preserve">
     <value>Исполнитель</value>
+  </data>
+  <data name="Label_Request" xml:space="preserve">
+    <value>Заявка</value>
+  </data>
+  <data name="Label_Note" xml:space="preserve">
+    <value>Примечание</value>
+  </data>
+  <data name="Label_User" xml:space="preserve">
+    <value>Пользователь</value>
   </data>
 </root>

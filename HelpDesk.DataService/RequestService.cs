@@ -383,7 +383,8 @@ namespace HelpDesk.DataService
                      Status     = t.StatusRequest,
                      RequestId  = t.RequestId,
                      Transfer   = t.StatusRequest.Id == (long)RawStatusRequestEnum.ExtendedDeadLine,
-                     StatusRequest = statusRequestMapService.GetEquivalenceByElement(t.StatusRequest.Id)              
+                     StatusRequest = statusRequestMapService.GetEquivalenceByElement(t.StatusRequest.Id),
+                     User = t.User              
                 });
 
             return null;
@@ -481,7 +482,7 @@ namespace HelpDesk.DataService
             RequestEvent dateEndRequestEvent = new RequestEvent()
             {
                 StatusRequest = statusRepository.Get((long)RawStatusRequestEnum.DateEnd),
-                DateEvent = r.DateEndPlan.Value,
+                DateEvent = r.DateEndPlan,
                 DateInsert = currentDateTime,
                 RequestId = r.Id
             };
@@ -516,6 +517,7 @@ namespace HelpDesk.DataService
             RequestEvent dateEndEvent = null;
             if (dto.StatusRequestId == (long)RawStatusRequestEnum.ExtendedDeadLine)
             {
+                StatusRequest dateEndStatusRequest = statusRepository.Get((long)RawStatusRequestEnum.DateEnd);
                 dateEndEvent = new RequestEvent()
                 {
                     RequestId = request.Id,
@@ -523,9 +525,9 @@ namespace HelpDesk.DataService
                     DateEvent = dto.NewDeadLineDate.Value,
                     OrdGroup = lastEvent.OrdGroup + 1,
                     User = user,
-                    StatusRequest = statusRequest,
-                    Note = dto.Note
+                    StatusRequest = dateEndStatusRequest
                 };
+                request.DateEndPlan = dto.NewDeadLineDate.Value;
             }
 
             request.User        = user;

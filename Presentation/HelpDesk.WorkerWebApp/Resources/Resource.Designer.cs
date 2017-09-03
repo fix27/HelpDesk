@@ -313,15 +313,6 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Баланс.
-        /// </summary>
-        public static string Label_Balance {
-            get {
-                return ResourceManager.GetString("Label_Balance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Кабинет.
         /// </summary>
         public static string Label_Cabinet {
@@ -520,6 +511,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Примечание.
+        /// </summary>
+        public static string Label_Note {
+            get {
+                return ResourceManager.GetString("Label_Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Объект заявки.
         /// </summary>
         public static string Label_ObjectName {
@@ -601,6 +601,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Заявка.
+        /// </summary>
+        public static string Label_Request {
+            get {
+                return ResourceManager.GetString("Label_Request", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата подачи.
         /// </summary>
         public static string Label_RequestDate {
@@ -660,6 +669,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         public static string Label_ToWhom {
             get {
                 return ResourceManager.GetString("Label_ToWhom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пользователь.
+        /// </summary>
+        public static string Label_User {
+            get {
+                return ResourceManager.GetString("Label_User", resourceCulture);
             }
         }
         

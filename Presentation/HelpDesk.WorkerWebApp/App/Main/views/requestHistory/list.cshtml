@@ -175,7 +175,7 @@
                 <td rowspan="2" style="text-align:center; background-color: {{t.StatusBackColor}}">
                     <div>{{t.Status.Name}}</div>
                     <div>{{t.LastEvent.DateEvent | date:'dd.MM.yyyy HH:mm'}}</div>
-                    <div style="color: red" ng-show="t.LastEvent.Transfer == true">@Resource.Title_Transfer</div>
+                    <div>{{t.User.Name}}</div>
                 </td>
                 <td rowspan="2">
                     <div style="padding-bottom:5px;">{{t.EmployeeName}}, {{t.EmployeePostName}}</div>
@@ -207,9 +207,9 @@
                 </td> 
             </tr>
             <tr>
-                <td colspan="4">
-                    <span style="margin-right:10px; margin-left:10px; padding:3px; text-align: center; background-color: {{s.BackColor}}" ng-repeat="s in t.AllowableStates">
-                        <a ng-click="vm.openNewRequestEventForm(t.Id, s.Id)" href="" style="text-decoration:underline">{{s.ActionName}}</a>
+                <td style="text-align:center" colspan="4">
+                    <span style="margin-right:10px; margin-left:10px; padding:3px; text-align: center; border: 1px dashed {{s.BackColor}}" ng-repeat="s in t.AllowableStates">
+                        <a ng-click="vm.openNewRequestEventForm(t.Id, s.Id, s.Name)" href="" style="text-decoration:underline">{{s.ActionName}}</a>
                     </span>
                 </td>
             </tr>

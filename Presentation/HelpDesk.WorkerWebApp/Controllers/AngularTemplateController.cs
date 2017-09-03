@@ -91,10 +91,12 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [HttpGet]
         public ActionResult NewRequest()
         {
-            long userId = User.Identity.GetUserId<long>();
-            
             return PartialView("~/App/Main/views/request/request.cshtml");
         }
+
+        
+        
+
         #endregion Request
 
         #region RequestHistory
@@ -108,6 +110,15 @@ namespace HelpDesk.WorkerWebApp.Controllers
         public ActionResult RequestEvents()
         {
             return PartialView("~/App/Main/views/requestHistory/events.cshtml");
+        }
+
+        [HttpGet]
+        public ActionResult RequestEvent(long statusRequestId)
+        {
+            if (statusRequestId == (long)RawStatusRequestEnum.ExtendedDeadLine)
+                return PartialView("~/App/Main/views/requestHistory/eventDeadLine.cshtml");
+
+            return PartialView("~/App/Main/views/requestHistory/event.cshtml");
         }
         #endregion RequestHistory
 

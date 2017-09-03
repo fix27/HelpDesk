@@ -38,7 +38,7 @@ namespace HelpDesk.Entity
         /// <summary>
         /// Плановая дата окончания работ по заявке 
         /// </summary>
-        public virtual DateTime? DateEndPlan { get; set; }
+        public virtual DateTime DateEndPlan { get; set; }
 
         /// <summary>
         /// Фактическая дата окончания работ по заявке (проставляется при подтверждении закрытия заявки как текущая дата)
