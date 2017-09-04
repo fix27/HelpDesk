@@ -69,8 +69,7 @@ namespace HelpDesk.Entity
         /// Исполнитель
         /// </summary>
         public virtual Worker Worker { get; set; }
-
-        public virtual bool Archive { get; }
+                
 
     }
 }

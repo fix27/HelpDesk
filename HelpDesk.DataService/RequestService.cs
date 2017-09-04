@@ -207,6 +207,8 @@ namespace HelpDesk.DataService
 
                 IEnumerable<RequestDTO> listActive = getListActive(ref pageInfoActive);
                 IEnumerable<RequestDTO> listArchive = getListArchive(ref pageInfoArchive);
+                foreach (RequestDTO r in listArchive)
+                    r.Archive = true;
 
                 pageInfo.Count = pageInfoActive.Count + pageInfoArchive.Count;
                 pageInfo.TotalCount = pageInfoActive.TotalCount + pageInfoArchive.TotalCount;
@@ -304,7 +306,8 @@ namespace HelpDesk.DataService
             IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState();
 
             foreach (RequestDTO r in list)
-                r.AllowableStates = graphState[r.Status.Id];
+                if(graphState.ContainsKey(r.Status.Id))
+                    r.AllowableStates = graphState[r.Status.Id];
             #endregion AllowableStates
             
             return list;

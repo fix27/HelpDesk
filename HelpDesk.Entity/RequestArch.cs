@@ -5,6 +5,6 @@
     /// </summary>
     public class RequestArch : BaseRequest
     {
-        public override bool Archive { get { return true; } }
+        
     }
 }
