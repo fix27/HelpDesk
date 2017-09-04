@@ -222,4 +222,7 @@
   <data name="MaxFileNameConstraintMsg" xml:space="preserve">
     <value>Имя файла не может превышать {0} символов [{1}]</value>
   </data>
+  <data name="NewDeadLineDateConstraintMsg" xml:space="preserve">
+    <value>Новая дата окончания {0} не может быть раньше текущей даты {1}</value>
+  </data>
 </root>

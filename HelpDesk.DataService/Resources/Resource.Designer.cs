@@ -223,6 +223,15 @@ namespace HelpDesk.DataService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Новая дата окончания {0} не может быть раньше текущей даты {1}.
+        /// </summary>
+        internal static string NewDeadLineDateConstraintMsg {
+            get {
+                return ResourceManager.GetString("NewDeadLineDateConstraintMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to В продолжение заявки {0}: {1}.
         /// </summary>
         internal static string NewRequestByRequestTemplate {

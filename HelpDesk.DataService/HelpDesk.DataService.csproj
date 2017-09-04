@@ -69,10 +69,12 @@
     <Compile Include="AccessWorkerUserExpressionService.cs" />
     <Compile Include="BaseDataService.cs" />
     <Compile Include="BaseService.cs" />
+    <Compile Include="Command\TransferRequestToArchiveCommand.cs" />
     <Compile Include="Interface\IAccessWorkerUserExpressionService.cs" />
     <Compile Include="Interface\IAccessWorkerUserService.cs" />
     <Compile Include="Interface\IWorkerUserService.cs" />
     <Compile Include="AccessWorkerUserService.cs" />
+    <Compile Include="Query\ArchiveYearQuery.cs" />
     <Compile Include="Query\RequestQuery.cs" />
     <Compile Include="WorkerUserService.cs" />
     <Compile Include="Command\DeleteRequestFileCommand.cs" />
@@ -103,7 +105,7 @@
     <Compile Include="Interface\ICabinetUserService.cs" />
     <Compile Include="Query\AllowableObjectTypeQuery.cs" />
     <Compile Include="Query\AllowableObjectISQuery.cs" />
-    <Compile Include="Query\ArchiveYearQuery.cs" />
+    <Compile Include="Query\EmployeeArchiveYearQuery.cs" />
     <Compile Include="Query\RequestLastEventQuery.cs" />
     <Compile Include="Query\EmployeeRequestQuery.cs" />
     <Compile Include="RequestFileService.cs" />

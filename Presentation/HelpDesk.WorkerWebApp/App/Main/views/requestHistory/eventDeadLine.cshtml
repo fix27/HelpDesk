@@ -15,15 +15,20 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="width: 200px">
+                <div class="form-group">
                     <label for="newDeadLineDate">@Resource.Label_DateEndPlan</label>
-                    <input class="form-control" value="{{vm.requestEvent.NewDeadLineDate | date | timezone: 'dd.MM.yyyy HH:mm'}}" ng-model="vm.requestEvent.NewDeadLineDate" id="newDeadLineDate" type="datetime-local">
+                    <div>
+                        <input style="width: 150px" value="{{vm.requestEvent.NewDeadLineDate | timezone | date}}" class="form-control {{ {true: 'error', false: ''}[vm.errors.NewDeadLineDate !=null] }}" ng-model="vm.requestEvent.NewDeadLineDate" id="newDeadLineDate" type="date">
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.NewDeadLineDate.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="note">@Resource.Label_Note:</label>
                     <div>
-                        <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.DescriptionProblem !=null] }}" id="note" ng-model="vm.requestEvent.Note"></textarea>
+                        <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.Note !=null] }}" id="note" ng-model="vm.requestEvent.Note"></textarea>
                         <ul>
                             <li class="error" data-ng-repeat="error in vm.errors.Note.Errors">{{error.ErrorMessage}}</li>
                         </ul>

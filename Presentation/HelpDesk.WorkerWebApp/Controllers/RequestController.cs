@@ -9,6 +9,8 @@ using HelpDesk.Common;
 using System.Linq;
 using HelpDesk.Entity;
 using HelpDesk.DTO.Parameters;
+using HelpDesk.WorkerWebApp.Models;
+using System;
 
 namespace HelpDesk.WorkerWebApp.Controllers
 {
@@ -159,8 +161,16 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/CreateRequestEvent")]
         [HttpPost]
-        public IHttpActionResult CreateRequestEvent(RequestEventParameter dto)
+        public IHttpActionResult CreateRequestEvent(RequestEventParameterModel param)
         {
+            RequestEventParameter dto = new RequestEventParameter
+            {
+                 Note = param.Note,
+                 RequestId = param.RequestId,
+                 StatusRequestId = param.StatusRequestId,
+                 NewDeadLineDate = String.IsNullOrEmpty(param.NewDeadLineDate) ? (DateTime?)null: Convert.ToDateTime(param.NewDeadLineDate)
+            };
+
             return execute(delegate ()
             {
                 long userId = User.Identity.GetUserId<long>();

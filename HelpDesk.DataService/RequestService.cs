@@ -166,10 +166,11 @@ namespace HelpDesk.DataService
 
         private IDictionary<long, IEnumerable<StatusRequest>> getGraphState()
         {
-            IEnumerable<StatusRequest> statuses = statusRepository.GetList(s => s.AllowableStates != null).ToList();
+            IEnumerable<StatusRequest> statuses = statusRepository.GetList().ToList();
             IDictionary<long, IEnumerable<StatusRequest>> graphState = new Dictionary<long, IEnumerable<StatusRequest>>();
             foreach (StatusRequest status in statuses)
-                graphState[status.Id] = statuses.Where(s => status.AllowableStates.ToEnumerable<long>().Contains(s.Id));
+                if(status.AllowableStates!=null)
+                    graphState[status.Id] = statuses.Where(s => status.AllowableStates.ToEnumerable<long>().Contains(s.Id));
 
             return graphState;
         }
@@ -344,9 +345,17 @@ namespace HelpDesk.DataService
             return requestRepository.Count(t => t.Employee.Id == employeeId && t.Status.Id == (long)RawStatusRequestEnum.Closing);
         }
 
-        public IEnumerable<Year> GetListArchiveYear(long employeeId)
+        public IEnumerable<Year> GetListEmployeeArchiveYear(long employeeId)
         {
-            IEnumerable<Year> list = queryRunner.Run(new ArchiveYearQuery(employeeId));
+            IEnumerable<Year> list = queryRunner.Run(new EmployeeArchiveYearQuery(employeeId));
+            return list;
+        }
+
+        public IEnumerable<Year> GetListArchiveYear(long userId)
+        {
+            Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
+                .GetAccessPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+            IEnumerable<Year> list = queryRunner.Run(new ArchiveYearQuery(accessPredicate));
             return list;
         }
 
@@ -498,11 +507,30 @@ namespace HelpDesk.DataService
         public void CreateRequestEvent(long userId, RequestEventParameter dto)
         {
             DateTime currentDate = dateTimeService.GetCurrent();
+            Request request = requestRepository.Get(dto.RequestId);
+
+            if(dto.StatusRequestId == (long)RawStatusRequestEnum.ExtendedDeadLine && !dto.NewDeadLineDate.HasValue)
+                setErrorMsg("NewDeadLineDate", Resource.EmptyConstraintMsg);
+
+            if (dto.NewDeadLineDate.HasValue && dto.NewDeadLineDate.Value.Date <= currentDate.Date)
+                setErrorMsg("NewDeadLineDate", String.Format(Resource.NewDeadLineDateConstraintMsg, 
+                    dto.NewDeadLineDate.Value.Date.ToShortDateString(), request.DateEndPlan.Date.ToShortDateString()));
+
+            checkStringConstraint("Note", dto.Note,
+                    (dto.StatusRequestId == (long)RawStatusRequestEnum.Rejected ||
+                     dto.StatusRequestId == (long)RawStatusRequestEnum.RejectedAfterAccepted ||
+                     dto.StatusRequestId == (long)RawStatusRequestEnum.NotApprovedComplete),
+                    2000, 5);
+
+            if (errorMessages.Count > 0)
+                throw new DataServiceException(Resource.GeneralConstraintMsg, errorMessages);
+
+
             IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState();
             StatusRequest statusRequest = statusRepository.Get(dto.StatusRequestId);
             WorkerUser user = workerUserRepository.Get(userId);
             RequestEventDTO lastEvent = queryRunner.Run(new RequestLastEventQuery(new long[] { dto.RequestId })).FirstOrDefault();
-            Request request = requestRepository.Get(dto.RequestId);
+            
             RequestEvent newEvent = new RequestEvent()
             {
                  RequestId  = request.Id,
@@ -528,18 +556,40 @@ namespace HelpDesk.DataService
                     StatusRequest = dateEndStatusRequest
                 };
                 request.DateEndPlan = dto.NewDeadLineDate.Value;
+                requestEventRepository.Save(dateEndEvent);
             }
-
+            else if (dto.StatusRequestId == (long)RawStatusRequestEnum.ExtendedConfirmation)
+            {
+                StatusRequest dateEndStatusRequest = statusRepository.Get((long)RawStatusRequestEnum.DateEnd);
+                dateEndEvent = new RequestEvent()
+                {
+                    RequestId = request.Id,
+                    DateInsert = currentDate,
+                    DateEvent = request.DateEndPlan.AddDays(1),
+                    OrdGroup = lastEvent.OrdGroup + 1,
+                    User = user,
+                    StatusRequest = dateEndStatusRequest
+                };
+                request.DateEndPlan = dateEndEvent.DateEvent;
+                requestEventRepository.Save(dateEndEvent);
+            }
+            
             request.User        = user;
             request.DateUpdate  = currentDate;
             request.Status      = statusRequest;
-
             requestRepository.Save(request);
             requestEventRepository.Save(newEvent);
-            if (dateEndEvent != null)
-                requestEventRepository.Save(dateEndEvent);
 
             repository.SaveChanges();
+
+            //перенос заявки в архив
+            if (dto.StatusRequestId == (long)RawStatusRequestEnum.ApprovedComplete ||
+                dto.StatusRequestId == (long)RawStatusRequestEnum.ApprovedRejected ||
+                dto.StatusRequestId == (long)RawStatusRequestEnum.Passive)
+            {
+                commandRunner.Run(new TransferRequestToArchiveCommand(request.Id, currentDate));
+            }
+            
         }
     }
 }

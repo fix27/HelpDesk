@@ -98,7 +98,7 @@ namespace HelpDesk.CabinetWebApp.Controllers
                 RequestFilter filter = new RequestFilter()
                 {
                     ArchiveMonths = dateTimeService.GetListMonth(),
-                    ArchiveYears = requestService.GetListArchiveYear(userId).ToList()
+                    ArchiveYears = requestService.GetListEmployeeArchiveYear(userId).ToList()
                 };
 
                 filter.ArchiveYears.Insert(0, new Year() { Ord = 0, Name = "Все" });

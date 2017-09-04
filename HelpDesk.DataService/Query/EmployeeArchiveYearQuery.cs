@@ -1,29 +1,28 @@
 ﻿using HelpDesk.Data.Query;
 using HelpDesk.DTO;
 using HelpDesk.Entity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace HelpDesk.DataService.Query
 {
     /// <summary>
-    /// Запрос: годы подачи заявок в архиве
+    /// Запрос: годы подачи заявок пользователя в архиве
     /// </summary>
-    public class ArchiveYearQuery : IQuery<Year, RequestArch>
+    public class EmployeeArchiveYearQuery : IQuery<Year, RequestArch>
     {
-        private readonly Expression<Func<BaseRequest, bool>> accessPredicate;
+        private readonly long employeeId;
 
-        public ArchiveYearQuery(Expression<Func<BaseRequest, bool>> accessPredicate)
+        public EmployeeArchiveYearQuery(long employeeId)
         {
-            this.accessPredicate = accessPredicate;
+            this.employeeId = employeeId;
         }
                 
         public IEnumerable<Year> Run(IQueryable<RequestArch> requests)
         {
        
-            var q = from e in requests.Where(accessPredicate)
+            var q = from e in requests
+                    where e.Employee.Id == employeeId
                     group e by e.DateInsert.Year into g
                     select new Year
                     {

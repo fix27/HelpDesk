@@ -24,7 +24,8 @@ namespace HelpDesk.DataService.Interface
 
         int GetCountRequiresConfirmation(long employeeId);
 
-        IEnumerable<Year> GetListArchiveYear(long employeeId);
+        IEnumerable<Year> GetListEmployeeArchiveYear(long employeeId);
+        IEnumerable<Year> GetListArchiveYear(long userId);
 
         IEnumerable<RequestEventDTO> GetListRequestEvent(long requestId);
 

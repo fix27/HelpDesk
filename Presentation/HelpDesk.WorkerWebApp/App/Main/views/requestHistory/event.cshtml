@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="note">@Resource.Label_Note:</label>
                     <div>
-                        <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.DescriptionProblem !=null] }}" id="note" ng-model="vm.requestEvent.Note"></textarea>
+                        <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.Note !=null] }}" id="note" ng-model="vm.requestEvent.Note"></textarea>
                         <ul>
                             <li class="error" data-ng-repeat="error in vm.errors.Note.Errors">{{error.ErrorMessage}}</li>
                         </ul>
