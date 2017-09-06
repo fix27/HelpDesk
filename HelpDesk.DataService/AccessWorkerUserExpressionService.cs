@@ -1,5 +1,6 @@
 ﻿using HelpDesk.DataService.Interface;
 using HelpDesk.Entity;
+using HelpDesk.Common.Helpers;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
@@ -12,27 +13,48 @@ namespace HelpDesk.DataService
     /// </summary>
     public class AccessWorkerUserExpressionService : IAccessWorkerUserExpressionService
     {
+        
         public Expression<Func<BaseRequest, bool>> GetAccessPredicate(IEnumerable<AccessWorkerUser> list)
         {
+            Expression<Func<BaseRequest, bool>> where = t => true;
+
             if (list == null || !list.Any())
-                return _ => true;
+                return where;
 
             IDictionary<TypeAccessWorkerUserEnum, IEnumerable<AccessWorkerUser>> dictIds = list
-                .Where(t => t.Type != TypeAccessWorkerUserEnum.OrganizationAddress)
                 .GroupBy(t => t.Type)
                 .Select(t => new { Type = t.Key, AccessList = t.Where(d => d.Type == t.Key) })
                 .ToDictionary(t => t.Type, t => t.AccessList);
 
-            var objectIds       = dictIds.ContainsKey(TypeAccessWorkerUserEnum.Object)      ? dictIds[TypeAccessWorkerUserEnum.Object].Select(x => x.Object.Id): Array.Empty<long>();
-            var objectTypeIds   = dictIds.ContainsKey(TypeAccessWorkerUserEnum.ObjectType)  ?  dictIds[TypeAccessWorkerUserEnum.ObjectType].Select(x => x.ObjectType.Id): Array.Empty<long>(); 
-            var organizationIds = dictIds.ContainsKey(TypeAccessWorkerUserEnum.Organization) ? dictIds[TypeAccessWorkerUserEnum.Organization].Select(x => x.Organization.Id) : Array.Empty<long>();
-            var workerIds       = dictIds.ContainsKey(TypeAccessWorkerUserEnum.Worker)      ? dictIds[TypeAccessWorkerUserEnum.Worker].Select(x => x.Worker.Id) : Array.Empty<long>();
+            var objectIds       = dictIds.ContainsKey(TypeAccessWorkerUserEnum.Object)          ? dictIds[TypeAccessWorkerUserEnum.Object].Select(x => x.Object.Id): null;
+            var objectTypeIds   = dictIds.ContainsKey(TypeAccessWorkerUserEnum.ObjectType)      ?  dictIds[TypeAccessWorkerUserEnum.ObjectType].Select(x => x.ObjectType.Id): null;
+            var organizationIds = dictIds.ContainsKey(TypeAccessWorkerUserEnum.Organization)    ? dictIds[TypeAccessWorkerUserEnum.Organization].Select(x => x.Organization.Id) : null;
+            var workerIds       = dictIds.ContainsKey(TypeAccessWorkerUserEnum.Worker)          ? dictIds[TypeAccessWorkerUserEnum.Worker].Select(x => x.Worker.Id) : null;
+            var organizationAddresses = dictIds.ContainsKey(TypeAccessWorkerUserEnum.OrganizationAddress) ? dictIds[TypeAccessWorkerUserEnum.OrganizationAddress].Select(x => x.OrganizationAddress) : null;
+            
+            if(objectIds != null)
+                where = where.AndAlso(t => objectIds.Contains(t.Object.Id));
 
-            return s => objectIds.Contains(s.Object.Id) &&
-                objectTypeIds.Contains(s.Object.ObjectType.Id) &&
-                organizationIds.Contains(s.Employee.Organization.Id) &&
-                workerIds.Contains(s.Worker.Id); 
+            if (objectTypeIds != null)
+                where = where.AndAlso(t => objectTypeIds.Contains(t.Object.ObjectType.Id));
 
+            if (organizationIds != null)
+                where = where.AndAlso(t => organizationIds.Contains(t.Employee.Organization.Id));
+
+            if (workerIds != null)
+                where = where.AndAlso(t => workerIds.Contains(t.Worker.Id));
+                        
+            if (organizationAddresses != null)
+            {
+                Expression<Func<BaseRequest, bool>> organizationAddressesExp = (t => true);
+                foreach (string a in organizationAddresses)
+                    organizationAddressesExp = organizationAddressesExp
+                        .OrElse(t => t.Employee.Organization.Address.ToUpper().Contains(a.ToUpper()));
+
+                where = where.AndAlso(organizationAddressesExp);
+            }
+           
+            return where;
         }
     }
 }
