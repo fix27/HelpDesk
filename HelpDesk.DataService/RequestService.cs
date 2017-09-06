@@ -164,13 +164,17 @@ namespace HelpDesk.DataService
             };
         }
 
-        private IDictionary<long, IEnumerable<StatusRequest>> getGraphState()
+        private IDictionary<long, IEnumerable<StatusRequest>> getGraphState(IEnumerable<long> allowableUserStates)
         {
             IEnumerable<StatusRequest> statuses = statusRepository.GetList().ToList();
             IDictionary<long, IEnumerable<StatusRequest>> graphState = new Dictionary<long, IEnumerable<StatusRequest>>();
             foreach (StatusRequest status in statuses)
-                if(status.AllowableStates!=null)
+                if (status.AllowableStates != null)
+                {
                     graphState[status.Id] = statuses.Where(s => status.AllowableStates.ToEnumerable<long>().Contains(s.Id));
+                    graphState[status.Id] = graphState[status.Id].Where(t => allowableUserStates.Contains(t.Id));
+                }
+                    
 
             return graphState;
         }
@@ -303,8 +307,10 @@ namespace HelpDesk.DataService
                 return list;
 
             #region AllowableStates
-            IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState();
-
+            WorkerUser user = workerUserRepository.Get(userId);
+            IEnumerable<long> allowableUserStates = user.UserType.AllowableStates.ToEnumerable<long>();
+            IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState(allowableUserStates);
+            
             foreach (RequestDTO r in list)
                 if(graphState.ContainsKey(r.Status.Id))
                     r.AllowableStates = graphState[r.Status.Id];
@@ -529,9 +535,11 @@ namespace HelpDesk.DataService
                 throw new DataServiceException(Resource.GeneralConstraintMsg, errorMessages);
 
 
-            IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState();
-            StatusRequest statusRequest = statusRepository.Get(dto.StatusRequestId);
             WorkerUser user = workerUserRepository.Get(userId);
+            IEnumerable<long> allowableUserStates = user.UserType.AllowableStates.ToEnumerable<long>();
+            IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState(allowableUserStates);
+
+            StatusRequest statusRequest = statusRepository.Get(dto.StatusRequestId);
             RequestEventDTO lastEvent = queryRunner.Run(new RequestLastEventQuery(new long[] { dto.RequestId })).FirstOrDefault();
             
             RequestEvent newEvent = new RequestEvent()
