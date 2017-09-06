@@ -880,6 +880,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Кол-во переносов.
+        /// </summary>
+        public static string Text_CountCorrectionDateEndPlan {
+            get {
+                return ResourceManager.GetString("Text_CountCorrectionDateEndPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Количество заявок, требующих подтверждения готовности.
         /// </summary>
         public static string Text_CountRequestRequiresConfirmation {

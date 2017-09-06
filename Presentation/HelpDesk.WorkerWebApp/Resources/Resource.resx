@@ -435,4 +435,7 @@
   <data name="Label_User" xml:space="preserve">
     <value>Пользователь</value>
   </data>
+  <data name="Text_CountCorrectionDateEndPlan" xml:space="preserve">
+    <value>Кол-во переносов</value>
+  </data>
 </root>

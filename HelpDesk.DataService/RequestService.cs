@@ -566,6 +566,7 @@ namespace HelpDesk.DataService
                     User = user,
                     StatusRequest = dateEndStatusRequest
                 };
+                request.CountCorrectionDateEndPlan++;
                 request.DateEndPlan = dto.NewDeadLineDate.Value;
                 requestEventRepository.Save(dateEndEvent);
             }

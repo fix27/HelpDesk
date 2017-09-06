@@ -14,9 +14,7 @@
             localizedMenu = localizedMenuService.get();
             vm.menu.items = [
                 { displayName: localizedMenu.request,           name: 'request' },
-                { displayName: localizedMenu.requestHistory,    name: 'requestHistory' },
-                { displayName: localizedMenu.employeeObject, name: 'employeeObject' },
-                { displayName: localizedMenu.employee,          name: 'employee' }
+                { displayName: localizedMenu.requestHistory,    name: 'requestHistory' }
             ];
             
             vm.isActive = function(item) {
