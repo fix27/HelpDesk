@@ -15,7 +15,10 @@
             $state.go("request", { objectId: null, requestId: null, mode: null });
         }
 
-        
+        vm.createRequestByRequest = function (requestId) {
+            $state.go("request", { requestId: requestId, objectId: null, mode: 'create' });
+        }
+
         vm.edit = function (requestId) {
             $state.go("request", { requestId: requestId, objectId: null, mode: 'edit' });
         }

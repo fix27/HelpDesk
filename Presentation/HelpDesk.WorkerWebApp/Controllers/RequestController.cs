@@ -153,7 +153,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return execute(delegate ()
             {
                 long userId = User.Identity.GetUserId<long>();
-                dto.EmployeeId = userId;
+                dto.UserId = userId;
                 long requestId = requestService.Save(dto);
                 result = Json(new { success = true, requestId = requestId });
             });

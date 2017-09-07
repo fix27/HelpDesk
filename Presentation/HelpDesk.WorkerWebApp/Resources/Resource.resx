@@ -438,4 +438,7 @@
   <data name="Text_CountCorrectionDateEndPlan" xml:space="preserve">
     <value>Кол-во переносов</value>
   </data>
+  <data name="Placeholder_EmployeeName" xml:space="preserve">
+    <value>Выберите сотрудника</value>
+  </data>
 </root>

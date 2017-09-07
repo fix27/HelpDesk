@@ -78,7 +78,34 @@ namespace HelpDesk.DataService
 
             return dto;
         }
-        
+
+        public IEnumerable<EmployeeDTO> GetList(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+                return null;
+
+            name = name.ToUpper();
+
+            return employeeRepository
+                .GetList(e => e.FM.ToUpper().Contains(name) || 
+                    e.Phone == name || 
+                    e.Organization.Name.ToUpper().Contains(name))
+                .Select(e => new EmployeeDTO()
+                {
+                    Id = e.Id,
+                    FM = e.FM,
+                    IM = e.IM,
+                    OT = e.OT,
+                    Cabinet = e.Cabinet,
+                    Phone = e.Phone,
+                    PostName = e.Post != null ? e.Post.Name : null,
+                    Subscribe = e.Subscribe,
+                    OrganizationId = e.Organization.Id,
+                    OrganizationName = e.Organization.Name,
+                    OrganizationAddress = e.Organization.Address
+                })
+                .ToList();
+        }
 
         [Transaction]
         public void Save(EmployeeDTO dto)

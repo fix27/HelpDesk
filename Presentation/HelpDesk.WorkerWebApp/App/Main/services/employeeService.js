@@ -24,6 +24,12 @@
                 });
             };
 
+            var _getListEmployeeByName = function (name) {
+                return $http.get(localizedWebAPIService.get("Employee/GetListEmployee?name=" + name)).then(function (results) {
+                    return results;
+                });
+            };
+
                        
             var _save = function (employee) {
                 return $http.post(localizedWebAPIService.get("Employee/Save"), JSON.stringify(employee)).then(function (results) {
@@ -36,7 +42,8 @@
             factory.get         = _get;
             factory.getListPost = _getListPost;
             factory.getListOrganization     = _getListOrganization;
-            
+            factory.getListEmployeeByName   = _getListEmployeeByName;
+
             return factory;
 
         }

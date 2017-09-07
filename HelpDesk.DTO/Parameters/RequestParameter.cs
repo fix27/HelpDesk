@@ -18,6 +18,11 @@ namespace HelpDesk.DTO.Parameters
         public long EmployeeId { get; set; }
 
         /// <summary>
+        /// Id пользователя, создающего/редактирующего заявку. Если заявка создается из личного кабинета - UserId = 0
+        /// </summary>
+        public long UserId { get; set; }
+
+        /// <summary>
         /// Id объекта заявки
         /// </summary>
         public long ObjectId { get; set; }
@@ -26,6 +31,11 @@ namespace HelpDesk.DTO.Parameters
         /// Наименование объекта заявки
         /// </summary>
         public string ObjectName { get; set; }
+
+        /// <summary>
+        /// Информация о сотруднике
+        /// </summary>
+        public string EmployeeInfo { get; set; }
 
         /// <summary>
         /// Описание проблемы

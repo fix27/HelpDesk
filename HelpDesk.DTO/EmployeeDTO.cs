@@ -1,4 +1,6 @@
-﻿namespace HelpDesk.DTO
+﻿using System;
+
+namespace HelpDesk.DTO
 {
     /// <summary>
     /// Личные данные пользователя
@@ -47,6 +49,18 @@
         /// Подписан на E-mail рассылку
         /// </summary>
         public bool Subscribe { get; set; }
+
+        public static string GetEmployeeInfo(string fm, string im, string ot, string phone, string organizationName)
+        {
+            return String.Format("{0} {1} {2}, {3}, {4}", fm, im, ot, phone, organizationName);
+        }
+        public string EmployeeInfo
+        {
+            get
+            {
+                return GetEmployeeInfo(FM, IM, OT, Phone, OrganizationName);
+            }
+        }
 
     }
 }

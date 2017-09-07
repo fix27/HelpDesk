@@ -18,6 +18,26 @@
     <div style="width:100%; text-align:right"><span ng-show="vm.request.Id == 0">@Resource.Message_NewRequestCreate</span><span ng-show="vm.request.Id > 0">@Resource.Message_RequestEdit <span style="font-size:14pt">№ {{vm.request.Id}}</span></span></div>
 
     <div class="form-group">
+        <label for="objectName">@Resource.Label_Employee:</label>
+        <div ng-show="vm.newRequestId == 0 && vm.request.Id == 0" class="input-group">
+            <input id="employeeName"
+                   class="form-control {{ {true: 'error', false: ''}[vm.errors.Employee !=null] }}"
+                   autocomplete="true"
+                   select="vm.selectEmployee"
+                   search="vm.getListEmployee"
+                   ng-model="vm.request.EmployeeInfo"
+                   placeholder="@String.Format(Resource.Placeholder_EmployeeName, "")...">
+            <span class="input-group-btn">
+                <button ng-click="vm.openEmployeeDictionary()" class="btn btn-secondary" type="button">...</button>
+            </span>
+        </div>
+        <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.Employee}}</div>
+        <ul>
+            <li class="error" data-ng-repeat="error in vm.errors.Employee.Errors">{{error.ErrorMessage}}</li>
+        </ul>
+    </div>
+
+    <div class="form-group">
         <label for="objectName">@Resource.Label_ObjectName:</label>
         <div ng-show="vm.newRequestId == 0 && vm.request.Id == 0" class="input-group">
             <input id="objectName"

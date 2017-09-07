@@ -33,12 +33,14 @@
 
             
 
-            var _getListEmployeeObjectByName = function (objectName) {
+            var _getListEmployeeObjectByName = function (objectName, employeeId) {
 
                 var url = "EmployeeObject/GetListEmployeeObjectByName";
+                url += "?employeeId=" + employeeId;
                 if (objectName)
-                    url += "?objectName=" + objectName;
-                
+                    url += "&objectName=" + objectName;
+                                   
+
                 return $http.get(localizedWebAPIService.get(url))
                     .then(function (results) {
                         return results;

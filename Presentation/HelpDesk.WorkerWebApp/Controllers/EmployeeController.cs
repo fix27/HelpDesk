@@ -85,6 +85,18 @@ namespace HelpDesk.WorkerWebApp.Controllers
             });
         }
 
+        [Route("api/{lang}/Employee/GetListEmployee")]
+        [HttpGet]
+        [ResponseType(typeof(IEnumerable<EmployeeDTO>))]
+        public IHttpActionResult GetListEmployee(string name)
+        {
+            return execute(delegate ()
+            {
+                IEnumerable<EmployeeDTO> list = employeeService.GetList(name);
+                result = Json(new { success = true, data = list });
+            });
+        }
+
         
 
         [Route("api/{lang}/Employee/GetOrganizationTree")]

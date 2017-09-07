@@ -208,6 +208,7 @@
                     <span ng-show="t.Archive != true" ng-click="vm.delete(t.Id)" style="color: lightgrey; cursor: pointer; font-size: 14pt" class="glyphicon glyphicon-remove-circle"></span>
                     <span ng-show="t.Archive != true" ng-click="vm.edit(t.Id)" title="@Resource.Title_EditRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-pencil"></span>
                     <span ng-show="t.Archive == true" style="color:green; font-size: 18pt">A</span>
+                    <span ng-click="vm.createRequestByRequest(t.Id)" title="@Resource.Title_CreateRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-send"></span>
                 </td> 
             </tr>
             <tr>

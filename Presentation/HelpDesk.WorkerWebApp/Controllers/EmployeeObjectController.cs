@@ -66,10 +66,9 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [Route("api/{lang}/EmployeeObject/GetEmployeeObjectTree")]
         [HttpGet]
         [ResponseType(typeof(IList<jstree>))]
-        public IEnumerable GetEmployeeObjectTree(long? parentId)
+        public IEnumerable GetEmployeeObjectTree(long employeeId, long? parentId)
         {
-            long userId = User.Identity.GetUserId<long>();
-            IEnumerable<EmployeeObjectDTO> list = employeeObjectService.GetListEmployeeObject(userId);
+            IEnumerable<EmployeeObjectDTO> list = employeeObjectService.GetListEmployeeObject(employeeId);
             List<jstree> items = new List<jstree>();
 
             if (!parentId.HasValue)
@@ -132,12 +131,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [Route("api/{lang}/EmployeeObject/GetListEmployeeObjectByName")]
         [HttpGet]
         [ResponseType(typeof(IEnumerable<EmployeeObjectDTO>))]
-        public IHttpActionResult GetListEmployeeObjectByName(string objectName = null)
+        public IHttpActionResult GetListEmployeeObjectByName(long employeeId, string objectName = null)
         {
             return execute(delegate ()
             {
-                long userId = User.Identity.GetUserId<long>();
-                IEnumerable<EmployeeObjectDTO> list = employeeObjectService.GetListEmployeeObject(userId, objectName);
+                IEnumerable<EmployeeObjectDTO> list = employeeObjectService.GetListEmployeeObject(employeeId, objectName);
                 result = Json(new { success = true, data = list });
             });
         }
@@ -145,12 +143,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [Route("api/{lang}/EmployeeObject/GetListAllowableObjectIS")]
         [HttpGet]
         [ResponseType(typeof(IEnumerable<RequestObjectISDTO>))]
-        public IHttpActionResult GetListAllowableObjectIS(string name = null)
+        public IHttpActionResult GetListAllowableObjectIS(long employeeId, string name = null)
         {
             return execute(delegate ()
             {
-                long userId = User.Identity.GetUserId<long>();
-                IEnumerable<RequestObjectISDTO> list = employeeObjectService.GetListAllowableObjectIS(userId, name);
+                IEnumerable<RequestObjectISDTO> list = employeeObjectService.GetListAllowableObjectIS(employeeId, name);
                 result = Json(new { success = true, data = list });
             });
         }
@@ -158,12 +155,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [Route("api/{lang}/EmployeeObject/GetListAllowableObjectType")]
         [HttpGet]
         [ResponseType(typeof(IEnumerable<SimpleDTO>))]
-        public IHttpActionResult GetListAllowableObjectType()
+        public IHttpActionResult GetListAllowableObjectType(long employeeId)
         {
             return execute(delegate ()
             {
-                long userId = User.Identity.GetUserId<long>();
-                IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(userId);
+                IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(employeeId);
                 result = Json(new { success = true, data = list });
             });
         }

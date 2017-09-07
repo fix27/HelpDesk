@@ -119,6 +119,7 @@ namespace HelpDesk.DataService
             if (request == null)
                 throw new DataServiceException(Resource.NoDataFoundMsg);
 
+            
             return new RequestParameter()
             {
                 Id = request.Id,
@@ -128,7 +129,9 @@ namespace HelpDesk.DataService
                     request.Object.HardType,
                     request.Object.Model),
                 TempRequestKey = Guid.NewGuid(),
-                DescriptionProblem = request.DescriptionProblem
+                DescriptionProblem = request.DescriptionProblem,
+                EmployeeId = request.Employee.Id,
+                EmployeeInfo = EmployeeDTO.GetEmployeeInfo(request.Employee.FM, request.Employee.IM, request.Employee.OT, request.Employee.Phone, request.Employee.Organization.Name)
             };
         }
         public RequestParameter Get(long id = 0)
@@ -457,6 +460,10 @@ namespace HelpDesk.DataService
                 throw new DataServiceException(Resource.GeneralConstraintMsg, errorMessages);
 
             Request r = null;
+            WorkerUser user = null;
+            if (dto.UserId > 0)
+                user = workerUserRepository.Get(dto.UserId);
+
             DateTime currentDateTime = dateTimeService.GetCurrent();
             if (dto.Id > 0)
             {
@@ -466,13 +473,15 @@ namespace HelpDesk.DataService
 
                 r.DateUpdate = currentDateTime;
                 r.DescriptionProblem = dto.DescriptionProblem;
+                r.User = user;
+
                 requestRepository.Save(r);
                 repository.SaveChanges();
                 commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, dto.Id));
                 return dto.Id;
             }
 
-
+            
             StatusRequest newStatusRequest = statusRepository.Get((long)RawStatusRequestEnum.New);
             r = new Request()
             {
@@ -484,7 +493,8 @@ namespace HelpDesk.DataService
                 Worker = workerRepository.Get(organizationObjectTypeWorker.Worker.Id),
                 Object = objectRepository.Get(dto.ObjectId),
                 Employee = employeeRepository.Get(dto.EmployeeId),
-                Status = newStatusRequest
+                Status = newStatusRequest,
+                User = user                
             };
             requestRepository.Save(r);
 
