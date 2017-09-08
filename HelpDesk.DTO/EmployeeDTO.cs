@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelpDesk.DTO.Resources;
+using System;
 
 namespace HelpDesk.DTO
 {
@@ -50,15 +51,23 @@ namespace HelpDesk.DTO
         /// </summary>
         public bool Subscribe { get; set; }
 
-        public static string GetEmployeeInfo(string fm, string im, string ot, string phone, string organizationName)
+        public static string GetEmployeeInfo(string fm, string im, string ot, string phone, string organizationName, string organizationAddress)
         {
-            return String.Format("{0} {1} {2}, {3}, {4}", fm, im, ot, phone, organizationName);
+            return String.Format("{0} {1} {2}, {3}: {4}, {5}, {6}", fm, im, ot, Resource.Name_PhoneShort, phone, organizationName, organizationAddress);
         }
         public string EmployeeInfo
         {
             get
             {
-                return GetEmployeeInfo(FM, IM, OT, Phone, OrganizationName);
+                return GetEmployeeInfo(FM, IM, OT, Phone, OrganizationName, OrganizationAddress);
+            }
+        }
+
+        public string ShortEmployeeInfo
+        {
+            get
+            {
+                return String.Format("{0} {1} {2}, {3}: {4}", FM, IM, OT, Resource.Name_PhoneShort, Phone);
             }
         }
 

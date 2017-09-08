@@ -28,7 +28,8 @@
                    ng-model="vm.request.EmployeeInfo"
                    placeholder="@String.Format(Resource.Placeholder_EmployeeName, "")...">
             <span class="input-group-btn">
-                <button ng-click="vm.openEmployeeDictionary()" class="btn btn-secondary" type="button">...</button>
+                <button ng-click="vm.openEmployeeDictionary()" class="btn btn-default" type="button">...</button>
+                <button style="width: 120px" ng-click="vm.openEmployeeDictionary()" class="btn btn-default" type="button">@Resource.Action_Add</button>
             </span>
         </div>
         <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.Employee}}</div>
@@ -37,19 +38,31 @@
         </ul>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" >
         <label for="objectName">@Resource.Label_ObjectName:</label>
         <div ng-show="vm.newRequestId == 0 && vm.request.Id == 0" class="input-group">
-            <input id="objectName"
+            <input ng-disabled="!vm.request.EmployeeId"
+                   id="objectName"
                    class="form-control {{ {true: 'error', false: ''}[vm.errors.ObjectName !=null] }}"
                    autocomplete="true"
                    select="vm.selectEmployeeObject"
                    search="vm.getListEmployeeObject"
                    ng-model="vm.request.ObjectName"
-                   placeholder="@String.Format(Resource.Placeholder_ObjectName, "")...">
+                   placeholder="@String.Format(Resource.Placeholder_EmployeeObjectName, "")...">
             <span class="input-group-btn">
-                <button ng-click="vm.openEmployeeObjectDictionary()" class="btn btn-secondary" type="button">...</button>
+                <button ng-disabled="!vm.request.EmployeeId" ng-click="vm.openEmployeeObjectDictionary()" class="btn btn-default" type="button">...</button>
+                <span class="btn-group">
+                    <button style="width: 120px" ng-disabled="!vm.request.EmployeeId" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        @Resource.Action_Add
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="" ng-click="vm.addIS()">@Resource.Action_AddIS</a></li>
+                        <li><a href="" ng-click="vm.addTO()">@Resource.Action_AddTO</a></li>
+                    </ul>
+                </span>
             </span>
+            
         </div>
         <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.ObjectName}}</div>
         <ul>

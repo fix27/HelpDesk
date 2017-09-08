@@ -64,6 +64,7 @@ ngJSTree.directive('jsTree', ['$rootScope', '$http', function ($rootScope, $http
                 if (config.plugins.indexOf('types') >= 0)
                 {
                     if (a.treeTypes) {
+
                         config.types = s[a.treeTypes];
                         console.log(config);
                     }
@@ -161,8 +162,12 @@ ngJSTree.directive('jsTree', ['$rootScope', '$http', function ($rootScope, $http
         },
         init: function (s, e, a, config)
         {
+            
             treeDir.managePlugins(s, e, a, config);
+
+            
             this.tree = $(e).jstree(config);
+           
             //treeDir.manageEvents(s, e, a);
             //alert(e['changedWorker']);
             s[a.treeName] = this.tree;

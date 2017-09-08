@@ -131,7 +131,8 @@ namespace HelpDesk.DataService
                 TempRequestKey = Guid.NewGuid(),
                 DescriptionProblem = request.DescriptionProblem,
                 EmployeeId = request.Employee.Id,
-                EmployeeInfo = EmployeeDTO.GetEmployeeInfo(request.Employee.FM, request.Employee.IM, request.Employee.OT, request.Employee.Phone, request.Employee.Organization.Name)
+                EmployeeInfo = EmployeeDTO.GetEmployeeInfo(request.Employee.FM, request.Employee.IM, request.Employee.OT, request.Employee.Phone, 
+                    request.Employee.Organization.Name, request.Employee.Organization.Address)
             };
         }
         public RequestParameter Get(long id = 0)

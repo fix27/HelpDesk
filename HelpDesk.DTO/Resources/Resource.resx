@@ -120,6 +120,9 @@
   <data name="Name_Model" xml:space="preserve">
     <value>модель</value>
   </data>
+  <data name="Name_PhoneShort" xml:space="preserve">
+    <value>тел.</value>
+  </data>
   <data name="Name_WareIS" xml:space="preserve">
     <value>ПО</value>
   </data>

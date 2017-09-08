@@ -77,6 +77,7 @@ namespace HelpDesk.WorkerWebApp
                     .IncludeDirectory("~/App/Main/views/request", "*.js")
                     .IncludeDirectory("~/App/Main/views/requestHistory", "*.js")
                     .IncludeDirectory("~/App/Main/views/organization", "*.js")
+                    .IncludeDirectory("~/App/Main/views/employee", "*.js")
                     .IncludeDirectory("~/App/Main/views/object", "*.js")
                     .IncludeDirectory("~/App/Main/services", "*.js")
                     .IncludeDirectory("~/App/Main/directives", "*.js")

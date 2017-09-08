@@ -132,21 +132,15 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         #region EmployeeObject
         [HttpGet]
-        public ActionResult EmployeeObjects()
-        {
-            return PartialView("~/App/Main/views/employeeObject/list.cshtml");
-        }
-
-        [HttpGet]
         public ActionResult EmployeeObjectAddIS()
         {
-            return PartialView("~/App/Main/views/employeeObject/addIS.cshtml");
+            return PartialView("~/App/Main/views/request/addIS.cshtml");
         }
 
         [HttpGet]
         public ActionResult EmployeeObjectAddTO()
         {
-            return PartialView("~/App/Main/views/employeeObject/addTO.cshtml");
+            return PartialView("~/App/Main/views/request/addTO.cshtml");
         }
         #endregion EmployeeObject
 
@@ -161,6 +155,12 @@ namespace HelpDesk.WorkerWebApp.Controllers
         {
             ViewBag.CurrentCulture = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
             return PartialView("~/App/Main/views/object/list.cshtml");
+        }
+
+        public ActionResult EmployeeTree()
+        {
+            ViewBag.CurrentCulture = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+            return PartialView("~/App/Main/views/employee/list.cshtml");
         }
         #endregion справочники
     }

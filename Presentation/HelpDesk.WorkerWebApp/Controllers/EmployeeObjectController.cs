@@ -216,13 +216,12 @@ namespace HelpDesk.WorkerWebApp.Controllers
         
         [Route("api/{lang}/EmployeeObject/AddIS")]
         [HttpPost]
-        public IHttpActionResult AddIS(RequestObjectISDTO dto)
+        public IHttpActionResult AddIS(RequestObjectISParameter param)
         {
+            RequestObjectISDTO dto = param.RequestObjectIS;
             return execute(delegate ()
             {
-                long userId = User.Identity.GetUserId<long>();
-                employeeObjectService.AddIS(userId, dto);
-                
+                employeeObjectService.AddIS(param.EmployeeId, dto);
                 result = Json(new { success = true });
             });
         }

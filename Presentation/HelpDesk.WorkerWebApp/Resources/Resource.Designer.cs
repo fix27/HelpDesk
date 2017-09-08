@@ -61,6 +61,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавить.
+        /// </summary>
+        public static string Action_Add {
+            get {
+                return ResourceManager.GetString("Action_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Добавить файлы.
         /// </summary>
         public static string Action_AddFile {
@@ -795,6 +804,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         public static string Placeholder_EmployeeName {
             get {
                 return ResourceManager.GetString("Placeholder_EmployeeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выберите объект заявки сотрудника (сначала выберите сотрудника).
+        /// </summary>
+        public static string Placeholder_EmployeeObjectName {
+            get {
+                return ResourceManager.GetString("Placeholder_EmployeeObjectName", resourceCulture);
             }
         }
         

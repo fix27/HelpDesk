@@ -441,4 +441,10 @@
   <data name="Placeholder_EmployeeName" xml:space="preserve">
     <value>Выберите сотрудника</value>
   </data>
+  <data name="Placeholder_EmployeeObjectName" xml:space="preserve">
+    <value>Выберите объект заявки сотрудника (сначала выберите сотрудника)</value>
+  </data>
+  <data name="Action_Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
 </root>

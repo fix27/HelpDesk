@@ -238,6 +238,7 @@
     <Compile Include="Models\AppLayoutModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RequestEventParameter.cs" />
+    <Compile Include="Models\RequestObjectISParameter.cs" />
     <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs">
@@ -264,10 +265,13 @@
     <Content Include="App\Main\views\layout\header.js" />
     <Content Include="App\Main\views\layout\layout.js" />
     <Content Include="App\Main\views\object\list.js" />
+    <Content Include="App\Main\views\employee\list.js" />
     <Content Include="App\Main\views\organization\list.js" />
     <Content Include="App\Main\views\requestHistory\events.js" />
     <Content Include="App\Main\views\requestHistory\event.js" />
     <Content Include="App\Main\views\requestHistory\list.js" />
+    <Content Include="App\Main\views\request\addIS.js" />
+    <Content Include="App\Main\views\request\addTO.js" />
     <Content Include="App\Main\views\shared\fileDelete.js" />
     <Content Include="App\Main\views\request\fileUpload.js" />
     <Content Include="App\Main\views\request\request.js" />
@@ -382,6 +386,9 @@
     <Content Include="App\Main\views\requestHistory\events.cshtml" />
     <Content Include="App\Main\views\requestHistory\event.cshtml" />
     <Content Include="App\Main\views\requestHistory\eventDeadLine.cshtml" />
+    <Content Include="App\Main\views\request\addIS.cshtml" />
+    <Content Include="App\Main\views\request\addTO.cshtml" />
+    <Content Include="App\Main\views\employee\list.cshtml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <None Include="Scripts\jquery-2.1.4-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />

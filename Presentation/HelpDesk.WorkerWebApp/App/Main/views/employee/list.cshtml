@@ -1,0 +1,30 @@
+﻿@using HelpDesk.WorkerWebApp.Resources
+
+<div class="modal fade" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close({ cancel: true }, 300)" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Resource.Label_Employee</h4>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <div>
+
+                        <js-tree tree-name="employees"
+                                 tree-ajax="/api/@ViewBag.CurrentCulture/Employee/GetEmployeeTree">
+
+                        </js-tree>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="vm.cancel()" class="btn btn-info fa-align-right">@Resource.Action_Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

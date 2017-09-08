@@ -101,7 +101,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetOrganizationTree")]
         [HttpGet]
-        [ResponseType(typeof(IList<jstree>))]
+        [ResponseType(typeof(IEnumerable<jstree>))]
         public IEnumerable GetOrganizationTree(long? parentId)
         {
             IEnumerable<Organization> list = organizationService.GetList(parentId);
@@ -112,6 +112,41 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 text = String.Format("{0}, {1}", o.Name, o.Address),
                 children = o.HasChild
             });
+            return items;
+        }
+
+        [Route("api/{lang}/Employee/GetEmployeeTree")]
+        [HttpGet]
+        [ResponseType(typeof(IEnumerable<jstree>))]
+        public IEnumerable GetEmployeeTree(string parentId)
+        {
+            string orgPrefix = "A";
+
+            long? parentIdlong = parentId != "#" ? Int64.Parse(parentId.Substring(1)) : (long?)null;
+            IEnumerable<Organization> list = organizationService.GetList(parentIdlong);
+            IEnumerable<jstree> items = list.Select(o => new jstree
+            {
+                id = orgPrefix + o.Id.ToString(),
+                parent = o.ParentId.HasValue ? orgPrefix + o.ParentId.Value.ToString() : "#",
+                text = String.Format("{0}, {1}", o.Name, o.Address),
+                children = o.HasChild
+            });
+
+            if (parentIdlong.HasValue)
+            {
+                IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(parentIdlong.Value);
+                IEnumerable<jstree> employeeItems = employees.Select(e => new jstree
+                {
+                    id = e.Id.ToString(),
+                    parent = parentId,
+                    text = e.ShortEmployeeInfo,
+                    children = false,
+                    type = "employee"
+                });
+
+                items = items.Union(employeeItems);
+            }
+            
             return items;
         }
 

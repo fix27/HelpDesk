@@ -9,5 +9,7 @@
         public string parent { get; set; }
         public string text { get; set; }
         public bool children { get; set; }
+
+        public string type { get; set; }
     }
 }

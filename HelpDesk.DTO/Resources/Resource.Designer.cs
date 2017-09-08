@@ -70,6 +70,15 @@ namespace HelpDesk.DTO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to тел..
+        /// </summary>
+        public static string Name_PhoneShort {
+            get {
+                return ResourceManager.GetString("Name_PhoneShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ПО.
         /// </summary>
         public static string Name_WareIS {

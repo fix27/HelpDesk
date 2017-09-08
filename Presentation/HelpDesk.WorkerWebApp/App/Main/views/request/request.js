@@ -173,8 +173,8 @@
 
             vm.openEmployeeDictionary = function () {
                 modalService.showModal({
-                    templateUrl: "/AngularTemplate/EmployeeObjectTree",
-                    controller: "app.views.object.list as vm",
+                    templateUrl: "/AngularTemplate/EmployeeTree",
+                    controller: "app.views.employee.list as vm",
                     inputs: {
                         params: {}
                     }
@@ -229,6 +229,44 @@
             {
                 vm.errors = {};
                 vm.showAlert = false;
+            }
+
+            vm.addIS = function () {
+                modalService.showModal({
+                    templateUrl: "/AngularTemplate/EmployeeObjectAddIS",
+                    controller: "app.views.employeeObject.addIS as vm",
+                    inputs: {
+                        params: {EmployeeId: vm.request.EmployeeId}
+                    }
+                }).then(function (modal) {
+                    modal.element.modal();
+                    modal.close.then(function (result) {
+
+                        if (result.cancel)
+                            return;
+                        vm.refresh();
+
+                    });
+                });
+            }
+
+            vm.addTO = function () {
+                modalService.showModal({
+                    templateUrl: "/AngularTemplate/EmployeeObjectAddTO",
+                    controller: "app.views.employeeObject.addTO as vm",
+                    inputs: {
+                        params: {}
+                    }
+                }).then(function (modal) {
+                    modal.element.modal();
+                    modal.close.then(function (result) {
+
+                        if (result.cancel)
+                            return;
+                        vm.refresh();
+
+                    });
+                });
             }
 
             init();

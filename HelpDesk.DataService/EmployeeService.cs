@@ -17,7 +17,7 @@ using HelpDesk.DataService.Query;
 namespace HelpDesk.DataService
 {
     /// <summary>
-    /// Для работы с личными данными пользователя
+    /// Для работы с сотрудниками
     /// </summary>
     public class EmployeeService : BaseService, IEmployeeService
     {
@@ -87,9 +87,31 @@ namespace HelpDesk.DataService
             name = name.ToUpper();
 
             return employeeRepository
-                .GetList(e => e.FM.ToUpper().Contains(name) || 
-                    e.Phone == name || 
-                    e.Organization.Name.ToUpper().Contains(name))
+                .GetList(e => e.Organization!=null && 
+                    (e.FM.ToUpper().Contains(name) || 
+                     e.Phone == name || 
+                     e.Organization.Name.ToUpper().Contains(name)))
+                .Select(e => new EmployeeDTO()
+                {
+                    Id = e.Id,
+                    FM = e.FM,
+                    IM = e.IM,
+                    OT = e.OT,
+                    Cabinet = e.Cabinet,
+                    Phone = e.Phone,
+                    PostName = e.Post != null ? e.Post.Name : null,
+                    Subscribe = e.Subscribe,
+                    OrganizationId = e.Organization.Id,
+                    OrganizationName = e.Organization.Name,
+                    OrganizationAddress = e.Organization.Address
+                })
+                .ToList();
+        }
+
+        public IEnumerable<EmployeeDTO> GetListByOrganization(long organizationId)
+        {
+            return employeeRepository
+                .GetList(e => e.Organization.Id == organizationId)
                 .Select(e => new EmployeeDTO()
                 {
                     Id = e.Id,

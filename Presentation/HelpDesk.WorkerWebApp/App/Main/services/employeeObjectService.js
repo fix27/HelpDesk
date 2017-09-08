@@ -55,10 +55,11 @@
                     });
             };
             //----  
-            var _getListAllowableObjectIS = function (name) {
+            var _getListAllowableObjectIS = function (employeeId, name) {
                 var url = "EmployeeObject/GetListAllowableObjectIS";
+                url += "?employeeId=" + employeeId;
                 if (name)
-                    url += "?name=" + name;
+                    url += "&name=" + name;
 
                 return $http.get(localizedWebAPIService.get(url))
                     .then(function (results) {
@@ -94,8 +95,13 @@
                     });
             };
 
-            var _addIS = function (RequestObjectIS) {
-                return $http.post(localizedWebAPIService.get("EmployeeObject/AddIS"), JSON.stringify(RequestObjectIS)).then(function (results) {
+            var _addIS = function (employeeId, requestObjectIS) {
+                var data =
+                {
+                    EmployeeId: employeeId,
+                    RequestObjectIS: requestObjectIS
+                };
+                return $http.post(localizedWebAPIService.get("EmployeeObject/AddIS"), JSON.stringify(data)).then(function (results) {
                     return results;
                 });
             };
