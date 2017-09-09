@@ -3,8 +3,8 @@
 
     var controllerId = 'app.views.employeeObject.addTO';
     app.controller(controllerId, [
-        '$rootScope', '$element', 'close','employeeObjectService',
-        function ($rootScope, $element, close, employeeObjectService) {
+        '$rootScope', '$element', 'close', 'employeeObjectService', 'params',
+        function ($rootScope, $element, close, employeeObjectService, params) {
 
             var vm = this;
 
@@ -23,7 +23,8 @@
             
             vm.save = function () {
                                 
-                employeeObjectService.addTO(vm.requestObjectTO).then(function (results) {
+                employeeObjectService.addTO(params.EmployeeId, vm.requestObjectTO).then(function (results)
+                {
                     
                     vm.errors = {};
 
@@ -47,13 +48,14 @@
             };
 
             var init = function () {
-                employeeObjectService.getNewRequestObjectTO().then(function (results) {
+                employeeObjectService.getNewRequestObjectTO().then(function (results)
+                {
                     vm.requestObjectTO = results.data.data;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                 });
 
-                employeeObjectService.getListAllowableObjectType().then(function (results) {
+                employeeObjectService.getListAllowableObjectType(params.EmployeeId).then(function (results) {
                     vm.objectTypes = results.data.data;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });

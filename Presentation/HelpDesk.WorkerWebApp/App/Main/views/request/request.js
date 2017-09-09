@@ -255,7 +255,7 @@
                     templateUrl: "/AngularTemplate/EmployeeObjectAddTO",
                     controller: "app.views.employeeObject.addTO as vm",
                     inputs: {
-                        params: {}
+                        params: { EmployeeId: vm.request.EmployeeId }
                     }
                 }).then(function (modal) {
                     modal.element.modal();

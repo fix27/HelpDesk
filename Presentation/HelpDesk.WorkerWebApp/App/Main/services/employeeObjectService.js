@@ -67,8 +67,8 @@
                     });
             };
 
-            var _getListAllowableObjectType = function () {
-                return $http.get(localizedWebAPIService.get("EmployeeObject/GetListAllowableObjectType"))
+            var _getListAllowableObjectType = function (employeeId) {
+                return $http.get(localizedWebAPIService.get("EmployeeObject/GetListAllowableObjectType?employeeId=" + employeeId))
                     .then(function (results) {
                         return results;
                     });
@@ -106,8 +106,13 @@
                 });
             };
 
-            var _addTO = function (RequestObjectTO) {
-                return $http.post(localizedWebAPIService.get("EmployeeObject/AddTO"), JSON.stringify(RequestObjectTO)).then(function (results) {
+            var _addTO = function (employeeId, requestObjectTO) {
+                var data =
+                {
+                    EmployeeId: employeeId,
+                    RequestObjectTO: requestObjectTO
+                };
+                return $http.post(localizedWebAPIService.get("EmployeeObject/AddTO"), JSON.stringify(data)).then(function (results) {
                     return results;
                 });
             };

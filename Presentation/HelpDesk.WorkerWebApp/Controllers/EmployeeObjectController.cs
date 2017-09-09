@@ -218,23 +218,20 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [HttpPost]
         public IHttpActionResult AddIS(RequestObjectISParameter param)
         {
-            RequestObjectISDTO dto = param.RequestObjectIS;
             return execute(delegate ()
             {
-                employeeObjectService.AddIS(param.EmployeeId, dto);
+                employeeObjectService.AddIS(param.EmployeeId, param.RequestObjectIS);
                 result = Json(new { success = true });
             });
         }
 
         [Route("api/{lang}/EmployeeObject/AddTO")]
         [HttpPost]
-        public IHttpActionResult AddTO(RequestObjectTODTO dto)
+        public IHttpActionResult AddTO(RequestObjectTOParameter param)
         {
             return execute(delegate ()
             {
-                long userId = User.Identity.GetUserId<long>();
-                employeeObjectService.AddTO(userId, dto);
-
+                employeeObjectService.AddTO(param.EmployeeId, param.RequestObjectTO);
                 result = Json(new { success = true });
             });
         }
