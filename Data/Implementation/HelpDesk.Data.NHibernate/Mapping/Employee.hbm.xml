@@ -2,8 +2,8 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
   <class name="HelpDesk.Entity.Employee, HelpDesk.Entity" table="Employee" lazy="false">
     <id name="Id" column="Id" unsaved-value="0">
-      <generator class="foreign">
-        <param name="property">User</param>
+      <generator class="sequence">
+        <param name="sequence">SQ_GLOBAL</param>
       </generator>
     </id>
     
@@ -18,6 +18,6 @@
     <many-to-one  foreign-key="Employee_Post_FK" name="Post" fetch="join" column="PostId" class="HelpDesk.Entity.Post, HelpDesk.Entity" not-null="true"/>
     <many-to-one  foreign-key="Employee_Organization_FK" name="Organization" fetch="join" column="OrganizationId" class="HelpDesk.Entity.Organization, HelpDesk.Entity" not-null="true"/>
 
-    <one-to-one foreign-key="Employee_CabinetUser_FK" name="User" class="HelpDesk.Entity.CabinetUser, HelpDesk.Entity" constrained="true"/>
+    <one-to-one foreign-key="Employee_CabinetUser_FK" name="User" class="HelpDesk.Entity.CabinetUser, HelpDesk.Entity"/>
   </class>
 </hibernate-mapping>

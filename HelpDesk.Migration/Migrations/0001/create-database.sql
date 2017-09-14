@@ -380,11 +380,7 @@
         foreign key (OrganizationId) 
         references Organization
 
-    alter table Employee 
-        add constraint Employee_CabinetUser_FK 
-        foreign key (Id) 
-        references CabinetUser
-
+    
     create sequence SQ_GLOBAL as int start with 100000 increment by 1
 
     create sequence SQ_REQUEST as int start with 100000 increment by 1

@@ -6,8 +6,8 @@
             var factory = {};
 
             
-            var _get = function () {
-                return $http.get(localizedWebAPIService.get("Employee/Get")).then(function (results) {
+            var _get = function (employeeId) {
+                return $http.get(localizedWebAPIService.get("Employee/Get?employeeId=" + employeeId)).then(function (results) {
                     return results;
                 });
             };

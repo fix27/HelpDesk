@@ -126,7 +126,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [HttpGet]
         public ActionResult Employee()
         {
-            return PartialView("~/App/Main/views/employee/profile.cshtml");
+            return PartialView("~/App/Main/views/employee/employee.cshtml");
         }
         #endregion Employee
 

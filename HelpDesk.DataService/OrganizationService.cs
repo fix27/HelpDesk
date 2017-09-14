@@ -4,6 +4,8 @@ using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.DataService.Specification;
+using System;
+using HelpDesk.DTO;
 
 namespace HelpDesk.DataService
 {
@@ -14,11 +16,15 @@ namespace HelpDesk.DataService
     {
         
         private readonly IBaseRepository<Organization> organizationRepository;
-        
-        public OrganizationService(
-            IBaseRepository<Organization> organizationRepository)
+        private readonly IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository;
+        private readonly IBaseRepository<WorkerUser> workerUserRepository;
+        public OrganizationService(IBaseRepository<Organization> organizationRepository,
+            IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository,
+            IBaseRepository<WorkerUser> workerUserRepository)
         {
             this.organizationRepository = organizationRepository;
+            this.organizationObjectTypeWorkerRepository = organizationObjectTypeWorkerRepository;
+            this.workerUserRepository = workerUserRepository;
         }
         
         public IEnumerable<Organization> GetList(string name = null)
@@ -29,11 +35,130 @@ namespace HelpDesk.DataService
             return organizationRepository.GetList(new SimpleEntityByNameLikeSpecification<Organization>(name))
                 .OrderBy(p => p.Name).ToList();
         }
-
+                
         public IEnumerable<Organization> GetList(long? parentId)
         {
             return organizationRepository.GetList(o => o.ParentId == parentId)
                 .OrderBy(p => p.Name).ToList();
+        }
+
+        
+        //private IEnumerable<T> Traverse<T>(IEnumerable<T> items, Func<T, IEnumerable<T>> childSelector)
+        //{
+        //    var stack = new Stack<T>(items);
+        //    while (stack.Any())
+        //    {
+        //        var next = stack.Pop();
+        //        yield return next;
+        //        foreach (var child in childSelector(next))
+        //            stack.Push(child);
+        //    }
+        //}
+
+        private bool inOrganizationObjectTypeWorker(OrganizationDTO root, IEnumerable<OrganizationDTO> items, IEnumerable<long> ids)
+        {
+            var stack = new Stack<OrganizationDTO>();
+            stack.Push(root);
+            while (stack.Any())
+            {
+                var next = stack.Pop();
+                
+                if (ids != null && ids.Contains(next.Id))
+                {
+                    next.Selectable = true;
+                    return true;
+                }
+                foreach (var child in items.Where(t => t.ParentId == next.Id))
+                    stack.Push(child);
+            }
+
+            return false;
+        }
+
+        public IEnumerable<OrganizationDTO> GetListByWorkerUser(long userId, string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            WorkerUser user = workerUserRepository.Get(userId);
+            long workerId = 0;
+            if (user.Worker == null)
+                return organizationRepository.GetList(o => o.Name.ToUpper().Contains(name.ToUpper()))
+                    .Select(t => new OrganizationDTO()
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        Address = t.Address,
+                        ParentId = t.ParentId,
+                        HasChild = t.HasChild
+                    })
+                    .OrderBy(p => p.Name).ToList();
+
+            workerId = user.Worker.Id;
+
+            IEnumerable<long> ids = organizationObjectTypeWorkerRepository
+                .GetList(t => workerId == 0 || t.Worker.Id == workerId)
+                .Select(t => t.Organization.Id)
+                .Distinct()
+                .ToList();
+
+            IEnumerable<OrganizationDTO> list = organizationRepository.GetList()
+                .Select(t => new OrganizationDTO()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Address = t.Address,
+                    ParentId = t.ParentId,
+                    HasChild = t.HasChild
+                })
+                .OrderBy(p => p.Name).ToList();
+
+            IEnumerable<OrganizationDTO> list2 = list;
+
+            list = list.Where(t => t.Name.ToUpper().Contains(name.ToUpper()) && inOrganizationObjectTypeWorker(t, list2, ids));
+
+            return list;
+        }
+        public IEnumerable<OrganizationDTO> GetListByWorkerUser(long userId, long? parentId)
+        {
+            WorkerUser user = workerUserRepository.Get(userId);
+            long workerId = 0;
+            if (user.Worker == null)
+                return organizationRepository.GetList(o => o.ParentId == parentId)
+                    .Select(t => new OrganizationDTO()
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        Address = t.Address,
+                        ParentId = t.ParentId,
+                        HasChild = t.HasChild
+                    })
+                    .OrderBy(p => p.Name).ToList();
+
+            workerId = user.Worker.Id;
+
+            IEnumerable<long> ids =  organizationObjectTypeWorkerRepository
+                .GetList(t => workerId == 0 || t.Worker.Id == workerId)
+                .Select(t => t.Organization.Id)
+                .Distinct()
+                .ToList();
+
+            IEnumerable<OrganizationDTO> list = organizationRepository.GetList()
+                .Select(t => new OrganizationDTO()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Address = t.Address,
+                    ParentId = t.ParentId,
+                    HasChild = t.HasChild
+                })
+                .OrderBy(p => p.Name).ToList();
+
+            IEnumerable<OrganizationDTO> list2 = list;
+
+            list = list.Where(t => t.ParentId == parentId && inOrganizationObjectTypeWorker(t, list2, ids));
+
+            return list;
         }
 
     }

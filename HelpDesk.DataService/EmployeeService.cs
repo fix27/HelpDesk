@@ -28,6 +28,7 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<Post> postRepository;
         private readonly IBaseRepository<Organization> organizationRepository;
         private readonly IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository;
+        private readonly IBaseRepository<WorkerUser> workerUserRepository;
         private readonly IRepository repository;
 
         public EmployeeService(
@@ -38,15 +39,17 @@ namespace HelpDesk.DataService
             IBaseRepository<Post> postRepository,
             IBaseRepository<Organization> organizationRepository,
             IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository,
+            IBaseRepository<WorkerUser> workerUserRepository,
             IRepository repository)
         {
-            this.queryRunner = queryRunner;
-            this.userRepository = userRepository;
+            this.queryRunner        = queryRunner;
+            this.userRepository     = userRepository;
             this.employeeRepository = employeeRepository;
             this.employeeObjectRepository = employeeObjectRepository;
             this.postRepository     = postRepository;
             this.organizationRepository = organizationRepository;
             this.organizationObjectTypeWorkerRepository = organizationObjectTypeWorkerRepository;
+            this.workerUserRepository   = workerUserRepository;
             this.repository         = repository;
         }
         
@@ -105,8 +108,99 @@ namespace HelpDesk.DataService
                     OrganizationName = e.Organization.Name,
                     OrganizationAddress = e.Organization.Address
                 })
+                .OrderBy(t => t.FM)
+                .OrderBy(t => t.IM)
+                .OrderBy(t => t.OT)
                 .ToList();
         }
+
+        private bool inOrganizationObjectTypeWorker(Organization root, IEnumerable<Organization> items, IEnumerable<long> ids)
+        {
+            var stack = new Stack<Organization>();
+            stack.Push(root);
+            while (stack.Any())
+            {
+                var next = stack.Pop();
+                if (ids != null && ids.Contains(next.Id))
+                    return true;
+                foreach (var child in items.Where(t => t.ParentId == next.Id))
+                    stack.Push(child);
+            }
+
+            return false;
+        }
+
+        public IEnumerable<EmployeeDTO> GetListByWorkerUser(long userId, string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+                return null;
+
+            name = name.ToUpper();
+
+            IEnumerable<Employee> list = employeeRepository
+                .GetList(e => e.Organization != null &&
+                    (e.FM.ToUpper().Contains(name) ||
+                     e.Phone == name ||
+                     e.Organization.Name.ToUpper().Contains(name))).ToList();
+
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            WorkerUser user = workerUserRepository.Get(userId);
+            long workerId = 0;
+            if (user.Worker == null)
+                return list
+                    .OrderBy(t => t.FM)
+                    .OrderBy(t => t.IM)
+                    .OrderBy(t => t.OT)
+                    .Select(e => new EmployeeDTO()
+                    {
+                        Id = e.Id,
+                        FM = e.FM,
+                        IM = e.IM,
+                        OT = e.OT,
+                        Cabinet = e.Cabinet,
+                        Phone = e.Phone,
+                        PostName = e.Post != null ? e.Post.Name : null,
+                        Subscribe = e.Subscribe,
+                        OrganizationId = e.Organization.Id,
+                        OrganizationName = e.Organization.Name,
+                        OrganizationAddress = e.Organization.Address
+                    });
+                    
+
+            workerId = user.Worker.Id;
+
+            IEnumerable<long> ids = organizationObjectTypeWorkerRepository
+                .GetList(t => workerId == 0 || t.Worker.Id == workerId)
+                .Select(t => t.Organization.Id)
+                .Distinct()
+                .ToList();
+
+            IEnumerable<Organization> list2 = organizationRepository.GetList()
+                .OrderBy(p => p.Name).ToList();
+
+            return list
+                .Where(t => inOrganizationObjectTypeWorker(t.Organization, list2, ids))
+                .OrderBy(t => t.FM)
+                .OrderBy(t => t.IM)
+                 .OrderBy(t => t.OT)
+                .Select(e => new EmployeeDTO()
+                {
+                    Id = e.Id,
+                    FM = e.FM,
+                    IM = e.IM,
+                    OT = e.OT,
+                    Cabinet = e.Cabinet,
+                    Phone = e.Phone,
+                    PostName = e.Post != null ? e.Post.Name : null,
+                    Subscribe = e.Subscribe,
+                    OrganizationId = e.Organization.Id,
+                    OrganizationName = e.Organization.Name,
+                    OrganizationAddress = e.Organization.Address
+                });
+        }
+        
 
         public IEnumerable<EmployeeDTO> GetListByOrganization(long organizationId)
         {
@@ -157,11 +251,15 @@ namespace HelpDesk.DataService
                 throw new DataServiceException(Resource.GeneralConstraintMsg, errorMessages);
 
             Employee entity = employeeRepository.Get(dto.Id);
+            CabinetUser user = null;
+            if(dto.Id > 0)
+                user = userRepository.Get(dto.Id);
 
             if (entity == null)
                 entity = new Employee()
                 {
-                    User = userRepository.Get(dto.Id)
+                    Id = user!= null? user.Id : 0,
+                    User = user
                 };
             else
             {

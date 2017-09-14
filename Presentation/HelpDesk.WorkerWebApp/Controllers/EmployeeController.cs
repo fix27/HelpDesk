@@ -36,12 +36,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [Route("api/{lang}/Employee/Get")]
         [HttpGet]
         [ResponseType(typeof(EmployeeDTO))]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(long employeeId)
         {
             return execute(delegate ()
             {
-                long userId = User.Identity.GetUserId<long>();
-                EmployeeDTO profile = employeeService.Get(userId);
+                EmployeeDTO profile = employeeService.Get(employeeId);
                 result = Json(new { success = true, data = profile });
             });
         }
@@ -54,8 +53,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
         {
             return execute(delegate ()
             {
-                long userId = User.Identity.GetUserId<long>();
-                entity.Id = userId;
                 employeeService.Save(entity);
                 result = Json(new { success = true });
             });
@@ -75,12 +72,13 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetListOrganization")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<Organization>))]
+        [ResponseType(typeof(IEnumerable<OrganizationDTO>))]
         public IHttpActionResult GetListOrganization(string name)
         {
             return execute(delegate ()
             {
-                IEnumerable<Organization> list = organizationService.GetList(name);
+                long userId = User.Identity.GetUserId<long>();
+                IEnumerable<OrganizationDTO> list = organizationService.GetListByWorkerUser(userId, name);
                 result = Json(new { success = true, data = list });
             });
         }
@@ -92,7 +90,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
         {
             return execute(delegate ()
             {
-                IEnumerable<EmployeeDTO> list = employeeService.GetList(name);
+                long userId = User.Identity.GetUserId<long>();
+                IEnumerable<EmployeeDTO> list = employeeService.GetListByWorkerUser(userId, name);
                 result = Json(new { success = true, data = list });
             });
         }
@@ -104,7 +103,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [ResponseType(typeof(IEnumerable<jstree>))]
         public IEnumerable GetOrganizationTree(long? parentId)
         {
-            IEnumerable<Organization> list = organizationService.GetList(parentId);
+            long userId = User.Identity.GetUserId<long>();
+            IEnumerable<OrganizationDTO> list = organizationService.GetListByWorkerUser(userId, parentId);
             IEnumerable items = list.Select(o => new jstree
             {
                 id = o.Id.ToString(),
@@ -120,16 +120,18 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [ResponseType(typeof(IEnumerable<jstree>))]
         public IEnumerable GetEmployeeTree(string parentId)
         {
+            long userId = User.Identity.GetUserId<long>();
             string orgPrefix = "A";
 
             long? parentIdlong = parentId != "#" ? Int64.Parse(parentId.Substring(1)) : (long?)null;
-            IEnumerable<Organization> list = organizationService.GetList(parentIdlong);
+            IEnumerable<Organization> list = organizationService.GetListByWorkerUser(userId, parentIdlong);
             IEnumerable<jstree> items = list.Select(o => new jstree
             {
                 id = orgPrefix + o.Id.ToString(),
                 parent = o.ParentId.HasValue ? orgPrefix + o.ParentId.Value.ToString() : "#",
                 text = String.Format("{0}, {1}", o.Name, o.Address),
-                children = o.HasChild
+                children = true,
+                type = "organization"
             });
 
             if (parentIdlong.HasValue)

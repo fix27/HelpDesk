@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parameters\RequestEventParameter.cs" />
+    <Compile Include="OrganizationDTO.cs" />
     <Compile Include="WorkerUserDTO.cs" />
     <Compile Include="FileUpload\Interface\IFileUploadDTO.cs" />
     <Compile Include="FileUpload\Interface\IFileUploadInfoDTO.cs" />

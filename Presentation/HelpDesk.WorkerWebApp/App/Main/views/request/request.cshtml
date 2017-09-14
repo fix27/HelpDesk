@@ -29,7 +29,7 @@
                    placeholder="@String.Format(Resource.Placeholder_EmployeeName, "")...">
             <span class="input-group-btn">
                 <button ng-click="vm.openEmployeeDictionary()" class="btn btn-default" type="button">...</button>
-                <button style="width: 120px" ng-click="vm.openEmployeeDictionary()" class="btn btn-default" type="button">@Resource.Action_Add</button>
+                <button style="width: 120px" ng-click="vm.addEditEmployee()" class="btn btn-default" type="button">@Resource.Action_Add</button>
             </span>
         </div>
         <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.Employee}}</div>

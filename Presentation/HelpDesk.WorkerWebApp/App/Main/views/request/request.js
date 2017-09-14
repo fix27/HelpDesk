@@ -269,6 +269,25 @@
                 });
             }
 
+            vm.addEditEmployee = function () {
+                modalService.showModal({
+                    templateUrl: "/AngularTemplate/Employee",
+                    controller: "app.views.employee.employee as vm",
+                    inputs: {
+                        params: { EmployeeId: vm.request.EmployeeId }
+                    }
+                }).then(function (modal) {
+                    modal.element.modal();
+                    modal.close.then(function (result) {
+
+                        if (result.cancel)
+                            return;
+                        vm.refresh();
+
+                    });
+                });
+            }
+
             init();
 
         }

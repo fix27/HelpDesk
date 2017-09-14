@@ -50,18 +50,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
             });
         }
 
-        [Route("api/{lang}/EmployeeObject/GetListEmployeeObject")]
-        [HttpGet]
-        [ResponseType(typeof(IEnumerable<EmployeeObjectDTO>))]
-        public IHttpActionResult GetListEmployeeObject([FromUri]EmployeeObjectFilter filter, [FromUri]OrderInfo orderInfo, [FromUri]PageInfo pageInfo)
-        {
-            return execute(delegate ()
-            {
-                long userId = User.Identity.GetUserId<long>();
-                IEnumerable<EmployeeObjectDTO> list = employeeObjectService.GetListEmployeeObject(userId, filter, orderInfo, ref pageInfo);
-                result = Json(new { success = true, data = list, totalCount = pageInfo.TotalCount, count = pageInfo.Count });
-            });
-        }
+       
 
         [Route("api/{lang}/EmployeeObject/GetEmployeeObjectTree")]
         [HttpGet]

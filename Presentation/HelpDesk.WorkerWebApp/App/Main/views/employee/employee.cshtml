@@ -1,0 +1,100 @@
+﻿@using HelpDesk.WorkerWebApp.Resources
+
+<div class="modal fade" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close({ cancel: true }, 300)" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Resource.Label_Employee</h4>
+            </div>
+            <div class="modal-body">
+
+                <div>
+
+                    <div ng-show="vm.errors.ErrorGeneralMessage.Errors.length > 0" class="alert alert-danger" role="alert">{{vm.errors.ErrorGeneralMessage.Errors[0].ErrorMessage}}</div>
+                    <div class="form-group">
+                        <label for="fm">@Resource.Label_FM:</label>
+                        <input class="form-control {{ {true: 'error', false: ''}[vm.errors.FM !=null] }}" id="fm" ng-model="vm.employee.FM">
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.FM.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="im">@Resource.Label_IM:</label>
+                        <input class="form-control {{ {true: 'error', false: ''}[vm.errors.IM !=null] }}" id="im" ng-model="vm.employee.IM">
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.IM.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ot">@Resource.Label_OT:</label>
+                        <input class="form-control {{ {true: 'error', false: ''}[vm.errors.OT !=null] }}" id="ot" ng-model="vm.employee.OT">
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.OT.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="organization">@Resource.Label_Organization:</label>
+                        <div class="input-group">
+                            <input id="organization"
+                                   class="form-control {{ {true: 'error', false: ''}[vm.errors.Organization !=null] }}"
+                                   autocomplete="true"
+                                   select="vm.selectOrganization"
+                                   search="vm.getListOrganization"
+                                   ng-model="vm.employee.OrganizationName"
+                                   placeholder="@Resource.Placeholder_Organization...">
+                            <span class="input-group-btn">
+                                <button ng-click="vm.openOrganizationDictionary()" class="btn btn-secondary" type="button">...</button>
+                            </span>
+                        </div>
+
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.Organization.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">@Resource.Label_Phone:</label>
+                        <input class="form-control {{ {true: 'error', false: ''}[vm.errors.Phone !=null] }}" id="phone" ng-model="vm.employee.Phone">
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.Phone.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cabinet">@Resource.Label_Cabinet:</label>
+                        <input class="form-control {{ {true: 'error', false: ''}[vm.errors.Cabinet !=null] }}" id="cabinet" ng-model="vm.employee.Cabinet">
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.Cabinet.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post">@Resource.Label_Post:</label>
+
+                        <input id="post"
+                               class="form-control {{ {true: 'error', false: ''}[vm.errors.Post !=null] }}"
+                               autocomplete="true"
+                               select="vm.selectPost"
+                               search="vm.getListPost"
+                               ng-model="vm.employee.PostName"
+                               placeholder="@Resource.Placeholder_Post...">
+
+                        <ul>
+                            <li class="error" data-ng-repeat="error in vm.errors.Post.Errors">{{error.ErrorMessage}}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="vm.save()" ng-disabled="vm.invalidForm() || vm.loadingFlag" class="btn {{ {true: 'btn-primary', false: 'btn-success'}[vm.invalidForm() == true] }}">@Resource.Action_Save</button>
+                <button type="button" ng-click="vm.cancel()" class="btn btn-info fa-align-right">@Resource.Action_Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

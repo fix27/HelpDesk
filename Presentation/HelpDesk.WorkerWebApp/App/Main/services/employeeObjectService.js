@@ -19,20 +19,7 @@
                     });
             };
 
-            var _getListEmployeeObject = function (filter, orderInfo, pageInfo) {
-
-                var s = (filter.ObjectName!=null && filter.ObjectName!='null')? "&objectName=" + filter.ObjectName: "";
-                for (var i = 0; i < filter.Wares.length; i++)
-                    s += "&wares=" + filter.Wares[i].Id;
-
-                return $http.get(localizedWebAPIService.get("EmployeeObject/GetListEmployeeObject?propertyName=" + orderInfo.propertyName + "&asc=" + orderInfo.asc + "&currentPage=" + pageInfo.currentPage + "&pageSize=" + pageInfo.pageSize + s))
-                    .then(function (results) {
-                        return results;
-                    });
-            };
-
-            
-
+           
             var _getListEmployeeObjectByName = function (objectName, employeeId) {
 
                 var url = "EmployeeObject/GetListEmployeeObjectByName";
@@ -125,7 +112,6 @@
 
             factory.getNewRequestObjectIS       = _getNewRequestObjectIS;
             factory.getNewRequestObjectTO       = _getNewRequestObjectTO;
-            factory.getListEmployeeObject       = _getListEmployeeObject;
             
             factory.getListEmployeeObjectByName = _getListEmployeeObjectByName;
             factory.getListWare                 = _getListWare;
