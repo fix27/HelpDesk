@@ -1,5 +1,5 @@
 ﻿using HelpDesk.Entity;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 
 namespace HelpDesk.DataService.Interface
 {

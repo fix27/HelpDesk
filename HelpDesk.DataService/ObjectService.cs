@@ -3,7 +3,7 @@ using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using HelpDesk.DataService.Specification;
 
 namespace HelpDesk.DataService

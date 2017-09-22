@@ -1,13 +1,13 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Description;
 using HelpDesk.DataService.Interface;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using HelpDesk.DataService.Filters;
 using HelpDesk.Common;
 using System.Linq;
-using HelpDesk.DTO.Parameters;
+using HelpDesk.DataService.DTO.Parameters;
 
 namespace HelpDesk.CabinetWebApp.Controllers
 {

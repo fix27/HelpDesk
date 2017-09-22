@@ -6,18 +6,18 @@ using System;
 using System.Linq;
 using HelpDesk.Common;
 using HelpDesk.DataService.Filters;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using HelpDesk.Data.Command;
 using HelpDesk.DataService.Command;
 using HelpDesk.DataService.Resources;
 using HelpDesk.DataService.Common;
 using HelpDesk.Data.Query;
 using HelpDesk.DataService.Query;
-using HelpDesk.DTO.FileUpload;
+using HelpDesk.DataService.DTO.FileUpload;
 using HelpDesk.Common.Helpers;
 using HelpDesk.Common.Aspects;
 using System.Linq.Expressions;
-using HelpDesk.DTO.Parameters;
+using HelpDesk.DataService.DTO.Parameters;
 
 namespace HelpDesk.DataService
 {

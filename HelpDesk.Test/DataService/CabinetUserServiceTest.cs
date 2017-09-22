@@ -6,7 +6,7 @@ using HelpDesk.DataService;
 using HelpDesk.Data.Repository;
 using Moq;
 using HelpDesk.Entity;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using System;
 using System.Linq.Expressions;
 

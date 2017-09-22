@@ -1,7 +1,7 @@
 ﻿using HelpDesk.DataService.Interface;
 using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using HelpDesk.DataService.Resources;
 using HelpDesk.DataService.Common;
 using HelpDesk.Common.Aspects;

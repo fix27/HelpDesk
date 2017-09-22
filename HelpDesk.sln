@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.Entity", "HelpDesk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.Common", "HelpDesk.Common\HelpDesk.Common.csproj", "{40185033-2355-4E6C-9BC9-ECC2D8685133}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.DTO", "HelpDesk.DTO\HelpDesk.DTO.csproj", "{EF4A1993-435A-4FE1-A81D-B37617BDCBEA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.Test", "HelpDesk.Test\HelpDesk.Test.csproj", "{FCD91933-F5A3-4C15-90FA-0F3FBA9FE5E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.Migration", "HelpDesk.Migration\HelpDesk.Migration.csproj", "{FF70AF8F-855F-4D89-BC47-B65B8F5FFA3A}"
@@ -55,10 +53,6 @@ Global
 		{40185033-2355-4E6C-9BC9-ECC2D8685133}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40185033-2355-4E6C-9BC9-ECC2D8685133}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40185033-2355-4E6C-9BC9-ECC2D8685133}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF4A1993-435A-4FE1-A81D-B37617BDCBEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF4A1993-435A-4FE1-A81D-B37617BDCBEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF4A1993-435A-4FE1-A81D-B37617BDCBEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF4A1993-435A-4FE1-A81D-B37617BDCBEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FCD91933-F5A3-4C15-90FA-0F3FBA9FE5E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FCD91933-F5A3-4C15-90FA-0F3FBA9FE5E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCD91933-F5A3-4C15-90FA-0F3FBA9FE5E9}.Release|Any CPU.ActiveCfg = Release|Any CPU

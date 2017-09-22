@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using HelpDesk.Common;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using HelpDesk.WorkerWebApp.Filters;
 using System.Collections.Generic;
 using HelpDesk.WorkerWebApp.Resources;

@@ -1,6 +1,6 @@
 ﻿using HelpDesk.DataService.Common;
 using HelpDesk.DataService.Interface;
-using HelpDesk.DTO.FileUpload.Interface;
+using HelpDesk.DataService.DTO.FileUpload.Interface;
 using HelpDesk.CabinetWebApp.Models;
 using System;
 using System.Collections.Generic;

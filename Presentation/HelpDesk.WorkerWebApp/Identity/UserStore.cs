@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using HelpDesk.DataService.Interface;
 using Microsoft.AspNet.Identity;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 
 namespace HelpDesk.WorkerWebApp.Identity
 {

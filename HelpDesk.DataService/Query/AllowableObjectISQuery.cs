@@ -1,5 +1,5 @@
 ﻿using HelpDesk.Data.Query;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;

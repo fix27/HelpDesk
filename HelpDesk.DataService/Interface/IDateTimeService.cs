@@ -1,4 +1,4 @@
-﻿using HelpDesk.DTO;
+﻿using HelpDesk.DataService.DTO;
 using System;
 using System.Collections.Generic;
 

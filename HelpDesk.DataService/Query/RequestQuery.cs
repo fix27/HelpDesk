@@ -1,7 +1,7 @@
 ﻿using HelpDesk.Common;
 using HelpDesk.Data.Query;
 using HelpDesk.DataService.Filters;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using HelpDesk.Common.Helpers;
 using System;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 
 namespace HelpDesk.DataService.Filters
 {

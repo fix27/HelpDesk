@@ -70,6 +70,36 @@
     <Compile Include="BaseDataService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="Command\TransferRequestToArchiveCommand.cs" />
+    <Compile Include="DTO\CabinetUserDTO.cs" />
+    <Compile Include="DTO\EmployeeDTO.cs" />
+    <Compile Include="DTO\EmployeeObjectDTO.cs" />
+    <Compile Include="DTO\FileUpload\Interface\IFileUploadDTO.cs" />
+    <Compile Include="DTO\FileUpload\Interface\IFileUploadInfoDTO.cs" />
+    <Compile Include="DTO\FileUpload\Interface\IFileUploadThumbnailDTO.cs" />
+    <Compile Include="DTO\FileUpload\RequestFileDTO.cs" />
+    <Compile Include="DTO\FileUpload\RequestFileInfoDTO.cs" />
+    <Compile Include="DTO\FileUpload\RequestFileThumbnailDTO.cs" />
+    <Compile Include="DTO\IChecked.cs" />
+    <Compile Include="DTO\Month.cs" />
+    <Compile Include="DTO\OrganizationDTO.cs" />
+    <Compile Include="DTO\Parameters\RequestEventParameter.cs" />
+    <Compile Include="DTO\Parameters\RequestParameter.cs" />
+    <Compile Include="DTO\RequestDTO.cs" />
+    <Compile Include="DTO\RequestEventDTO.cs" />
+    <Compile Include="DTO\RequestObjectDTO.cs" />
+    <Compile Include="DTO\RequestObjectISDTO.cs" />
+    <Compile Include="DTO\RequestObjectTODTO.cs" />
+    <Compile Include="DTO\Resources\Resource.Designer.cs">
+      <DependentUpon>Resource.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="DTO\SimpleDTO.cs" />
+    <Compile Include="DTO\StatusRequestDTO.cs" />
+    <Compile Include="DTO\StatusRequestEnum.cs" />
+    <Compile Include="DTO\WareDTO.cs" />
+    <Compile Include="DTO\WorkerUserDTO.cs" />
+    <Compile Include="DTO\Year.cs" />
     <Compile Include="Interface\IAccessWorkerUserExpressionService.cs" />
     <Compile Include="Interface\IAccessWorkerUserService.cs" />
     <Compile Include="Interface\IWorkerUserService.cs" />
@@ -138,6 +168,10 @@
     <None Include="ReadMy.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DTO\Resources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
@@ -151,10 +185,6 @@
     <ProjectReference Include="..\HelpDesk.Common\HelpDesk.Common.csproj">
       <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
       <Name>HelpDesk.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HelpDesk.DTO\HelpDesk.DTO.csproj">
-      <Project>{ef4a1993-435a-4fe1-a81d-b37617bdcbea}</Project>
-      <Name>HelpDesk.DTO</Name>
     </ProjectReference>
     <ProjectReference Include="..\HelpDesk.Entity\HelpDesk.Entity.csproj">
       <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>

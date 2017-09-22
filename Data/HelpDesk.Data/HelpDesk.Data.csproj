@@ -84,10 +84,6 @@
       <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
       <Name>HelpDesk.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\HelpDesk.DTO\HelpDesk.DTO.csproj">
-      <Project>{ef4a1993-435a-4fe1-a81d-b37617bdcbea}</Project>
-      <Name>HelpDesk.DTO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\HelpDesk.Entity\HelpDesk.Entity.csproj">
       <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>
       <Name>HelpDesk.Entity</Name>

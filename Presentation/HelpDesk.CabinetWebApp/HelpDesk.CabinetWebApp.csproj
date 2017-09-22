@@ -519,10 +519,6 @@
       <Project>{b0535568-f554-4f6c-9520-b3195be0ec62}</Project>
       <Name>HelpDesk.DataService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\HelpDesk.DTO\HelpDesk.DTO.csproj">
-      <Project>{ef4a1993-435a-4fe1-a81d-b37617bdcbea}</Project>
-      <Name>HelpDesk.DTO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\HelpDesk.Entity\HelpDesk.Entity.csproj">
       <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>
       <Name>HelpDesk.Entity</Name>

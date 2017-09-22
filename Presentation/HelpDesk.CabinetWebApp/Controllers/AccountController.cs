@@ -12,7 +12,7 @@ using HelpDesk.DataService.Common;
 using System.Collections.Generic;
 using HelpDesk.CabinetWebApp.Filters;
 using HelpDesk.CabinetWebApp.Resources;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using System.Net.Mail;
 using System;
 using System.Net.Configuration;

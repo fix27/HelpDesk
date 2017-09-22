@@ -1,4 +1,4 @@
-﻿using HelpDesk.DTO.FileUpload.Interface;
+﻿using HelpDesk.DataService.DTO.FileUpload.Interface;
 using System.Collections.Generic;
 
 namespace HelpDesk.DataService.Interface

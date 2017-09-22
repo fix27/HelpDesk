@@ -4,7 +4,7 @@ using System.Web.Http.Description;
 using HelpDesk.DataService.Interface;
 using Microsoft.AspNet.Identity;
 using HelpDesk.Entity;
-using HelpDesk.DTO;
+using HelpDesk.DataService.DTO;
 using System.Collections;
 using System.Linq;
 using System;
