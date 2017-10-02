@@ -32,6 +32,10 @@ namespace HelpDesk.Common.Helpers
             {
                 // use reflection (not ComponentModel) to mirror LINQ
                 PropertyInfo pi = type.GetProperty(prop);
+
+                if (pi == null)
+                    continue;
+
                 expr = Expression.Property(expr, pi);
                 type = pi.PropertyType;
             }
