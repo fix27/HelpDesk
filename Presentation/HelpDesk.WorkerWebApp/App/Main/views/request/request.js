@@ -244,8 +244,7 @@
 
                         if (result.cancel)
                             return;
-                        vm.refresh();
-
+                        
                     });
                 });
             }
@@ -263,8 +262,7 @@
 
                         if (result.cancel)
                             return;
-                        vm.refresh();
-
+                        
                     });
                 });
             }
@@ -282,8 +280,11 @@
 
                         if (result.cancel)
                             return;
-                        vm.refresh();
-
+                        
+                        vm.request.EmployeeId = result.employee.Id;
+                        vm.request.EmployeeInfo = result.employee.EmployeeInfo;
+                        alert(vm.request.EmployeeInfo);
+                        
                     });
                 });
             }

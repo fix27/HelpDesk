@@ -3,8 +3,8 @@
 
     var controllerId = 'app.views.employee.employee';
     app.controller(controllerId, [
-        '$element', '$rootScope', 'employeeService', 'modalService', 'params',
-        function ($element, $rootScope, employeeService, modalService, params) {
+        '$element', '$rootScope', 'close', 'employeeService', 'modalService', 'params',
+        function ($element, $rootScope, close, employeeService, modalService, params) {
 
             var vm = this;
 
@@ -25,6 +25,7 @@
             
             vm.save = function () {
                 vm.loadingFlag = true;
+
                 employeeService.save(vm.employee).then(function (results) {
                     
                     vm.errors = {};
@@ -33,8 +34,10 @@
                         vm.errors = results.data.errors;
                     }
                     else {
+                        var employee = {};
+                        angular.copy(results.data.employee, employee);
                         $element.modal('hide');
-                        close({ cancel: false }, 300);
+                        close({ cancel: false, employee: employee }, 300);
                     }
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });
@@ -126,7 +129,7 @@
                         
             vm.cancel = function () {
                 $element.modal('hide');
-                close({ cancel: true }, 300);
+                close({ cancel: true }, 4400);
             };
 
             init();

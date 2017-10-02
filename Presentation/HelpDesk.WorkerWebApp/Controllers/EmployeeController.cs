@@ -54,7 +54,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return execute(delegate ()
             {
                 employeeService.Save(entity);
-                result = Json(new { success = true });
+                entity = employeeService.Get(entity.Id);
+                result = Json(new { employee = entity, success = true });
             });
         }
 

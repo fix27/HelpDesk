@@ -313,6 +313,8 @@ namespace HelpDesk.DataService
             employeeRepository.Save(entity);
            
             repository.SaveChanges();
+
+            dto.Id = entity.Id;
         }
 
         public bool IsComplete(long id)
