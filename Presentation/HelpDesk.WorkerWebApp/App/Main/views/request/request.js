@@ -211,7 +211,10 @@
                 vm.request.EmployeeId = p.Id;
             };
 
-
+            vm.clearEmployee = function () {
+                vm.request.EmployeeId = 0;
+                vm.request.EmployeeInfo = null;
+            };
 
 
             $scope.$on('fileUploadFailEvent', function (event, data) {

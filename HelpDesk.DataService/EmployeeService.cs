@@ -255,15 +255,33 @@ namespace HelpDesk.DataService
             if(dto.Id > 0)
                 user = userRepository.Get(dto.Id);
 
+            Post post = null;
+            if (!String.IsNullOrWhiteSpace(dto.PostName))
+                post = postRepository.Get(new SimpleEntityByNameEqualSpecification<Post>(dto.PostName));
+
             if (entity == null)
-                entity = new Employee()
+            {
+                //проверяем, не был ли ранее создан сотрудник
+                entity = employeeRepository.Get(
+                    e => e.FM.ToUpper() == dto.FM.ToUpper() &&
+                    e.IM.ToUpper()      == dto.IM.ToUpper() &&
+                    e.OT.ToUpper()      == dto.OT.ToUpper() &&
+                    e.Organization.Id   == dto.OrganizationId &&
+                    e.Post.Id           == (post != null? post.Id: 0) &&
+                    e.Phone.ToUpper()   == dto.Phone.ToPhoneList());
+
+                if (entity == null)
                 {
-                    Id = user!= null? user.Id : 0,
-                    User = user
-                };
+                    entity = new Employee()
+                    {
+                        Id = user != null ? user.Id : 0,
+                        User = user
+                    };
+                }
+            }
             else
             {
-                if (entity.Organization!=null && dto.OrganizationId.HasValue && 
+                if (entity.Organization != null && dto.OrganizationId.HasValue &&
                     entity.Organization.Id != dto.OrganizationId)
                 {
                     //удаляем из профиля заявителя объекты, на которые он не сможет подавать заявки,
@@ -271,7 +289,7 @@ namespace HelpDesk.DataService
                     IEnumerable<EmployeeObjectDTO> listPersonalProfileObject = queryRunner.Run(new EmployeeObjectQuery(
                         entity.User.Id));
 
-                    IEnumerable<OrganizationObjectTypeWorker> listOrganizationObjectTypeWorker = 
+                    IEnumerable<OrganizationObjectTypeWorker> listOrganizationObjectTypeWorker =
                         organizationObjectTypeWorkerRepository.GetList(t => t.Organization.Id == dto.OrganizationId).ToList();
 
                     IEnumerable<EmployeeObjectDTO> toRemoval = listPersonalProfileObject
@@ -298,13 +316,12 @@ namespace HelpDesk.DataService
 
             if (!String.IsNullOrWhiteSpace(dto.PostName))
             {
-                Post p = postRepository.Get(new SimpleEntityByNameEqualSpecification<Post>(dto.PostName));
-                if (p == null)
+                if (post == null)
                 {
-                    p = new Post() { Name = dto.PostName.Trim().ToFirstLetterUpper() };
-                    postRepository.Save(p);
+                    post = new Post() { Name = dto.PostName.Trim().ToFirstLetterUpper() };
+                    postRepository.Save(post);
                 }
-                entity.Post = p;
+                entity.Post = post;
             }
             else
                 entity.Post = null;
