@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="IHelpDeskMigrationRunner.cs" />
     <EmbeddedResource Include="Migrations\0001\create-database.sql" />
+    <Compile Include="Migrations\0002\AlterSettings.cs" />
     <Compile Include="Migrations\0002\AlterObjectType.cs" />
     <Compile Include="Migrations\0001\InitialDeployment.cs" />
     <Compile Include="MigratorInstaller.cs" />

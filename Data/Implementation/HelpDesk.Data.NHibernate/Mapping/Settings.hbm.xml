@@ -12,6 +12,10 @@
     <property name="ServiceLevelAgreementUrl"  length="200" />
     <property name="Message"  length="4000" />
     <property name="TechSupportPhones" length="200" />
-    
+
+    <property insert="false" update="false" name="StartWorkDay"     type="Int32"/>
+    <property insert="false" update="false" name="EndWorkDay"       type="Int32"/>
+    <property insert="false" update="false" name="StartLunchBreak"  type="Int32"/>
+    <property insert="false" update="false" name="EndLunchBreak"    type="Int32"/>
   </class>
 </hibernate-mapping>

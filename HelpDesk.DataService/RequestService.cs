@@ -412,13 +412,16 @@ namespace HelpDesk.DataService
             return null;
         }
 
+        
+
         [Transaction]
         public long Save(RequestParameter dto)
         {
+            Settings settings = settingsRepository.Get();
             if (dto.Id == 0)
             {
                 DateTime currentDate = dateTimeService.GetCurrent();
-                Settings settings = settingsRepository.Get();
+                
                 IList<Request> list = requestRepository.GetList(t => t.DateInsert.Date == currentDate.Date &&
                 t.Employee.Id == dto.EmployeeId && t.User == null)
                     .OrderByDescending(t => t.Id)
@@ -487,7 +490,12 @@ namespace HelpDesk.DataService
             r = new Request()
             {
                 CountCorrectionDateEndPlan = 0,
-                DateEndPlan = currentDateTime.AddDays(requestObject.ObjectType.CountDay),
+                DateEndPlan = dateTimeService.GetRequestDateEnd(currentDateTime, 
+                    requestObject.ObjectType.CountHour, 
+                    settings.StartWorkDay, 
+                    settings.EndWorkDay, 
+                    settings.StartLunchBreak, 
+                    settings.EndLunchBreak),
                 DateInsert = currentDateTime,
                 DateUpdate = currentDateTime,
                 DescriptionProblem = dto.DescriptionProblem,

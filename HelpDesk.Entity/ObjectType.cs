@@ -16,8 +16,8 @@
         public bool Archive { get; set; }
 
         /// <summary>
-        /// Количество дней по-умолчанию на выполнение работ по объекту данного типа
+        /// Количество рабочих часов по-умолчанию на выполнение работ по объекту данного типа
         /// </summary>
-        public int CountDay { get; set; }
+        public int CountHour { get; set; }
     }
 }
