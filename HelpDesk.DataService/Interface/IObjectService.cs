@@ -5,6 +5,8 @@ namespace HelpDesk.DataService.Interface
 {
     public interface IObjectService
     {
+        RequestObjectDTO Get(long id);
+
         IEnumerable<WareDTO> GetListWare();
 
         IEnumerable<SimpleDTO> GetListHardType(string name = null);

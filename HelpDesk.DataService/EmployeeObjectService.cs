@@ -111,6 +111,8 @@ namespace HelpDesk.DataService
 
             employeeObjectRepository.Save(entity);
             repository.SaveChanges();
+
+            dto.Id = entity.Object.Id;
         }
 
         [Transaction]
@@ -212,6 +214,8 @@ namespace HelpDesk.DataService
 
             employeeObjectRepository.Save(entity);
             repository.SaveChanges();
+
+            dto.Id = entity.Object.Id;
         }
 
         [Transaction]

@@ -28,9 +28,10 @@
                         vm.errors = results.data.errors;
                     }
                     else {
-                        //закрытие диалога, обновление гриды на родительской форме
+                        var object = {};
+                        angular.copy(results.data.requestObject, object);
                         $element.modal('hide');
-                        close({ cancel: false }, 300);
+                        close({ cancel: false, object: object }, 300);
                     }
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });

@@ -210,7 +210,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return execute(delegate ()
             {
                 employeeObjectService.AddIS(param.EmployeeId, param.RequestObjectIS);
-                result = Json(new { success = true });
+                RequestObjectDTO requestObject = objectService.Get(param.RequestObjectIS.Id);
+                result = Json(new { success = true, requestObject = requestObject });
             });
         }
 
@@ -221,7 +222,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return execute(delegate ()
             {
                 employeeObjectService.AddTO(param.EmployeeId, param.RequestObjectTO);
-                result = Json(new { success = true });
+                RequestObjectDTO requestObject = objectService.Get(param.RequestObjectTO.Id);
+                result = Json(new { success = true, requestObject = requestObject });
             });
         }
 

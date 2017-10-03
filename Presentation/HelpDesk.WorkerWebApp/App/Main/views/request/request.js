@@ -248,6 +248,8 @@
                         if (result.cancel)
                             return;
                         
+                        vm.request.ObjectId = result.object.Id;
+                        vm.request.ObjectName = result.object.ObjectName;
                     });
                 });
             }
@@ -266,6 +268,8 @@
                         if (result.cancel)
                             return;
                         
+                        vm.request.ObjectId = result.object.Id;
+                        vm.request.ObjectName = result.object.ObjectName;
                     });
                 });
             }
@@ -286,8 +290,7 @@
                         
                         vm.request.EmployeeId = result.employee.Id;
                         vm.request.EmployeeInfo = result.employee.EmployeeInfo;
-                        alert(vm.request.EmployeeInfo);
-                        
+                                                
                     });
                 });
             }

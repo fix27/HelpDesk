@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.DataService.DTO;
 using HelpDesk.DataService.Specification;
+using System;
 
 namespace HelpDesk.DataService
 {
@@ -16,16 +17,34 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<HardType> hardTypeRepository;
         private readonly IBaseRepository<Model> modelRepository;
         private readonly IBaseRepository<Manufacturer> manufacturerRepository;
+        private readonly IBaseRepository<RequestObject> objectRepository;
 
         public ObjectService(IBaseRepository<HardType> hardTypeRepository,
             IBaseRepository<Model> modelRepository,
-            IBaseRepository<Manufacturer> manufacturerRepository)
+            IBaseRepository<Manufacturer> manufacturerRepository,
+            IBaseRepository<RequestObject> objectRepository)
         {
             this.hardTypeRepository = hardTypeRepository;
             this.modelRepository = modelRepository;
             this.manufacturerRepository = manufacturerRepository;
+            this.objectRepository = objectRepository;
         }
 
+        public RequestObjectDTO Get(long id)
+        {
+            RequestObject obj = objectRepository.Get(id);
+            if (obj == null)
+                return null;
+            return new RequestObjectDTO()
+            {
+                 HardType = obj.HardType,
+                 Model = obj.Model,
+                 ObjectType = obj.ObjectType,
+                 Soft = !String.IsNullOrWhiteSpace(obj.SoftName),
+                 SoftName = obj.SoftName,
+                 Id = obj.Id
+            };
+        }
 
         public IEnumerable<WareDTO> GetListWare()
         {
