@@ -14,5 +14,10 @@
         /// Только для фильтрации
         /// </summary>
         public bool Archive { get; set; }
+
+        /// <summary>
+        /// Количество дней по-умолчанию на выполнение работ по объекту данного типа
+        /// </summary>
+        public int CountDay { get; set; }
     }
 }

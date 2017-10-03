@@ -28,7 +28,7 @@
                    ng-model="vm.request.EmployeeInfo"
                    placeholder="@String.Format(Resource.Placeholder_EmployeeName, "")...">
             <span class="input-group-btn">
-                <button ng-click="vm.clearEmployee()" class="btn btn-default" type="button">&times;</button>
+                <button ng-click="vm.clearEmployee()" class="btn btn-default" type="button"><span class="glyphicon glyphicon-remove"></span></button>
                 <button ng-click="vm.openEmployeeDictionary()" class="btn btn-default" type="button">...</button>
                 <button style="width: 120px" ng-click="vm.addEditEmployee()" class="btn btn-default" type="button">@Resource.Action_Add</button>
             </span>

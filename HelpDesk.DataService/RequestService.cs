@@ -447,12 +447,12 @@ namespace HelpDesk.DataService
 
 
 
-            Employee personalProfile = employeeRepository.Get(dto.EmployeeId);
+            Employee employee = employeeRepository.Get(dto.EmployeeId);
             RequestObject requestObject = objectRepository.Get(dto.ObjectId);
 
 
             OrganizationObjectTypeWorker organizationObjectTypeWorker
-                = organizationObjectTypeWorkerRepository.Get(t => t.Organization.Id == personalProfile.Organization.Id && t.ObjectType.Id == requestObject.ObjectType.Id);
+                = organizationObjectTypeWorkerRepository.Get(t => t.Organization.Id == employee.Organization.Id && t.ObjectType.Id == requestObject.ObjectType.Id);
 
             if (organizationObjectTypeWorker == null)
                 setErrorMsg("Worker", Resource.WorkerNotDefinedConstraintMsg);
@@ -487,13 +487,13 @@ namespace HelpDesk.DataService
             r = new Request()
             {
                 CountCorrectionDateEndPlan = 0,
-                DateEndPlan = currentDateTime.AddDays(3),
+                DateEndPlan = currentDateTime.AddDays(requestObject.ObjectType.CountDay),
                 DateInsert = currentDateTime,
                 DateUpdate = currentDateTime,
                 DescriptionProblem = dto.DescriptionProblem,
                 Worker = workerRepository.Get(organizationObjectTypeWorker.Worker.Id),
-                Object = objectRepository.Get(dto.ObjectId),
-                Employee = employeeRepository.Get(dto.EmployeeId),
+                Object = requestObject,
+                Employee = employee,
                 Status = newStatusRequest,
                 User = user                
             };

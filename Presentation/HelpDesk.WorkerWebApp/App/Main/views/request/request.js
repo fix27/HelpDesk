@@ -186,6 +186,8 @@
                             return;
                         vm.request.EmployeeId = result.selectedEmployee.Id;
                         vm.request.EmployeeInfo = result.selectedEmployee.Name;
+                        vm.request.ObjectId = 0;
+                        vm.request.ObjectName = null;
 
                     });
                 });
@@ -209,11 +211,15 @@
 
             vm.selectEmployee = function (p) {
                 vm.request.EmployeeId = p.Id;
+                vm.request.ObjectId = 0;
+                vm.request.ObjectName = null;
             };
 
             vm.clearEmployee = function () {
                 vm.request.EmployeeId = 0;
                 vm.request.EmployeeInfo = null;
+                vm.request.ObjectId = 0;
+                vm.request.ObjectName = null;
             };
 
 
@@ -290,6 +296,8 @@
                         
                         vm.request.EmployeeId = result.employee.Id;
                         vm.request.EmployeeInfo = result.employee.EmployeeInfo;
+                        vm.request.ObjectId = 0;
+                        vm.request.ObjectName = null;
                                                 
                     });
                 });
