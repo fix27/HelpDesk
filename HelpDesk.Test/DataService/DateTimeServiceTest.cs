@@ -102,7 +102,7 @@ namespace HelpDesk.Test.DataService
 
 
             //после рабочего дня
-            currentDateTime = DateTime.Parse("04.10.2017 19:20");
+            currentDateTime = DateTime.Parse("04.10.2017 22:40");
             countHour = 3;
             dateEnd = s.GetRequestDateEnd(currentDateTime, countHour);
             Assert.AreEqual(dateEnd, DateTime.Parse("05.10.2017 12:00"));

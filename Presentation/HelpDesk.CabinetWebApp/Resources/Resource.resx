@@ -400,7 +400,7 @@
     <value>Соглашение об уровне сервиса</value>
   </data>
   <data name="Text_Copyright" xml:space="preserve">
-    <value>Разработка и сопровождение &lt;a href='http://google.com'&gt;ООО "Рога и Копыта"&lt;/a&gt;</value>
+    <value>&lt;a href='http://google.com'&gt;ООО "Рога и Копыта"&lt;/a&gt;</value>
   </data>
   <data name="Label_EventDateEvent" xml:space="preserve">
     <value>Дата события</value>

@@ -853,7 +853,7 @@ namespace HelpDesk.CabinetWebApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Разработка и сопровождение &lt;a href=&apos;http://google.com&apos;&gt;ООО &quot;Рога и Копыта&quot;&lt;/a&gt;.
+        ///   Looks up a localized string similar to &lt;a href=&apos;http://google.com&apos;&gt;ООО &quot;Рога и Копыта&quot;&lt;/a&gt;.
         /// </summary>
         public static string Text_Copyright {
             get {
