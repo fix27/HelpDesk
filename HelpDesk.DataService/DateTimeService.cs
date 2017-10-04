@@ -1,7 +1,11 @@
 ﻿using HelpDesk.DataService.Interface;
 using HelpDesk.DataService.DTO;
 using System;
+using System.Linq;
 using System.Collections.Generic;
+using HelpDesk.DataService.Resources;
+using HelpDesk.Entity;
+using HelpDesk.Data.Repository;
 
 namespace HelpDesk.DataService
 {
@@ -10,6 +14,21 @@ namespace HelpDesk.DataService
     /// </summary>
     public class DateTimeService : BaseDataService, IDateTimeService
     {
+        
+        private readonly IBaseRepository<WorkCalendarItem> workCalendarItemRepository;
+        private readonly IBaseRepository<WorkScheduleItem> workScheduleItemRepository;
+        private readonly ISettingsRepository settingsRepository;
+
+        public DateTimeService(IBaseRepository<WorkCalendarItem> workCalendarItemRepository,
+            IBaseRepository<WorkScheduleItem> workScheduleItemRepository,
+            ISettingsRepository settingsRepository)
+        {
+            this.workCalendarItemRepository = workCalendarItemRepository;
+            this.workScheduleItemRepository = workScheduleItemRepository;
+            this.settingsRepository = settingsRepository;
+        }
+
+
         public DateTime GetCurrent()
         {
             return DateTime.Now;
@@ -19,18 +38,18 @@ namespace HelpDesk.DataService
         {
             return new List<Month>()
             {
-                new Month() { Ord = 1, Name = "Январь" },
-                new Month() { Ord = 2, Name = "Февраль" },
-                new Month() { Ord = 3, Name = "Март" },
-                new Month() { Ord = 4, Name = "Апрель" },
-                new Month() { Ord = 5, Name = "Май" },
-                new Month() { Ord = 6, Name = "Июнь" },
-                new Month() { Ord = 7, Name = "Июль" },
-                new Month() { Ord = 8, Name = "Август" },
-                new Month() { Ord = 9, Name = "Сентябрь" },
-                new Month() { Ord = 10, Name = "Октябрь" },
-                new Month() { Ord = 11, Name = "Ноябрь" },
-                new Month() { Ord = 12, Name = "Декабрь" }
+                new Month() { Ord = 1,  Name = Resource.January },
+                new Month() { Ord = 2,  Name = Resource.February },
+                new Month() { Ord = 3,  Name = Resource.March },
+                new Month() { Ord = 4,  Name = Resource.April },
+                new Month() { Ord = 5,  Name = Resource.May },
+                new Month() { Ord = 6,  Name = Resource.June },
+                new Month() { Ord = 7,  Name = Resource.July },
+                new Month() { Ord = 8,  Name = Resource.August },
+                new Month() { Ord = 9,  Name = Resource.September },
+                new Month() { Ord = 10, Name = Resource.October },
+                new Month() { Ord = 11, Name = Resource.November },
+                new Month() { Ord = 12, Name = Resource.December }
             };
         }
 
@@ -39,109 +58,91 @@ namespace HelpDesk.DataService
         /// </summary>
         /// <param name="currentDateTime">Текущая дата</param>
         /// <param name="countHour">Количество часов на выполнение работ</param>
-        /// <param name="startWorkDay">Час начала рабочего дня</param>
-        /// <param name="endWorkDay">Час окончания рабочего дня</param>
-        /// <param name="startLunchBreak">Час начала обеденного перерыва</param>
-        /// <param name="endLunchBreak">Час окончания обеденного перерыва</param>
         /// <returns>Дата окончания срока по заявке</returns>
-        public DateTime GetRequestDateEnd(DateTime currentDateTime, int countHour, 
-            int? startWorkDay, int? endWorkDay, int? startLunchBreak, int? endLunchBreak)
+        public DateTime GetRequestDateEnd(DateTime currentDateTime, int countHour)
         {
-            if (!startWorkDay.HasValue || !endWorkDay.HasValue || 
-                startWorkDay.HasValue && endWorkDay.HasValue && startWorkDay >= endWorkDay)
+            Settings settings = settingsRepository.Get();
+
+            if (!settings.StartWorkDay.HasValue || !settings.EndWorkDay.HasValue || 
+                settings.StartWorkDay.HasValue && settings.EndWorkDay.HasValue && settings.StartWorkDay >= settings.EndWorkDay)
                 return currentDateTime.AddHours(countHour);
 
-            bool hasLunch = startLunchBreak.HasValue && endLunchBreak.HasValue && endLunchBreak > startLunchBreak;
-            int countDailyWorkHour = endWorkDay.Value - startWorkDay.Value
-                - (hasLunch? endLunchBreak.Value - startLunchBreak.Value : 0);
+            bool hasLunch = settings.StartLunchBreak.HasValue && settings.EndLunchBreak.HasValue && settings.EndLunchBreak > settings.StartLunchBreak;
+            int countDailyWorkHour = settings.EndWorkDay.Value - settings.StartWorkDay.Value
+                - (hasLunch? settings.EndLunchBreak.Value - settings.StartLunchBreak.Value : 0);
             int modHour = countHour % countDailyWorkHour;
             int countDay = countHour / countDailyWorkHour;
             DateTime requestDateEnd = currentDateTime.AddDays(countDay);
             
 
-            if (requestDateEnd.Hour < startWorkDay) //до начала рабочего дня
+            if (requestDateEnd.Hour < settings.StartWorkDay) //до начала рабочего дня
             {
-                requestDateEnd = requestDateEnd.Date.AddHours(startWorkDay.Value + modHour);
-                if (hasLunch)
-                {
-                    if (requestDateEnd.Hour <= startLunchBreak)
-                        return requestDateEnd;/**/
-                    else
-                    {
-                        requestDateEnd = requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
-                        return requestDateEnd;/**/
-                    }
-                }
-                else
-                    return requestDateEnd;
+                requestDateEnd = requestDateEnd.Date.AddHours(settings.StartWorkDay.Value + modHour);
+                if (hasLunch && requestDateEnd.Hour > settings.StartLunchBreak)
+                    requestDateEnd = requestDateEnd.AddHours(settings.EndLunchBreak.Value - settings.StartLunchBreak.Value);/**/
 
             }
-            else if (hasLunch && requestDateEnd.Hour < startLunchBreak)  //до обеда
+            else if (hasLunch && requestDateEnd.Hour < settings.StartLunchBreak)  //до обеда
             {
                 requestDateEnd = requestDateEnd.AddHours(modHour);
-                if (requestDateEnd.Hour < startLunchBreak)
-                    return requestDateEnd;/**/
-                else
+                if (requestDateEnd.Hour >= settings.StartLunchBreak)
                 {
-                    requestDateEnd = requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
-                    if (requestDateEnd.Hour < endWorkDay.Value)  //до конца рабочего дня
-                        return requestDateEnd;/**/
-                    else
-                        return requestDateEnd/**/
+                    requestDateEnd = requestDateEnd
+                        .AddHours(settings.EndLunchBreak.Value - settings.StartLunchBreak.Value);
+                    if (requestDateEnd.Hour >= settings.EndWorkDay.Value)  
+                          requestDateEnd = requestDateEnd/**/
                                 .Date
                                 .AddDays(1)
-                                .AddHours(startWorkDay.Value + requestDateEnd.Hour - endWorkDay.Value)
+                                .AddHours(settings.StartWorkDay.Value + requestDateEnd.Hour - settings.EndWorkDay.Value)
                                 .AddMinutes(requestDateEnd.Minute);
                 }
             }
-            else if (requestDateEnd.Hour < endWorkDay)  //до конца рабочего дня
+            else if (requestDateEnd.Hour < settings.EndWorkDay)  //до конца рабочего дня
             {
                 requestDateEnd = requestDateEnd.AddHours(modHour);
-                if (requestDateEnd.Hour > 0 && requestDateEnd.Hour < endWorkDay.Value)  //до конца рабочего дня
-                {
-                    return requestDateEnd;/**/
-                }
-                else
+                if (!(requestDateEnd.Hour > 0 && requestDateEnd.Hour < settings.EndWorkDay.Value))  
                 {
                     requestDateEnd = requestDateEnd
                                 .Date
                                 .AddDays(1)
-                                .AddHours(startWorkDay.Value + requestDateEnd.Hour - endWorkDay.Value)
+                                .AddHours(settings.StartWorkDay.Value + requestDateEnd.Hour - settings.EndWorkDay.Value)
                                 .AddMinutes(requestDateEnd.Minute);
 
-                    if (hasLunch)
-                    {
-                        if (requestDateEnd.Hour < startLunchBreak)
-                            return requestDateEnd;/**/
-                        else
-                        {
-                            requestDateEnd = requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
-                            return requestDateEnd;/**/
-                        }
-                    }
-                    else
-                        return requestDateEnd;
+                    if (hasLunch && requestDateEnd.Hour >= settings.StartLunchBreak)
+                        requestDateEnd = requestDateEnd.AddHours(settings.EndLunchBreak.Value - settings.StartLunchBreak.Value); /**/
 
                 }
             }
             else //после окончания рабочего дня
             {
-                requestDateEnd = requestDateEnd.Date.AddDays(1).AddHours(startWorkDay.Value + modHour);
-                if (hasLunch)
-                {
-                    if (requestDateEnd.Hour <= startLunchBreak)
-                        return requestDateEnd;/**/
-                    else
-                    {
-                        requestDateEnd = requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
-                        return requestDateEnd;/**/
-                    }
-                }
-                else
-                    return requestDateEnd;
+                requestDateEnd = requestDateEnd
+                    .Date
+                    .AddDays(1)
+                    .AddHours(settings.StartWorkDay.Value + modHour);
+
+                if (hasLunch && requestDateEnd.Hour > settings.StartLunchBreak)
+                    requestDateEnd = requestDateEnd.AddHours(settings.EndLunchBreak.Value - settings.StartLunchBreak.Value);/**/
+
+            }
+
+            IEnumerable<WorkCalendarItem> workCalendarItems =
+                workCalendarItemRepository
+                .GetList(t => t.Date.Year == requestDateEnd.Year)
+                .OrderBy(t => t.Date)
+                .ToList();
+
+            DayOfWeek dayOfWeek = requestDateEnd.DayOfWeek;
+
+            if (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
+            {
+                //вдруг это рабочий день
+
             }
 
 
+            return requestDateEnd;
+
+            //
         }
     }
 }

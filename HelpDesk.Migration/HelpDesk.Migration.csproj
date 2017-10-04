@@ -70,6 +70,7 @@
     <Compile Include="Migrations\0002\AlterSettings.cs" />
     <Compile Include="Migrations\0002\AlterObjectType.cs" />
     <Compile Include="Migrations\0001\InitialDeployment.cs" />
+    <Compile Include="Migrations\0003\AlterWorkCalendarItem.cs" />
     <Compile Include="MigratorInstaller.cs" />
     <Compile Include="HelpDeskMigrationRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

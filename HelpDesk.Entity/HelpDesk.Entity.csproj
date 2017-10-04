@@ -44,6 +44,8 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseRequest.cs" />
     <Compile Include="BaseRequestEvent.cs" />
+    <Compile Include="WorkScheduleItem.cs" />
+    <Compile Include="WorkCalendarItem.cs" />
     <Compile Include="RawStatusRequestEnum.cs" />
     <Compile Include="TypeAccessWorkerUserEnum.cs" />
     <Compile Include="WorkerUser.cs" />

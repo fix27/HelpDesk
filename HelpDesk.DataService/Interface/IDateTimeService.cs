@@ -13,6 +13,6 @@ namespace HelpDesk.DataService.Interface
 
         IList<Month> GetListMonth();
 
-        DateTime GetRequestDateEnd(DateTime currentDateTime, int countHour, int? startWorkDay, int? endWorkDay, int? startLunchBreak, int? endLunchBreak);
+        DateTime GetRequestDateEnd(DateTime currentDateTime, int countHour);
     }
 }

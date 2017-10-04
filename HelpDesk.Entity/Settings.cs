@@ -54,22 +54,22 @@
 
 
         /// <summary>
-        /// Час начала рабочего дня
+        /// Час начала рабочего дня по умолчанию
         /// </summary>
         public int? StartWorkDay { get; set; }
 
         /// <summary>
-        /// Час окончания рабочего дня
+        /// Час окончания рабочего дня по умолчанию
         /// </summary>
         public int? EndWorkDay { get; set; }
 
         /// <summary>
-        /// Час начала обеденного перерыва
+        /// Час начала обеденного перерыва по умолчанию
         /// </summary>
         public int? StartLunchBreak { get; set; }
 
         /// <summary>
-        /// Час окончания обеденного перерыва
+        /// Час окончания обеденного перерыва по умолчанию
         /// </summary>
         public int? EndLunchBreak { get; set; }        
 

@@ -182,6 +182,10 @@
       <Project>{a13ca957-a9b4-4476-bf79-cb115bb611cb}</Project>
       <Name>HelpDesk.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Data\Implementation\HelpDesk.Data.NHibernate.Repository\HelpDesk.Data.NHibernate.Repository.csproj">
+      <Project>{B2C53EC7-C7D8-4DAD-8BCC-F644E3F5D217}</Project>
+      <Name>HelpDesk.Data.NHibernate.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpDesk.Common\HelpDesk.Common.csproj">
       <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
       <Name>HelpDesk.Common</Name>

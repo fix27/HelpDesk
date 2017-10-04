@@ -490,12 +490,7 @@ namespace HelpDesk.DataService
             r = new Request()
             {
                 CountCorrectionDateEndPlan = 0,
-                DateEndPlan = dateTimeService.GetRequestDateEnd(currentDateTime, 
-                    requestObject.ObjectType.CountHour, 
-                    settings.StartWorkDay, 
-                    settings.EndWorkDay, 
-                    settings.StartLunchBreak, 
-                    settings.EndLunchBreak),
+                DateEndPlan = dateTimeService.GetRequestDateEnd(currentDateTime, requestObject.ObjectType.CountHour),
                 DateInsert = currentDateTime,
                 DateUpdate = currentDateTime,
                 DescriptionProblem = dto.DescriptionProblem,
