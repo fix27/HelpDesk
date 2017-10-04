@@ -97,7 +97,7 @@ namespace HelpDesk.DataService
                                 .AddMinutes(requestDateEnd.Minute);
                 }
             }
-            else if (requestDateEnd.Hour < settings.EndWorkDay)  //до конца рабочего дня
+            else if (requestDateEnd.Hour < settings.EndWorkDay)  //до окончания рабочего дня
             {
                 requestDateEnd = requestDateEnd.AddHours(modHour);
                 if (!(requestDateEnd.Hour > 0 && requestDateEnd.Hour < settings.EndWorkDay.Value))  
@@ -132,17 +132,31 @@ namespace HelpDesk.DataService
                 .ToList();
 
             DayOfWeek dayOfWeek = requestDateEnd.DayOfWeek;
-
+                        
             if (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
             {
-                //вдруг это рабочий день
-
+                //вдруг это рабочий день?
+                if(workCalendarItems!=null && workCalendarItems.Count(t => t.Date.Date == requestDateEnd.Date && t.TypeItem == TypeWorkCalendarItem.Work) > 0)
+                    return requestDateEnd;
             }
 
+            //корректировка на праздники и сб вс
+            WorkCalendarItem item = null;
+            while (true)
+            {
+                item = workCalendarItems
+                    .FirstOrDefault(t => t.Date.Date == requestDateEnd.Date && t.TypeItem == TypeWorkCalendarItem.Holiday);
+                dayOfWeek = requestDateEnd.DayOfWeek;
+                if (item != null)
+                    requestDateEnd = item.Date.AddHours(requestDateEnd.Hour).AddMinutes(requestDateEnd.Minute);
+                else if (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
+                    requestDateEnd = requestDateEnd.AddDays(1);
+                else
+                    break;
+            }
 
             return requestDateEnd;
-
-            //
+            
         }
     }
 }

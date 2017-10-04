@@ -3,7 +3,7 @@
 namespace HelpDesk.Migration.Migrations
 {
     [Migration(20171004124830, "Создание таблицы WorkCalendarItem")]
-    public class AlterWorkCalendarItem : ForwardOnlyMigration
+    public class CreateWorkCalendarItem : ForwardOnlyMigration
     {
         public override void Up()
         {

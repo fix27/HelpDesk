@@ -175,9 +175,9 @@ namespace HelpDesk.Test.DataService
             Assert.AreEqual(dateEnd, DateTime.Parse("05.10.2017 17:20"));
 
             currentDateTime = DateTime.Parse("04.10.2017 17:20");
-            countHour = 15;
+            countHour = 24;
             dateEnd = s.GetRequestDateEnd(currentDateTime, countHour);
-            Assert.AreEqual(dateEnd, DateTime.Parse("06.10.2017 14:20"));
+            Assert.AreEqual(dateEnd, DateTime.Parse("09.10.2017 14:20"));
 
 
             //до рабочего дня
