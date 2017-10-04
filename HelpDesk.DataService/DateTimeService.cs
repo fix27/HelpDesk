@@ -51,33 +51,25 @@ namespace HelpDesk.DataService
                 startWorkDay.HasValue && endWorkDay.HasValue && startWorkDay >= endWorkDay)
                 return currentDateTime.AddHours(countHour);
 
-
-            int countDailyWorkHour = endWorkDay.Value - startWorkDay.Value;
+            bool hasLunch = startLunchBreak.HasValue && endLunchBreak.HasValue && endLunchBreak > startLunchBreak;
+            int countDailyWorkHour = endWorkDay.Value - startWorkDay.Value
+                - (hasLunch? endLunchBreak.Value - startLunchBreak.Value : 0);
             int modHour = countHour % countDailyWorkHour;
             int countDay = countHour / countDailyWorkHour;
             DateTime requestDateEnd = currentDateTime.AddDays(countDay);
-            bool hasLunch = startLunchBreak.HasValue && endLunchBreak.HasValue && endLunchBreak > startLunchBreak;
+            
 
-            if (requestDateEnd.Hour < startWorkDay)     //до начала рабочего дня
+            if (requestDateEnd.Hour < startWorkDay) //до начала рабочего дня
             {
                 requestDateEnd = requestDateEnd.Date.AddHours(startWorkDay.Value + modHour);
                 if (hasLunch)
                 {
-                    if (requestDateEnd.Hour < startLunchBreak)
-                    {
-                        return requestDateEnd;
-                    }
+                    if (requestDateEnd.Hour <= startLunchBreak)
+                        return requestDateEnd;/**/
                     else
                     {
-                        requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
-                        if (requestDateEnd.Hour < endWorkDay.Value)  //до конца рабочего дня
-                        {
-                            return requestDateEnd;
-                        }
-                        else
-                        {
-                            return requestDateEnd.Date.AddDays(1).AddHours(startWorkDay.Value + requestDateEnd.Hour - endWorkDay.Value);
-                        }
+                        requestDateEnd = requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
+                        return requestDateEnd;/**/
                     }
                 }
                 else
@@ -88,37 +80,65 @@ namespace HelpDesk.DataService
             {
                 requestDateEnd = requestDateEnd.AddHours(modHour);
                 if (requestDateEnd.Hour < startLunchBreak)
-                {
-                    return requestDateEnd;
-                }
+                    return requestDateEnd;/**/
                 else
                 {
-                    requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
+                    requestDateEnd = requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
                     if (requestDateEnd.Hour < endWorkDay.Value)  //до конца рабочего дня
-                    {
-                        return requestDateEnd;
-                    }
+                        return requestDateEnd;/**/
                     else
-                    {
-                        return requestDateEnd.Date.AddDays(1).AddHours(startWorkDay.Value + requestDateEnd.Hour - endWorkDay.Value);
-                    }
+                        return requestDateEnd/**/
+                                .Date
+                                .AddDays(1)
+                                .AddHours(startWorkDay.Value + requestDateEnd.Hour - endWorkDay.Value)
+                                .AddMinutes(requestDateEnd.Minute);
                 }
             }
             else if (requestDateEnd.Hour < endWorkDay)  //до конца рабочего дня
             {
                 requestDateEnd = requestDateEnd.AddHours(modHour);
-                if (requestDateEnd.Hour < endWorkDay.Value)  //до конца рабочего дня
+                if (requestDateEnd.Hour > 0 && requestDateEnd.Hour < endWorkDay.Value)  //до конца рабочего дня
                 {
-                    return requestDateEnd;
+                    return requestDateEnd;/**/
                 }
                 else
                 {
-                    return requestDateEnd.Date.AddDays(1).AddHours(startWorkDay.Value + requestDateEnd.Hour - endWorkDay.Value);
+                    requestDateEnd = requestDateEnd
+                                .Date
+                                .AddDays(1)
+                                .AddHours(startWorkDay.Value + requestDateEnd.Hour - endWorkDay.Value)
+                                .AddMinutes(requestDateEnd.Minute);
+
+                    if (hasLunch)
+                    {
+                        if (requestDateEnd.Hour < startLunchBreak)
+                            return requestDateEnd;/**/
+                        else
+                        {
+                            requestDateEnd = requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
+                            return requestDateEnd;/**/
+                        }
+                    }
+                    else
+                        return requestDateEnd;
+
                 }
             }
-            else
+            else //после окончания рабочего дня
             {
-                return requestDateEnd.Date.AddDays(1).AddHours(startWorkDay.Value + requestDateEnd.Hour - endWorkDay.Value);
+                requestDateEnd = requestDateEnd.Date.AddDays(1).AddHours(startWorkDay.Value + modHour);
+                if (hasLunch)
+                {
+                    if (requestDateEnd.Hour <= startLunchBreak)
+                        return requestDateEnd;/**/
+                    else
+                    {
+                        requestDateEnd = requestDateEnd.AddHours(endLunchBreak.Value - startLunchBreak.Value);
+                        return requestDateEnd;/**/
+                    }
+                }
+                else
+                    return requestDateEnd;
             }
 
 

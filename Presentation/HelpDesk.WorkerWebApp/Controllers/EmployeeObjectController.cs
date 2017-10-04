@@ -4,8 +4,6 @@ using System.Web.Http.Description;
 using HelpDesk.DataService.Interface;
 using Microsoft.AspNet.Identity;
 using HelpDesk.DataService.DTO;
-using HelpDesk.Common;
-using HelpDesk.DataService.Filters;
 using HelpDesk.WorkerWebApp.Models;
 using System.Collections;
 

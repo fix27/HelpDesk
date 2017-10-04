@@ -4,7 +4,6 @@ using HelpDesk.DataService.DTO;
 using HelpDesk.DataService.DTO.Parameters;
 using HelpDesk.Entity;
 using System.Collections.Generic;
-using System;
 
 namespace HelpDesk.DataService.Interface
 {
