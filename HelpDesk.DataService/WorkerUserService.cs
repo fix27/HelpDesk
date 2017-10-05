@@ -17,19 +17,25 @@ namespace HelpDesk.DataService
     {
         
         private readonly IBaseRepository<WorkerUser>    userRepository;
+        private readonly IBaseRepository<UserSession>   userSessionRepository;
         private readonly IBaseRepository<Worker>        workerRepository;
         private readonly ISettingsRepository            settingsRepository;
+        private readonly IDateTimeService               dateTimeService;
         private readonly IRepository                    repository;
 
         public WorkerUserService(IBaseRepository<WorkerUser> userRepository,
+            IBaseRepository<UserSession> userSessionRepository,
             IBaseRepository<Worker> workerRepository,
             ISettingsRepository settingsRepository,
+            IDateTimeService dateTimeService,
             IRepository repository)
         {
-            this.userRepository         = userRepository;
-            this.workerRepository       = workerRepository;
-            this.settingsRepository     = settingsRepository;
-            this.repository             = repository;
+            this.userRepository = userRepository;
+            this.userSessionRepository = userSessionRepository;
+            this.workerRepository = workerRepository;
+            this.settingsRepository = settingsRepository;
+            this.dateTimeService = dateTimeService;
+            this.repository = repository;
         }
 
 
@@ -103,7 +109,17 @@ namespace HelpDesk.DataService
             
             repository.SaveChanges();
         }
-        
-                
+
+        public void SaveStartSessionFact(long userId, string ip)
+        {
+            userSessionRepository.Save(new UserSession()
+            {
+                ApplicationType = ApplicationType.Worker,
+                UserId = userId,
+                DateInsert = dateTimeService.GetCurrent(),
+                IP = ip
+            });
+            repository.SaveChanges();
+        }
     }
 }

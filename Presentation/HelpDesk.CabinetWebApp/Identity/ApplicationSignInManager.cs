@@ -35,7 +35,7 @@ namespace HelpDesk.CabinetWebApp.Identity
 
             
             await base.SignInAsync(user, isPersistent, false);
-            
+                        
             return SignInStatus.Success;
         }
 

@@ -51,8 +51,10 @@ namespace HelpDesk.Test.DataService
 
             userService = new CabinetUserService(
                 mockUserRepository.Object,
+                Mock.Of<IBaseRepository<UserSession>>(),
                 mockPersonalProfileRepository.Object,
                 Mock.Of<ISettingsRepository>(),
+                Mock.Of<IDateTimeService>(),
                 Mock.Of<IRepository>());
         }
        

@@ -27,12 +27,10 @@ namespace HelpDesk.CabinetWebApp.Controllers
     {
         private readonly ILog log = LogManager.GetLogger("HelpDesk.CabinetWebApp");
         private readonly ICabinetUserService userService;
-        private readonly IDateTimeService dateTimeService;
-
-        public AccountController(ICabinetUserService userService, IDateTimeService dateTimeService)
+        
+        public AccountController(ICabinetUserService userService)
         {
             this.userService = userService;
-            this.dateTimeService = dateTimeService;
         }
                 
         private ApplicationSignInManager signInManager;
@@ -90,7 +88,9 @@ namespace HelpDesk.CabinetWebApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    Session[AppConstants.CURRENT_APPLICATION_USER_SESSION_KEY] = userService.GetDTO(model.UserName);
+                    var u = userService.GetDTO(model.UserName);
+                    Session[AppConstants.CURRENT_APPLICATION_USER_SESSION_KEY] = u;
+                    userService.SaveStartSessionFact(u.Id, Request.UserHostAddress);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.Failure:
                 default:
@@ -130,14 +130,16 @@ namespace HelpDesk.CabinetWebApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    Session[AppConstants.CURRENT_APPLICATION_USER_SESSION_KEY] = userService.GetDTO(model.Email);
-                    
+                    var u = userService.GetDTO(model.Email);
+                    Session[AppConstants.CURRENT_APPLICATION_USER_SESSION_KEY] = u;
+                    userService.SaveStartSessionFact(u.Id, Request.UserHostAddress);
+                                        
                     Task task = new Task(() => sendEmail(model.Email,
                         String.Format(Resource.Text_RegisterNow, Resource.AppName),
                         String.Format("{0}: {1}, {2}: {3}",
                         Resource.Label_Email, model.Email, Resource.Label_Password, model.Password)));
                     task.Start();
-
+                   
                     return RedirectToAction("Index", "AngularTemplate");
                 case SignInStatus.Failure:
                 default:

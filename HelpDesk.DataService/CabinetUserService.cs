@@ -16,20 +16,26 @@ namespace HelpDesk.DataService
     public class CabinetUserService : BaseService, ICabinetUserService
     {
         
-        private readonly IBaseRepository<CabinetUser>          userRepository;
-        private readonly IBaseRepository<Employee> employeeRepository;
+        private readonly IBaseRepository<CabinetUser>   userRepository;
+        private readonly IBaseRepository<UserSession>   userSessionRepository;
+        private readonly IBaseRepository<Employee>      employeeRepository;
         private readonly ISettingsRepository            settingsRepository;
+        private readonly IDateTimeService               dateTimeService;
         private readonly IRepository                    repository;
 
         public CabinetUserService(IBaseRepository<CabinetUser> userRepository,
-            IBaseRepository<Employee>    employeeRepository,
-            ISettingsRepository                 settingsRepository,
-            IRepository                         repository)
+            IBaseRepository<UserSession> userSessionRepository,
+            IBaseRepository<Employee> employeeRepository,
+            ISettingsRepository settingsRepository,
+            IDateTimeService dateTimeService,
+            IRepository repository)
         {
-            this.userRepository         = userRepository;
+            this.userRepository = userRepository;
+            this.userSessionRepository = userSessionRepository;
             this.employeeRepository = employeeRepository;
-            this.settingsRepository     = settingsRepository;
-            this.repository             = repository;
+            this.settingsRepository = settingsRepository;
+            this.dateTimeService = dateTimeService;
+            this.repository = repository;
         }
 
 
@@ -103,7 +109,19 @@ namespace HelpDesk.DataService
             
             repository.SaveChanges();
         }
-        
+
+
+        public void SaveStartSessionFact(long userId, string ip)
+        {
+            userSessionRepository.Save(new UserSession()
+                {
+                    ApplicationType = ApplicationType.Cabinet,
+                    UserId = userId,
+                    DateInsert = dateTimeService.GetCurrent(),
+                    IP = ip
+                });
+            repository.SaveChanges();
+        }
                 
     }
 }

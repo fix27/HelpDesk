@@ -26,13 +26,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
     public class AccountController : Controller
     {
         private readonly ILog log = LogManager.GetLogger("HelpDesk.WorkerWebApp");
-        private readonly ICabinetUserService userService;
-        private readonly IDateTimeService dateTimeService;
-
-        public AccountController(ICabinetUserService userService, IDateTimeService dateTimeService)
+        private readonly IWorkerUserService userService;
+        
+        public AccountController(IWorkerUserService userService)
         {
             this.userService = userService;
-            this.dateTimeService = dateTimeService;
         }
                 
         private ApplicationSignInManager signInManager;
@@ -83,7 +81,9 @@ namespace HelpDesk.WorkerWebApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    Session[AppConstants.CURRENT_APPLICATION_USER_SESSION_KEY] = userService.GetDTO(model.UserName);
+                    var u = userService.GetDTO(model.UserName);
+                    Session[AppConstants.CURRENT_APPLICATION_USER_SESSION_KEY] = u;
+                    userService.SaveStartSessionFact(u.Id, Request.UserHostAddress);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.Failure:
                 default:
@@ -116,7 +116,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                CabinetUserDTO user = userService.GetDTO(model.Email);
+                WorkerUserDTO user = userService.GetDTO(model.Email);
                 if (user == null)
                 {
                     ModelState.AddModelError("", Resource.Message_EmailNotRegitered);

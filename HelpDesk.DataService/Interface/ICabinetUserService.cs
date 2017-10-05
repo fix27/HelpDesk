@@ -9,6 +9,8 @@ namespace HelpDesk.DataService.Interface
         CabinetUserDTO GetDTO(long id);
         CabinetUserDTO GetDTO(string userName);
         void Create(string email, string password);
-        
+        void SaveStartSessionFact(long userId, string ip);
+
+
     }
 }
