@@ -103,7 +103,7 @@ namespace HelpDesk.DataService.DTO
                 
 
         public bool ConfirmationStatusRequest { get { return StatusRequest == StatusRequestEnum.Closing; } }
-
+        
         public string EmployeeFM { get; set; }
         public string EmployeeIM { get; set; }
         public string EmployeeOT { get; set; }

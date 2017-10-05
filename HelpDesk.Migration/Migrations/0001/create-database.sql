@@ -437,18 +437,18 @@ insert into WorkerUser(Id, Email, Password, Name, TypeWorkerUserId, WorkerId) va
 insert into WorkerUser(Id, Email, Password, Name, TypeWorkerUserId, WorkerId) values(2, 'disp@mail.ru',			'disp@mail.ru',			'Петров П.П.',	2, NULL);
 insert into WorkerUser(Id, Email, Password, Name, TypeWorkerUserId, WorkerId) values(3, 'worker-disp@mail.ru',	'worker-disp@mail.ru',	'Сидоров С.С.', 3, 2);
 
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(1, 'Управление строительства',	'ул. Мира 1, стр 2', null,	1, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(2, 'Управление связи',			'ул. Мира 1, стр 2', null,	1, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(3, 'Руководство',				'ул. Мира 1, стр 2', null,	1, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(4, 'Отдел ценообразования',		'ул. Мира 1, стр 2', 1,		0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(5, 'Отдел общего обеспечения',	'ул. Мира 1, стр 2', 1,		0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(6, 'Плановый отдел',			'ул. Мира 1, стр 2', 1,		0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(7, 'Отдел закупок',				'ул. Мира 1, стр 2', 2,		0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(8, 'Отдел контроля качества',	'ул. Мира 1, стр 2', 2,		0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(9, 'Отдел разработки',			'ул. Мира 1, стр 2', 2,		0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(10, 'Бухгалтерия',				'ул. Мира 1, стр 2', 3,		0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(11, 'Отдел кадров',				'ул. Мира 1, стр 2', 3,		0, 0);
-insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(12, 'Отдел охраны труда',		'ул. Мира 1, стр 2', 3,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(1, 'Департамент строительства',	'ул. Мира 1, стр 2',		null,	1, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(2, 'Департамент связи',			'ул. Ленина 22',			null,	1, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(3, 'Руководство',				'ул. Энгельса 3/4',			null,	1, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(4, 'СМУ Спецмонтажтрой',		'ул. 12-я Линия 41',		1,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(5, 'СМУ 1',						'ул. Производственная 2',	1,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(6, 'СМУ 2',						'ул. Береговая 2, стр.4',	1,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(7, 'Управление спутниковой связи',		'ул. Ленина 22',	2,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(8, 'СМУ ВысотМонтаж',			'ул. 12-я Линия 41',		2,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(9, 'НИИ Связи',					'пр. Маркса 6',				2,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(10, 'ООО ВысотСвязь',			'пр. Маркса 6',				2,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(11, 'Филиал Самара',			'ул. Заводская 55, стр.2',	2,		0, 0);
+insert into Organization(Id, Name, Address, ParentId, HasChild, Archive) values(12, 'Филиал Нижний Новгород',	'ул. Первый переулок 9',	2,		0, 0);
 
 insert into OrganizationObjectTypeWorker(Id, ObjectTypeId, OrganizationId, WorkerId) values(1, 1, 1, 1);
 insert into OrganizationObjectTypeWorker(Id, ObjectTypeId, OrganizationId, WorkerId) values(2, 1, 2, 2);

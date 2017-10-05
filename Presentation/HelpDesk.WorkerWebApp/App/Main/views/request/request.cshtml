@@ -30,7 +30,7 @@
             <span class="input-group-btn">
                 <button ng-click="vm.clearEmployee()" class="btn btn-default" type="button"><span class="glyphicon glyphicon-remove"></span></button>
                 <button ng-click="vm.openEmployeeDictionary()" class="btn btn-default" type="button">...</button>
-                <button style="width: 120px" ng-click="vm.addEditEmployee()" class="btn btn-default" type="button">@Resource.Action_Add</button>
+                <button style="width: 120px" ng-click="vm.addEditEmployee()" class="btn btn-default" type="button"><span ng-show="vm.request.EmployeeId == 0">@Resource.Action_Add</span><span ng-show="vm.request.EmployeeId > 0">@Resource.Action_Edit</span></button>
             </span>
         </div>
         <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.Employee}}</div>

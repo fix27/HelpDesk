@@ -353,9 +353,16 @@ namespace HelpDesk.DataService
             return list.Where(t => (archive) ? arсhiveRawRequestStates.Contains(t.Id) : !arсhiveRawRequestStates.Contains(t.Id));
         }
         
-        public int GetCountRequiresConfirmation(long employeeId)
+        public int GetCountRequiresConfirmationForEmployee(long employeeId)
         {
             return requestRepository.Count(t => t.Employee.Id == employeeId && t.Status.Id == (long)RawStatusRequestEnum.Closing);
+        }
+
+        public int GetCountRequiresConfirmationForWorker(long userId)
+        {
+            long workerId = workerUserRepository.Get(userId).Worker.Id;
+            return requestRepository.Count(t => t.Worker.Id == workerId && 
+                t.Status.Id == (long)RawStatusRequestEnum.Closing);
         }
 
         public IEnumerable<Year> GetListEmployeeArchiveYear(long employeeId)

@@ -16,6 +16,7 @@
                 <span ng-show="vm.isFilter() || vm.filter.Archive">@Resource.Label_Of {{vm.totalCount}}</span>
                 <a style="cursor: pointer; color: red" ng-click="vm.resetFilter()">@Resource.Action_ResetFilter.ToLower()</a>
             </span>
+            <span title="@Resource.Title_Refresh" style="color: lightgrey; cursor: pointer;" class="glyphicon glyphicon-refresh" ng-click="vm.refresh()"></span>
         </div>
 
         <div class="col-md-2" style="background-color: {{ {true: 'yellow', false: ''}[vm.filter.Archive == true] }}; text-align: center">
@@ -213,8 +214,8 @@
             </tr>
             <tr>
                 <td style="text-align: right; border-top: none" colspan="5">
-                    <span style="margin-right:10px; margin-left:10px; padding:3px; text-align: center; border: 1px dashed {{s.BackColor}}" ng-repeat="s in t.AllowableStates">
-                        <a ng-click="vm.openNewRequestEventForm(t.Id, s.Id, s.Name)" href="" style="text-decoration:underline">{{s.ActionName}}</a>
+                    <span style="margin-right:10px; margin-left:10px; padding:3px; text-align: center; border-bottom: 3px solid {{s.BackColor}}" ng-repeat="s in t.AllowableStates">
+                        <a ng-click="vm.openNewRequestEventForm(t.Id, s.Id, s.Name)" href="" style="text-decoration:none">{{s.ActionName}}</a>
                     </span>
                 </td>
             </tr>

@@ -40,8 +40,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
         {
             return execute(delegate ()
             {
-                EmployeeDTO profile = employeeService.Get(employeeId);
-                result = Json(new { success = true, data = profile });
+                EmployeeDTO employee = employeeService.Get(employeeId);
+                result = Json(new { success = true, data = employee });
             });
         }
 

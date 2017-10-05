@@ -124,6 +124,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Редактировать.
+        /// </summary>
+        public static string Action_Edit {
+            get {
+                return ResourceManager.GetString("Action_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Редактировать заявку.
         /// </summary>
         public static string Action_EditRequest {
@@ -925,6 +934,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Редактирование.
+        /// </summary>
+        public static string Text_EditRecord {
+            get {
+                return ResourceManager.GetString("Text_EditRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Необходимо полностью заполнить форму.
         /// </summary>
         public static string Text_ItIsNecessaryToFillInTheFormCompletely {
@@ -939,6 +957,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         public static string Text_ManualUrl {
             get {
                 return ResourceManager.GetString("Text_ManualUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Новая запись.
+        /// </summary>
+        public static string Text_NewRecord {
+            get {
+                return ResourceManager.GetString("Text_NewRecord", resourceCulture);
             }
         }
         
@@ -1029,6 +1056,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         public static string Title_EditRequest {
             get {
                 return ResourceManager.GetString("Title_EditRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Обновить.
+        /// </summary>
+        public static string Title_Refresh {
+            get {
+                return ResourceManager.GetString("Title_Refresh", resourceCulture);
             }
         }
         

@@ -129,7 +129,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return execute(delegate ()
             {
                 long userId = User.Identity.GetUserId<long>();
-                int count = requestService.GetCountRequiresConfirmation(userId);
+                int count = requestService.GetCountRequiresConfirmationForWorker(userId);
                 result = Json(new { success = true, data = count });
             });
         }
