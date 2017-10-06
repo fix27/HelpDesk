@@ -9,7 +9,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: последнee событиe заявок из списка Id-заявок
     /// </summary>
-    public class RequestLastEventQuery : IQuery<RequestEventDTO, RequestEvent>
+    public class RequestLastEventQuery : IQuery<IEnumerable<RequestEventDTO>, RequestEvent>
     {
         private readonly IEnumerable<long> requestIds;
         public RequestLastEventQuery(IEnumerable<long> requestIds)

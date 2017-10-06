@@ -15,5 +15,7 @@ namespace HelpDesk.DataService.Interface
         void AddTO(long employeeId, RequestObjectTODTO dto);
         void Delete(long employeeId, long id);
         bool AllowableForSendRequest(long employeeId);
+        int GetCountAllowableObjectIS(long employeeId);
+        int GetCountAllowableObjectType(long employeeId);
     }
 }

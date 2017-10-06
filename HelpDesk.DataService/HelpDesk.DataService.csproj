@@ -104,6 +104,8 @@
     <Compile Include="Interface\IAccessWorkerUserService.cs" />
     <Compile Include="Interface\IWorkerUserService.cs" />
     <Compile Include="AccessWorkerUserService.cs" />
+    <Compile Include="Query\CountAllowableObjectTypeQuery.cs" />
+    <Compile Include="Query\CountAllowableObjectISQuery.cs" />
     <Compile Include="Query\ArchiveYearQuery.cs" />
     <Compile Include="Query\RequestQuery.cs" />
     <Compile Include="WorkerUserService.cs" />

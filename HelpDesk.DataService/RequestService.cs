@@ -360,8 +360,11 @@ namespace HelpDesk.DataService
 
         public int GetCountRequiresConfirmationForWorker(long userId)
         {
-            long workerId = workerUserRepository.Get(userId).Worker.Id;
-            return requestRepository.Count(t => t.Worker.Id == workerId && 
+            WorkerUser user = workerUserRepository.Get(userId);
+            if (user.Worker == null)
+                return 0;
+
+            return requestRepository.Count(t => t.Worker.Id == user.Worker.Id && 
                 t.Status.Id == (long)RawStatusRequestEnum.Closing);
         }
 

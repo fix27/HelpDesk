@@ -10,7 +10,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: доступные для выбора пользователем ИС
     /// </summary>
-    public class AllowableObjectISQuery : IQuery<RequestObjectISDTO, RequestObject, OrganizationObjectTypeWorker, Employee>
+    public class AllowableObjectISQuery : IQuery<IEnumerable<RequestObjectISDTO>, RequestObject, OrganizationObjectTypeWorker, Employee>
     {
         private readonly long userId;
         private readonly string name;

@@ -161,5 +161,16 @@ namespace HelpDesk.DataService
             return list;
         }
 
+        public bool GetExistsByWorkerUser(long userId)
+        {
+            WorkerUser user = workerUserRepository.Get(userId);
+                       
+            if (user.Worker == null)
+                return true;
+
+            return organizationObjectTypeWorkerRepository
+                .GetList().All(t => t.Worker.Id == user.Worker.Id);
+
+        }
     }
 }

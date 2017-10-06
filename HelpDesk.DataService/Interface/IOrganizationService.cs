@@ -10,5 +10,6 @@ namespace HelpDesk.DataService.Interface
         IEnumerable<OrganizationDTO> GetListByWorkerUser(long userId, string name);
         IEnumerable<OrganizationDTO> GetListByWorkerUser(long userId, long? parentId);
         IEnumerable<Organization> GetList(long? parentId);
+        bool GetExistsByWorkerUser(long userId);
     }
 }

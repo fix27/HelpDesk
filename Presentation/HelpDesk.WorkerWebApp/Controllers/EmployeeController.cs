@@ -97,8 +97,20 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 result = Json(new { success = true, data = list });
             });
         }
-
         
+
+        [Route("api/{lang}/Employee/GetExistsOrganization")]
+        [HttpGet]
+        [ResponseType(typeof(int))]
+        public IHttpActionResult GetExistsOrganization()
+        {
+            return execute(delegate ()
+            {
+                long userId = User.Identity.GetUserId<long>();
+                bool exists = organizationService.GetExistsByWorkerUser(userId);
+                result = Json(new { success = true, data = exists });
+            });
+        }
 
         [Route("api/{lang}/Employee/GetOrganizationTree")]
         [HttpGet]

@@ -139,6 +139,19 @@ namespace HelpDesk.WorkerWebApp.Controllers
             });
         }
 
+        [Route("api/{lang}/EmployeeObject/GetCountAllowableObjectIS")]
+        [HttpGet]
+        [ResponseType(typeof(int))]
+        public IHttpActionResult GetCountAllowableObjectIS(long employeeId)
+        {
+            return execute(delegate ()
+            {
+                int count = employeeObjectService.GetCountAllowableObjectIS(employeeId);
+                result = Json(new { success = true, data = count });
+            });
+        }
+
+
         [Route("api/{lang}/EmployeeObject/GetListAllowableObjectType")]
         [HttpGet]
         [ResponseType(typeof(IEnumerable<SimpleDTO>))]
@@ -150,7 +163,19 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 result = Json(new { success = true, data = list });
             });
         }
-        
+
+        [Route("api/{lang}/EmployeeObject/GetCountAllowableObjectType")]
+        [HttpGet]
+        [ResponseType(typeof(int))]
+        public IHttpActionResult GetCountAllowableObjectType(long employeeId)
+        {
+            return execute(delegate ()
+            {
+                int count = employeeObjectService.GetCountAllowableObjectType(employeeId);
+                result = Json(new { success = true, data = count });
+            });
+        }
+
 
         [Route("api/{lang}/EmployeeObject/GetListWare")]
         [HttpGet]
@@ -236,5 +261,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 result = Json(new { success = true });
             });
         }
+
+
     }
 }

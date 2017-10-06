@@ -13,7 +13,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: заявки сотрудника
     /// </summary>
-    public class EmployeeRequestQuery<T> : IQuery<RequestDTO, T> 
+    public class EmployeeRequestQuery<T> : IQuery<IEnumerable<RequestDTO>, T> 
         where T : BaseRequest
     {
         private readonly long employeeId;

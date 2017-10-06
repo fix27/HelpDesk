@@ -9,7 +9,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: годы подачи заявок пользователя в архиве
     /// </summary>
-    public class EmployeeArchiveYearQuery : IQuery<Year, RequestArch>
+    public class EmployeeArchiveYearQuery : IQuery<IEnumerable<Year>, RequestArch>
     {
         private readonly long employeeId;
 

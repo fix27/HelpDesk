@@ -13,7 +13,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: объекты заявок пользователя (профиль заявителя)
     /// </summary>
-    public class EmployeeObjectQuery : IQuery<EmployeeObjectDTO, EmployeeObject>
+    public class EmployeeObjectQuery : IQuery<IEnumerable<EmployeeObjectDTO>, EmployeeObject>
     {
         private readonly long employeeId;
         private readonly OrderInfo orderInfo;

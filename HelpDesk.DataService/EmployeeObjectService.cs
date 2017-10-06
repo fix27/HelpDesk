@@ -232,5 +232,15 @@ namespace HelpDesk.DataService
             employeeObjectRepository.Delete(entity);
             repository.SaveChanges();
         }
+
+        public int GetCountAllowableObjectIS(long employeeId)
+        {
+            return queryRunner.Run(new CountAllowableObjectISQuery(employeeId));
+        }
+
+        public int GetCountAllowableObjectType(long employeeId)
+        {
+            return queryRunner.Run(new CountAllowableObjectTypeQuery(employeeId));
+        }
     }
 }

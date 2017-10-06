@@ -1,5 +1,4 @@
 ﻿using HelpDesk.Entity;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace HelpDesk.Data.Query
@@ -10,17 +9,17 @@ namespace HelpDesk.Data.Query
         where TEntity3 : BaseEntity
         
     {
-        IEnumerable<TResult> Run(IQueryable<TEntity1> queryable1, 
+        TResult Run(IQueryable<TEntity1> queryable1, 
             IQueryable<TEntity2> queryable2, 
             IQueryable<TEntity3> queryable3);
     }
-
+        
     public interface IQuery<TResult, TEntity1, TEntity2>
         where TEntity1 : BaseEntity
         where TEntity2 : BaseEntity
 
     {
-        IEnumerable<TResult> Run(IQueryable<TEntity1> queryable1,
+        TResult Run(IQueryable<TEntity1> queryable1,
             IQueryable<TEntity2> queryable2);
     }
 
@@ -28,6 +27,6 @@ namespace HelpDesk.Data.Query
         where TEntity1 : BaseEntity
         
     {
-        IEnumerable<TResult> Run(IQueryable<TEntity1> queryable1);
+        TResult Run(IQueryable<TEntity1> queryable1);
     }
 }

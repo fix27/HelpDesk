@@ -14,7 +14,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: заявки исполнителя/дипетчера
     /// </summary>
-    public class RequestQuery<T> : IQuery<RequestDTO, T>
+    public class RequestQuery<T> : IQuery<IEnumerable<RequestDTO>, T>
         where T : BaseRequest
     {
         private readonly OrderInfo orderInfo;

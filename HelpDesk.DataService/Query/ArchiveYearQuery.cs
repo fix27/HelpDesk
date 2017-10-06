@@ -11,7 +11,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: годы подачи заявок в архиве
     /// </summary>
-    public class ArchiveYearQuery : IQuery<Year, RequestArch>
+    public class ArchiveYearQuery : IQuery<IEnumerable<Year>, RequestArch>
     {
         private readonly Expression<Func<BaseRequest, bool>> accessPredicate;
 

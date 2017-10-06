@@ -10,7 +10,7 @@ namespace HelpDesk.DataService.Query
     /// <summary>
     /// Запрос: доступные для выбора пользователем типы работ по ТО (чтобы потом определился исполнитель)
     /// </summary>
-    public class AllowableObjectTypeQuery : IQuery<SimpleDTO, OrganizationObjectTypeWorker, Employee>
+    public class AllowableObjectTypeQuery : IQuery<IEnumerable<SimpleDTO>, OrganizationObjectTypeWorker, Employee>
     {
         private readonly long userId;
 

@@ -2,7 +2,6 @@
 using HelpDesk.Data.Query;
 using HelpDesk.Entity;
 using NHibernate.Linq;
-using System.Collections.Generic;
 
 
 namespace HelpDesk.Data.NHibernate
@@ -14,7 +13,7 @@ namespace HelpDesk.Data.NHibernate
         {
             this.session = session;
         }
-        public IEnumerable<TResult> Run<TResult, TEntity1, TEntity2, TEntity3>(IQuery<TResult, TEntity1, TEntity2, TEntity3> query)
+        public TResult Run<TResult, TEntity1, TEntity2, TEntity3>(IQuery<TResult, TEntity1, TEntity2, TEntity3> query)
             where TEntity1 : BaseEntity
             where TEntity2 : BaseEntity
             where TEntity3 : BaseEntity
@@ -22,7 +21,7 @@ namespace HelpDesk.Data.NHibernate
             return query.Run(session.Query<TEntity1>(), session.Query<TEntity2>(), session.Query<TEntity3>());
         }
 
-        public IEnumerable<TResult> Run<TResult, TEntity1, TEntity2>(IQuery<TResult, TEntity1, TEntity2> query)
+        public TResult Run<TResult, TEntity1, TEntity2>(IQuery<TResult, TEntity1, TEntity2> query)
             where TEntity1 : BaseEntity
             where TEntity2 : BaseEntity
            
@@ -30,7 +29,7 @@ namespace HelpDesk.Data.NHibernate
             return query.Run(session.Query<TEntity1>(), session.Query<TEntity2>());
         }
 
-        public IEnumerable<TResult> Run<TResult, TEntity1>(IQuery<TResult, TEntity1> query)
+        public TResult Run<TResult, TEntity1>(IQuery<TResult, TEntity1> query)
             where TEntity1 : BaseEntity
             
         {
