@@ -16,7 +16,7 @@
                 close({ cancel: false, selectedEmployee: { Name: data.node.text + ", " + parent.text, Id: data.node.id } }, 300);
             });
 
-            $scope.employees.on("before_open.jstree", function (e, data) {
+            $scope.employees.on("after_open.jstree", function (e, data) {
                 for (var i = 0; i< data.node.children.length; i++)
                 {
                     var n = data.instance.get_node(data.node.children[i]);

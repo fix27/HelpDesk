@@ -11,5 +11,11 @@
         public bool children { get; set; }
 
         public string type { get; set; }
+
+        /// <summary>
+        /// Может ли узел быть выбран в качестве значения справочника, или он нужен только для
+        /// визуального представления древовидной структуры
+        /// </summary>
+        public bool selectable { get; set; }
     }
 }

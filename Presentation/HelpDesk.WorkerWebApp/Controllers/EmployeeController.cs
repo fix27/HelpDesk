@@ -79,7 +79,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return execute(delegate ()
             {
                 long userId = User.Identity.GetUserId<long>();
-                IEnumerable<OrganizationDTO> list = organizationService.GetListByWorkerUser(userId, name);
+                IEnumerable<OrganizationDTO> list = organizationService.GetListByWorkerUser(userId, name)
+                    .Where(o => o.Selectable);
                 result = Json(new { success = true, data = list });
             });
         }
@@ -111,7 +112,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 id = o.Id.ToString(),
                 parent = o.ParentId.HasValue ? o.ParentId.Value.ToString() : "#",
                 text = String.Format("{0}, {1}", o.Name, o.Address),
-                children = o.HasChild
+                children = o.HasChild,
+                selectable = o.Selectable
             });
             return items;
         }
@@ -125,14 +127,15 @@ namespace HelpDesk.WorkerWebApp.Controllers
             string orgPrefix = "A";
 
             long? parentIdlong = parentId != "#" ? Int64.Parse(parentId.Substring(1)) : (long?)null;
-            IEnumerable<Organization> list = organizationService.GetListByWorkerUser(userId, parentIdlong);
+            IEnumerable<OrganizationDTO> list = organizationService.GetListByWorkerUser(userId, parentIdlong);
             IEnumerable<jstree> items = list.Select(o => new jstree
             {
                 id = orgPrefix + o.Id.ToString(),
                 parent = o.ParentId.HasValue ? orgPrefix + o.ParentId.Value.ToString() : "#",
                 text = String.Format("{0}, {1}", o.Name, o.Address),
                 children = true,
-                type = "organization"
+                type = "organization",
+                selectable = o.Selectable
             });
 
             if (parentIdlong.HasValue)
@@ -144,7 +147,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
                     parent = parentId,
                     text = e.ShortEmployeeInfo,
                     children = false,
-                    type = "employee"
+                    type = "employee",
+                    selectable = true
                 });
 
                 items = items.Union(employeeItems);
