@@ -133,8 +133,8 @@
 
             factory.getListAllowableObjectIS    = _getListAllowableObjectIS;
             factory.getListAllowableObjectType  = _getListAllowableObjectType;
-            factory.getCoutAllowableObjectIS    = _getCoutAllowableObjectIS;
-            factory.getCoutAllowableObjectType  = _getCoutAllowableObjectType;
+            factory.getCountAllowableObjectIS    = _getCountAllowableObjectIS;
+            factory.getCountAllowableObjectType  = _getCountAllowableObjectType;
 
             factory.getListHardType             = _getListHardType;
             factory.getListModel                = _getListModel;

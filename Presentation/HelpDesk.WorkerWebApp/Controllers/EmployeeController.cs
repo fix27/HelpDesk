@@ -152,18 +152,21 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
             if (parentIdlong.HasValue)
             {
-                IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(parentIdlong.Value);
-                IEnumerable<jstree> employeeItems = employees.Select(e => new jstree
+                IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(parentIdlong.Value, userId);
+                if (employees != null)
                 {
-                    id = e.Id.ToString(),
-                    parent = parentId,
-                    text = e.ShortEmployeeInfo,
-                    children = false,
-                    type = "employee",
-                    selectable = true
-                });
+                    IEnumerable<jstree> employeeItems = employees.Select(e => new jstree
+                    {
+                        id = e.Id.ToString(),
+                        parent = parentId,
+                        text = e.ShortEmployeeInfo,
+                        children = false,
+                        type = "employee",
+                        selectable = true
+                    });
 
-                items = items.Union(employeeItems);
+                    items = items.Union(employeeItems);
+                }
             }
             
             return items;

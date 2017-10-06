@@ -8,7 +8,7 @@ namespace HelpDesk.DataService.Interface
         EmployeeDTO Get(long id);
         IEnumerable<EmployeeDTO> GetList(string name);
         IEnumerable<EmployeeDTO> GetListByWorkerUser(long userId, string name);
-        IEnumerable<EmployeeDTO> GetListByOrganization(long organizationId);
+        IEnumerable<EmployeeDTO> GetListByOrganization(long organizationId, long? workerUserId = null);
         void Save(EmployeeDTO dto);
         bool IsComplete(long id);
     }

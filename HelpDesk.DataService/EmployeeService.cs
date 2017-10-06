@@ -202,25 +202,37 @@ namespace HelpDesk.DataService
         }
         
 
-        public IEnumerable<EmployeeDTO> GetListByOrganization(long organizationId)
+        public IEnumerable<EmployeeDTO> GetListByOrganization(long organizationId, long? workerUserId = null)
         {
-            return employeeRepository
-                .GetList(e => e.Organization.Id == organizationId)
-                .Select(e => new EmployeeDTO()
+            if (workerUserId.HasValue)
+            {
+                WorkerUser workerUser = workerUserRepository.Get(workerUserId.Value);
+
+                if (workerUser.Worker != null)
                 {
-                    Id = e.Id,
-                    FM = e.FM,
-                    IM = e.IM,
-                    OT = e.OT,
-                    Cabinet = e.Cabinet,
-                    Phone = e.Phone,
-                    PostName = e.Post != null ? e.Post.Name : null,
-                    Subscribe = e.Subscribe,
-                    OrganizationId = e.Organization.Id,
-                    OrganizationName = e.Organization.Name,
-                    OrganizationAddress = e.Organization.Address
-                })
-                .ToList();
+                    if (!organizationObjectTypeWorkerRepository.GetList().Any(t => t.Organization.Id == organizationId && t.Worker.Id == workerUser.Id))
+                        return null;
+                }
+            }
+            
+            return employeeRepository
+                    .GetList(e => e.Organization.Id == organizationId)
+                    .Select(e => new EmployeeDTO()
+                    {
+                        Id = e.Id,
+                        FM = e.FM,
+                        IM = e.IM,
+                        OT = e.OT,
+                        Cabinet = e.Cabinet,
+                        Phone = e.Phone,
+                        PostName = e.Post != null ? e.Post.Name : null,
+                        Subscribe = e.Subscribe,
+                        OrganizationId = e.Organization.Id,
+                        OrganizationName = e.Organization.Name,
+                        OrganizationAddress = e.Organization.Address
+                    })
+                    .ToList();
+
         }
 
         [Transaction]

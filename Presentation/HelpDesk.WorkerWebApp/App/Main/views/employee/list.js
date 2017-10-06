@@ -30,6 +30,23 @@
                         
                 }
             });
+
+            $scope.employees.on("load_node.jstree", function (e, data) {
+                var n = data.instance.get_node(data.node);
+                var el = data.instance.get_node(data.node, true);
+                if (n.original && !n.original.selectable) {
+                    var t = el.find('.jstree-anchor:first');
+                    t.css('color', '#AEB6BF');
+                }
+
+                for (var i = 0; i < data.node.children.length; i++) {
+                    n = data.instance.get_node(data.node.children[i]);
+                    el = data.instance.get_node(data.node.children[i], true);
+                    if (!n.original.selectable)
+                        el.css('color', '#AEB6BF');
+                }
+
+            });
                         
             vm.cancel = function () {
                 $element.modal('hide');
