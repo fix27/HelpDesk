@@ -16,9 +16,9 @@
                     <div class="form-group">
                         <label for="ObjectName">@Resource.Label_IS:</label>
                         
-                        <select id="ObjectName" class="form-control" style="width: 100%" required ng-model="vm.requestObjectIS.Id"
+                        <select id="ObjectName" class="form-control" style="width: 100%" 
+                                ng-model="vm.requestObjectIS.Id"
                                 ng-options="option.Id as option.ObjectName for option in vm.requestObjects"></select>
-
                         <ul>
                             <li class="error" data-ng-repeat="error in vm.errors.ObjectName.Errors">{{error.ErrorMessage}}</li>
                         </ul>

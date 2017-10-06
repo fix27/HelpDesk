@@ -52,6 +52,8 @@
 
                 employeeObjectService.getListAllowableObjectIS().then(function (results) {
                     vm.requestObjects = results.data.data;
+                    if (vm.requestObject)
+                        vm.requestObject.Id = vm.requestObjects[0].Id;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                 });

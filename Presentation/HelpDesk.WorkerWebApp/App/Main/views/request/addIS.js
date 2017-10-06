@@ -53,6 +53,8 @@
 
                 employeeObjectService.getListAllowableObjectIS(params.EmployeeId).then(function (results) {
                     vm.requestObjects = results.data.data;
+                    if (vm.requestObjects)
+                        vm.requestObjectIS.Id = vm.requestObjects[0].Id;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                 });
@@ -74,7 +76,6 @@
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                 });
-
             };
             
             vm.selectAllowableObjectIS = function (o) {

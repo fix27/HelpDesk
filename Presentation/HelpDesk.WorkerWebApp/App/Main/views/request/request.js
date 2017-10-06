@@ -7,6 +7,14 @@
         function ($scope, $rootScope, $state, $stateParams, employeeService, employeeObjectService, requestService, modalService, requestIdService) {
 
             var vm = this;
+
+            vm.allowable = 
+            {
+                objectType: true,
+                IS: true,
+                employee: false
+            };
+
             vm.showAlert = true;
 
             vm.loadingFlag = false;

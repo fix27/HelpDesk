@@ -58,6 +58,8 @@
 
                 employeeObjectService.getListAllowableObjectType(params.EmployeeId).then(function (results) {
                     vm.objectTypes = results.data.data;
+                    if (vm.objectTypes)
+                        vm.requestObjectTO.ObjectTypeId = vm.objectTypes[0].Id;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                 });
