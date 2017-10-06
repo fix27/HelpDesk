@@ -121,6 +121,7 @@ namespace HelpDesk.DataService
         public IEnumerable<OrganizationDTO> GetListByWorkerUser(long userId, long? parentId)
         {
             WorkerUser user = workerUserRepository.Get(userId);
+            
             long workerId = 0;
             if (user.Worker == null)
                 return organizationRepository.GetList(o => o.ParentId == parentId)

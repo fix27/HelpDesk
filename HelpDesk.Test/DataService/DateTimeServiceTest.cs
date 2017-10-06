@@ -41,7 +41,7 @@ namespace HelpDesk.Test.DataService
                         EndWorkDay      = 18,
                         StartLunchBreak = 13,
                         EndLunchBreak   = 14
-                    };
+                   };
                });
 
             DateTimeService s = new DateTimeService(
