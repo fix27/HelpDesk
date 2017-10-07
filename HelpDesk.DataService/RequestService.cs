@@ -627,5 +627,34 @@ namespace HelpDesk.DataService
             }
             
         }
+
+        public Interval<DateTime, DateTime?> GetAllowableDeadLine()
+        {
+            Interval<DateTime, DateTime?> interval = new Interval<DateTime, DateTime?>();
+
+            Settings settings = settingsRepository.Get();
+            int minCountHour = 0;
+            int maxCountHour = 0;
+            if (settings.StartWorkDay.HasValue && settings.EndWorkDay.HasValue && settings.StartWorkDay < settings.EndWorkDay)
+            {
+                int countHourWorkDay = settings.EndWorkDay.Value - settings.StartWorkDay.Value;
+                if (settings.StartLunchBreak.HasValue && settings.EndLunchBreak.HasValue && settings.StartLunchBreak < settings.EndLunchBreak)
+                    countHourWorkDay -= (settings.EndLunchBreak.Value - settings.StartLunchBreak.Value);
+
+                if (settings.MinCountTransferDay.HasValue)
+                    minCountHour = countHourWorkDay * settings.MinCountTransferDay.Value;
+                if (settings.MaxCountTransferDay.HasValue)
+                    maxCountHour = countHourWorkDay * settings.MaxCountTransferDay.Value;
+            }
+            if(minCountHour > 0)
+                interval.Value1 = dateTimeService.GetRequestDateEnd(dateTimeService.GetCurrent(), minCountHour);
+            else
+                interval.Value1 = dateTimeService.GetCurrent();
+
+            if (maxCountHour > 0)
+                interval.Value2 = dateTimeService.GetRequestDateEnd(dateTimeService.GetCurrent(), maxCountHour);
+
+            return interval;
+        }
     }
 }

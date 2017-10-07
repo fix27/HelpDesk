@@ -14,5 +14,6 @@ HelpDesk.WorkerWebApp.Resources =
 	ErrorMessage_MaxNumberOfFilesConstraint	:'<#= Resource.ErrorMessage_MaxNumberOfFilesConstraint #>',
 	ErrorMessage_AcceptFileTypesConstraint	:'<#= Resource.ErrorMessage_AcceptFileTypesConstraint #>',
 	ErrorMessage_MaxFileSizeConstraint		:'<#= String.Format(Resource.ErrorMessage_MaxFileSizeConstraint, settings.MaxRequestFileSize) #>',
-	ErrorMessage_MinFileSizeConstraint		:'<#= Resource.ErrorMessage_MinFileSizeConstraint #>'
+	ErrorMessage_MinFileSizeConstraint		:'<#= Resource.ErrorMessage_MinFileSizeConstraint #>',
+	ExtendedDeadLine						: <#= (long)RawStatusRequestEnum.ExtendedDeadLine #>
 }

@@ -15,6 +15,17 @@
             vm.requestEvent.StatusRequestId = params.statusRequestId;
             vm.requestEvent.Note = null;
             vm.requestEvent.NewDeadLineDate = null;
+            vm.requestEvent.MaxDeadLineDate = null;
+
+            if (vm.requestEvent.StatusRequestId == HelpDesk.WorkerWebApp.Resources.ExtendedDeadLine)
+            {
+                requestService.getAllowableDeadLine().then(function (results) {
+                    vm.requestEvent.NewDeadLineDate = new Date(Date.parse(results.data.data.Value1));
+                    vm.requestEvent.MaxDeadLineDate = new Date(Date.parse(results.data.data.Value2));
+                }, function (error) {
+                    $rootScope.$broadcast("error", { errorMsg: error.data.Message });
+                });
+            }
 
             vm.invalidForm = function ()
             {

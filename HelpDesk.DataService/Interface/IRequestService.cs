@@ -4,6 +4,7 @@ using HelpDesk.DataService.DTO;
 using HelpDesk.DataService.DTO.Parameters;
 using HelpDesk.Entity;
 using System.Collections.Generic;
+using System;
 
 namespace HelpDesk.DataService.Interface
 {
@@ -32,6 +33,9 @@ namespace HelpDesk.DataService.Interface
 
         long Save(RequestParameter dto);
         void CreateRequestEvent(long userId, RequestEventParameter dto);
-        
+
+        Interval<DateTime, DateTime?> GetAllowableDeadLine();
+
+
     }
 }

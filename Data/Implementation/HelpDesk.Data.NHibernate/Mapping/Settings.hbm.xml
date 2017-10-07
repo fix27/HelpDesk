@@ -17,5 +17,7 @@
     <property insert="false" update="false" name="EndWorkDay"       type="Int32"/>
     <property insert="false" update="false" name="StartLunchBreak"  type="Int32"/>
     <property insert="false" update="false" name="EndLunchBreak"    type="Int32"/>
+    <property insert="false" update="false" name="MinCountTransferDay"    type="Int32"/>
+    <property insert="false" update="false" name="MaxCountTransferDay"    type="Int32"/>
   </class>
 </hibernate-mapping>

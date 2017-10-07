@@ -178,5 +178,18 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 result = Json(new { success = true });
             });
         }
+
+        
+        [Route("api/{lang}/Request/GetAllowableDeadLine")]
+        [HttpGet]
+        [ResponseType(typeof(DateTime))]
+        public IHttpActionResult GetAllowableDeadLine()
+        {
+            return execute(delegate ()
+            {
+                var interval = requestService.GetAllowableDeadLine();
+                result = Json(new { success = true, data = interval });
+            });
+        }
     }
 }

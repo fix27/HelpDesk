@@ -51,8 +51,7 @@
         /// Телефон технической поддержки
         /// </summary>
         public string TechSupportPhones { get; set; }
-
-
+        
         /// <summary>
         /// Час начала рабочего дня по умолчанию
         /// </summary>
@@ -71,7 +70,17 @@
         /// <summary>
         /// Час окончания обеденного перерыва по умолчанию
         /// </summary>
-        public int? EndLunchBreak { get; set; }        
+        public int? EndLunchBreak { get; set; }
+
+        /// <summary>
+        /// Минимальное количество дней по умолчанию, на которое устанавливается дата переноса заявки
+        /// </summary>
+        public int? MinCountTransferDay { get; set; }
+        
+        /// <summary>
+        /// Максимальное количество дней, на которое возможен перенос заявки
+        /// </summary>
+        public int? MaxCountTransferDay { get; set; }
 
     }    
 }

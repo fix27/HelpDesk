@@ -43,10 +43,10 @@ namespace HelpDesk.DataService.Query
                         t.Object.Model.Manufacturer.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
                         t.Object.ObjectType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()));
 
-                where = where.AndAlso(t => (filter.DateInsert1 == null || t.DateInsert >= filter.DateInsert1) &&
-                        (filter.DateInsert2 == null || t.DateInsert <= filter.DateInsert2) &&
-                        (filter.DateEndPlan1 == null || t.DateEndPlan >= filter.DateEndPlan1) &&
-                        (filter.DateEndPlan2 == null || t.DateEndPlan <= filter.DateEndPlan2));
+                where = where.AndAlso(t => (filter.DateInsert.Value1 == null || t.DateInsert >= filter.DateInsert.Value1) &&
+                        (filter.DateInsert.Value2 == null || t.DateInsert <= filter.DateInsert.Value2) &&
+                        (filter.DateEndPlan.Value1 == null || t.DateEndPlan >= filter.DateEndPlan.Value1) &&
+                        (filter.DateEndPlan.Value2 == null || t.DateEndPlan <= filter.DateEndPlan.Value2));
                 
                 if (filter.Ids != null && filter.Ids.Any())
                     where = where.AndAlso(t => filter.Ids.Contains(t.Id));

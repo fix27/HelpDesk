@@ -80,6 +80,7 @@
     <Compile Include="DTO\FileUpload\RequestFileInfoDTO.cs" />
     <Compile Include="DTO\FileUpload\RequestFileThumbnailDTO.cs" />
     <Compile Include="DTO\IChecked.cs" />
+    <Compile Include="DTO\Interval.cs" />
     <Compile Include="DTO\Month.cs" />
     <Compile Include="DTO\OrganizationDTO.cs" />
     <Compile Include="DTO\Parameters\RequestEventParameter.cs" />

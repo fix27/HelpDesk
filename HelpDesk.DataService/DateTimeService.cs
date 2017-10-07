@@ -72,7 +72,31 @@ namespace HelpDesk.DataService
                 - (hasLunch? settings.EndLunchBreak.Value - settings.StartLunchBreak.Value : 0);
             int modHour = countHour % countDailyWorkHour;
             int countDay = countHour / countDailyWorkHour;
-            DateTime requestDateEnd = currentDateTime.AddDays(countDay);
+
+            DateTime requestDateEnd = currentDateTime;
+
+            IEnumerable<WorkCalendarItem> workCalendarItems =
+                workCalendarItemRepository
+                .GetList(t => t.Date.Year == requestDateEnd.Year)
+                .OrderBy(t => t.Date)
+                .ToList();
+            WorkCalendarItem item = null;
+            DayOfWeek dayOfWeek = requestDateEnd.DayOfWeek;
+            while (true)
+            {
+                item = workCalendarItems
+                    .FirstOrDefault(t => t.Date.Date == requestDateEnd.Date && t.TypeItem == TypeWorkCalendarItem.Holiday);
+                dayOfWeek = requestDateEnd.DayOfWeek;
+                if (item != null)
+                    requestDateEnd = item.Date.AddHours(requestDateEnd.Hour).AddMinutes(requestDateEnd.Minute);
+                else if (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
+                    requestDateEnd = requestDateEnd.AddDays(1);
+                else
+                    break;
+            }
+
+
+            requestDateEnd = requestDateEnd.AddDays(countDay);
             
 
             if (requestDateEnd.Hour < settings.StartWorkDay) //до начала рабочего дня
@@ -125,14 +149,9 @@ namespace HelpDesk.DataService
 
             }
 
-            IEnumerable<WorkCalendarItem> workCalendarItems =
-                workCalendarItemRepository
-                .GetList(t => t.Date.Year == requestDateEnd.Year)
-                .OrderBy(t => t.Date)
-                .ToList();
+            
 
-            DayOfWeek dayOfWeek = requestDateEnd.DayOfWeek;
-                        
+            dayOfWeek = requestDateEnd.DayOfWeek;
             if (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
             {
                 //вдруг это рабочий день?
@@ -141,7 +160,7 @@ namespace HelpDesk.DataService
             }
 
             //корректировка на праздники и сб вс
-            WorkCalendarItem item = null;
+            item = null;
             while (true)
             {
                 item = workCalendarItems

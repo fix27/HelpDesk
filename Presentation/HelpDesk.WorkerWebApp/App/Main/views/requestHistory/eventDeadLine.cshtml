@@ -18,7 +18,12 @@
                 <div class="form-group">
                     <label for="newDeadLineDate">@Resource.Label_DateEndPlan</label>
                     <div>
-                        <input style="width: 150px" value="{{vm.requestEvent.NewDeadLineDate | timezone | date}}" class="form-control {{ {true: 'error', false: ''}[vm.errors.NewDeadLineDate !=null] }}" ng-model="vm.requestEvent.NewDeadLineDate" id="newDeadLineDate" type="date">
+                        <input style="width: 150px" 
+                               max="{{vm.requestEvent.MaxDeadLineDate | timezone | date:'yyyy-MM-dd'}}" 
+                               min="{{vm.requestEvent.NewDeadLineDate | timezone | date:'yyyy-MM-dd'}}" 
+                               value="{{vm.requestEvent.NewDeadLineDate | timezone | date:'yyyy-MM-dd'}}" 
+                               class="form-control {{ {true: 'error', false: ''}[vm.errors.NewDeadLineDate !=null] }}" 
+                               ng-model="vm.requestEvent.NewDeadLineDate" id="newDeadLineDate" type="date">
                         <ul>
                             <li class="error" data-ng-repeat="error in vm.errors.NewDeadLineDate.Errors">{{error.ErrorMessage}}</li>
                         </ul>

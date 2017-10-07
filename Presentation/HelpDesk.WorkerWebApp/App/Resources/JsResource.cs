@@ -59,7 +59,14 @@ namespace HelpDesk.WorkerWebApp.App.Resources
             
             #line default
             #line hidden
-            this.Write("\'\r\n}");
+            this.Write("\',\r\n\tExtendedDeadLine\t\t\t\t\t\t: ");
+            
+            #line 18 "D:\GIT\HelpDesk\Presentation\HelpDesk.WorkerWebApp\App\Resources\JsResource.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture((long)RawStatusRequestEnum.ExtendedDeadLine));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n}");
             return this.GenerationEnvironment.ToString();
         }
         

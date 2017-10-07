@@ -51,26 +51,15 @@ namespace HelpDesk.DataService.Filters
         public IList<long> RawStatusIds { get; set; }
 
         /// <summary>
-        /// Дата подачи заявки "С"
+        /// Дата подачи заявки
         /// </summary>
-        public DateTime? DateInsert1 { get; set; }
+        public Interval<DateTime?, DateTime?> DateInsert { get; set; }
 
         /// <summary>
-        /// Дата подачи заявки "По"
+        /// Дата окончания срока выполнения работ по заявке
         /// </summary>
-        public DateTime? DateInsert2 { get; set; }
-
-        /// <summary>
-        /// Дата окончания срока выполнения работ по заявке "С"
-        /// </summary>
-        public DateTime? DateEndPlan1 { get; set; }
-
-        /// <summary>
-        /// Дата окончания срока выполнения работ по заявке "По"
-        /// </summary>
-        public DateTime? DateEndPlan2 { get; set; }
-
-
+        public Interval<DateTime?, DateTime?> DateEndPlan { get; set; }
+        
         /// <summary>
         /// Год для поиска в архиве
         /// </summary>

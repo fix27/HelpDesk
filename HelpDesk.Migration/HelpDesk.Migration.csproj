@@ -73,6 +73,7 @@
     <Compile Include="Migrations\0003\CreateWorkCalendarItem.cs" />
     <Compile Include="Migrations\0004\CreateWorkScheduleItem.cs" />
     <Compile Include="Migrations\0005\CreateUserSession.cs" />
+    <Compile Include="Migrations\0006\AlterSettings1.cs" />
     <Compile Include="MigratorInstaller.cs" />
     <Compile Include="HelpDeskMigrationRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
