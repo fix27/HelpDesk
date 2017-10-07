@@ -34,7 +34,7 @@ namespace HelpDesk.DataService.Interface
         long Save(RequestParameter dto);
         void CreateRequestEvent(long userId, RequestEventParameter dto);
 
-        Interval<DateTime, DateTime?> GetAllowableDeadLine();
+        Interval<DateTime, DateTime?> GetAllowableDeadLine(long requestId);
 
 
     }

@@ -113,8 +113,8 @@
                 });
             };
 
-            var _getAllowableDeadLine = function () {
-                return $http.get(localizedWebAPIService.get("Request/GetAllowableDeadLine"))
+            var _getAllowableDeadLine = function (id) {
+                return $http.get(localizedWebAPIService.get("Request/GetAllowableDeadLine?requestId="+id))
                     .then(function (results) {
                         return results;
                     });

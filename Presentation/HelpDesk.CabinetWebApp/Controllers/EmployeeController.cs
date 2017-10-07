@@ -35,7 +35,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/Employee/Get")]
         [HttpGet]
-        [ResponseType(typeof(EmployeeDTO))]
         public IHttpActionResult Get()
         {
             return execute(delegate ()
@@ -63,7 +62,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetListPost")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<Post>))]
         public IHttpActionResult GetListPost(string name)
         {
             return execute(delegate ()
@@ -75,7 +73,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetListOrganization")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<Organization>))]
         public IHttpActionResult GetListOrganization(string name)
         {
             return execute(delegate ()

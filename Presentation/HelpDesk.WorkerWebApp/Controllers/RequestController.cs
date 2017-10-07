@@ -183,11 +183,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [Route("api/{lang}/Request/GetAllowableDeadLine")]
         [HttpGet]
         [ResponseType(typeof(DateTime))]
-        public IHttpActionResult GetAllowableDeadLine()
+        public IHttpActionResult GetAllowableDeadLine(long requestId)
         {
             return execute(delegate ()
             {
-                var interval = requestService.GetAllowableDeadLine();
+                var interval = requestService.GetAllowableDeadLine(requestId);
                 result = Json(new { success = true, data = interval });
             });
         }

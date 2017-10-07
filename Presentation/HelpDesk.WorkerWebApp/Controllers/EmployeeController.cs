@@ -35,7 +35,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/Get")]
         [HttpGet]
-        [ResponseType(typeof(EmployeeDTO))]
         public IHttpActionResult Get(long employeeId)
         {
             return execute(delegate ()
@@ -61,7 +60,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetListPost")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<Post>))]
         public IHttpActionResult GetListPost(string name)
         {
             return execute(delegate ()
@@ -73,7 +71,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetListOrganization")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<OrganizationDTO>))]
         public IHttpActionResult GetListOrganization(string name)
         {
             return execute(delegate ()
@@ -87,7 +84,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetListEmployee")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<EmployeeDTO>))]
         public IHttpActionResult GetListEmployee(string name)
         {
             return execute(delegate ()
@@ -101,7 +97,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetExistsOrganization")]
         [HttpGet]
-        [ResponseType(typeof(int))]
         public IHttpActionResult GetExistsOrganization()
         {
             return execute(delegate ()

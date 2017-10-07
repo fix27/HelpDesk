@@ -19,7 +19,7 @@
 
             if (vm.requestEvent.StatusRequestId == HelpDesk.WorkerWebApp.Resources.ExtendedDeadLine)
             {
-                requestService.getAllowableDeadLine().then(function (results) {
+                requestService.getAllowableDeadLine(vm.requestEvent.RequestId).then(function (results) {
                     vm.requestEvent.NewDeadLineDate = new Date(Date.parse(results.data.data.Value1));
                     vm.requestEvent.MaxDeadLineDate = new Date(Date.parse(results.data.data.Value2));
                 }, function (error) {

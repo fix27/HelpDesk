@@ -26,7 +26,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetNewRequestObjectIS")]
         [HttpGet]
-        [ResponseType(typeof(RequestObjectISDTO))]
         public IHttpActionResult GetNewRequestObjectIS()
         {
             return execute(delegate ()
@@ -38,7 +37,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetNewRequestObjectTO")]
         [HttpGet]
-        [ResponseType(typeof(RequestObjectTODTO))]
         public IHttpActionResult GetNewRequestObjectTO()
         {
             return execute(delegate ()
@@ -117,7 +115,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListEmployeeObjectByName")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<EmployeeObjectDTO>))]
         public IHttpActionResult GetListEmployeeObjectByName(long employeeId, string objectName = null)
         {
             return execute(delegate ()
@@ -129,7 +126,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListAllowableObjectIS")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<RequestObjectISDTO>))]
         public IHttpActionResult GetListAllowableObjectIS(long employeeId, string name = null)
         {
             return execute(delegate ()
@@ -141,7 +137,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetCountAllowableObjectIS")]
         [HttpGet]
-        [ResponseType(typeof(int))]
         public IHttpActionResult GetCountAllowableObjectIS(long employeeId)
         {
             return execute(delegate ()
@@ -154,7 +149,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListAllowableObjectType")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<SimpleDTO>))]
         public IHttpActionResult GetListAllowableObjectType(long employeeId)
         {
             return execute(delegate ()
@@ -166,7 +160,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetCountAllowableObjectType")]
         [HttpGet]
-        [ResponseType(typeof(int))]
         public IHttpActionResult GetCountAllowableObjectType(long employeeId)
         {
             return execute(delegate ()
@@ -179,7 +172,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListWare")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<WareDTO>))]
         public IHttpActionResult GetListWare()
         {
             return execute(delegate ()
@@ -192,7 +184,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
         
         [Route("api/{lang}/EmployeeObject/GetListHardType")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<SimpleDTO>))]
         public IHttpActionResult GetListHardType(string name = null)
         {
             return execute(delegate ()
@@ -204,7 +195,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListModel")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<SimpleDTO>))]
         public IHttpActionResult GetListModel(long manufacturerId, string name = null)
         {
             return execute(delegate ()
@@ -216,7 +206,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListManufacturer")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<SimpleDTO>))]
         public IHttpActionResult GetListManufacturer(string name = null)
         {
             return execute(delegate ()

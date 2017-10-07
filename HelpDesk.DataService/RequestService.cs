@@ -628,8 +628,9 @@ namespace HelpDesk.DataService
             
         }
 
-        public Interval<DateTime, DateTime?> GetAllowableDeadLine()
+        public Interval<DateTime, DateTime?> GetAllowableDeadLine(long requestId)
         {
+            Request r = requestRepository.Get(requestId);
             Interval<DateTime, DateTime?> interval = new Interval<DateTime, DateTime?>();
 
             Settings settings = settingsRepository.Get();
@@ -646,13 +647,16 @@ namespace HelpDesk.DataService
                 if (settings.MaxCountTransferDay.HasValue)
                     maxCountHour = countHourWorkDay * settings.MaxCountTransferDay.Value;
             }
-            if(minCountHour > 0)
-                interval.Value1 = dateTimeService.GetRequestDateEnd(dateTimeService.GetCurrent(), minCountHour);
+
+            DateTime startingPointDateTime = dateTimeService.GetCurrent().Date.AddHours(r.DateEndPlan.Hour);
+
+            if (minCountHour > 0)
+                interval.Value1 = dateTimeService.GetRequestDateEnd(startingPointDateTime, minCountHour);
             else
                 interval.Value1 = dateTimeService.GetCurrent();
 
             if (maxCountHour > 0)
-                interval.Value2 = dateTimeService.GetRequestDateEnd(dateTimeService.GetCurrent(), maxCountHour);
+                interval.Value2 = dateTimeService.GetRequestDateEnd(startingPointDateTime, maxCountHour);
 
             return interval;
         }
