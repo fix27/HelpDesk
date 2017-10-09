@@ -193,10 +193,10 @@
     <value>В продолжение заявки {0}: {1}</value>
   </data>
   <data name="RequestAcceptConstraintMsg" xml:space="preserve">
-    <value>Заявка уже принята в работу Исполнителем. Редактирование/удаление запрещено</value>
+    <value>Заявка №{0} уже принята в работу Исполнителем. Редактирование/удаление запрещено</value>
   </data>
   <data name="RequesArchConstraintMsg" xml:space="preserve">
-    <value>Архивную заявку нельзя редактировать/удалять</value>
+    <value>Архивную заявку №{0} нельзя редактировать/удалять</value>
   </data>
   <data name="NoDataFoundMsg" xml:space="preserve">
     <value>Данные не найдены. Возможно, запись была удалена другим пользователеи</value>

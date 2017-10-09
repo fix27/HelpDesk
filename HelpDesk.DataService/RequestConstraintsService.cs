@@ -3,11 +3,12 @@ using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 using HelpDesk.DataService.Resources;
 using HelpDesk.DataService.Common;
+using System;
 
 namespace HelpDesk.DataService
 {
     /// <summary>
-    /// Для проверки различных состояний. Если проверка проходит, выбрасывается DataServiceException
+    /// Для проверки различных состояний. Если проверка не проходит, выбрасывается DataServiceException
     /// </summary>
     public class RequestConstraintsService : IRequestConstraintsService
     {
@@ -36,7 +37,7 @@ namespace HelpDesk.DataService
             //запрещено изменение/удаление принятых в работу заявок
             int requestEventCout = requestEventRepository.Count(t => t.RequestId == requestId);
             if (requestEventCout > 2)
-                throw new DataServiceException(Resource.RequestAcceptConstraintMsg);
+                throw new DataServiceException(String.Format(Resource.RequestAcceptConstraintMsg, requestId));
 
             //запрещено изменение/удаление архивных заявок
             BaseRequest request = requestRepository.Get(requestId);
@@ -44,7 +45,7 @@ namespace HelpDesk.DataService
             {
                 request = requestArchRepository.Get(requestId);
                 if(request != null)
-                    throw new DataServiceException(Resource.RequesArchConstraintMsg);
+                    throw new DataServiceException(String.Format(Resource.RequesArchConstraintMsg, requestId));
                 else
                     throw new DataServiceException(Resource.NoDataFoundMsg);
             }
