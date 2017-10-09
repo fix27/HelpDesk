@@ -459,4 +459,7 @@
   <data name="Text_NewRecord" xml:space="preserve">
     <value>Новая запись</value>
   </data>
+  <data name="Text_NotAllowableEmployee" xml:space="preserve">
+    <value>Отсутствуют обслуживаемые организации. Добавление заявок не возможно</value>
+  </data>
 </root>

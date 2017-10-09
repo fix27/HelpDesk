@@ -169,7 +169,7 @@ namespace HelpDesk.DataService
                 return true;
 
             return organizationObjectTypeWorkerRepository
-                .GetList().All(t => t.Worker.Id == user.Worker.Id);
+                .GetList().Any(t => t.Worker.Id == user.Worker.Id);
 
         }
     }

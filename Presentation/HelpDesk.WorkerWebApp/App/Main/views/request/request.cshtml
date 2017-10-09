@@ -3,115 +3,122 @@
 
 
 <div ng-controller="app.views.request.request as vm" style="width: 60%" class="center-block">
-    <div ng-show="vm.errors.ErrorGeneralMessage.Errors.length > 0 && vm.showAlert == true" class="alert alert-danger alert-dismissable">
-        <button type="button" ng-click="vm.closeAlert()" class="close" data-hide="alert">&times;</button>
-        <div ng-repeat="e in vm.errors.ErrorGeneralMessage.Errors">
-            {{e.ErrorMessage}}
+    
+    <div ng-show="vm.allowable.employee">
+        <div ng-show="vm.errors.ErrorGeneralMessage.Errors.length > 0 && vm.showAlert == true" class="alert alert-danger alert-dismissable">
+            <button type="button" ng-click="vm.closeAlert()" class="close" data-hide="alert">&times;</button>
+            <div ng-repeat="e in vm.errors.ErrorGeneralMessage.Errors">
+                {{e.ErrorMessage}}
+            </div>
         </div>
-    </div>
 
-    <div ng-show="vm.newRequestId > 0 && vm.showAlert == true" class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" ng-click="vm.closeAlert()" class="close" data-hide="alert">&times;</button>
-        @Resource.Message_RequestComplete - <span style="font-size:14pt">№ {{vm.newRequestId}}</span>
-    </div>
-
-    <div style="width:100%; text-align:right"><span ng-show="vm.request.Id == 0">@Resource.Message_NewRequestCreate</span><span ng-show="vm.request.Id > 0">@Resource.Message_RequestEdit <span style="font-size:14pt">№ {{vm.request.Id}}</span></span></div>
-
-    <div class="form-group">
-        <label for="objectName">@Resource.Label_Employee:</label>
-        <div ng-show="vm.newRequestId == 0 && vm.request.Id == 0" class="input-group">
-            <input id="employeeName"
-                   class="form-control {{ {true: 'error', false: ''}[vm.errors.Employee !=null] }}"
-                   autocomplete="true"
-                   select="vm.selectEmployee"
-                   search="vm.getListEmployee"
-                   ng-model="vm.request.EmployeeInfo"
-                   placeholder="@String.Format(Resource.Placeholder_EmployeeName, "")...">
-            <span class="input-group-btn">
-                <button ng-click="vm.clearEmployee()" class="btn btn-default" type="button"><span class="glyphicon glyphicon-remove"></span></button>
-                <button ng-click="vm.openEmployeeDictionary()" class="btn btn-default" type="button">...</button>
-                <button style="width: 120px" ng-click="vm.addEditEmployee()" class="btn btn-default" type="button"><span ng-show="vm.request.EmployeeId == 0">@Resource.Action_Add</span><span ng-show="vm.request.EmployeeId > 0">@Resource.Action_Edit</span></button>
-            </span>
+        <div ng-show="vm.newRequestId > 0 && vm.showAlert == true" class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" ng-click="vm.closeAlert()" class="close" data-hide="alert">&times;</button>
+            @Resource.Message_RequestComplete - <span style="font-size:14pt">№ {{vm.newRequestId}}</span>
         </div>
-        <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.Employee}}</div>
-        <ul>
-            <li class="error" data-ng-repeat="error in vm.errors.Employee.Errors">{{error.ErrorMessage}}</li>
-        </ul>
-    </div>
 
-    <div class="form-group" >
-        <label for="objectName">@Resource.Label_ObjectName:</label>
-        <div ng-show="vm.newRequestId == 0 && vm.request.Id == 0" class="input-group">
-            <input ng-disabled="!vm.request.EmployeeId"
-                   id="objectName"
-                   class="form-control {{ {true: 'error', false: ''}[vm.errors.ObjectName !=null] }}"
-                   autocomplete="true"
-                   select="vm.selectEmployeeObject"
-                   search="vm.getListEmployeeObject"
-                   ng-model="vm.request.ObjectName"
-                   placeholder="@String.Format(Resource.Placeholder_EmployeeObjectName, "")...">
-            <span class="input-group-btn">
-                <button ng-disabled="!vm.request.EmployeeId" ng-click="vm.openEmployeeObjectDictionary()" class="btn btn-default" type="button">...</button>
-                <span class="btn-group">
-                    <button style="width: 120px" ng-disabled="!vm.request.EmployeeId" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        @Resource.Action_Add
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="" ng-click="vm.addIS()">@Resource.Action_AddIS</a></li>
-                        <li><a href="" ng-click="vm.addTO()">@Resource.Action_AddTO</a></li>
-                    </ul>
+        <div style="width:100%; text-align:right"><span ng-show="vm.request.Id == 0">@Resource.Message_NewRequestCreate</span><span ng-show="vm.request.Id > 0">@Resource.Message_RequestEdit <span style="font-size:14pt">№ {{vm.request.Id}}</span></span></div>
+
+        <div class="form-group">
+            <label for="objectName">@Resource.Label_Employee:</label>
+            <div ng-show="vm.newRequestId == 0 && vm.request.Id == 0" class="input-group">
+                <input id="employeeName"
+                       class="form-control {{ {true: 'error', false: ''}[vm.errors.Employee !=null] }}"
+                       autocomplete="true"
+                       select="vm.selectEmployee"
+                       search="vm.getListEmployee"
+                       ng-model="vm.request.EmployeeInfo"
+                       placeholder="@String.Format(Resource.Placeholder_EmployeeName, "")...">
+                <span class="input-group-btn">
+                    <button ng-click="vm.clearEmployee()" class="btn btn-default" type="button"><span class="glyphicon glyphicon-remove"></span></button>
+                    <button ng-click="vm.openEmployeeDictionary()" class="btn btn-default" type="button">...</button>
+                    <button style="width: 120px" ng-click="vm.addEditEmployee()" class="btn btn-default" type="button"><span ng-show="vm.request.EmployeeId == 0">@Resource.Action_Add</span><span ng-show="vm.request.EmployeeId > 0">@Resource.Action_Edit</span></button>
                 </span>
-            </span>
-            
-        </div>
-        <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.ObjectName}}</div>
-        <ul>
-            <li class="error" data-ng-repeat="error in vm.errors.ObjectName.Errors">{{error.ErrorMessage}}</li>
-        </ul>
-    </div>
-
-    <div class="form-group">
-        <label for="descriptionProblem">@Resource.Label_DescriptionProblem:</label>
-        <div ng-show="vm.newRequestId == 0">
-            <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.DescriptionProblem !=null] }}" id="descriptionProblem" ng-model="vm.request.DescriptionProblem"></textarea>
+            </div>
+            <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.Employee}}</div>
             <ul>
-                <li class="error" data-ng-repeat="error in vm.errors.DescriptionProblem.Errors">{{error.ErrorMessage}}</li>
-            </ul>
-
-            <ul>
-                <li class="error" data-ng-repeat="error in vm.errors.Worker.Errors">{{error.ErrorMessage}}</li>
+                <li class="error" data-ng-repeat="error in vm.errors.Employee.Errors">{{error.ErrorMessage}}</li>
             </ul>
         </div>
 
-        <div ng-show="vm.newRequestId > 0">{{vm.request.DescriptionProblem}}</div>
-    </div>
+        <div class="form-group">
+            <label for="objectName">@Resource.Label_ObjectName:</label>
+            <div ng-show="vm.newRequestId == 0 && vm.request.Id == 0" class="input-group">
+                <input ng-disabled="!vm.request.EmployeeId"
+                       id="objectName"
+                       class="form-control {{ {true: 'error', false: ''}[vm.errors.ObjectName !=null] }}"
+                       autocomplete="true"
+                       select="vm.selectEmployeeObject"
+                       search="vm.getListEmployeeObject"
+                       ng-model="vm.request.ObjectName"
+                       placeholder="@String.Format(Resource.Placeholder_EmployeeObjectName, "")...">
+                <span class="input-group-btn">
+                    <button ng-disabled="!vm.request.EmployeeId" ng-click="vm.openEmployeeObjectDictionary()" class="btn btn-default" type="button">...</button>
+                    <span class="btn-group">
+                        <button style="width: 120px" ng-disabled="!vm.request.EmployeeId" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            @Resource.Action_Add
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a ng-disabled="!vm.allowable.IS" href="" ng-click="vm.addIS()">@Resource.Action_AddIS</a></li>
+                            <li><a ng-disabled="!vm.allowable.objectType" href="" ng-click="vm.addTO()">@Resource.Action_AddTO</a></li>
+                        </ul>
+                    </span>
+                </span>
 
+            </div>
+            <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.ObjectName}}</div>
+            <ul>
+                <li class="error" data-ng-repeat="error in vm.errors.ObjectName.Errors">{{error.ErrorMessage}}</li>
+            </ul>
+        </div>
 
+        <div class="form-group">
+            <label for="descriptionProblem">@Resource.Label_DescriptionProblem:</label>
+            <div ng-show="vm.newRequestId == 0">
+                <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.DescriptionProblem !=null] }}" id="descriptionProblem" ng-model="vm.request.DescriptionProblem"></textarea>
+                <ul>
+                    <li class="error" data-ng-repeat="error in vm.errors.DescriptionProblem.Errors">{{error.ErrorMessage}}</li>
+                </ul>
 
-    @{Html.RenderPartial("~/App/Main/views/shared/fileUpload.cshtml",
-                        new FileUploadModel()
-                        {
-                            BaseUrl = "/api/RequestFileUpload/Upload",
-                            NgController = "app.views.request.fileUpload"
-                        });}
+                <ul>
+                    <li class="error" data-ng-repeat="error in vm.errors.Worker.Errors">{{error.ErrorMessage}}</li>
+                </ul>
+            </div>
 
-    <div class="row">
-        <div class="col-md-6" style="text-align: left">
-            <button type="button" ng-show="vm.newRequestId == 0" ng-click="vm.save()" ng-disabled="vm.invalidForm() || vm.loadingFlag" class="btn {{ {true: 'btn-primary', false: 'btn-success'}[vm.invalidForm() == true] }}">
-                {{ {true: '@Resource.Action_Update', false: '@Resource.Action_Save'}[vm.request.Id > 0] }}
-            </button>
-            <button type="button" ng-show="vm.newRequestId > 0" ng-click="vm.edit()" class="btn btn-primary">
-                @Resource.Action_EditRequest
-            </button>
-            <button type="button" ng-show="vm.newRequestId > 0" ng-click="vm.delete()" class="btn btn-primary">
-                @Resource.Action_DeleteRequest
-            </button>
+            <div ng-show="vm.newRequestId > 0">{{vm.request.DescriptionProblem}}</div>
         </div>
 
 
-        <div class="col-md-6" style="text-align: right">
-            <button type="button" ng-click="vm.createNewRequest()" ng-disabled="vm.loadingFlag" class="btn btn-primary">@Resource.Action_NewRequest</button>
+
+        @{Html.RenderPartial("~/App/Main/views/shared/fileUpload.cshtml",
+                                new FileUploadModel()
+                                {
+                                    BaseUrl = "/api/RequestFileUpload/Upload",
+                                    NgController = "app.views.request.fileUpload"
+                                });}
+
+        <div class="row">
+            <div class="col-md-6" style="text-align: left">
+                <button type="button" ng-show="vm.newRequestId == 0" ng-click="vm.save()" ng-disabled="vm.invalidForm() || vm.loadingFlag" class="btn {{ {true: 'btn-primary', false: 'btn-success'}[vm.invalidForm() == true] }}">
+                    {{ {true: '@Resource.Action_Update', false: '@Resource.Action_Save'}[vm.request.Id > 0] }}
+                </button>
+                <button type="button" ng-show="vm.newRequestId > 0" ng-click="vm.edit()" class="btn btn-primary">
+                    @Resource.Action_EditRequest
+                </button>
+                <button type="button" ng-show="vm.newRequestId > 0" ng-click="vm.delete()" class="btn btn-primary">
+                    @Resource.Action_DeleteRequest
+                </button>
+            </div>
+
+
+            <div class="col-md-6" style="text-align: right">
+                <button type="button" ng-click="vm.createNewRequest()" ng-disabled="vm.loadingFlag" class="btn btn-primary">@Resource.Action_NewRequest</button>
+            </div>
         </div>
     </div>
+    <div ng-show="!vm.allowable.employee">
+        @Resource.Text_NotAllowableEmployee
+    </div>
+    
 </div>

@@ -12,7 +12,7 @@
             {
                 objectType: true,
                 IS: true,
-                employee: false
+                employee: true
             };
 
             vm.showAlert = true;
@@ -101,7 +101,13 @@
             }
             
             var init = function () {
-
+                
+                employeeService.getExistsOrganization().then(function (results) {
+                    vm.allowable.employee = results.data.data;
+                }, function (error) {
+                    $rootScope.$broadcast("error", { errorMsg: error.data.Message });
+                });
+                                
                 if ($stateParams.requestId) {
 
                     if ($stateParams.mode == 'create') {
@@ -197,6 +203,19 @@
                         vm.request.ObjectId = 0;
                         vm.request.ObjectName = null;
 
+
+                        employeeObjectService.getCountAllowableObjectIS(vm.request.EmployeeId).then(function (results) {
+                            vm.allowable.IS = results.data.data;
+                        }, function (error) {
+                            $rootScope.$broadcast("error", { errorMsg: error.data.Message });
+                        });
+
+                        employeeObjectService.getCountAllowableObjectType(vm.request.EmployeeId).then(function (results) {
+                            vm.allowable.objectType = results.data.data;
+                        }, function (error) {
+                            $rootScope.$broadcast("error", { errorMsg: error.data.Message });
+                        });
+
                     });
                 });
             }
@@ -221,6 +240,18 @@
                 vm.request.EmployeeId = p.Id;
                 vm.request.ObjectId = 0;
                 vm.request.ObjectName = null;
+
+                employeeObjectService.getCountAllowableObjectIS(vm.request.EmployeeId).then(function (results) {
+                    vm.allowable.IS = results.data.data;
+                }, function (error) {
+                    $rootScope.$broadcast("error", { errorMsg: error.data.Message });
+                });
+
+                employeeObjectService.getCountAllowableObjectType(vm.request.EmployeeId).then(function (results) {
+                    vm.allowable.objectType = results.data.data;
+                }, function (error) {
+                    $rootScope.$broadcast("error", { errorMsg: error.data.Message });
+                });
             };
 
             vm.clearEmployee = function () {
