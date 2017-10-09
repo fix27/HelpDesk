@@ -28,7 +28,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetNewRequestObjectIS")]
         [HttpGet]
-        [ResponseType(typeof(RequestObjectISDTO))]
         public IHttpActionResult GetNewRequestObjectIS()
         {
             return execute(delegate ()
@@ -40,7 +39,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetNewRequestObjectTO")]
         [HttpGet]
-        [ResponseType(typeof(RequestObjectTODTO))]
         public IHttpActionResult GetNewRequestObjectTO()
         {
             return execute(delegate ()
@@ -52,7 +50,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListEmployeeObject")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<EmployeeObjectDTO>))]
         public IHttpActionResult GetListEmployeeObject([FromUri]EmployeeObjectFilter filter, [FromUri]OrderInfo orderInfo, [FromUri]PageInfo pageInfo)
         {
             return execute(delegate ()
@@ -131,7 +128,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListEmployeeObjectByName")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<EmployeeObjectDTO>))]
         public IHttpActionResult GetListEmployeeObjectByName(string objectName = null)
         {
             return execute(delegate ()
@@ -144,7 +140,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListAllowableObjectIS")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<RequestObjectISDTO>))]
         public IHttpActionResult GetListAllowableObjectIS(string name = null)
         {
             return execute(delegate ()
@@ -157,7 +152,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListAllowableObjectType")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<SimpleDTO>))]
         public IHttpActionResult GetListAllowableObjectType()
         {
             return execute(delegate ()
@@ -171,7 +165,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListWare")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<WareDTO>))]
         public IHttpActionResult GetListWare()
         {
             return execute(delegate ()
@@ -184,7 +177,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
         
         [Route("api/{lang}/EmployeeObject/GetListHardType")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<SimpleDTO>))]
         public IHttpActionResult GetListHardType(string name = null)
         {
             return execute(delegate ()
@@ -196,7 +188,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListModel")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<SimpleDTO>))]
         public IHttpActionResult GetListModel(long manufacturerId, string name = null)
         {
             return execute(delegate ()
@@ -208,7 +199,6 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetListManufacturer")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<SimpleDTO>))]
         public IHttpActionResult GetListManufacturer(string name = null)
         {
             return execute(delegate ()

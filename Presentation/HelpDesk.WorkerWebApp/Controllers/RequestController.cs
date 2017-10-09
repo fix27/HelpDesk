@@ -28,7 +28,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetNewByObjectId")]
         [HttpGet]
-        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult GetNewByObjectId(long objectId)
         {
             return execute(delegate()
@@ -40,7 +39,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetNewByRequestId")]
         [HttpGet]
-        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult GetNewByRequestId(long requestId)
         {
             return execute(delegate ()
@@ -52,7 +50,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/Get")]
         [HttpGet]
-        [ResponseType(typeof(RequestParameter))]
         public IHttpActionResult Get(long requestId = 0)
         {
             return execute(delegate ()
@@ -64,7 +61,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetList")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<RequestDTO>))]
         public IHttpActionResult GetList([FromUri]RequestFilter filter, [FromUri]OrderInfo orderInfo, [FromUri]PageInfo pageInfo)
         {
             return execute(delegate ()
@@ -77,7 +73,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetRequestFilter")]
         [HttpGet]
-        [ResponseType(typeof(RequestFilter))]
         public IHttpActionResult GetRequestFilter()
         {
             return execute(delegate ()
@@ -100,7 +95,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetListStatus")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<StatusRequest>))]
         public IHttpActionResult GetListStatus(bool archive)
         {
             return execute(delegate ()
@@ -123,7 +117,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetCountRequiresConfirmation")]
         [HttpGet]
-        [ResponseType(typeof(int))]
         public IHttpActionResult GetCountRequiresConfirmation()
         {
             return execute(delegate ()
@@ -136,7 +129,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Request/GetListRequestEvent")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<RequestEventDTO>))]
         public IHttpActionResult GetListRequestEvent(long requestId)
         {
             return execute(delegate ()
@@ -182,7 +174,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
         
         [Route("api/{lang}/Request/GetAllowableDeadLine")]
         [HttpGet]
-        [ResponseType(typeof(DateTime))]
         public IHttpActionResult GetAllowableDeadLine(long requestId)
         {
             return execute(delegate ()
