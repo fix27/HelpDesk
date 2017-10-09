@@ -76,16 +76,16 @@ namespace HelpDesk.DataService
                 return null;
 
             if (userName.IndexOf("@") > 0)
-                return getUserDTO(u => u.Email == userName);
+                return getUserDTO(u => u.Email.ToUpper() == userName.ToUpper());
 
-            return getUserDTO(u => u.Email.StartsWith(userName + "@"));
+            return getUserDTO(u => u.Email.ToUpper().StartsWith(userName.ToUpper() + "@"));
         }
 
         [Transaction]
         public void Create(string email, string password)
         {
 
-            CabinetUserDTO existsUser = getUserDTO(u => u.Email == email);
+            CabinetUserDTO existsUser = getUserDTO(u => u.Email.ToUpper() == email.ToUpper());
             if (existsUser!=null)
                 setErrorMsg("Email", Resource.UniqueEmailConstraintMsg);
 

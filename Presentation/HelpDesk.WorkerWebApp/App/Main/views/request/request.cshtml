@@ -35,7 +35,7 @@
                     <button style="width: 120px" ng-click="vm.addEditEmployee()" class="btn btn-default" type="button"><span ng-show="vm.request.EmployeeId == 0">@Resource.Action_Add</span><span ng-show="vm.request.EmployeeId > 0">@Resource.Action_Edit</span></button>
                 </span>
             </div>
-            <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.Employee}}</div>
+            <div ng-show="vm.newRequestId > 0 || vm.request.Id > 0">{{vm.request.EmployeeInfo}}</div>
             <ul>
                 <li class="error" data-ng-repeat="error in vm.errors.Employee.Errors">{{error.ErrorMessage}}</li>
             </ul>

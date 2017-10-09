@@ -81,19 +81,8 @@ namespace HelpDesk.DataService
 
             WorkerUser user = workerUserRepository.Get(userId);
             long workerId = 0;
-            if (user.Worker == null)
-                return organizationRepository.GetList(o => o.Name.ToUpper().Contains(name.ToUpper()))
-                    .Select(t => new OrganizationDTO()
-                    {
-                        Id = t.Id,
-                        Name = t.Name,
-                        Address = t.Address,
-                        ParentId = t.ParentId,
-                        HasChild = t.HasChild
-                    })
-                    .OrderBy(p => p.Name).ToList();
-
-            workerId = user.Worker.Id;
+            if (user.Worker != null)
+                workerId = user.Worker.Id;
 
             IEnumerable<long> ids = organizationObjectTypeWorkerRepository
                 .GetList(t => workerId == 0 || t.Worker.Id == workerId)
@@ -123,19 +112,9 @@ namespace HelpDesk.DataService
             WorkerUser user = workerUserRepository.Get(userId);
             
             long workerId = 0;
-            if (user.Worker == null)
-                return organizationRepository.GetList(o => o.ParentId == parentId)
-                    .Select(t => new OrganizationDTO()
-                    {
-                        Id = t.Id,
-                        Name = t.Name,
-                        Address = t.Address,
-                        ParentId = t.ParentId,
-                        HasChild = t.HasChild
-                    })
-                    .OrderBy(p => p.Name).ToList();
+            if (user.Worker != null)
+                workerId = user.Worker.Id;
 
-            workerId = user.Worker.Id;
 
             IEnumerable<long> ids =  organizationObjectTypeWorkerRepository
                 .GetList(t => workerId == 0 || t.Worker.Id == workerId)
