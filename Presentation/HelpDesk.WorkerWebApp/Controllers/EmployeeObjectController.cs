@@ -50,22 +50,22 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/EmployeeObject/GetEmployeeObjectTree")]
         [HttpGet]
-        [ResponseType(typeof(IList<jstree>))]
+        [ResponseType(typeof(IList<jstree_node>))]
         public IEnumerable GetEmployeeObjectTree(long employeeId, long? parentId)
         {
             IEnumerable<EmployeeObjectDTO> list = employeeObjectService.GetListEmployeeObject(employeeId);
-            List<jstree> items = new List<jstree>();
+            List<jstree_node> items = new List<jstree_node>();
 
             if (!parentId.HasValue)
             {
-                items.Add(new jstree
+                items.Add(new jstree_node
                 {
                     id = "-1",
                     parent = "#",
                     text = "ПО",
                     children = true
                 });
-                items.Add(new jstree
+                items.Add(new jstree_node
                 {
                     id = "-2",
                     parent = "#",
@@ -81,7 +81,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 foreach (EmployeeObjectDTO o in list)
                 {
                     if (o.Soft)
-                        items.Add(new jstree
+                        items.Add(new jstree_node
                         {
                             id = o.ObjectId.ToString(),
                             parent = "-1",
@@ -98,7 +98,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 foreach (EmployeeObjectDTO o in list)
                 {
                     if (!o.Soft)
-                        items.Add(new jstree
+                        items.Add(new jstree_node
                         {
                             id = o.ObjectId.ToString(),
                             parent = "-2",

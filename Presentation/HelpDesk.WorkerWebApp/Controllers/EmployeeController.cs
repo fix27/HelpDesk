@@ -109,12 +109,12 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetOrganizationTree")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<jstree>))]
+        [ResponseType(typeof(IEnumerable<jstree_node>))]
         public IEnumerable GetOrganizationTree(long? parentId)
         {
             long userId = User.Identity.GetUserId<long>();
             IEnumerable<OrganizationDTO> list = organizationService.GetListByWorkerUser(userId, parentId);
-            IEnumerable items = list.Select(o => new jstree
+            IEnumerable items = list.Select(o => new jstree_node
             {
                 id = o.Id.ToString(),
                 parent = o.ParentId.HasValue ? o.ParentId.Value.ToString() : "#",
@@ -127,53 +127,33 @@ namespace HelpDesk.WorkerWebApp.Controllers
 
         [Route("api/{lang}/Employee/GetEmployeeTree")]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<jstree>))]
-        public IEnumerable GetEmployeeTree(string parentId)
+        [ResponseType(typeof(IEnumerable<jstree_all_loaded_node>))]
+        public IEnumerable GetEmployeeTree(/*string parentId*/)
         {
             long userId = User.Identity.GetUserId<long>();
             string orgPrefix = "A";
 
-            long? parentIdlong = parentId != "#" ? Int64.Parse(parentId.Substring(1)) : (long?)null;
-            IEnumerable<OrganizationDTO> list = organizationService.GetListByWorkerUser(userId, parentIdlong);
-            IEnumerable<jstree> items = list.Select(o => new jstree
+            //long? parentIdlong = parentId != "#" ? Int64.Parse(parentId.Substring(1)) : (long?)null;
+            IEnumerable<OrganizationDTO> list = organizationService.GetListByWorkerUser(userId/*, parentIdlong*/);
+            IEnumerable<jstree_all_loaded_node> items = list.Select(o => new jstree_all_loaded_node
             {
                 id = orgPrefix + o.Id.ToString(),
                 parent = o.ParentId.HasValue ? orgPrefix + o.ParentId.Value.ToString() : "#",
                 text = String.Format("{0}, {1}", o.Name, o.Address),
-                children = true,
+                //children = true,
                 type = "organization",
                 selectable = o.Selectable
             });
 
-            if (parentIdlong.HasValue)
-            {
-                IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(parentIdlong.Value, userId);
-                if (employees != null)
-                {
-                    IEnumerable<jstree> employeeItems = employees.Select(e => new jstree
-                    {
-                        id = e.Id.ToString(),
-                        parent = parentId,
-                        text = e.ShortEmployeeInfo,
-                        children = false,
-                        type = "employee",
-                        selectable = true
-                    });
-
-                    items = items.Union(employeeItems);
-                }
-            }
-
-            //if(list!=null && list.Any())
-            //foreach (OrganizationDTO o in list)
+            //if (parentIdlong.HasValue)
             //{
-            //    IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(o.Id, userId);
+            //    IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(parentIdlong.Value, userId);
             //    if (employees != null)
             //    {
             //        IEnumerable<jstree> employeeItems = employees.Select(e => new jstree
             //        {
             //            id = e.Id.ToString(),
-            //            parent = orgPrefix + o.Id.ToString(),
+            //            parent = parentId,
             //            text = e.ShortEmployeeInfo,
             //            children = false,
             //            type = "employee",
@@ -183,6 +163,26 @@ namespace HelpDesk.WorkerWebApp.Controllers
             //        items = items.Union(employeeItems);
             //    }
             //}
+
+            if (list != null && list.Any())
+                foreach (OrganizationDTO o in list)
+                {
+                    IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(o.Id, userId);
+                    if (employees != null)
+                    {
+                        IEnumerable<jstree_all_loaded_node> employeeItems = employees.Select(e => new jstree_all_loaded_node
+                        {
+                            id = e.Id.ToString(),
+                            parent = orgPrefix + o.Id.ToString(),
+                            text = e.ShortEmployeeInfo,
+                            //children = false,
+                            type = "employee",
+                            selectable = true
+                        });
+
+                        items = items.Union(employeeItems);
+                    }
+                }
 
 
             return items;

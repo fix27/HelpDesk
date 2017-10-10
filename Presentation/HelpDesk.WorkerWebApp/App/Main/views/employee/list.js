@@ -24,7 +24,7 @@
                     if (n.original.type == "employee")
                     {
                         el.css('font-weight', 'bold');
-                        el.css('color', '#2F4F4F');
+                        //el.css('color', '#2F4F4F');
                         el.css('font-style', 'italic');
                     }
                         

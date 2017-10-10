@@ -159,18 +159,30 @@ ngJSTree.directive('jsTree', ['$rootScope', '$http', function ($rootScope, $http
                 }
                 else if (a.treeAjax)
                 {
-                    config.core.data = {
-                        'url': a.treeAjax,
-                        'data': function (node) {
-                            var obj = { 'parentId': node.id || '' };
-                            for (var propertyName in $rootScope.treeRequestParams)
-                            {
-                                obj[propertyName] = $rootScope.treeRequestParams[propertyName] || '';
+                    if (!a.treeAllnode) {
+                        config.core.data = {
+                            'url': a.treeAjax,
+                            'data': function (node) {
+                                var obj = { 'parentId': node.id || '' };
+                                for (var propertyName in $rootScope.treeRequestParams) {
+                                    obj[propertyName] = $rootScope.treeRequestParams[propertyName] || '';
+                                }
+                                return obj;
                             }
-                            return obj;
+                        };
+                    }
+                    else
+                    {
+                        config.core.data = function (node, cb)
+                        {
+                            
+                            $http.get(a.treeAjax).then(function (results) {
+                                var tree = results.data;
+                                cb.call(this, tree);
+                            });
                         }
-                    };
-
+                    }
+                    
                     treeDir.init(s, e, a, config);
                 }
             });
