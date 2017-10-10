@@ -10,8 +10,8 @@
 
             vm.allowable = 
             {
-                objectType: true,
-                IS: true,
+                objectTypes: [],
+                ISs: [],
                 employee: true
             };
 
@@ -181,9 +181,7 @@
             vm.selectEmployeeObject = function (p) {
                 vm.request.ObjectId = p.ObjectId;
             };
-               
             
-
 
             vm.openEmployeeDictionary = function () {
                 modalService.showModal({
@@ -241,14 +239,14 @@
                 vm.request.ObjectId = 0;
                 vm.request.ObjectName = null;
 
-                employeeObjectService.getCountAllowableObjectIS(vm.request.EmployeeId).then(function (results) {
-                    vm.allowable.IS = results.data.data;
+                employeeObjectService.getListAllowableObjectIS(vm.request.EmployeeId, null).then(function (results) {
+                    vm.allowable.ISs = results.data.data;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                 });
 
-                employeeObjectService.getCountAllowableObjectType(vm.request.EmployeeId).then(function (results) {
-                    vm.allowable.objectType = results.data.data;
+                employeeObjectService.getListAllowableObjectType(vm.request.EmployeeId).then(function (results) {
+                    vm.allowable.objectTypes = results.data.data;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                 });

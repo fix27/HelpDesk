@@ -294,7 +294,7 @@ namespace HelpDesk.DataService
         public IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
         {
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
-                .GetAccessPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+                .GetAccessRequestPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
 
             IEnumerable<RequestDTO> list = getList(
                 delegate (ref PageInfo _pageInfo)
@@ -377,7 +377,7 @@ namespace HelpDesk.DataService
         public IEnumerable<Year> GetListArchiveYear(long userId)
         {
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
-                .GetAccessPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+                .GetAccessRequestPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
             IEnumerable<Year> list = queryRunner.Run(new ArchiveYearQuery(accessPredicate));
             return list;
         }

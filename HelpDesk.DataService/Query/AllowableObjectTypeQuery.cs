@@ -4,19 +4,36 @@ using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.Common.Helpers;
+using System.Linq.Expressions;
+using System;
 
 namespace HelpDesk.DataService.Query
 {
     /// <summary>
-    /// Запрос: доступные для выбора пользователем типы работ по ТО (чтобы потом определился исполнитель)
+    /// Запрос: доступные для выбора сотрудником-заявителем типы работ по ТО (чтобы потом определился исполнитель)
     /// </summary>
     public class AllowableObjectTypeQuery : IQuery<IEnumerable<SimpleDTO>, OrganizationObjectTypeWorker, Employee>
     {
-        private readonly long userId;
+        private readonly long employeeId;
+        private readonly long workerId;
+        private readonly Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate;
+               
 
-        public AllowableObjectTypeQuery(long userId)
+        public AllowableObjectTypeQuery(Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate, long workerId, long employeeId)
+            :this(accessPredicate, employeeId)
         {
-            this.userId = userId;
+            this.workerId = workerId;
+        }
+
+        public AllowableObjectTypeQuery(Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate, long employeeId)
+            : this(employeeId)
+        {
+            this.accessPredicate = accessPredicate;
+        }
+
+        public AllowableObjectTypeQuery(long employeeId)
+        {
+            this.employeeId = employeeId;
         }
 
         public IEnumerable<SimpleDTO> Run(IQueryable<OrganizationObjectTypeWorker> organizationObjectTypeWorkers,
@@ -25,17 +42,20 @@ namespace HelpDesk.DataService.Query
 
             var q = from ootw in organizationObjectTypeWorkers
                     join e in employees on ootw.Organization.Id equals e.Organization.Id
-                    where e.Id == userId 
+                    where e.Id == employeeId
                         && ootw.ObjectType.Soft == false
                         && ootw.ObjectType.Archive == false
+                        && (workerId == 0 || ootw.Worker.Id == workerId)
                     orderby ootw.ObjectType.Name
-                    select new SimpleDTO()
-                    {
-                        Id = ootw.ObjectType.Id,
-                        Name = ootw.ObjectType.Name
-                    };
+                    select ootw;
 
-            return q.ToList();
+            q = q.Where(accessPredicate);
+            
+            return q.Select(ootw => new SimpleDTO()
+            {
+                Id = ootw.ObjectType.Id,
+                Name = ootw.ObjectType.Name
+            }).ToList();
         }
     }
 }

@@ -130,45 +130,25 @@ namespace HelpDesk.WorkerWebApp.Controllers
         {
             return execute(delegate ()
             {
-                IEnumerable<RequestObjectISDTO> list = employeeObjectService.GetListAllowableObjectIS(employeeId, name);
+                long userId = User.Identity.GetUserId<long>();
+                IEnumerable<RequestObjectISDTO> list = employeeObjectService.GetListAllowableObjectIS(userId, employeeId, name);
                 result = Json(new { success = true, data = list });
             });
         }
 
-        [Route("api/{lang}/EmployeeObject/GetCountAllowableObjectIS")]
-        [HttpGet]
-        public IHttpActionResult GetCountAllowableObjectIS(long employeeId)
-        {
-            return execute(delegate ()
-            {
-                int count = employeeObjectService.GetCountAllowableObjectIS(employeeId);
-                result = Json(new { success = true, data = count });
-            });
-        }
-
-
+       
         [Route("api/{lang}/EmployeeObject/GetListAllowableObjectType")]
         [HttpGet]
         public IHttpActionResult GetListAllowableObjectType(long employeeId)
         {
             return execute(delegate ()
             {
-                IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(employeeId);
+                long userId = User.Identity.GetUserId<long>();
+                IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(userId, employeeId);
                 result = Json(new { success = true, data = list });
             });
         }
-
-        [Route("api/{lang}/EmployeeObject/GetCountAllowableObjectType")]
-        [HttpGet]
-        public IHttpActionResult GetCountAllowableObjectType(long employeeId)
-        {
-            return execute(delegate ()
-            {
-                int count = employeeObjectService.GetCountAllowableObjectType(employeeId);
-                result = Json(new { success = true, data = count });
-            });
-        }
-
+        
 
         [Route("api/{lang}/EmployeeObject/GetListWare")]
         [HttpGet]

@@ -53,14 +53,7 @@
                         return results;
                     });
             };
-
-            var _getCountAllowableObjectIS = function (employeeId) {
-                
-                return $http.get(localizedWebAPIService.get("EmployeeObject/GetCountAllowableObjectIS?employeeId=" + employeeId))
-                    .then(function (results) {
-                        return results;
-                    });
-            };
+                       
 
             var _getListAllowableObjectType = function (employeeId) {
                 return $http.get(localizedWebAPIService.get("EmployeeObject/GetListAllowableObjectType?employeeId=" + employeeId))
@@ -68,13 +61,7 @@
                         return results;
                     });
             };
-
-            var _getCountAllowableObjectType = function (employeeId) {
-                return $http.get(localizedWebAPIService.get("EmployeeObject/GetCountAllowableObjectType?employeeId=" + employeeId))
-                    .then(function (results) {
-                        return results;
-                    });
-            };
+                       
 
             var _getListHardType = function (name) {
                 return $http.get(localizedWebAPIService.get("EmployeeObject/GetListHardType?name=" + name))
@@ -133,9 +120,7 @@
 
             factory.getListAllowableObjectIS    = _getListAllowableObjectIS;
             factory.getListAllowableObjectType  = _getListAllowableObjectType;
-            factory.getCountAllowableObjectIS    = _getCountAllowableObjectIS;
-            factory.getCountAllowableObjectType  = _getCountAllowableObjectType;
-
+            
             factory.getListHardType             = _getListHardType;
             factory.getListModel                = _getListModel;
             factory.getListManufacturer         = _getListManufacturer;

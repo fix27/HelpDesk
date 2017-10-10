@@ -14,7 +14,7 @@ namespace HelpDesk.DataService
     public class AccessWorkerUserExpressionService : IAccessWorkerUserExpressionService
     {
         
-        public Expression<Func<BaseRequest, bool>> GetAccessPredicate(IEnumerable<AccessWorkerUser> list)
+        public Expression<Func<BaseRequest, bool>> GetAccessRequestPredicate(IEnumerable<AccessWorkerUser> list)
         {
             Expression<Func<BaseRequest, bool>> where = t => true;
 
@@ -54,6 +54,18 @@ namespace HelpDesk.DataService
                 where = where.AndAlso(organizationAddressesExp);
             }
            
+            return where;
+        }
+
+        public Expression<Func<OrganizationObjectTypeWorker, bool>> GetAccessOrganizationObjectTypeWorkerPredicate(IEnumerable<AccessWorkerUser> list)
+        {
+            Expression<Func<OrganizationObjectTypeWorker, bool>> where = t => true;
+            return where;
+        }
+
+        public Expression<Func<RequestObject, bool>> GetAccessRequestObjectPredicate(IEnumerable<AccessWorkerUser> list)
+        {
+            Expression<Func<RequestObject, bool>> where = t => true;
             return where;
         }
     }

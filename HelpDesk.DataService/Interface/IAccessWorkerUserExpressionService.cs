@@ -7,6 +7,8 @@ namespace HelpDesk.DataService.Interface
 {
     public interface IAccessWorkerUserExpressionService
     {
-        Expression<Func<BaseRequest, bool>> GetAccessPredicate(IEnumerable<AccessWorkerUser> list);
+        Expression<Func<BaseRequest, bool>> GetAccessRequestPredicate(IEnumerable<AccessWorkerUser> list);
+        Expression<Func<OrganizationObjectTypeWorker, bool>> GetAccessOrganizationObjectTypeWorkerPredicate(IEnumerable<AccessWorkerUser> list);
+        Expression<Func<RequestObject, bool>> GetAccessRequestObjectPredicate(IEnumerable<AccessWorkerUser> list);
     }
 }

@@ -12,6 +12,8 @@ using HelpDesk.Data.Query;
 using HelpDesk.DataService.Query;
 using HelpDesk.DataService.Specification;
 using System.Linq;
+using System.Linq.Expressions;
+using System;
 
 namespace HelpDesk.DataService
 {
@@ -30,7 +32,9 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<Manufacturer> manufacturerRepository;
         private readonly IBaseRepository<Model> modelRepository;
         private readonly IBaseRepository<ObjectType> objectTypeRepository;
-        
+        private readonly IBaseRepository<WorkerUser> workerUserRepository;
+        private readonly IBaseRepository<AccessWorkerUser> accessWorkerUserRepository;
+        private readonly IAccessWorkerUserExpressionService accessWorkerUserExpressionService;
         private readonly IRepository repository;
 
         public EmployeeObjectService(
@@ -42,7 +46,9 @@ namespace HelpDesk.DataService
             IBaseRepository<Manufacturer> manufacturerRepository,
             IBaseRepository<Model> modelRepository,
             IBaseRepository<ObjectType> objectTypeRepository,
-            
+            IBaseRepository<WorkerUser> workerUserRepository,
+            IBaseRepository<AccessWorkerUser> accessWorkerUserRepository,
+            IAccessWorkerUserExpressionService accessWorkerUserExpressionService,
             IRepository repository)
         {
             this.queryRunner                 = queryRunner;
@@ -53,7 +59,9 @@ namespace HelpDesk.DataService
             this.manufacturerRepository      = manufacturerRepository;
             this.modelRepository             = modelRepository;
             this.objectTypeRepository        = objectTypeRepository;
-            
+            this.workerUserRepository        = workerUserRepository;
+            this.accessWorkerUserRepository  = accessWorkerUserRepository;
+            this.accessWorkerUserExpressionService = accessWorkerUserExpressionService;
             this.repository                  = repository;
         }
         
@@ -89,6 +97,36 @@ namespace HelpDesk.DataService
         {
             IEnumerable<SimpleDTO> list = queryRunner.Run(new AllowableObjectTypeQuery(employeeId));
             return list;
+        }
+
+        public IEnumerable<RequestObjectISDTO> GetListAllowableObjectIS(long userId, long employeeId, string name = null)
+        {
+            WorkerUser user = workerUserRepository.Get(userId);
+            Expression<Func<RequestObject, bool>> accessPredicate = accessWorkerUserExpressionService
+                .GetAccessRequestObjectPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+
+            IEnumerable<RequestObjectISDTO> list = null;
+            if (user.Worker != null)
+                list = queryRunner.Run(new AllowableObjectISQuery(accessPredicate, user.Worker.Id, employeeId, name));
+            else
+                list = queryRunner.Run(new AllowableObjectISQuery(accessPredicate, employeeId, name));
+
+            IEnumerable<long> listEmployeeObjectIds = queryRunner.Run(new EmployeeObjectQuery(employeeId))
+                .Select(t => t.ObjectId);
+
+            return list.Where(t => !listEmployeeObjectIds.Contains(t.Id));
+        }
+
+        public IEnumerable<SimpleDTO> GetListAllowableObjectType(long userId, long employeeId)
+        {
+            WorkerUser user = workerUserRepository.Get(userId);
+            Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate = accessWorkerUserExpressionService
+                .GetAccessOrganizationObjectTypeWorkerPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+
+            if (user.Worker != null)
+                return queryRunner.Run(new AllowableObjectTypeQuery(accessPredicate, user.Worker.Id, employeeId));
+
+            return queryRunner.Run(new AllowableObjectTypeQuery(accessPredicate, employeeId));
         }
 
         [Transaction]
@@ -232,15 +270,6 @@ namespace HelpDesk.DataService
             employeeObjectRepository.Delete(entity);
             repository.SaveChanges();
         }
-
-        public int GetCountAllowableObjectIS(long employeeId)
-        {
-            return queryRunner.Run(new CountAllowableObjectISQuery(employeeId));
-        }
-
-        public int GetCountAllowableObjectType(long employeeId)
-        {
-            return queryRunner.Run(new CountAllowableObjectTypeQuery(employeeId));
-        }
+                
     }
 }
