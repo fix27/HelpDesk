@@ -462,4 +462,7 @@
   <data name="Text_NotAllowableEmployee" xml:space="preserve">
     <value>Отсутствуют обслуживаемые организации. Добавление заявок не возможно</value>
   </data>
+  <data name="Text_SearchPlaceholder" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
 </root>

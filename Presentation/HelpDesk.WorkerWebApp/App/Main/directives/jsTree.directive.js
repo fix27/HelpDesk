@@ -34,9 +34,23 @@ ngJSTree.directive('jsTree', ['$rootScope', '$http', function ($rootScope, $http
 
                 if (config.plugins.indexOf('search') >= 0) {
                     var to = false;
-                    if (e.next().attr('class') !== 'ng-tree-search') {
-                        e.after('<input type="text" placeholder="Search Tree" class="ng-tree-search"/>')
-                          .next()
+                    //оригинальный код
+                    //if (e.next().attr('class') !== 'ng-tree-search') {
+                    //    e.after('<input type="text" placeholder="Search Tree" class="ng-tree-search"/>')
+                    //      .next()
+                    //      .on('keyup', function (ev) {
+                    //          if (to) {
+                    //              clearTimeout(to);
+                    //          }
+                    //          to = setTimeout(function () {
+                    //              treeDir.tree.jstree(true).search(ev.target.value);
+                    //          }, 250);
+                    //      });
+                    //}
+
+                    if (e.before().attr('class') !== 'ng-tree-search') {
+                        e.before('<input type="text" placeholder="' + HelpDesk.WorkerWebApp.Resources.SearchPlaceholder + '" class="ng-tree-search form-control"/>')
+                          .prev()
                           .on('keyup', function (ev) {
                               if (to) {
                                   clearTimeout(to);
@@ -46,6 +60,7 @@ ngJSTree.directive('jsTree', ['$rootScope', '$http', function ($rootScope, $http
                               }, 250);
                           });
                     }
+
                 }
 
                 if (config.plugins.indexOf('checkbox') >= 0)
@@ -168,7 +183,7 @@ ngJSTree.directive('jsTree', ['$rootScope', '$http', function ($rootScope, $http
             
             this.tree = $(e).jstree(config);
            
-            //treeDir.manageEvents(s, e, a);
+            treeDir.manageEvents(s, e, a);
             //alert(e['changedWorker']);
             s[a.treeName] = this.tree;
         }

@@ -140,6 +140,38 @@ namespace HelpDesk.DataService
             return list;
         }
 
+        public IEnumerable<OrganizationDTO> GetListByWorkerUser(long userId)
+        {
+            WorkerUser user = workerUserRepository.Get(userId);
+
+            long workerId = 0;
+            if (user.Worker != null)
+                workerId = user.Worker.Id;
+
+
+            IEnumerable<long> ids = organizationObjectTypeWorkerRepository
+                .GetList(t => workerId == 0 || t.Worker.Id == workerId)
+                .Select(t => t.Organization.Id)
+                .Distinct()
+                .ToList();
+
+            IEnumerable<OrganizationDTO> list = organizationRepository.GetList()
+                .Select(t => new OrganizationDTO()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Address = t.Address,
+                    ParentId = t.ParentId,
+                    HasChild = t.HasChild
+                })
+                .OrderBy(p => p.Name).ToList();
+
+            IEnumerable<OrganizationDTO> list2 = list;
+
+            list = list.Where(t => inOrganizationObjectTypeWorker(t, list2, ids));
+
+            return list;
+        }
         public bool GetExistsByWorkerUser(long userId)
         {
             WorkerUser user = workerUserRepository.Get(userId);

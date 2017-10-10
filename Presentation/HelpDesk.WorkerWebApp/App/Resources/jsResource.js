@@ -7,5 +7,6 @@ HelpDesk.WorkerWebApp.Resources =
 	ErrorMessage_AcceptFileTypesConstraint	:'Не допустимый тип файла',
 	ErrorMessage_MaxFileSizeConstraint		:'Превышен максимальный размер файла 500 KB',
 	ErrorMessage_MinFileSizeConstraint		:'Слишком маленький размер файла',
-	ExtendedDeadLine						: 2300
+	ExtendedDeadLine						: 2300,
+	SearchPlaceholder						:'Поиск'
 }

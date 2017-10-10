@@ -1024,6 +1024,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Поиск.
+        /// </summary>
+        public static string Text_SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("Text_SearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Соглашение об уровне сервиса.
         /// </summary>
         public static string Text_ServiceLevelAgreementUrl {
