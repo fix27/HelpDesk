@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 namespace HelpDesk.DataService.Query
 {
     /// <summary>
-    /// Запрос: заявки исполнителя/дипетчера
+    /// Запрос: заявки пользователя/исполнителя/дипетчера
     /// </summary>
     public class RequestQuery<T> : IQuery<IEnumerable<RequestDTO>, T>
         where T : BaseRequest

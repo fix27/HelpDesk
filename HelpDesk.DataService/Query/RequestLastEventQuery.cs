@@ -20,7 +20,7 @@ namespace HelpDesk.DataService.Query
         public IEnumerable<RequestEventDTO> Run(IQueryable<RequestEvent> events)
         {
             //ВНИМАНИЕ!!! Запрос для ids сразу материализуется при помощи ToList(), 
-            //так как иначе NH не может его  нормально преобразовать в sql
+            //так как иначе NH не может его нормально преобразовать в sql
 
 
             /*IEnumerable<long> ids = (from z in events
