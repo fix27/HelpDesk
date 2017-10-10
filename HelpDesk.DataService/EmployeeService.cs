@@ -235,6 +235,40 @@ namespace HelpDesk.DataService
 
         }
 
+        public IEnumerable<EmployeeDTO> GetListByOrganization(IEnumerable<long> organizationIds, long? workerUserId = null)
+        {
+            if (workerUserId.HasValue)
+            {
+                WorkerUser workerUser = workerUserRepository.Get(workerUserId.Value);
+
+                if (workerUser.Worker != null)
+                {
+                    if (!organizationObjectTypeWorkerRepository.GetList()
+                        .Any(t => organizationIds.Contains(t.Organization.Id) && t.Worker.Id == workerUser.Id))
+                        return null;
+                }
+            }
+
+            return employeeRepository
+                    .GetList(e => organizationIds.Contains(e.Organization.Id))
+                    .Select(e => new EmployeeDTO()
+                    {
+                        Id = e.Id,
+                        FM = e.FM,
+                        IM = e.IM,
+                        OT = e.OT,
+                        Cabinet = e.Cabinet,
+                        Phone = e.Phone,
+                        PostName = e.Post != null ? e.Post.Name : null,
+                        Subscribe = e.Subscribe,
+                        OrganizationId = e.Organization.Id,
+                        OrganizationName = e.Organization.Name,
+                        OrganizationAddress = e.Organization.Address
+                    })
+                    .ToList();
+
+        }
+
         [Transaction]
         public void Save(EmployeeDTO dto)
         {

@@ -27,7 +27,6 @@
                         //el.css('color', '#2F4F4F');
                         el.css('font-style', 'italic');
                     }
-                        
                 }
             });
 

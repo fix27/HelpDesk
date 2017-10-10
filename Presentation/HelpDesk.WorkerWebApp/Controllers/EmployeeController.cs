@@ -165,25 +165,26 @@ namespace HelpDesk.WorkerWebApp.Controllers
             //}
 
             if (list != null && list.Any())
-                foreach (OrganizationDTO o in list)
+            {
+                IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(
+                    list.Select(o => o.Id), userId);
+                if (employees != null)
                 {
-                    IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(o.Id, userId);
-                    if (employees != null)
+                    IEnumerable<jstree_all_loaded_node> employeeItems = employees.Select(e => new jstree_all_loaded_node
                     {
-                        IEnumerable<jstree_all_loaded_node> employeeItems = employees.Select(e => new jstree_all_loaded_node
-                        {
-                            id = e.Id.ToString(),
-                            parent = orgPrefix + o.Id.ToString(),
-                            text = e.ShortEmployeeInfo,
-                            //children = false,
-                            type = "employee",
-                            selectable = true
-                        });
+                        id = e.Id.ToString(),
+                        parent = orgPrefix + e.OrganizationId,
+                        text = e.ShortEmployeeInfo,
+                        //children = false,
+                        type = "employee",
+                        selectable = true
+                    });
 
-                        items = items.Union(employeeItems);
-                    }
+                    items = items.Union(employeeItems);
                 }
+            }
 
+            
 
             return items;
         }
