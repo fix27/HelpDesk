@@ -144,3 +144,9 @@ textarea.error {
     overflow: hidden;
     display: block;
 }
+
+.linkdisabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: lightgray;
+}

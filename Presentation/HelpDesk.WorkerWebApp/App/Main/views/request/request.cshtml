@@ -60,8 +60,8 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a ng-disabled="vm.allowable.ISs.length == 0" href="" ng-click="vm.addIS()">@Resource.Action_AddIS</a></li>
-                            <li><a ng-disabled="vm.allowable.objectTypes.length == 0" href="" ng-click="vm.addTO()">@Resource.Action_AddTO</a></li>
+                            <li><a ng-class="{linkdisabled: vm.allowable.ISs.length==0}" href="" ng-click="vm.addIS()">@Resource.Action_AddIS</a></li>
+                            <li><a ng-class="{linkdisabled: vm.allowable.objectTypes.length==0}" href="" ng-click="vm.addTO()">@Resource.Action_AddTO</a></li>
                         </ul>
                     </span>
                 </span>
