@@ -15,16 +15,8 @@ namespace HelpDesk.DataService.Query
     public class AllowableObjectTypeQuery : IQuery<IEnumerable<SimpleDTO>, OrganizationObjectTypeWorker, Employee>
     {
         private readonly long employeeId;
-        private readonly long workerId;
         private readonly Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate;
-               
-
-        public AllowableObjectTypeQuery(Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate, long workerId, long employeeId)
-            :this(accessPredicate, employeeId)
-        {
-            this.workerId = workerId;
-        }
-
+        
         public AllowableObjectTypeQuery(Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate, long employeeId)
             : this(employeeId)
         {
@@ -45,7 +37,6 @@ namespace HelpDesk.DataService.Query
                     where e.Id == employeeId
                         && ootw.ObjectType.Soft == false
                         && ootw.ObjectType.Archive == false
-                        && (workerId == 0 || ootw.Worker.Id == workerId)
                     orderby ootw.ObjectType.Name
                     select ootw;
 
@@ -55,7 +46,7 @@ namespace HelpDesk.DataService.Query
             {
                 Id = ootw.ObjectType.Id,
                 Name = ootw.ObjectType.Name
-            }).ToList();
+            }).Distinct().ToList();
         }
     }
 }

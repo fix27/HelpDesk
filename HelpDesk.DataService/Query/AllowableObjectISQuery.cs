@@ -14,17 +14,11 @@ namespace HelpDesk.DataService.Query
     /// </summary>
     public class AllowableObjectISQuery : IQuery<IEnumerable<RequestObjectISDTO>, RequestObject, OrganizationObjectTypeWorker, Employee>
     {
-        private readonly long workerId;
         private readonly long employeeId;
         private readonly string name;
         private readonly Expression<Func<RequestObject, bool>> accessPredicate;
 
-        public AllowableObjectISQuery(Expression<Func<RequestObject, bool>> accessPredicate, long workerId, long employeeId, string name)
-            : this(accessPredicate, employeeId, name)
-        {
-            this.workerId = workerId;
-        }
-
+        
         public AllowableObjectISQuery(long employeeId, string name)
             : this(employeeId)
         {
@@ -53,8 +47,7 @@ namespace HelpDesk.DataService.Query
                     where o.ObjectType.Soft == true 
                         && e.Id == employeeId
                         && o.ObjectType.Archive == false 
-                        && o.Archive == false
-                        && (workerId == 0 || ootw.Worker.Id == workerId)
+                        && o.Archive == false                       
                     orderby o.SoftName, o.ObjectType.Name
                     select o;
 
@@ -69,7 +62,7 @@ namespace HelpDesk.DataService.Query
                 Id = o.Id,
                 SoftName = o.SoftName,
                 ObjectTypeName = o.ObjectType.Name
-            }).ToList();
+            }).Distinct().ToList();
         }
     }
 }

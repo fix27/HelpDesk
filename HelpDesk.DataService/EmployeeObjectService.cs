@@ -106,11 +106,7 @@ namespace HelpDesk.DataService
             Expression<Func<RequestObject, bool>> accessPredicate = accessWorkerUserExpressionService
                 .GetAccessRequestObjectPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
 
-            IEnumerable<RequestObjectISDTO> list = null;
-            if (user.Worker != null)
-                list = queryRunner.Run(new AllowableObjectISQuery(accessPredicate, user.Worker.Id, employeeId, name));
-            else
-                list = queryRunner.Run(new AllowableObjectISQuery(accessPredicate, employeeId, name));
+            IEnumerable<RequestObjectISDTO> list = queryRunner.Run(new AllowableObjectISQuery(accessPredicate, employeeId, name));
 
             IEnumerable<long> listEmployeeObjectIds = queryRunner.Run(new EmployeeObjectQuery(employeeId))
                 .Select(t => t.ObjectId);
@@ -123,10 +119,7 @@ namespace HelpDesk.DataService
             WorkerUser user = workerUserRepository.Get(userId);
             Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate = accessWorkerUserExpressionService
                 .GetAccessOrganizationObjectTypeWorkerPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
-
-            if (user.Worker != null)
-                return queryRunner.Run(new AllowableObjectTypeQuery(accessPredicate, user.Worker.Id, employeeId));
-
+            
             return queryRunner.Run(new AllowableObjectTypeQuery(accessPredicate, employeeId));
         }
         #endregion GetListAllowable

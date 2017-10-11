@@ -31,7 +31,8 @@ namespace HelpDesk.Test.DataService
 
         IList<AccessWorkerUser> listAccessUser = new List<AccessWorkerUser>()
         {
-            new AccessWorkerUser { User = new WorkerUser { Id = 1 }, Worker = new Worker { Id = 1 }, Type= TypeAccessWorkerUserEnum.Worker  }
+            new AccessWorkerUser { User = new WorkerUser { Id = 1 }, Worker = new Worker { Id = 1 }, Type= TypeAccessWorkerUserEnum.Worker  },
+            new AccessWorkerUser { User = new WorkerUser { Id = 1 }, Worker = new Worker { Id = 3 }, Type= TypeAccessWorkerUserEnum.Worker  }
         };
 
         IList<OrganizationObjectTypeWorker> listOrganizationObjectTypeWorker = new List<OrganizationObjectTypeWorker>()
@@ -39,7 +40,8 @@ namespace HelpDesk.Test.DataService
             new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 1 }, Organization = new Organization { Id = 1 }, Worker = new Worker { Id = 1 } },
             new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 1 }, Organization = new Organization { Id = 2 }, Worker = new Worker { Id = 1 } },
             new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 2 }, Organization = new Organization { Id = 2 }, Worker = new Worker { Id = 1 } },
-            new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 3 }, Organization = new Organization { Id = 2 }, Worker = new Worker { Id = 2 } }
+            new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 3 }, Organization = new Organization { Id = 2 }, Worker = new Worker { Id = 2 } },
+            new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 3 }, Organization = new Organization { Id = 1 }, Worker = new Worker { Id = 3 } }
         };
 
         IList<Employee> listEmployee = new List<Employee>()
@@ -89,14 +91,51 @@ namespace HelpDesk.Test.DataService
 
             IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(1, 1);
 
-            Assert.IsTrue(list.Count() == 1);
+            Assert.IsTrue(list.Count() == 2);
             Assert.IsTrue(list.Any(t => t.Id == 1));
+            Assert.IsTrue(list.Any(t => t.Id == 3));
         }
 
         [TestMethod]
         public void EmployeeObjectService_GetListAllowableObjectType_Dispatcher()
         {
+            Mock<ISession> session = new Mock<ISession>(MockBehavior.Strict);
+            session.Setup(x => x.Query<OrganizationObjectTypeWorker>())
+               .Returns(() => { return listOrganizationObjectTypeWorker.AsQueryable(); });
+            session.Setup(x => x.Query<Employee>())
+               .Returns(() => { return listEmployee.AsQueryable(); });
 
+            IQueryRunner queryRunner = new QueryRunner(session.Object);
+
+            Mock<IBaseRepository<WorkerUser>> workerUserRepository = new Mock<IBaseRepository<WorkerUser>>(MockBehavior.Strict);
+            workerUserRepository.Setup(x => x.Get(It.IsAny<long>()))
+               .Returns((long id) => { return listUser.AsQueryable().FirstOrDefault(u => u.Id == id); });
+
+            Mock<IBaseRepository<AccessWorkerUser>> accessWorkerUserRepository = new Mock<IBaseRepository<AccessWorkerUser>>(MockBehavior.Strict);
+            accessWorkerUserRepository.Setup(x => x.GetList(It.IsAny<Expression<Func<AccessWorkerUser, bool>>>()))
+               .Returns((Expression<Func<AccessWorkerUser, bool>> predicate) => { return listAccessUser.AsQueryable().Where(predicate); });
+
+            EmployeeObjectService employeeObjectService =
+                new EmployeeObjectService(
+                    queryRunner,//*
+                    Mock.Of<IBaseRepository<EmployeeObject>>(),
+                    Mock.Of<IBaseRepository<Employee>>(),
+                    Mock.Of<IBaseRepository<RequestObject>>(),
+                    Mock.Of<IBaseRepository<HardType>>(),
+                    Mock.Of<IBaseRepository<Manufacturer>>(),
+                    Mock.Of<IBaseRepository<Model>>(),
+                    Mock.Of<IBaseRepository<ObjectType>>(),
+                    workerUserRepository.Object,//*
+                    accessWorkerUserRepository.Object,//*
+                    new AccessWorkerUserExpressionService(),//*
+                    Mock.Of<IRepository>());
+
+            IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(3, 3);
+
+            Assert.IsTrue(list.Count() == 3);
+            Assert.IsTrue(list.Any(t => t.Id == 1));
+            Assert.IsTrue(list.Any(t => t.Id == 2));
+            Assert.IsTrue(list.Any(t => t.Id == 3));
         }
 
     }
