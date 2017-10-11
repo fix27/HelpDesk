@@ -1,7 +1,6 @@
 ﻿using NHibernate;
 using HelpDesk.Data.Query;
 using HelpDesk.Entity;
-using NHibernate.Linq;
 
 
 namespace HelpDesk.Data.NHibernate

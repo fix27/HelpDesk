@@ -1,7 +1,6 @@
 ﻿using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 using NHibernate;
-using NHibernate.Linq;
 using NHibernate.Criterion;
 using System.Linq;
 using System;
