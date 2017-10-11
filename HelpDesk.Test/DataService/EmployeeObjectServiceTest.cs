@@ -25,29 +25,33 @@ namespace HelpDesk.Test.DataService
         IList<WorkerUser> listUser = new List<WorkerUser>()
         {
             new WorkerUser { Id = 1, Worker = new Worker { Id = 1 } },
-            new WorkerUser { Id = 2, Worker = new Worker { Id = 1 } },
+            new WorkerUser { Id = 2, Worker = new Worker { Id = 2 } },
             new WorkerUser { Id = 3 }
         };
 
         IList<AccessWorkerUser> listAccessUser = new List<AccessWorkerUser>()
         {
-            new AccessWorkerUser { Id = 1, User = new WorkerUser { Id = 1 }, Worker = new Worker { Id = 1 }, Type= TypeAccessWorkerUserEnum.Worker  }
+            new AccessWorkerUser { User = new WorkerUser { Id = 1 }, Worker = new Worker { Id = 1 }, Type= TypeAccessWorkerUserEnum.Worker  }
         };
 
         IList<OrganizationObjectTypeWorker> listOrganizationObjectTypeWorker = new List<OrganizationObjectTypeWorker>()
         {
-            new OrganizationObjectTypeWorker { Id = 1, ObjectType = new ObjectType { Id = 1 }, Organization = new Organization { Id = 1 }, Worker = new Worker { Id = 1 } },
-            new OrganizationObjectTypeWorker { Id = 2, ObjectType = new ObjectType { Id = 1 }, Organization = new Organization { Id = 1 }, Worker = new Worker { Id = 1 } },
-            new OrganizationObjectTypeWorker { Id = 3, ObjectType = new ObjectType { Id = 1 }, Organization = new Organization { Id = 1 }, Worker = new Worker { Id = 1 } },
-            new OrganizationObjectTypeWorker { Id = 4, ObjectType = new ObjectType { Id = 1 }, Organization = new Organization { Id = 1 }, Worker = new Worker { Id = 1 } }
+            new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 1 }, Organization = new Organization { Id = 1 }, Worker = new Worker { Id = 1 } },
+            new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 1 }, Organization = new Organization { Id = 2 }, Worker = new Worker { Id = 1 } },
+            new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 2 }, Organization = new Organization { Id = 2 }, Worker = new Worker { Id = 1 } },
+            new OrganizationObjectTypeWorker { ObjectType = new ObjectType { Id = 3 }, Organization = new Organization { Id = 2 }, Worker = new Worker { Id = 2 } }
         };
 
         IList<Employee> listEmployee = new List<Employee>()
         {
             new Employee {Id = 1, Organization = new Organization { Id = 1 } },
             new Employee {Id = 2, Organization = new Organization { Id = 1 } },
-            new Employee {Id = 3, Organization = new Organization { Id = 1 } }
+            new Employee {Id = 3, Organization = new Organization { Id = 2 } },
+            new Employee {Id = 4, Organization = new Organization { Id = 2 } },
+            new Employee {Id = 5, Organization = new Organization { Id = 3 } }
         };
+
+
 
         [TestMethod]
         public void EmployeeObjectService_GetListAllowableObjectType_Worker()
@@ -84,6 +88,9 @@ namespace HelpDesk.Test.DataService
                     Mock.Of<IRepository>());
 
             IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(1, 1);
+
+            Assert.IsTrue(list.Count() == 1);
+            Assert.IsTrue(list.Any(t => t.Id == 1));
         }
 
         [TestMethod]
