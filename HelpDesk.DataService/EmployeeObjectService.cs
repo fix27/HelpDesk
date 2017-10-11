@@ -83,6 +83,7 @@ namespace HelpDesk.DataService
             return list!=null && list.Any();
         }
 
+        #region GetListAllowable
         public IEnumerable<RequestObjectISDTO> GetListAllowableObjectIS(long employeeId, string name = null)
         {
             IEnumerable<RequestObjectISDTO> list = queryRunner.Run(new AllowableObjectISQuery(employeeId, name));
@@ -128,6 +129,7 @@ namespace HelpDesk.DataService
 
             return queryRunner.Run(new AllowableObjectTypeQuery(accessPredicate, employeeId));
         }
+        #endregion GetListAllowable
 
         [Transaction]
         public void AddIS(long employeeId, RequestObjectISDTO dto)
