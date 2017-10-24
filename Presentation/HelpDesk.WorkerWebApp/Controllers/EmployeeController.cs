@@ -167,7 +167,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
             if (list != null && list.Any())
             {
                 IEnumerable<EmployeeDTO> employees = employeeService.GetListByOrganization(
-                    list.Select(o => o.Id), userId);
+                    list.Where(o => o.Selectable).Select(o => o.Id), userId);
                 if (employees != null)
                 {
                     IEnumerable<jstree_all_loaded_node> employeeItems = employees.Select(e => new jstree_all_loaded_node

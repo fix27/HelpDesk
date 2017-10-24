@@ -465,4 +465,7 @@
   <data name="Text_SearchPlaceholder" xml:space="preserve">
     <value>Поиск</value>
   </data>
+  <data name="Label_Archive" xml:space="preserve">
+    <value>Архив</value>
+  </data>
 </root>
