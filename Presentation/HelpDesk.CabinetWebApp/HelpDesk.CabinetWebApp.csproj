@@ -212,7 +212,6 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AngularTemplateController.cs" />
-    <Compile Include="Controllers\InputParameters\AmountTransactionInputParameter.cs" />
     <Compile Include="Filters\CultureHelper.cs" />
     <Compile Include="Filters\RecaptchaFilter.cs" />
     <Compile Include="Filters\WebAPICultureAttribute.cs" />
