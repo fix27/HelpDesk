@@ -102,6 +102,7 @@
     <Content Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Mapping\DescriptionProblem.hbm.xml" />
     <EmbeddedResource Include="Mapping\UserSession.hbm.xml" />
     <EmbeddedResource Include="Mapping\WorkScheduleItem.hbm.xml" />
     <EmbeddedResource Include="Mapping\WorkCalendarItem.hbm.xml" />

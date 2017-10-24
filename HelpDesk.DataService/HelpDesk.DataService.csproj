@@ -106,6 +106,7 @@
     <Compile Include="Interface\IWorkerUserService.cs" />
     <Compile Include="AccessWorkerUserService.cs" />
     <Compile Include="Query\ArchiveYearQuery.cs" />
+    <Compile Include="Query\DescriptionProblemQuery.cs" />
     <Compile Include="Query\RequestQuery.cs" />
     <Compile Include="WorkerUserService.cs" />
     <Compile Include="Command\DeleteRequestFileCommand.cs" />

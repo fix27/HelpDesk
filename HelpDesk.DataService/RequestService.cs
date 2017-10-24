@@ -49,6 +49,7 @@ namespace HelpDesk.DataService
         private readonly ICommandRunner commandRunner;
         private readonly IQueryRunner queryRunner;
         private readonly IBaseRepository<RequestObject> objectRepository;
+        private readonly IBaseRepository<DescriptionProblem> descriptionProblemRepository;
         private readonly ISettingsRepository settingsRepository;
         private readonly IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository;
         private readonly IBaseRepository<Employee> employeeRepository;
@@ -70,6 +71,7 @@ namespace HelpDesk.DataService
         public RequestService(ICommandRunner commandRunner,
             IQueryRunner queryRunner,
             IBaseRepository<RequestObject> objectRepository,
+            IBaseRepository<DescriptionProblem> descriptionProblemRepository,
             ISettingsRepository settingsRepository,
             IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository,
             IBaseRepository<Employee> employeeRepository,
@@ -90,6 +92,7 @@ namespace HelpDesk.DataService
         {
             this.queryRunner            = queryRunner;
             this.objectRepository       = objectRepository;
+            this.descriptionProblemRepository = descriptionProblemRepository;
             this.commandRunner          = commandRunner;
             this.settingsRepository     = settingsRepository;
             this.organizationObjectTypeWorkerRepository = organizationObjectTypeWorkerRepository;
@@ -530,6 +533,42 @@ namespace HelpDesk.DataService
             };
             requestEventRepository.Save(dateEndRequestEvent);
 
+
+            DescriptionProblem descriptionProblem = null;
+            if (r.Object.ObjectType.Soft)
+            {
+                descriptionProblem = descriptionProblemRepository.Get(t => t.Name.ToUpper() == r.DescriptionProblem &&
+                    t.RequestObject.Id == r.Object.Id);
+
+                if (descriptionProblem == null)
+                {
+                    descriptionProblem = new DescriptionProblem()
+                    {
+                        Name = r.DescriptionProblem,
+                        RequestObject = r.Object
+                    };
+
+                    descriptionProblemRepository.Save(descriptionProblem);
+                }
+            }
+            else
+            {
+                descriptionProblem = descriptionProblemRepository.Get(t => t.Name.ToUpper() == r.DescriptionProblem &&
+                    t.RequestObject.HardType.Id == r.Object.HardType.Id);
+
+                if (descriptionProblem == null)
+                {
+                    descriptionProblem = new DescriptionProblem()
+                    {
+                        Name = r.DescriptionProblem,
+                        HardType = r.Object.HardType
+                    };
+
+                    descriptionProblemRepository.Save(descriptionProblem);
+                }
+            }
+
+
             repository.SaveChanges();
 
             commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, r.Id));
@@ -615,7 +654,7 @@ namespace HelpDesk.DataService
             request.Status      = statusRequest;
             requestRepository.Save(request);
             requestEventRepository.Save(newEvent);
-
+                        
             repository.SaveChanges();
 
             //перенос заявки в архив
@@ -659,6 +698,11 @@ namespace HelpDesk.DataService
                 interval.Value2 = dateTimeService.GetRequestDateEnd(startingPointDateTime, maxCountHour);
 
             return interval;
+        }
+
+        public IEnumerable<SimpleDTO> GetListDescriptionProblem(string name, long objectId)
+        {
+            return queryRunner.Run(new DescriptionProblemQuery(name, objectId));
         }
     }
 }

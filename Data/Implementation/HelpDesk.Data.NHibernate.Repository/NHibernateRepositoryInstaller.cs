@@ -42,6 +42,7 @@ namespace HelpDesk.Data.NHibernate.Repository
             container.RegisterType<IBaseRepository<WorkScheduleItem>, BaseRepository<WorkScheduleItem>>();
 
             container.RegisterType<IBaseRepository<UserSession>, BaseRepository<UserSession>>();
+            container.RegisterType<IBaseRepository<DescriptionProblem>, BaseRepository<DescriptionProblem>>();
             
             container.RegisterType<ISettingsRepository, SettingsRepository>("SettingsRepository");
             
