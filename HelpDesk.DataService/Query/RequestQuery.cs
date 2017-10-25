@@ -8,6 +8,7 @@ using System.Linq;
 using HelpDesk.Common.Helpers;
 using System;
 using System.Linq.Expressions;
+using HelpDesk.Data.NHibernate.Repository;
 
 namespace HelpDesk.DataService.Query
 {
@@ -81,16 +82,7 @@ namespace HelpDesk.DataService.Query
                             
             var filteredRequests = requests.Where(accessPredicate.AndAlso(where));
             
-            if (pageInfo != null)
-            {
-                pageInfo.TotalCount = requests.Where(accessPredicate).Count();
-                pageInfo.Count = filteredRequests.Count();
-
-                if (pageInfo.PageSize > 0)
-                    filteredRequests = filteredRequests
-                        .Skip(pageInfo.PageSize * pageInfo.CurrentPage)
-                        .Take(pageInfo.PageSize);
-            }
+            
 
             if (orderInfo != null)
             {
@@ -134,7 +126,7 @@ namespace HelpDesk.DataService.Query
                 }
             }
 
-            return filteredRequests.Select(r =>
+            var q = filteredRequests.Select(r =>
                 new RequestDTO()
                 {
                     Id = r.Id,
@@ -157,7 +149,21 @@ namespace HelpDesk.DataService.Query
                     EmployeeOrganizationName = r.Employee.Organization.Name,
                     EmployeeOrganizationAddress = r.Employee.Organization.Address,
                     User = r.User
-                }).ToList();
+                });
+
+
+            if (pageInfo != null)
+            {
+                pageInfo.TotalCount = requests.Where(accessPredicate).Count();
+                pageInfo.Count = filteredRequests.Count();
+
+                if (pageInfo.PageSize > 0)
+                    q = q
+                        .Skip(pageInfo.PageSize * pageInfo.CurrentPage)
+                        .Take(pageInfo.PageSize);
+            }
+
+            return q.ToList();
         }
     }
 }

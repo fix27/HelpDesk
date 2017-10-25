@@ -2,14 +2,14 @@
 using NHibernate.Engine;
 using NHibernate.Hql.Ast.ANTLR;
 using NHibernate.Linq;
-using System;
 
-namespace HelpDesk.Data.NHibernate
+namespace HelpDesk.Data.NHibernate.Repository
 {
-    class Utils
+    public static class Utils
     {
-        public static String GetGeneratedSql(System.Linq.IQueryable queryable, ISession session)
+        public static string ToSqlString(this System.Linq.IQueryable queryable)
         {
+            ISession session = NHibernateSessionManager.Instance.GetSession();
             var sessionImp = (ISessionImplementor)session;
             var nhLinqExpression = new NhLinqExpression(queryable.Expression, sessionImp.Factory);
             var translatorFactory = new ASTQueryTranslatorFactory();
