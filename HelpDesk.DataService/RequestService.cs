@@ -537,7 +537,7 @@ namespace HelpDesk.DataService
             DescriptionProblem descriptionProblem = null;
             if (r.Object.ObjectType.Soft)
             {
-                descriptionProblem = descriptionProblemRepository.Get(t => t.Name.ToUpper() == r.DescriptionProblem &&
+                descriptionProblem = descriptionProblemRepository.Get(t => t.Name.ToUpper() == r.DescriptionProblem.ToUpper() &&
                     t.RequestObject.Id == r.Object.Id);
 
                 if (descriptionProblem == null)
@@ -553,8 +553,8 @@ namespace HelpDesk.DataService
             }
             else
             {
-                descriptionProblem = descriptionProblemRepository.Get(t => t.Name.ToUpper() == r.DescriptionProblem &&
-                    t.RequestObject.HardType.Id == r.Object.HardType.Id);
+                descriptionProblem = descriptionProblemRepository.Get(t => t.Name.ToUpper() == r.DescriptionProblem.ToUpper() &&
+                    t.HardType.Id == r.Object.HardType.Id);
 
                 if (descriptionProblem == null)
                 {
