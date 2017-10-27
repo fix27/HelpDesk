@@ -36,7 +36,7 @@ namespace HelpDesk.WorkerWebApp
             
                        
             
-            IHelpDeskMigrationRunner migrationRunner = serviceLocator.GetInstance<IHelpDeskMigrationRunner>();
+            IMigrationRunner migrationRunner = serviceLocator.GetInstance<IMigrationRunner>();
             migrationRunner.Update();
             
         }

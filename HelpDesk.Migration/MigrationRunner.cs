@@ -11,12 +11,12 @@ using FluentMigrator.Runner.Processors.SqlServer;
 
 namespace HelpDesk.Migration
 {
-    public class HelpDeskMigrationRunner : IHelpDeskMigrationRunner
+    public class MigrationRunner : IMigrationRunner
     {
         private readonly string connectionString;
                
 
-        public HelpDeskMigrationRunner(string connectionString)
+        public MigrationRunner(string connectionString)
         {
             this.connectionString = connectionString;
         }
@@ -51,7 +51,7 @@ namespace HelpDesk.Migration
 
             using (IMigrationProcessor processor = factory.Create(connectionString, announcer, options))
             {
-                IMigrationRunner runner = new MigrationRunner(migrationContainer, migrationContext, processor);
+                FluentMigrator.Runner.IMigrationRunner runner = new FluentMigrator.Runner.MigrationRunner(migrationContainer, migrationContext, processor);
                 runner.MigrateUp();
             }
         }

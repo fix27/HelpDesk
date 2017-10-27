@@ -8,7 +8,7 @@ namespace HelpDesk.Migration
         public static void Install(IUnityContainer container, string connectionString)
         {
 
-            container.RegisterType<IHelpDeskMigrationRunner, HelpDeskMigrationRunner>(new InjectionConstructor(connectionString));
+            container.RegisterType<IMigrationRunner, MigrationRunner>(new InjectionConstructor(connectionString));
         }
     }
 }

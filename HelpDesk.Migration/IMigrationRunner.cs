@@ -1,6 +1,6 @@
 ﻿namespace HelpDesk.Migration
 {
-    public interface IHelpDeskMigrationRunner
+    public interface IMigrationRunner
     {
         void Update();
     }
