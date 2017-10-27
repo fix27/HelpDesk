@@ -202,14 +202,14 @@
                         vm.request.ObjectName = null;
 
 
-                        employeeObjectService.getCountAllowableObjectIS(vm.request.EmployeeId).then(function (results) {
+                        employeeObjectService.getListAllowableObjectIS(vm.request.EmployeeId).then(function (results) {
                             vm.allowable.IS = results.data.data;
                         }, function (error) {
                             $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                         });
 
-                        employeeObjectService.getCountAllowableObjectType(vm.request.EmployeeId).then(function (results) {
-                            vm.allowable.objectType = results.data.data;
+                        employeeObjectService.getListAllowableObjectType(vm.request.EmployeeId).then(function (results) {
+                            vm.allowable.objectTypes = results.data.data;
                         }, function (error) {
                             $rootScope.$broadcast("error", { errorMsg: error.data.Message });
                         });
