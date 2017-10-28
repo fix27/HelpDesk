@@ -313,15 +313,6 @@ namespace HelpDesk.DataService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В продолжение заявки {0}: {1}.
-        /// </summary>
-        internal static string NewRequestByRequestTemplate {
-            get {
-                return ResourceManager.GetString("NewRequestByRequestTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Данные не найдены. Возможно, запись была удалена другим пользователеи.
         /// </summary>
         internal static string NoDataFoundMsg {

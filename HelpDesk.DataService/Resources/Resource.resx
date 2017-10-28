@@ -189,9 +189,6 @@
   <data name="WorkerNotDefinedConstraintMsg" xml:space="preserve">
     <value>Не возможно определить исполнителя</value>
   </data>
-  <data name="NewRequestByRequestTemplate" xml:space="preserve">
-    <value>В продолжение заявки {0}: {1}</value>
-  </data>
   <data name="RequestAcceptConstraintMsg" xml:space="preserve">
     <value>Заявка №{0} уже принята в работу Исполнителем. Редактирование/удаление запрещено</value>
   </data>

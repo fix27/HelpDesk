@@ -13,6 +13,11 @@ namespace HelpDesk.DataService.DTO.Parameters
         public long Id { get; set; }
 
         /// <summary>
+        /// Id заявки, на основе которой создается заявка
+        /// </summary>
+        public long? ByRequestId { get; set; }
+
+        /// <summary>
         /// Id сотрудника
         /// </summary>
         public long EmployeeId { get; set; }

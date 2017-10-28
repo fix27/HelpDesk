@@ -152,7 +152,7 @@ namespace HelpDesk.DataService
         {
             RequestParameter r = getCreateOrUpdateRequest(requestId);
             r.Id = 0;
-            r.DescriptionProblem = String.Format(Resource.NewRequestByRequestTemplate, requestId, r.DescriptionProblem);
+            r.ByRequestId = requestId;
             return r;
 
         }
@@ -540,7 +540,7 @@ namespace HelpDesk.DataService
             if (r.Object.ObjectType.Soft)
             {
                 descriptionProblem = descriptionProblemRepository.Get(t => t.Name.ToUpper() == r.DescriptionProblem.ToUpper() &&
-                    t.RequestObject.Id == r.Object.Id);
+                        t.RequestObject.Id == r.Object.Id);
 
                 if (descriptionProblem == null)
                 {

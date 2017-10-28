@@ -155,3 +155,6 @@ textarea.error {
     padding-left:  4px;
     padding-right: 4px;
 }
+.glyphicon:hover { 
+    color: gray!important;
+}
