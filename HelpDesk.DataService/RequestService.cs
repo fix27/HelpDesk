@@ -520,7 +520,8 @@ namespace HelpDesk.DataService
                 StatusRequest = newStatusRequest,
                 DateEvent = currentDateTime,
                 DateInsert = currentDateTime,
-                RequestId = r.Id
+                RequestId = r.Id,
+                User = user
             };
             requestEventRepository.Save(newRequestEvent);
 
@@ -529,11 +530,12 @@ namespace HelpDesk.DataService
                 StatusRequest = statusRepository.Get((long)RawStatusRequestEnum.DateEnd),
                 DateEvent = r.DateEndPlan,
                 DateInsert = currentDateTime,
-                RequestId = r.Id
+                RequestId = r.Id,
+                User = user
             };
             requestEventRepository.Save(dateEndRequestEvent);
 
-
+            #region DescriptionProblem
             DescriptionProblem descriptionProblem = null;
             if (r.Object.ObjectType.Soft)
             {
@@ -567,7 +569,7 @@ namespace HelpDesk.DataService
                     descriptionProblemRepository.Save(descriptionProblem);
                 }
             }
-
+            #endregion DescriptionProblem
 
             repository.SaveChanges();
 
