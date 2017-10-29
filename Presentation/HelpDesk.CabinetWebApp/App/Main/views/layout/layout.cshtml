@@ -99,12 +99,12 @@
                 <ul>
                     @if (!String.IsNullOrWhiteSpace(Model.ManualUrl))
                     {
-                        <li><a href="@Model.ManualUrl?@Guid.NewGuid()">@Resource.Text_ManualUrl</a></li>
+                        <li><a target="_blank" href="@Model.ManualUrl?@Guid.NewGuid()">@Resource.Text_ManualUrl</a></li>
                     }
 
                     @if (!String.IsNullOrWhiteSpace(Model.ServiceLevelAgreementUrl))
                     {
-                        <li><a href="@Model.ServiceLevelAgreementUrl">@Resource.Text_ServiceLevelAgreementUrl</a></li>
+                        <li><a target="_blank" href="@Model.ServiceLevelAgreementUrl">@Resource.Text_ServiceLevelAgreementUrl</a></li>
                     }
                 </ul>
             </div>

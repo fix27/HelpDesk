@@ -58,22 +58,33 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [Culture]
         public ActionResult Index()
         {
-            ViewBag.Menu = new Dictionary<string, string>()
+            if (CurrentUser.UserType.Id == 1)
             {
-                { "request", Resource.Menu_Request },
-                { "requestHistory", Resource.Menu_RequestHistory }
-            };
+                ViewBag.Menu = new Dictionary<string, string>()
+                {
+                    { "requestHistory", Resource.Menu_RequestHistory }
+                };
+            }
+            else
+            {
+                ViewBag.Menu = new Dictionary<string, string>()
+                {
+                    { "request", Resource.Menu_Request },
+                    { "requestHistory", Resource.Menu_RequestHistory }
+                };
+            }
+            
 
             Settings settings = settingsService.Get();
 
             return View("~/App/Main/views/layout/layout.cshtml",
-                new AppLayoutModel()
-                {
-                     ManualUrl = settings.ManualUrl,
-                     Message = settings.Message,
-                     ServiceLevelAgreementUrl = settings.ServiceLevelAgreementUrl,
-                     TechSupportPhones = settings.TechSupportPhones
-                }); 
+                    new AppLayoutModel()
+                    {
+                        ManualUrl = settings.ManualUrl,
+                        Message = settings.Message,
+                        ServiceLevelAgreementUrl = settings.ServiceLevelAgreementUrl,
+                        TechSupportPhones = settings.TechSupportPhones
+                    });
         }
 
         [HttpGet]

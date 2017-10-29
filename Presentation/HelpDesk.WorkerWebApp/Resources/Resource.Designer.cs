@@ -916,7 +916,7 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;a href=&apos;http://google.com&apos;&gt;ООО &quot;Рога и Копыта&quot;&lt;/a&gt;.
+        ///   Looks up a localized string similar to &lt;a target=&apos;_blank&apos; href=&apos;http://google.com&apos;&gt;ООО &quot;Рога и Копыта&quot;&lt;/a&gt;.
         /// </summary>
         public static string Text_Copyright {
             get {

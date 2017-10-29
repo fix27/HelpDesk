@@ -1,6 +1,6 @@
 ﻿@using HelpDesk.WorkerWebApp.Resources
 @using HelpDesk.WorkerWebApp.Models
-
+@using HelpDesk.WorkerWebApp.Controllers
 
 <div ng-controller="app.views.requestHistory.list as vm" class="center-block" style="width:95%">
 
@@ -31,10 +31,16 @@
                 </select>
             </span>
         </div>
-
-        <div class="col-md-6" style="text-align:right">
-            <button type="button" ng-click="vm.createRequest()" class="btn btn-primary">@Resource.Menu_Request</button>
-        </div>
+        @{
+            var controller = ViewContext.Controller as AngularTemplateController;
+            if (controller.CurrentUser.UserType.Id != 1)
+            {
+                <div class="col-md-6" style="text-align:right">
+                    <button type="button" ng-click="vm.createRequest()" class="btn btn-primary">@Resource.Menu_Request</button>
+                </div>
+            }
+        }
+        
     </div>
     <table class="table">
         <colgroup>

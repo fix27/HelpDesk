@@ -12,11 +12,11 @@
            
             vm.menu = {};
             localizedMenu = localizedMenuService.get();
-            vm.menu.items = [
-                { displayName: localizedMenu.request,           name: 'request' },
-                { displayName: localizedMenu.requestHistory,    name: 'requestHistory' }
-            ];
-            
+            vm.menu.items = [];
+            for (var propertyName in localizedMenu) {
+                vm.menu.items.push({ displayName: localizedMenu[propertyName], name: propertyName })
+            }
+                        
             vm.isActive = function(item) {
                 return (item.name == $state.current.name);
             };
@@ -36,8 +36,11 @@
             
             //чтобы при перезагрузке страницы возвращаться в текущее меню
             var stateName = localStorage.getItem('stateName');
-            if (stateName)
+            
+            if (stateName && localizedMenu[stateName])
                 vm.go(stateName);
+            else
+                vm.go('requestHistory');
 
             var getCountRequiresConfirmation = function()
             {
