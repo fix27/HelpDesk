@@ -835,6 +835,15 @@ namespace HelpDesk.WorkerWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Выберите объект заявки сотрудника.
+        /// </summary>
+        public static string Placeholder_EmployeeObjectName2 {
+            get {
+                return ResourceManager.GetString("Placeholder_EmployeeObjectName2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выберите или введите тип оборудования.
         /// </summary>
         public static string Placeholder_HardType {

@@ -50,7 +50,7 @@
                        select="vm.selectEmployeeObject"
                        search="vm.getListEmployeeObject"
                        ng-model="vm.request.ObjectName"
-                       placeholder="@String.Format(Resource.Placeholder_EmployeeObjectName, "")...">
+                       placeholder="{{ {true: '@Resource.Placeholder_EmployeeObjectName2...', false: '@Resource.Placeholder_EmployeeObjectName...'}[vm.request.EmployeeId > 0] }}">
                 <span class="input-group-btn">
                     <button ng-disabled="!vm.request.EmployeeId" ng-click="vm.openEmployeeObjectDictionary()" class="btn btn-default" type="button">...</button>
                     <span class="btn-group">

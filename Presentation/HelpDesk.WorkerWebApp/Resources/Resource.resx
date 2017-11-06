@@ -468,4 +468,7 @@
   <data name="Label_Archive" xml:space="preserve">
     <value>Архив</value>
   </data>
+  <data name="Placeholder_EmployeeObjectName2" xml:space="preserve">
+    <value>Выберите объект заявки сотрудника</value>
+  </data>
 </root>
