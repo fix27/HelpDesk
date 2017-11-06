@@ -114,7 +114,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [HttpGet]
         public ActionResult RequestHistory()
         {
-            return PartialView("~/App/Main/views/requestHistory/list.cshtml");
+            var model = new RequestHistoryModel() { CurrentUser = CurrentUser };
+            return PartialView("~/App/Main/views/requestHistory/list.cshtml", model);
         }
 
         [HttpGet]

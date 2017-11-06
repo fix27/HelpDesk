@@ -1,6 +1,8 @@
 ﻿@using HelpDesk.WorkerWebApp.Resources
 @using HelpDesk.WorkerWebApp.Models
 @using HelpDesk.WorkerWebApp.Controllers
+@using HelpDesk.DataService.DTO
+@model RequestHistoryModel
 
 <div ng-controller="app.views.requestHistory.list as vm" class="center-block" style="width:95%">
 
@@ -213,10 +215,15 @@
                 <td>
                     <table>
                         <tr class="buttons">
-                            <td ng-show="t.Archive != true"><span  ng-click="vm.delete(t.Id)" style="color: lightgrey; cursor: pointer; font-size: 14pt" class="glyphicon glyphicon-remove-circle"></span></td>
-                            <td ng-show="t.Archive != true"><span  ng-click="vm.edit(t.Id)" title="@Resource.Title_EditRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-pencil"></span></td>
+                            @if (Model.CurrentUser.UserType.Id == 2 || Model.CurrentUser.UserType.Id == 3)
+                            {
+                                <td ng-show="t.Archive != true"><span ng-click="vm.delete(t.Id)" style="color: lightgrey; cursor: pointer; font-size: 14pt" class="glyphicon glyphicon-remove-circle"></span></td>
+                                <td ng-show="t.Archive != true"><span ng-click="vm.edit(t.Id)" title="@Resource.Title_EditRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-pencil"></span></td>
+                                <td><span ng-click="vm.createRequestByRequest(t.Id)" title="@Resource.Title_CreateRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-send"></span></td>
+                            }
+                            
                             <td ng-show="t.Archive == true"><span  style="color:green; font-size: 18pt">A</span></td>
-                            <td><span ng-click="vm.createRequestByRequest(t.Id)" title="@Resource.Title_CreateRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-send"></span></td>
+                            
                         </tr>
                     </table>
                     

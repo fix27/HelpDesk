@@ -237,6 +237,7 @@
     <Compile Include="Models\AppLayoutModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RequestEventParameter.cs" />
+    <Compile Include="Models\RequestHistoryModel.cs" />
     <Compile Include="Models\RequestObjectTOParameter.cs" />
     <Compile Include="Models\RequestObjectISParameter.cs" />
     <Compile Include="Models\ViewDataUploadFilesResult.cs" />
