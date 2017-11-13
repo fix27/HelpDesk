@@ -312,6 +312,9 @@
     <Content Include="Content\loading-bar.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Resources\Img_Word.png" />
+    <None Include="Resources\excel.png" />
+    <None Include="Resources\word.png" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />

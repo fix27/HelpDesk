@@ -68,7 +68,7 @@
                 maxFileSize: 500000,
                 maxNumberOfFiles: 5,
                 minFileSize: 1,
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+                acceptFileTypes: /(\.|\/)(gif|jpeg|png|docx|xlsx|doc|xls)$/i
             });
 
         }

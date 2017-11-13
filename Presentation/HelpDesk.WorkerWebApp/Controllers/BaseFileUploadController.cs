@@ -3,6 +3,7 @@ using HelpDesk.DataService.Interface;
 using HelpDesk.DataService.DTO.FileUpload.Interface;
 using HelpDesk.WorkerWebApp.Models;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -11,7 +12,7 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
-
+using HelpDesk.Common.Helpers;
 
 namespace HelpDesk.WorkerWebApp.Controllers
 {
@@ -20,7 +21,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
     /// </summary>
     public class BaseFileUploadController : ApiController
     {
-    
+        private readonly string[] neadThumbnailFileExt = new string[] { ".gif",".jpe",".jpeg",".png"};
         private readonly string deleteUrlTempl      = "/api/{0}/Delete?id={1}";
         private readonly string thumbnailUrlTempl   = "/api/{0}/GetThumbnail?id={1}";
         private readonly string fileUrlTempl        = "/api/{0}/Get?id={1}";
@@ -42,18 +43,26 @@ namespace HelpDesk.WorkerWebApp.Controllers
             if (file == null)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
+            var result = new HttpResponseMessage(HttpStatusCode.OK);
+            string ext = Path.GetExtension(file.Name).ToLower();
+            if (!neadThumbnailFileExt.Contains(ext))
             {
-                Content = new ByteArrayContent(file.Thumbnail)
-                 
-            };
+                if(ext == ".xls" || ext == ".xlsx")
+                    result.Content = new ByteArrayContent(Resources.Resource.Img_Excel.ToByteArray());
+                if (ext == ".doc" || ext == ".docx")
+                    result.Content = new ByteArrayContent(Resources.Resource.Img_Word.ToByteArray());
+            }
+            else
+            {
+                result.Content = new ByteArrayContent(file.Thumbnail);
+            }
+
             result.Content.Headers.ContentDisposition =
-                new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = file.Name,
-                    Size = file.Size
-                };
+                    new ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = file.Name,
+                        Size = file.Size
+                    };
             result.Content.Headers.ContentType =  new MediaTypeHeaderValue("application/octet-stream");
 
             return result;
@@ -186,8 +195,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 {
                     f.Body = binaryReader.ReadBytes(file.ContentLength);
                 }
-                f.Thumbnail = new WebImage(f.Body).Resize(80, 80).GetBytes();
-                
+
+                if(neadThumbnailFileExt.Contains(Path.GetExtension(f.Name)))
+                    f.Thumbnail = new WebImage(f.Body).Resize(80, 80).GetBytes();
+
+
                 long id =fileUploadService.SaveFile(f);
 
                 statuses.Add(uploadResult(id, f.Name, f.Size, f.Type));

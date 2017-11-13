@@ -11,7 +11,8 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
-
+using System.Linq;
+using HelpDesk.Common.Helpers;
 
 namespace HelpDesk.CabinetWebApp.Controllers
 {
@@ -20,14 +21,14 @@ namespace HelpDesk.CabinetWebApp.Controllers
     /// </summary>
     public class BaseFileUploadController : ApiController
     {
-    
-        private readonly string deleteUrlTempl      = "/api/{0}/Delete?id={1}";
-        private readonly string thumbnailUrlTempl   = "/api/{0}/GetThumbnail?id={1}";
-        private readonly string fileUrlTempl        = "/api/{0}/Get?id={1}";
-        private readonly string deleteType      = "GET";
+        private readonly string[] neadThumbnailFileExt = new string[] { ".gif", ".jpe", ".jpeg", ".png" };
+        private readonly string deleteUrlTempl = "/api/{0}/Delete?id={1}";
+        private readonly string thumbnailUrlTempl = "/api/{0}/GetThumbnail?id={1}";
+        private readonly string fileUrlTempl = "/api/{0}/Get?id={1}";
+        private readonly string deleteType = "GET";
 
         private readonly IFileUploadService fileUploadService;
-        
+
         protected string baseUrl = null;
         public BaseFileUploadController(IFileUploadService fileUploadService)
         {
@@ -42,24 +43,32 @@ namespace HelpDesk.CabinetWebApp.Controllers
             if (file == null)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
+            var result = new HttpResponseMessage(HttpStatusCode.OK);
+            string ext = Path.GetExtension(file.Name).ToLower();
+            if (!neadThumbnailFileExt.Contains(ext))
             {
-                Content = new ByteArrayContent(file.Thumbnail)
-                 
-            };
+                if (ext == ".xls" || ext == ".xlsx")
+                    result.Content = new ByteArrayContent(Resources.Resource.Img_Excel.ToByteArray());
+                if (ext == ".doc" || ext == ".docx")
+                    result.Content = new ByteArrayContent(Resources.Resource.Img_Word.ToByteArray());
+            }
+            else
+            {
+                result.Content = new ByteArrayContent(file.Thumbnail);
+            }
+
             result.Content.Headers.ContentDisposition =
-                new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = file.Name,
-                    Size = file.Size
-                };
-            result.Content.Headers.ContentType =  new MediaTypeHeaderValue("application/octet-stream");
+                    new ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = file.Name,
+                        Size = file.Size
+                    };
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
             return result;
         }
 
-        
+
         public virtual HttpResponseMessage Get(long id)
         {
             var file = fileUploadService.GetFile(id);
@@ -73,12 +82,12 @@ namespace HelpDesk.CabinetWebApp.Controllers
                     FileName = file.Name,
                     Size = file.Size
                 };
-            result.Content.Headers.ContentType =  new MediaTypeHeaderValue("application/octet-stream");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
             return result;
         }
 
-        
+
         public virtual IHttpActionResult Upload()
         {
             try
@@ -88,28 +97,28 @@ namespace HelpDesk.CabinetWebApp.Controllers
                 var currentContext = HttpContext.Current;
                 string tempRequestKey = currentContext.Request.Params["tempRequestKey"];
                 string forignKeyId = currentContext.Request.Params["forignKeyId"];
-                
-                uploadAndShowResults(currentContext, new Guid(tempRequestKey), 
-                    !String.IsNullOrWhiteSpace(forignKeyId)? Int64.Parse(forignKeyId): (long?)null, resultList);
+
+                uploadAndShowResults(currentContext, new Guid(tempRequestKey),
+                    !String.IsNullOrWhiteSpace(forignKeyId) ? Int64.Parse(forignKeyId) : (long?)null, resultList);
                 JsonFiles files = new JsonFiles(resultList);
 
                 return Json(files);
             }
             catch (DataServiceException ex)
             {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, 
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError,
                     ex.DataServiceExceptionData.GeneralMessage));
             }
         }
 
-        
+
         public virtual IHttpActionResult GetFileList(long forignKeyId = 0)
         {
             var list = getFileList(forignKeyId);
             return Json(list);
         }
 
-       
+
         public virtual IHttpActionResult DeleteFile(long id)
         {
             fileUploadService.DeleteFile(id);
@@ -124,7 +133,7 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
             var r = new List<ViewDataUploadFilesResult>();
             IEnumerable<IFileUploadInfoDTO> list = fileUploadService.GetListFileInfo(forignKeyId);
-            
+
 
             foreach (IFileUploadInfoDTO file in list)
             {
@@ -139,13 +148,13 @@ namespace HelpDesk.CabinetWebApp.Controllers
         {
             var result = new ViewDataUploadFilesResult()
             {
-                name        = fileName,
-                size        = fileSize,
-                type        = fileType,
-                url         = String.Format(fileUrlTempl, baseUrl, id),
-                deleteUrl       = String.Format(deleteUrlTempl, baseUrl, id),
-                thumbnailUrl    = String.Format(thumbnailUrlTempl, baseUrl, id),
-                deleteType  = deleteType,
+                name = fileName,
+                size = fileSize,
+                type = fileType,
+                url = String.Format(fileUrlTempl, baseUrl, id),
+                deleteUrl = String.Format(deleteUrlTempl, baseUrl, id),
+                thumbnailUrl = String.Format(thumbnailUrlTempl, baseUrl, id),
+                deleteType = deleteType,
             };
             return result;
         }
@@ -153,13 +162,13 @@ namespace HelpDesk.CabinetWebApp.Controllers
         public void uploadAndShowResults(HttpContext ContentBase, Guid tempRequestKey, long? forignKeyId, IList<ViewDataUploadFilesResult> resultList)
         {
             var httpRequest = ContentBase.Request;
-            
+
 
             foreach (String inputTagName in httpRequest.Files)
             {
                 var headers = httpRequest.Headers;
                 var file = httpRequest.Files[inputTagName];
-                
+
                 if (string.IsNullOrEmpty(headers["X-File-Name"]))
                     uploadWholeFile(ContentBase, resultList, tempRequestKey, forignKeyId);
                 //else
@@ -170,7 +179,7 @@ namespace HelpDesk.CabinetWebApp.Controllers
 
         private void uploadWholeFile(HttpContext requestContext, IList<ViewDataUploadFilesResult> statuses, Guid tempRequestKey, long? forignKeyId)
         {
-            
+
             var request = requestContext.Request;
             for (int i = 0; i < request.Files.Count; i++)
             {
@@ -186,9 +195,12 @@ namespace HelpDesk.CabinetWebApp.Controllers
                 {
                     f.Body = binaryReader.ReadBytes(file.ContentLength);
                 }
-                f.Thumbnail = new WebImage(f.Body).Resize(80, 80).GetBytes();
-                
-                long id =fileUploadService.SaveFile(f);
+
+                if (neadThumbnailFileExt.Contains(Path.GetExtension(f.Name)))
+                    f.Thumbnail = new WebImage(f.Body).Resize(80, 80).GetBytes();
+
+
+                long id = fileUploadService.SaveFile(f);
 
                 statuses.Add(uploadResult(id, f.Name, f.Size, f.Type));
             }
