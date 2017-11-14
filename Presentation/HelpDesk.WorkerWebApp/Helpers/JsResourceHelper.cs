@@ -1,8 +1,8 @@
 ﻿using HelpDesk.DataService.Interface;
 using HelpDesk.Entity;
-using HelpDesk.WorkerWebApp.App.Resources;
 using System.Collections.Generic;
 using System.IO;
+using HelpDesk.WorkerWebApp.App.Resources;
 
 namespace HelpDesk.WorkerWebApp.Helpers
 {

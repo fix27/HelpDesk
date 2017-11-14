@@ -87,6 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseFileUploadController.cs" />
+    <Compile Include="Helpers\ImageHandler.cs" />
+    <Compile Include="Helpers\LangHelper.cs" />
     <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Models\JsonFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +106,10 @@
     <ProjectReference Include="..\..\HelpDesk.DataService\HelpDesk.DataService.csproj">
       <Project>{b0535568-f554-4f6c-9520-b3195be0ec62}</Project>
       <Name>HelpDesk.DataService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\HelpDesk.Entity\HelpDesk.Entity.csproj">
+      <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>
+      <Name>HelpDesk.Entity</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

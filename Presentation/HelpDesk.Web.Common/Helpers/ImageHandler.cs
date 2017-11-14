@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 
 
-namespace HelpDesk.CabinetWebApp.Helpers
+namespace HelpDesk.Web.Common.Helpers
 {
     public class ImageHandler
     {

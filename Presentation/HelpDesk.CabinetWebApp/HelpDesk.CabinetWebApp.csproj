@@ -218,10 +218,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\FilesHelper.cs" />
-    <Compile Include="Helpers\ImageHandler.cs" />
     <Compile Include="Helpers\JsResourceHelper.cs" />
-    <Compile Include="Helpers\LangHelper.cs" />
     <Compile Include="Helpers\MvcHelper.cs" />
     <Compile Include="Identity\ApplicationSignInManager.cs" />
     <Compile Include="Identity\ApplicationUser.cs" />
