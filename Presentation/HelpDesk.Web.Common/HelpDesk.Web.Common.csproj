@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseFileUploadController.cs" />
-    <Compile Include="Controllers\ViewDataUploadFilesResult.cs" />
+    <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Models\JsonFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs">
