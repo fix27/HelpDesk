@@ -1,7 +1,6 @@
 ﻿using HelpDesk.DataService.Common;
 using HelpDesk.DataService.Interface;
 using HelpDesk.DataService.DTO.FileUpload.Interface;
-using HelpDesk.WorkerWebApp.Models;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -13,8 +12,9 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
 using HelpDesk.Common.Helpers;
+using HelpDesk.Web.Common.Models;
 
-namespace HelpDesk.WorkerWebApp.Controllers
+namespace HelpDesk.Web.Common.Controllers
 {
     /// <summary>
     /// Для возможности использовать разные сервисы для работы с загружаемыми файлами

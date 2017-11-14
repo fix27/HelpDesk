@@ -1,4 +1,5 @@
 ﻿using HelpDesk.DataService.Interface;
+using HelpDesk.Web.Common.Controllers;
 using System.Net.Http;
 using System.Web.Http;
 

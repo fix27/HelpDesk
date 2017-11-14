@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace HelpDesk.CabinetWebApp.Models
+namespace HelpDesk.Web.Common.Models
 {
     public class JsonFiles
     {

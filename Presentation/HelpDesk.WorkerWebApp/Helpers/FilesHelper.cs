@@ -1,4 +1,5 @@
-﻿using HelpDesk.WorkerWebApp.Models;
+﻿using HelpDesk.Web.Common.Models;
+using HelpDesk.WorkerWebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;

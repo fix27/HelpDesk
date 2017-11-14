@@ -1,4 +1,4 @@
-﻿namespace HelpDesk.WorkerWebApp.Models
+﻿namespace HelpDesk.Web.Common.Models
 {
     public class ViewDataUploadFilesResult
     {

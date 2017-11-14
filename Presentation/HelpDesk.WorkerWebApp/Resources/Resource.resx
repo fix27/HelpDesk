@@ -471,11 +471,4 @@
   <data name="Placeholder_EmployeeObjectName2" xml:space="preserve">
     <value>Выберите объект заявки сотрудника</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Img_Excel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>excel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Img_Word" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>word.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>
