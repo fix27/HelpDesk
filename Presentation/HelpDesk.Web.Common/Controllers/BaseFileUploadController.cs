@@ -54,7 +54,10 @@ namespace HelpDesk.Web.Common.Controllers
             }
             else
             {
-                result.Content = new ByteArrayContent(file.Thumbnail);
+                if(file.Thumbnail != null)
+                    result.Content = new ByteArrayContent(file.Thumbnail);
+                else
+                    result.Content = new ByteArrayContent(Resources.Resource.Img_Blank.ToByteArray());
             }
 
             result.Content.Headers.ContentDisposition =

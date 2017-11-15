@@ -63,6 +63,16 @@ namespace HelpDesk.Web.Common.Resources {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Img_Blank {
+            get {
+                object obj = ResourceManager.GetObject("Img_Blank", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Img_Excel {
             get {
                 object obj = ResourceManager.GetObject("Img_Excel", resourceCulture);
