@@ -89,6 +89,7 @@
     <Compile Include="Controllers\BaseFileUploadController.cs" />
     <Compile Include="Helpers\ImageHandler.cs" />
     <Compile Include="Helpers\LangHelper.cs" />
+    <Compile Include="Helpers\MvcHelper.cs" />
     <Compile Include="Models\ViewDataUploadFilesResult.cs" />
     <Compile Include="Models\JsonFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

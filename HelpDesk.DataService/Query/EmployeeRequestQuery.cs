@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.Common.Helpers;
 using System;
+using System.Linq.Expressions;
 
 namespace HelpDesk.DataService.Query
 {
@@ -41,113 +42,115 @@ namespace HelpDesk.DataService.Query
 
         public IEnumerable<RequestDTO> Run(IQueryable<T> requests)
         {
-        
-            var qb = (from r in requests
-                      where r.Employee.Id == employeeId
-                      select new RequestDTO()
-                      {
-                           Id = r.Id,
-                           WorkerId = r.Worker.Id,
-                           WorkerName = r.Worker.Name,
-                           Status = r.Status,
-                           Object = r.Object, 
-                           DateEndFact = r.DateEndFact,
-                           DateEndPlan = r.DateEndPlan,
-                           DateInsert = r.DateInsert,
-                           DateUpdate = r.DateUpdate,
-                           DescriptionProblem = r.DescriptionProblem,
-                           CountCorrectionDateEndPlan = r.CountCorrectionDateEndPlan
-                      });
 
-            var q = qb;
-            if (filter!= null && !String.IsNullOrWhiteSpace(filter.ObjectName))
-                q = q.Where(t => t.Object.SoftName.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                    t.Object.HardType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                    t.Object.Model.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                    t.Object.Model.Manufacturer.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                    t.Object.ObjectType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()));
+            Expression<Func<BaseRequest, bool>> where = t => true;
 
             if (filter != null)
-                q = q.Where(t => (filter.DateInsert.Value1 == null || t.DateInsert >= filter.DateInsert.Value1) &&
-                    (filter.DateInsert.Value2 == null || t.DateInsert <= filter.DateInsert.Value2) &&
-                    (filter.DateEndPlan.Value1 == null || t.DateEndPlan >= filter.DateEndPlan.Value1) &&
-                    (filter.DateEndPlan.Value2 == null || t.DateEndPlan <= filter.DateEndPlan.Value2));
-
-            if (filter != null && filter.Ids != null && filter.Ids.Any())
-                q = q.Where(t => filter.Ids.Contains(t.Id));
-
-            if (filter != null && filter.StatusIds != null && filter.StatusIds.Any())
             {
-                IList<long> statusIds = new List<long>();
-                foreach (var s in filter.StatusIds)
+                if (!String.IsNullOrWhiteSpace(filter.ObjectName))
+                    where = where.AndAlso(t => t.Object.SoftName.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
+                        t.Object.HardType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
+                        t.Object.Model.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
+                        t.Object.Model.Manufacturer.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
+                        t.Object.ObjectType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()));
+
+                where = where.AndAlso(t => (filter.DateInsert.Value1 == null || t.DateInsert >= filter.DateInsert.Value1) &&
+                        (filter.DateInsert.Value2 == null || t.DateInsert <= filter.DateInsert.Value2) &&
+                        (filter.DateEndPlan.Value1 == null || t.DateEndPlan >= filter.DateEndPlan.Value1) &&
+                        (filter.DateEndPlan.Value2 == null || t.DateEndPlan <= filter.DateEndPlan.Value2));
+
+                if (filter.Ids != null && filter.Ids.Any())
+                    where = where.AndAlso(t => filter.Ids.Contains(t.Id));
+
+                if (filter.RawStatusIds != null && filter.RawStatusIds.Any())
+                    where = where.AndAlso(t => filter.RawStatusIds.Contains(t.Status.Id));
+
+                if (!String.IsNullOrWhiteSpace(filter.DescriptionProblem))
+                    where = where.AndAlso(t => t.DescriptionProblem.ToUpper().Contains(filter.DescriptionProblem.ToUpper()));
+
+                if (!String.IsNullOrWhiteSpace(filter.WorkerName))
+                    where = where.AndAlso(t => t.Worker.Name.ToUpper().Contains(filter.WorkerName.ToUpper()));
+
+                if (!String.IsNullOrWhiteSpace(filter.EmployeeInfo))
+                    where = where.AndAlso(t => t.Employee.FM.ToUpper().Contains(filter.EmployeeInfo.ToUpper()) ||
+                    t.Employee.Phone.ToUpper() == filter.EmployeeInfo.ToUpper() ||
+                    t.Employee.Cabinet.ToUpper() == filter.EmployeeInfo.ToUpper() ||
+                    t.Employee.Organization.Name.ToUpper().Contains(filter.EmployeeInfo.ToUpper()) ||
+                    t.Employee.Organization.Address.ToUpper().Contains(filter.EmployeeInfo.ToUpper()));
+
+                if (filter.Archive)
                 {
-                    IEnumerable<long> items = StatusRequestFactorization.GetElementsByEquivalence(s);
-                    foreach (var statuId in items)
-                        statusIds.Add(statuId);
-                }
-
-                q = q.Where(t => statusIds.Contains(t.Status.Id));
-            }
-                
-
-            if (filter != null && !String.IsNullOrWhiteSpace(filter.DescriptionProblem))
-                q = q.Where(t => t.DescriptionProblem.ToUpper().Contains(filter.DescriptionProblem.ToUpper()));
-
-            if (filter.Archive)
-            {
-                if (filter.ArchiveYear > 0)
-                {
-                    if (filter.ArchiveMonth == 0)
+                    if (filter.ArchiveYear > 0)
                     {
-                        q = q.Where(t => t.DateInsert.Year == filter.ArchiveYear);
-                    }
-                    else
-                    {
-                        q = q.Where(t => t.DateInsert.Year == filter.ArchiveYear && t.DateInsert.Month == filter.ArchiveMonth);
+                        if (filter.ArchiveMonth == 0)
+                            where = where.AndAlso(t => t.DateInsert.Year == filter.ArchiveYear);
+                        else
+                            where = where.AndAlso(t => t.DateInsert.Year == filter.ArchiveYear && t.DateInsert.Month == filter.ArchiveMonth);
                     }
                 }
-                
             }
+
+            var filteredRequests = requests.Where(where.AndAlso(t => t.Employee.Id == employeeId));
+
+
 
             if (orderInfo != null)
             {
                 switch (orderInfo.PropertyName)
                 {
                     case "ObjectName":
-                        if(orderInfo.Asc)
-                        q = q.OrderBy(t => t.Object.ObjectType.Name)
-                            .ThenBy(t => t.Object.SoftName)
-                            .ThenBy(t => t.Object.Model.Name)
-                            .ThenBy(t => t.Object.Model.Manufacturer.Name);
-                        else
-                            q = q.OrderByDescending(t => t.Object.ObjectType.Name)
-                            .ThenByDescending(t => t.Object.SoftName)
-                            .ThenByDescending(t => t.Object.Model.Name)
-                            .ThenByDescending(t => t.Object.Model.Manufacturer.Name);
-                        break;
-                    case "Statuses":
                         if (orderInfo.Asc)
-                            q = q.OrderBy(t => t.Status.Name);
+                            filteredRequests = filteredRequests.OrderBy(t => t.Object.ObjectType.Name)
+                                .ThenBy(t => t.Object.SoftName)
+                                .ThenBy(t => t.Object.Model.Name)
+                                .ThenBy(t => t.Object.Model.Manufacturer.Name);
                         else
-                            q = q.OrderByDescending(t => t.Status.Name);
+                            filteredRequests = filteredRequests.OrderByDescending(t => t.Object.ObjectType.Name)
+                                .ThenByDescending(t => t.Object.SoftName)
+                                .ThenByDescending(t => t.Object.Model.Name)
+                                .ThenByDescending(t => t.Object.Model.Manufacturer.Name);
+                        break;
+                   case "Statuses":
+                        if (orderInfo.Asc)
+                            filteredRequests = filteredRequests.OrderBy(t => t.Status.Name);
+                        else
+                            filteredRequests = filteredRequests.OrderByDescending(t => t.Status.Name);
                         break;
                     default:
-                        q = q.OrderBy(orderInfo.PropertyName, orderInfo.Asc);
+                        filteredRequests = filteredRequests.OrderBy(orderInfo.PropertyName, orderInfo.Asc);
                         break;
                 }
             }
-                
+
+            var q = filteredRequests.Select(r =>
+                new RequestDTO()
+                {
+                    Id = r.Id,
+                    WorkerId = r.Worker.Id,
+                    WorkerName = r.Worker.Name,
+                    Status = r.Status,
+                    Object = r.Object,
+                    DateEndFact = r.DateEndFact,
+                    DateEndPlan = r.DateEndPlan,
+                    DateInsert = r.DateInsert,
+                    DateUpdate = r.DateUpdate,
+                    DescriptionProblem = r.DescriptionProblem,
+                    CountCorrectionDateEndPlan = r.CountCorrectionDateEndPlan
+                });
+
 
             if (pageInfo != null)
             {
-                pageInfo.TotalCount = qb.Count();
-                pageInfo.Count = q.Count();
+                pageInfo.TotalCount = requests.Where(t => t.Employee.Id == employeeId).Count();
+                pageInfo.Count = filteredRequests.Count();
+
+                if (pageInfo.PageSize > 0)
+                    q = q
+                        .Skip(pageInfo.PageSize * pageInfo.CurrentPage)
+                        .Take(pageInfo.PageSize);
             }
 
-            if (pageInfo != null && pageInfo.PageSize > 0)
-                q = q.Skip(pageInfo.PageSize * pageInfo.CurrentPage).Take(pageInfo.PageSize);
-
-            return q.ToList();
+            return q.ToList();            
         }
     }
 }

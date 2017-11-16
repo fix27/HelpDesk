@@ -55,10 +55,11 @@
                 s += (filter.DescriptionProblem != null && filter.DescriptionProblem != 'null') ? "&descriptionProblem=" + filter.DescriptionProblem : "";
                 s += (filter.Id != null && filter.Id != 'null') ? "&id=" + filter.Id : "";
 
-                s += "&dateInsert1=" + (filter.DateInsert.Value1 != null ? filter.DateInsert.Value1.toISOString() : "null");
-                s += "&dateInsert2=" + (filter.DateInsert.Value2 != null ? filter.DateInsert.Value2.toISOString() : "null");
-                s += "&dateEndPlan1=" + (filter.DateEndPlan.Value1 != null ? filter.DateEndPlan.Value1.toISOString() : "null");
-                s += "&dateEndPlan2=" + (filter.DateEndPlan.Value2 != null ? filter.DateEndPlan.Value2.toISOString() : "null");
+                s += "&dateInsert.Value1=" + (filter.DateInsert.Value1 != null ? filter.DateInsert.Value1.toISOString() : "null");
+                s += "&dateInsert.Value2=" + (filter.DateInsert.Value2 != null ? filter.DateInsert.Value2.toISOString() : "null");
+                s += "&dateEndPlan.Value1=" + (filter.DateEndPlan.Value1 != null ? filter.DateEndPlan.Value1.toISOString() : "null");
+                s += "&dateEndPlan.Value2=" + (filter.DateEndPlan.Value2 != null ? filter.DateEndPlan.Value2.toISOString() : "null");
+
                 
                 for (var i = 0; i < filter.Statuses.length; i++)
                     s += "&statusIds=" + filter.Statuses[i].Id;

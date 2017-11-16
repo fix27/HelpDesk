@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 
-namespace HelpDesk.CabinetWebApp.Helpers
+namespace HelpDesk.Web.Common.Helpers
 {
     public static class MvcHelper
     {
@@ -31,7 +31,7 @@ namespace HelpDesk.CabinetWebApp.Helpers
             string cultureName = Thread.CurrentThread.CurrentCulture.Name;
             StringBuilder sb = new StringBuilder();
             string publickey = WebConfigurationManager.AppSettings["RecaptchaPublicKey"];
-            sb.AppendLine("<script type=\"text/javascript\" src='https://www.google.com/recaptcha/api.js?hl="+ cultureName + "'></script>");
+            sb.AppendLine("<script type=\"text/javascript\" src='https://www.google.com/recaptcha/api.js?hl=" + cultureName + "'></script>");
             sb.AppendLine("");
             sb.AppendLine("<div class=\"g-recaptcha\" data-sitekey=\"" + publickey + "\"></div>");
             return MvcHtmlString.Create(sb.ToString());

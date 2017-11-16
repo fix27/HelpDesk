@@ -281,6 +281,14 @@ namespace HelpDesk.DataService
         
         public IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
         {
+            if (filter.StatusIds != null && filter.StatusIds.Any())
+            {
+                filter.RawStatusIds = new List<long>();
+                foreach (StatusRequestEnum s in filter.StatusIds)
+                    foreach (long statuId in statusRequestMapService.GetElementsByEquivalence(s))
+                        filter.RawStatusIds.Add(statuId);
+            }
+            
             return getList(
                 delegate (ref PageInfo _pageInfo)
                 {
