@@ -8,7 +8,6 @@ using System.Linq;
 using HelpDesk.Common.Helpers;
 using System;
 using System.Linq.Expressions;
-using HelpDesk.Data.NHibernate.Repository;
 
 namespace HelpDesk.DataService.Query
 {
