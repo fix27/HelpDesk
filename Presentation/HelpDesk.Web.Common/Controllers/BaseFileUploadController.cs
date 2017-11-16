@@ -21,7 +21,7 @@ namespace HelpDesk.Web.Common.Controllers
     /// </summary>
     public class BaseFileUploadController : ApiController
     {
-        private readonly string[] neadThumbnailFileExt = new string[] { ".gif",".jpe",".jpeg",".png"};
+        private readonly string[] neadThumbnailFileExt = new string[] { ".gif",".jpg",".jpeg",".png"};
         private readonly string deleteUrlTempl      = "/api/{0}/Delete?id={1}";
         private readonly string thumbnailUrlTempl   = "/api/{0}/GetThumbnail?id={1}";
         private readonly string fileUrlTempl        = "/api/{0}/Get?id={1}";
