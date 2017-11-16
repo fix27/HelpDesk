@@ -11,26 +11,30 @@
 
     <div class="row">
         <div class="col-md-3">
-            <span>@Resource.Label_TotalCount: {{vm.count}}</span>
+            <label>@Resource.Label_TotalCount: {{vm.count}}</label>
             <span ng-show="vm.isFilter()">
                 <span ng-show="vm.isFilter() || vm.filter.Archive">@Resource.Label_Of {{vm.totalCount}}</span>
                 <a style="cursor: pointer; color: red" ng-click="vm.resetFilter()">@Resource.Action_ResetFilter.ToLower()</a>
             </span>
         </div>
 
-        <div class="col-md-2" style="background-color: {{ {true: 'yellow', false: ''}[vm.filter.Archive == true] }}; text-align: center">
-            
-            <span>Архив</span>
+        
+
+
+        <div class="col-md-2">
+            <label for="checkboxArchive">@Resource.Label_Archive</label>
             <input ng-model="vm.filter.Archive" ng-change="vm.refreshFilterStatuses();vm.refresh()" id="checkboxArchive" type="checkbox">
             <span style="vertical-align: middle;" ng-show="vm.filter.Archive == true">
-                <select ng-change="vm.refresh()" required ng-model="vm.filter.ArchiveYear">
+                <select class="form-control" style="width: 80px; display:inline;background-color: {{ {true: 'yellow', false: ''}[vm.filter.Archive == true] }}" ng-change="vm.refresh()" required ng-model="vm.filter.ArchiveYear">
                     <option ng-repeat="option in vm.filter.ArchiveYears" value="{{option.Ord}}">{{option.Name}}</option>
                 </select>
-                <select ng-change="vm.refresh()" ng-show="vm.filter.ArchiveYear > 0" required ng-model="vm.filter.ArchiveMonth">
+                <select class="form-control" style="width: 120px; display:inline;background-color: {{ {true: 'yellow', false: ''}[vm.filter.Archive == true] }}" ng-change="vm.refresh()" ng-show="vm.filter.ArchiveYear > 0" required ng-model="vm.filter.ArchiveMonth">
                     <option ng-repeat="option in vm.filter.ArchiveMonths" value="{{option.Ord}}">{{option.Name}}</option>
                 </select>
             </span>
         </div>
+
+
 
         <div class="col-md-7" style="text-align:right">
             <button type="button" ng-click="vm.createRequest()" class="btn btn-primary">@Resource.Menu_Request</button>

@@ -186,6 +186,26 @@
                 vm.request.ObjectId = p.ObjectId;
             };
             
+            vm.getListDescriptionProblem = function (name, response) {
+
+                if (name == 'undefined' || name == 'null' || name == null || !vm.request.ObjectId)
+                    return;
+
+                requestService.getListDescriptionProblem(name, vm.request.ObjectId).then(function (results) {
+                    response($.map(results.data.data, function (t) {
+                        return { label: t.Name, value: t.Name, item: t };
+                    }));
+
+                }, function (error) {
+                    $rootScope.$broadcast("error", { errorMsg: error.data.Message });
+                });
+
+            };
+
+            vm.selectDescriptionProblem = function (p) {
+                vm.request.DescriptionProblem = p.Name;
+            };
+
             vm.goToEmployeeObject = function () {
                 $state.go("employeeObject");
             }

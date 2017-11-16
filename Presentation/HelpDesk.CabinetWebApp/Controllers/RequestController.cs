@@ -147,6 +147,15 @@ namespace HelpDesk.CabinetWebApp.Controllers
             });
         }
 
-
+        [Route("api/{lang}/Request/GetListDescriptionProblem")]
+        [HttpGet]
+        public IHttpActionResult GetListDescriptionProblem(string name, long objectId)
+        {
+            return execute(delegate ()
+            {
+                var list = requestService.GetListDescriptionProblem(name, objectId);
+                result = Json(new { success = true, data = list });
+            });
+        }
     }
 }

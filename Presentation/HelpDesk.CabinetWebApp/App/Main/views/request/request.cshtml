@@ -47,7 +47,12 @@
         <div class="form-group">
             <label for="descriptionProblem">@Resource.Label_DescriptionProblem:</label>
             <div ng-show="vm.newRequestId == 0">
-                <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.DescriptionProblem !=null] }}" id="descriptionProblem" ng-model="vm.request.DescriptionProblem"></textarea>
+                <textarea rows="4" class="form-control {{ {true: 'error', false: ''}[vm.errors.DescriptionProblem !=null] }}"
+                          id="descriptionProblem"
+                          autocomplete="true"
+                          select="vm.selectDescriptionProblem"
+                          search="vm.getListDescriptionProblem"
+                          ng-model="vm.request.DescriptionProblem"></textarea>
                 <ul>
                     <li class="error" data-ng-repeat="error in vm.errors.DescriptionProblem.Errors">{{error.ErrorMessage}}</li>
                 </ul>

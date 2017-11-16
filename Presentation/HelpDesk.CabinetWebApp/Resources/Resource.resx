@@ -429,4 +429,7 @@
   <data name="ErrorMessage_MinFileSizeConstraint" xml:space="preserve">
     <value>Слишком маленький размер файла</value>
   </data>
+  <data name="Label_Archive" xml:space="preserve">
+    <value>Архив</value>
+  </data>
 </root>

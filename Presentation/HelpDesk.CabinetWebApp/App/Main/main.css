@@ -144,3 +144,7 @@ textarea.error {
     overflow: hidden;
     display: block;
 }
+
+.glyphicon:hover { 
+    color: gray!important;
+}

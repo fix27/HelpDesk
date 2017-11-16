@@ -106,6 +106,12 @@
                 });
             };
 
+            var _getListDescriptionProblem = function (name, objectId) {
+                return $http.get(localizedWebAPIService.get("Request/GetListDescriptionProblem?name=" + name + "&objectId=" + objectId)).then(function (results) {
+                    return results;
+                });
+            };
+
             factory.getNewByObjectId    = _getNewByObjectId;
             factory.getNewByRequestId   = _getNewByRequestId;
             factory.save                = _save;
@@ -116,6 +122,7 @@
             factory.get                 = _get;
             factory.getListRequestEvent = _getListRequestEvent;
             factory.delete              = _delete;
+            factory.getListDescriptionProblem = _getListDescriptionProblem;
 
             return factory;
 
