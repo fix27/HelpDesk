@@ -18,6 +18,8 @@ using HelpDesk.Common.Helpers;
 using HelpDesk.Common.Aspects;
 using System.Linq.Expressions;
 using HelpDesk.DataService.DTO.Parameters;
+using HelpDesk.Common.EventBus.Interface;
+using HelpDesk.Common.EventBus.AppEvents;
 
 namespace HelpDesk.DataService
 {
@@ -67,6 +69,7 @@ namespace HelpDesk.DataService
         private readonly IStatusRequestMapService statusRequestMapService;
         private readonly IBaseRepository<AccessWorkerUser> accessWorkerUserRepository;
         private readonly IAccessWorkerUserExpressionService accessWorkerUserExpressionService;
+        private readonly IQueue queue;
 
         public RequestService(ICommandRunner commandRunner,
             IQueryRunner queryRunner,
@@ -88,7 +91,8 @@ namespace HelpDesk.DataService
             IRequestConstraintsService requestConstraintsService,
             IStatusRequestMapService statusRequestMapService,
             IBaseRepository<AccessWorkerUser> accessWorkerUserRepository,
-            IAccessWorkerUserExpressionService accessWorkerUserExpressionService)
+            IAccessWorkerUserExpressionService accessWorkerUserExpressionService,
+            IQueue queue)
         {
             this.queryRunner            = queryRunner;
             this.objectRepository       = objectRepository;
@@ -111,6 +115,7 @@ namespace HelpDesk.DataService
             this.statusRequestMapService = statusRequestMapService;
             this.accessWorkerUserRepository = accessWorkerUserRepository;
             this.accessWorkerUserExpressionService = accessWorkerUserExpressionService;
+            this.queue = queue;
         }
         
         private RequestParameter getCreateOrUpdateRequest(long id)
@@ -674,7 +679,8 @@ namespace HelpDesk.DataService
             {
                 commandRunner.Run(new TransferRequestToArchiveCommand(request.Id, currentDate));
             }
-            
+
+            queue.Push(new RequestAppEvent() { RequestEventId = newEvent.Id });
         }
 
         public Interval<DateTime, DateTime?> GetAllowableDeadLine(long requestId)

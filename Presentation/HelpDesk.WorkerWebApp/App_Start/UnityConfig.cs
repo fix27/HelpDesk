@@ -11,6 +11,7 @@ using System.Xml.XPath;
 using System.Xml;
 using HelpDesk.Data.NHibernate;
 using HelpDesk.WorkerWebApp.Helpers;
+using HelpDesk.EventBus;
 
 namespace HelpDesk.WorkerWebApp.App_Start
 {
@@ -69,6 +70,9 @@ namespace HelpDesk.WorkerWebApp.App_Start
 
             //регистрация дата-сервисов
             DataServiceInstaller.Install(container);
+
+            //регистрация шины
+            EventBusInstaller.Install(container);
 
             container.RegisterType<JsResourceHelper>();
             
