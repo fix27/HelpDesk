@@ -28,8 +28,8 @@ namespace HelpDesk.PostEventSrvice
                 });
 
                 x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<RequestAppEventConsumer>(); });
-                x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<RequestAppEventConsumer>(); });
-                x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<RequestAppEventConsumer>(); });
+                x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<UserPasswordRecoveryAppEventConsumer>(); });
+                x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<UserRegisterAppEventConsumer>(); });
             });
 
             log.Info("Starting bus...");
