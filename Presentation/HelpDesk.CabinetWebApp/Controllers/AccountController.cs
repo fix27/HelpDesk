@@ -18,6 +18,9 @@ using System;
 using System.Net.Configuration;
 using System.Configuration;
 using log4net;
+using HelpDesk.Common.EventBus.AppEvents.Interface;
+using HelpDesk.Common.EventBus.Interface;
+using HelpDesk.Common.EventBus.AppEvents;
 
 namespace HelpDesk.CabinetWebApp.Controllers
 {
@@ -27,10 +30,15 @@ namespace HelpDesk.CabinetWebApp.Controllers
     {
         private readonly ILog log = LogManager.GetLogger("HelpDesk.CabinetWebApp");
         private readonly ICabinetUserService userService;
-        
-        public AccountController(ICabinetUserService userService)
+        private readonly IQueue<IUserRegisterAppEvent> queueRegister;
+        private readonly IQueue<IUserPasswordRecoveryAppEvent> queuePasswordRecovery;
+        public AccountController(ICabinetUserService userService, 
+            IQueue<IUserRegisterAppEvent> queueRegister,
+            IQueue<IUserPasswordRecoveryAppEvent> queuePasswordRecovery)
         {
             this.userService = userService;
+            this.queueRegister = queueRegister;
+            this.queuePasswordRecovery = queuePasswordRecovery;
         }
                 
         private ApplicationSignInManager signInManager;
@@ -133,7 +141,7 @@ namespace HelpDesk.CabinetWebApp.Controllers
                     var u = userService.GetDTO(model.Email);
                     Session[AppConstants.CURRENT_APPLICATION_USER_SESSION_KEY] = u;
                     userService.SaveStartSessionFact(u.Id, Request.UserHostAddress);
-                                        
+                    queueRegister.Push(new UserRegisterAppEvent() { Email = model.Email });
                     Task task = new Task(() => sendEmail(model.Email,
                         String.Format(Resource.Text_RegisterNow, Resource.AppName),
                         String.Format("{0}: {1}, {2}: {3}",
@@ -181,6 +189,7 @@ namespace HelpDesk.CabinetWebApp.Controllers
                 }
                 else
                 {
+                    queuePasswordRecovery.Push(new UserPasswordRecoveryAppEvent() { Email = model.Email, Password = user.Password });
                     Task task = new Task(() => sendEmail(model.Email,
                         String.Format(Resource.Text_RecoveryPasswordSubject, Resource.AppName),
                         user.Password));

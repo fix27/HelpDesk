@@ -69,7 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConstants.cs" />
-    <Compile Include="EventBus\AppEvents\IRequestEvent.cs" />
+    <Compile Include="EventBus\AppEvents\Interface\IAppEvent.cs" />
+    <Compile Include="EventBus\AppEvents\Interface\IUserPasswordRecoveryAppEvent.cs" />
+    <Compile Include="EventBus\AppEvents\Interface\IUserRegisterAppEvent.cs" />
+    <Compile Include="EventBus\AppEvents\Interface\IRequestAppEvent.cs" />
     <Compile Include="EventBus\AppEvents\UserRegisterAppEvent.cs" />
     <Compile Include="EventBus\AppEvents\UserPasswordRecoveryAppEvent.cs" />
     <Compile Include="EventBus\AppEvents\RequestDeedlineAppEvent.cs" />

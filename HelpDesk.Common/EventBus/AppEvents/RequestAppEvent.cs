@@ -1,6 +1,8 @@
-﻿namespace HelpDesk.Common.EventBus.AppEvents
+﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
+
+namespace HelpDesk.Common.EventBus.AppEvents
 {
-    public class RequestAppEvent: IRequestEvent
+    public class RequestAppEvent: IRequestAppEvent
     {
         public long RequestEventId { get; set; }
     }

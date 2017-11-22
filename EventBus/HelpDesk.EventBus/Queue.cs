@@ -1,4 +1,5 @@
 ﻿using HelpDesk.Common.EventBus.AppEvents;
+using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.Common.EventBus.Interface;
 using MassTransit;
 using System;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace HelpDesk.EventBus
 {
-    public class Queue: IQueue, IDisposable
+    public class Queue<T>: IQueue<T>, IDisposable
+        where T : class, IAppEvent 
     {
         private readonly IBusControl bus;
         private readonly string serviceAddress;
@@ -14,7 +16,7 @@ namespace HelpDesk.EventBus
         private readonly string userName;
         private readonly string password;
 
-        private readonly IRequestClient<IRequestEvent, IRequestEvent> client;
+        private readonly IRequestClient<T, T> client;
 
         public Queue(string rabbitMQHost, string serviceAddress, string userName, string password)
         {
@@ -34,18 +36,18 @@ namespace HelpDesk.EventBus
             bus.Stop();
         }
 
-        public void Push(IRequestEvent evnt)
+        public void Push(T evnt)
         {
             Task.Run(async () =>
             {
-                IRequestEvent response = await client.Request(evnt);
+                T response = await client.Request(evnt);
             }).Wait();
         }
         
-        private IRequestClient<IRequestEvent, IRequestEvent> CreateRequestClient(IBusControl busControl)
+        private IRequestClient<T, T> CreateRequestClient(IBusControl busControl)
         {
             var serviceUri = new Uri(serviceAddress);
-            var client = busControl.CreateRequestClient<IRequestEvent, IRequestEvent>(serviceUri, TimeSpan.FromSeconds(10));
+            var client = busControl.CreateRequestClient<T, T>(serviceUri, TimeSpan.FromSeconds(10));
 
             return client;
         }

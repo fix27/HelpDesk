@@ -84,9 +84,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consumers\UserPasswordRecoveryAppEventConsumer.cs" />
+    <Compile Include="Consumers\UserRegisterAppEventConsumer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestConsumer.cs" />
+    <Compile Include="Consumers\RequestAppEventConsumer.cs" />
     <Compile Include="RequestService.cs" />
   </ItemGroup>
   <ItemGroup>

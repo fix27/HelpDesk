@@ -20,6 +20,7 @@ using System.Linq.Expressions;
 using HelpDesk.DataService.DTO.Parameters;
 using HelpDesk.Common.EventBus.Interface;
 using HelpDesk.Common.EventBus.AppEvents;
+using HelpDesk.Common.EventBus.AppEvents.Interface;
 
 namespace HelpDesk.DataService
 {
@@ -69,7 +70,7 @@ namespace HelpDesk.DataService
         private readonly IStatusRequestMapService statusRequestMapService;
         private readonly IBaseRepository<AccessWorkerUser> accessWorkerUserRepository;
         private readonly IAccessWorkerUserExpressionService accessWorkerUserExpressionService;
-        private readonly IQueue queue;
+        private readonly IQueue<IRequestAppEvent> queue;
 
         public RequestService(ICommandRunner commandRunner,
             IQueryRunner queryRunner,
@@ -92,7 +93,7 @@ namespace HelpDesk.DataService
             IStatusRequestMapService statusRequestMapService,
             IBaseRepository<AccessWorkerUser> accessWorkerUserRepository,
             IAccessWorkerUserExpressionService accessWorkerUserExpressionService,
-            IQueue queue)
+            IQueue<IRequestAppEvent> queue)
         {
             this.queryRunner            = queryRunner;
             this.objectRepository       = objectRepository;

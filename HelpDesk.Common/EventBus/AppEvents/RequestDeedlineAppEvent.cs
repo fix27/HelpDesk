@@ -1,7 +1,7 @@
 ﻿namespace HelpDesk.Common.EventBus.AppEvents
 {
-    public class RequestDeedlineAppEvent : IRequestEvent
+    public class RequestDeedlineAppEvent
     {
-        public long RequestEventId { get; set; }
+        
     }
 }

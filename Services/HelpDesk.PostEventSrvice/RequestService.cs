@@ -5,6 +5,7 @@ using MassTransit.RabbitMqTransport;
 using MassTransit.Util;
 using Topshelf;
 using Topshelf.Logging;
+using HelpDesk.PostEventSrvice.Consumers;
 
 namespace HelpDesk.PostEventSrvice
 {
@@ -17,7 +18,7 @@ namespace HelpDesk.PostEventSrvice
         public bool Start(HostControl hostControl)
         {
             log.Info("Creating bus...");
-
+            string serviceQueueName = ConfigurationManager.AppSettings["ServiceQueueName"];
             busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
                 IRabbitMqHost host = x.Host(new Uri(ConfigurationManager.AppSettings["RabbitMQHost"]), h =>
@@ -26,8 +27,9 @@ namespace HelpDesk.PostEventSrvice
                     h.Password(ConfigurationManager.AppSettings["RabbitMQPassword"]);
                 });
 
-                x.ReceiveEndpoint(host, ConfigurationManager.AppSettings["ServiceQueueName"],
-                    e => { e.Consumer<RequestConsumer>(); });
+                x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<RequestAppEventConsumer>(); });
+                x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<RequestAppEventConsumer>(); });
+                x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<RequestAppEventConsumer>(); });
             });
 
             log.Info("Starting bus...");

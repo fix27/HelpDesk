@@ -1,9 +1,11 @@
-﻿using HelpDesk.Common.EventBus.AppEvents;
+﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
 
 namespace HelpDesk.Common.EventBus.Interface
 {
-    public interface IQueue
+    public interface IQueue<T>
+        where T: class, IAppEvent 
     {
-        void Push(IRequestEvent evnt);
+        void Push(T evnt);
     }
+        
 }
