@@ -2,16 +2,31 @@
 using HelpDesk.Common.EventBus.Interface;
 using MassTransit;
 using System;
+using System.Threading.Tasks;
 
 namespace HelpDesk.EventBus
 {
     public class Queue: IQueue, IDisposable
     {
-        private IBusControl bus;
-        public Queue()
+        private readonly IBusControl bus;
+        private readonly string serviceAddress;
+        private readonly string rabbitMQHost;
+        private readonly string userName;
+        private readonly string password;
+
+        private readonly IRequestClient<IRequestEvent, IRequestEvent> client;
+
+        public Queue(string rabbitMQHost, string serviceAddress, string userName, string password)
         {
+            this.rabbitMQHost = rabbitMQHost;
+            this.serviceAddress = serviceAddress;
+            this.userName = userName;
+            this.password = password;
+
             bus = CreateBus();
             bus.Start();
+
+            client = CreateRequestClient(bus);
         }
 
         public void Dispose()
@@ -19,27 +34,28 @@ namespace HelpDesk.EventBus
             bus.Stop();
         }
 
-        public void Push(IAppEvent evnt)
+        public void Push(IRequestEvent evnt)
         {
-            var client = CreateRequestClient(bus);
-            client.Request(evnt);
+            Task.Run(async () =>
+            {
+                IRequestEvent response = await client.Request(evnt);
+            }).Wait();
         }
-
-
-
-        private IRequestClient<IAppEvent, IAppEvent> CreateRequestClient(IBusControl busControl)
+        
+        private IRequestClient<IRequestEvent, IRequestEvent> CreateRequestClient(IBusControl busControl)
         {
-            var serviceAddress = new Uri("rabbitmq://localhost/HelpDesk");
-            var client = busControl.CreateRequestClient<IAppEvent, IAppEvent>(serviceAddress, TimeSpan.FromSeconds(10));
+            var serviceUri = new Uri(serviceAddress);
+            var client = busControl.CreateRequestClient<IRequestEvent, IRequestEvent>(serviceUri, TimeSpan.FromSeconds(10));
 
             return client;
         }
 
         private IBusControl CreateBus()
         {
-            return Bus.Factory.CreateUsingRabbitMq(x => x.Host(new Uri("rabbitmq://localhost"), h =>
+            return Bus.Factory.CreateUsingRabbitMq(x => x.Host(new Uri(rabbitMQHost), h =>
             {
-                
+                h.Username(userName);
+                h.Password(password);
             }));
         }
 

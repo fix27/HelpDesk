@@ -12,6 +12,7 @@ using System.Xml;
 using HelpDesk.Data.NHibernate;
 using HelpDesk.WorkerWebApp.Helpers;
 using HelpDesk.EventBus;
+using System.Web.Configuration;
 
 namespace HelpDesk.WorkerWebApp.App_Start
 {
@@ -72,8 +73,12 @@ namespace HelpDesk.WorkerWebApp.App_Start
             DataServiceInstaller.Install(container);
 
             //регистрация шины
-            EventBusInstaller.Install(container);
-
+            EventBusInstaller.Install(container, 
+                WebConfigurationManager.AppSettings["RabbitMQHost"],
+                WebConfigurationManager.AppSettings["ServiceAddress"],
+                WebConfigurationManager.AppSettings["RabbitMQUserName"],
+                WebConfigurationManager.AppSettings["RabbitMQPassword"]);
+            
             container.RegisterType<JsResourceHelper>();
             
         }

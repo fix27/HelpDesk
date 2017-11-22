@@ -4,6 +4,6 @@ namespace HelpDesk.Common.EventBus.Interface
 {
     public interface IQueue
     {
-        void Push(IAppEvent evnt);
+        void Push(IRequestEvent evnt);
     }
 }

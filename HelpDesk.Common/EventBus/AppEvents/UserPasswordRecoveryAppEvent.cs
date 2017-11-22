@@ -1,6 +1,6 @@
 ﻿namespace HelpDesk.Common.EventBus.AppEvents
 {
-    public class UserPasswordRecoveryAppEvent: IAppEvent
+    public class UserPasswordRecoveryAppEvent
     {
     }
 }

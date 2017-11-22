@@ -1,15 +1,15 @@
 ﻿using HelpDesk.Common.EventBus.Interface;
-using MassTransit;
 using Microsoft.Practices.Unity;
-using System;
 
 namespace HelpDesk.EventBus
 {
     public static class EventBusInstaller
     {
-        public static void Install(IUnityContainer container)
+        public static void Install(IUnityContainer container, 
+            string rabbitMQHost, string serviceAddress, string userName, string password)
         {
-            container.RegisterType<IQueue, Queue>();
+            container.RegisterType<IQueue, Queue>(
+                new InjectionConstructor(rabbitMQHost, serviceAddress, userName, password));
         }
     }
 }

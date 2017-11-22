@@ -1,35 +1,50 @@
-﻿using HelpDesk.Common.EventBus.AppEvents;
-using MassTransit;
-using System.Threading.Tasks;
-using MassTransit.Util;
+﻿using System.IO;
+using System.Text;
+using log4net.Config;
+using MassTransit.Log4NetIntegration.Logging;
+using Topshelf;
+using Topshelf.Logging;
 using System;
 
 namespace HelpDesk.PostEventSrvice
 {
     class Program
     {
-        static IBusControl bus;
         static void Main(string[] args)
         {
-            bus = Bus.Factory.CreateUsingRabbitMq(sbc =>
-            {
-                var host = sbc.Host(new Uri("rabbitmq://localhost/"), h =>
-                {
+            ConfigureLogger();
 
-                });
+            // Topshelf to use Log4Net
+            Log4NetLogWriterFactory.Use();
 
-                sbc.ReceiveEndpoint(host, "HelpDesk", ep =>
-                {
-                    ep.Handler<RequestAppEvent>(context =>
-                    {
-                        return Console.Out.WriteLineAsync($"Received: {context.Message.RequestEventId}");
-                    });
-                });
-            });
-            bus.Start();
+            // MassTransit to use Log4Net
+            Log4NetLogger.Use();
+
+            HostFactory.Run(x => x.Service<RequestService>());
 
             Console.ReadKey();
-        }        
-        
+
+        }
+
+        static void ConfigureLogger()
+        {
+            const string logConfig = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
+<log4net>
+  <root>
+    <level value=""INFO"" />
+    <appender-ref ref=""console"" />
+  </root>
+  <appender name=""console"" type=""log4net.Appender.ColoredConsoleAppender"">
+    <layout type=""log4net.Layout.PatternLayout"">
+      <conversionPattern value=""%m%n"" />
+    </layout>
+  </appender>
+</log4net>";
+
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(logConfig)))
+            {
+                XmlConfigurator.Configure(stream);
+            }
+        }
     }
 }
