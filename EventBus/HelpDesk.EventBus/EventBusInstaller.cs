@@ -1,6 +1,5 @@
 ﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.Common.EventBus.Interface;
-using HelpDesk.EventBus;
 using MassTransit;
 using Microsoft.Practices.Unity;
 
