@@ -6,7 +6,7 @@ using Topshelf;
 using Topshelf.Logging;
 using System;
 
-namespace HelpDesk.PostEventSrvice
+namespace HelpDesk.ConsumerEventSrvice
 {
     class Program
     {

@@ -5,9 +5,9 @@ using MassTransit.RabbitMqTransport;
 using MassTransit.Util;
 using Topshelf;
 using Topshelf.Logging;
-using HelpDesk.PostEventSrvice.Consumers;
+using HelpDesk.ConsumerEventSrvice.Consumers;
 
-namespace HelpDesk.PostEventSrvice
+namespace HelpDesk.ConsumerEventSrvice
 {
     class RequestService: ServiceControl
     {
@@ -30,6 +30,7 @@ namespace HelpDesk.PostEventSrvice
                 x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<RequestAppEventConsumer>(); });
                 x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<UserPasswordRecoveryAppEventConsumer>(); });
                 x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<UserRegisterAppEventConsumer>(); });
+                x.ReceiveEndpoint(host, serviceQueueName, e => { e.Consumer<RequestDeedlineAppEventConsumer>(); });
             });
 
             log.Info("Starting bus...");

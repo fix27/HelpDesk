@@ -1,5 +1,4 @@
-﻿using System;
-using HelpDesk.Common.EventBus.AppEvents.Interface;
+﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
 
 namespace HelpDesk.Common.EventBus.AppEvents
 {

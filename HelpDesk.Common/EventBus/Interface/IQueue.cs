@@ -6,6 +6,7 @@ namespace HelpDesk.Common.EventBus.Interface
         where T: class, IAppEvent 
     {
         void Push(T evnt);
+        void Stop();
     }
         
 }

@@ -73,7 +73,7 @@ namespace HelpDesk.WorkerWebApp.App_Start
             DataServiceInstaller.Install(container);
 
             //регистрация шины
-            EventBusInstaller.Install(container, 
+            EventBusInstaller.Install(container,
                 WebConfigurationManager.AppSettings["RabbitMQHost"],
                 WebConfigurationManager.AppSettings["ServiceAddress"],
                 WebConfigurationManager.AppSettings["RabbitMQUserName"],

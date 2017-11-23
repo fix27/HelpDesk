@@ -4,11 +4,11 @@ using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
 
-namespace HelpDesk.PostEventSrvice.Consumers
+namespace HelpDesk.ConsumerEventSrvice.Consumers
 {
     public class UserRegisterAppEventConsumer : IConsumer<IUserRegisterAppEvent>
     {
-        readonly ILog log = Logger.Get<RequestAppEventConsumer>();
+        readonly ILog log = Logger.Get<UserRegisterAppEventConsumer>();
 
         public async Task Consume(ConsumeContext<IUserRegisterAppEvent> context)
         {

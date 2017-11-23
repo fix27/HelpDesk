@@ -39,7 +39,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.EventBus", "EventB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6ECD3FF2-ED3D-4A43-8AB6-591B94463145}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.PostEventSrvice", "Services\HelpDesk.PostEventSrvice\HelpDesk.PostEventSrvice.csproj", "{3134BB07-0CC4-4EED-A927-D87351199708}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.ConsumerEventSrvice", "Services\HelpDesk.ConsumerEventSrvice\HelpDesk.ConsumerEventSrvice.csproj", "{3134BB07-0CC4-4EED-A927-D87351199708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.CalculateEventService", "Services\HelpDesk.CalculateEventService\HelpDesk.CalculateEventService.csproj", "{355ABACB-9064-4659-A6B8-84E18DC1A2F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +105,10 @@ Global
 		{3134BB07-0CC4-4EED-A927-D87351199708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3134BB07-0CC4-4EED-A927-D87351199708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3134BB07-0CC4-4EED-A927-D87351199708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355ABACB-9064-4659-A6B8-84E18DC1A2F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355ABACB-9064-4659-A6B8-84E18DC1A2F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355ABACB-9064-4659-A6B8-84E18DC1A2F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355ABACB-9064-4659-A6B8-84E18DC1A2F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,5 +124,6 @@ Global
 		{E62D27A0-1E45-43E2-A9FE-6E7D1E7E54A1} = {14B598DA-6A8E-4CAD-AA93-64B4D1DBA3B9}
 		{19CCD73D-255E-408D-AE8F-C2B2EDE51B43} = {955DF889-3A78-41F8-80D0-E2A99FFA6DB7}
 		{3134BB07-0CC4-4EED-A927-D87351199708} = {6ECD3FF2-ED3D-4A43-8AB6-591B94463145}
+		{355ABACB-9064-4659-A6B8-84E18DC1A2F1} = {6ECD3FF2-ED3D-4A43-8AB6-591B94463145}
 	EndGlobalSection
 EndGlobal
