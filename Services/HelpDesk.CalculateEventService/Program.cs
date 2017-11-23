@@ -1,11 +1,7 @@
 ﻿using HelpDesk.CalculateEventService.Jobs;
-using HelpDesk.Common.EventBus.AppEvents.Interface;
-using HelpDesk.Common.EventBus.Interface;
 using HelpDesk.EventBus;
-using MassTransit;
-using Microsoft.Practices.Unity;
 using Quartz;
-using Quartz.Impl;
+using Quartz.Unity;
 using System;
 using System.Threading;
 using Unity;
@@ -19,14 +15,16 @@ namespace HelpDesk.CalculateEventService
             try
             {
                 IUnityContainer container = new UnityContainer();
+                container.AddNewExtension<QuartzUnityExtension>();
+                
                 UnityConfig.RegisterTypes(container);
                 //Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter { Level = Common.Logging.LogLevel.Info };
-
-                // Grab the Scheduler instance from the Factory 
-                IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
+                
+                // do your other Unity registrations
+                IScheduler scheduler = UnityConfig.GetConfiguredContainer().Resolve<IScheduler>();
 
                 // and start it off
-                scheduler.Start();
+                //scheduler.Start();
 
                 // define the job and tie it to our HelloJob class
                 IJobDetail job = JobBuilder.Create<CalculateRequestDeedlineAppEventJob>()
