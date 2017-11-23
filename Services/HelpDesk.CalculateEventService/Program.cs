@@ -8,6 +8,7 @@ using Quartz;
 using Quartz.Impl;
 using System;
 using System.Threading;
+using Unity;
 
 namespace HelpDesk.CalculateEventService
 {

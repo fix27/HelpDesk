@@ -4,6 +4,7 @@ using Microsoft.Owin;
 using Microsoft.Practices.Unity;
 using HelpDesk.DataService.Interface;
 using HelpDesk.WorkerWebApp.App_Start;
+using Unity.ServiceLocation;
 
 namespace HelpDesk.WorkerWebApp.Identity
 {

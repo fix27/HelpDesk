@@ -1,8 +1,8 @@
 ﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.Common.EventBus.Interface;
-using Microsoft.Practices.Unity;
 using Quartz;
 using System;
+using Unity;
 
 namespace HelpDesk.CalculateEventService.Jobs
 {

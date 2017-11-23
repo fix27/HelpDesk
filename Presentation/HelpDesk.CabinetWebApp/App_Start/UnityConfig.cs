@@ -1,5 +1,4 @@
 using System;
-using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
 using HelpDesk.Migration;
@@ -13,6 +12,9 @@ using HelpDesk.Data.NHibernate;
 using HelpDesk.CabinetWebApp.Helpers;
 using HelpDesk.EventBus;
 using System.Web.Configuration;
+using Unity.AspNet.Mvc;
+using Unity;
+using Unity.Exceptions;
 
 namespace HelpDesk.CabinetWebApp.App_Start
 {

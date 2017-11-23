@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Unity;
-using HelpDesk.DataService.Interface;
+﻿using HelpDesk.DataService.Interface;
 using HelpDesk.CabinetWebApp.App_Start;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using HelpDesk.CabinetWebApp.Helpers;
+using Unity.ServiceLocation;
 
 namespace HelpDesk.CabinetWebApp.Filters
 {

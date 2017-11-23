@@ -1,10 +1,12 @@
-﻿using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.InterceptionExtension;
-using HelpDesk.Common.Aspects;
+﻿using HelpDesk.Common.Aspects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity;
+using Unity.Interception.ContainerIntegration;
+using Unity.Interception.Interceptors.InstanceInterceptors.InterfaceInterception;
+using Unity.RegistrationByConvention;
 
 namespace HelpDesk.DataService
 {

@@ -4,6 +4,7 @@ using HelpDesk.WorkerWebApp.App_Start;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using HelpDesk.WorkerWebApp.Helpers;
+using Unity.ServiceLocation;
 
 namespace HelpDesk.WorkerWebApp.Filters
 {
@@ -29,7 +30,7 @@ namespace HelpDesk.WorkerWebApp.Filters
 
             filterContext.Controller.ViewBag.Cultures = cultureService.GetList();
 
-            serviceLocator = new UnityServiceLocator(UnityConfig.GetConfiguredContainer());
+            
             JsResourceHelper jsResourceHelper = serviceLocator.GetInstance<JsResourceHelper>();
             jsResourceHelper.Set();
         }

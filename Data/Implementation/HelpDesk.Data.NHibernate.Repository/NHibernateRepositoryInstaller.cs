@@ -1,6 +1,6 @@
-﻿using Microsoft.Practices.Unity;
-using HelpDesk.Entity;
+﻿using HelpDesk.Entity;
 using HelpDesk.Data.Repository;
+using Unity;
 
 namespace HelpDesk.Data.NHibernate.Repository
 {

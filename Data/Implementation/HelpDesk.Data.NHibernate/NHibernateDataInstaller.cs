@@ -1,7 +1,9 @@
-﻿using Microsoft.Practices.Unity;
-using NHibernate;
+﻿using NHibernate;
 using HelpDesk.Data.Query;
 using HelpDesk.Data.Command;
+using Unity;
+using Unity.Lifetime;
+using Unity.Injection;
 
 namespace HelpDesk.Data.NHibernate
 {

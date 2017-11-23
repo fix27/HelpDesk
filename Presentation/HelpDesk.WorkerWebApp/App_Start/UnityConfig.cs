@@ -13,6 +13,9 @@ using HelpDesk.Data.NHibernate;
 using HelpDesk.WorkerWebApp.Helpers;
 using HelpDesk.EventBus;
 using System.Web.Configuration;
+using Unity.AspNet.Mvc;
+using Unity;
+using Unity.Exceptions;
 
 namespace HelpDesk.WorkerWebApp.App_Start
 {

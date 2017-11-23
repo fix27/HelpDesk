@@ -1,10 +1,10 @@
-﻿using Microsoft.Practices.Unity;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
 using HelpDesk.WorkerWebApp.App_Start;
 using HelpDesk.DataService.Interface;
 using System.Collections.Generic;
 using System;
+using Unity.ServiceLocation;
 
 namespace HelpDesk.WorkerWebApp
 {

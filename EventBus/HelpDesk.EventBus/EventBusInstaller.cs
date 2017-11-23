@@ -1,7 +1,8 @@
 ﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.Common.EventBus.Interface;
 using MassTransit;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Injection;
 
 namespace HelpDesk.EventBus
 {
