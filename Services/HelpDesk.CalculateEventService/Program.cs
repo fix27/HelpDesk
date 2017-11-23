@@ -1,4 +1,6 @@
 ﻿using HelpDesk.CalculateEventService.Jobs;
+using HelpDesk.Common.EventBus.AppEvents.Interface;
+using HelpDesk.Common.EventBus.Interface;
 using Microsoft.Practices.Unity;
 using Quartz;
 using Quartz.Impl;
@@ -52,6 +54,7 @@ namespace HelpDesk.CalculateEventService
             }
 
             Console.WriteLine("Press any key to close the application");
+            UnityConfig.GetConfiguredContainer().Resolve<IQueue<IRequestDeedlineAppEvent>>().Stop();
             Console.ReadKey();
         }
     }
