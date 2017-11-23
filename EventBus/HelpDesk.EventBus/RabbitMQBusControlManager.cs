@@ -3,7 +3,7 @@ using System;
 
 namespace HelpDesk.EventBus
 {
-    static class RabbitMQBusControlManager
+    public static class RabbitMQBusControlManager
     {
 
         private static Lazy<IBusControl> bus = new Lazy<IBusControl>(() =>
@@ -30,6 +30,10 @@ namespace HelpDesk.EventBus
             return bus.Value;
         }
 
+        public static void StopBus()
+        {
+            bus.Value.Stop();
+        }
     }
 
 

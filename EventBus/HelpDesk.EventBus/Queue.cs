@@ -27,10 +27,5 @@ namespace HelpDesk.EventBus
                 T response = await client.Request(evnt);
             }).Wait();
         }
-        public void Stop()
-        {
-            bus.Stop();
-        }
-
     }
 }
