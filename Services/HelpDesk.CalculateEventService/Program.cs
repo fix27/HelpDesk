@@ -5,6 +5,8 @@ using Quartz.Unity;
 using System;
 using System.Threading;
 using Unity;
+using CommonLoggingSimple = Common.Logging.Simple;
+using CommonLogging = Common.Logging;
 
 namespace HelpDesk.CalculateEventService
 {
@@ -18,13 +20,13 @@ namespace HelpDesk.CalculateEventService
                 container.AddNewExtension<QuartzUnityExtension>();
                 
                 UnityConfig.RegisterTypes(container);
-                //Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter { Level = Common.Logging.LogLevel.Info };
-                
+                CommonLogging.LogManager.Adapter = new CommonLoggingSimple.ConsoleOutLoggerFactoryAdapter { Level = CommonLogging.LogLevel.Info };
+
                 // do your other Unity registrations
-                IScheduler scheduler = UnityConfig.GetConfiguredContainer().Resolve<IScheduler>();
+                IScheduler scheduler = container.Resolve<IScheduler>();
 
                 // and start it off
-                //scheduler.Start();
+                scheduler.Start();
 
                 // define the job and tie it to our HelloJob class
                 IJobDetail job = JobBuilder.Create<CalculateRequestDeedlineAppEventJob>()
