@@ -1,5 +1,4 @@
 using System;
-using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
 using HelpDesk.Migration;

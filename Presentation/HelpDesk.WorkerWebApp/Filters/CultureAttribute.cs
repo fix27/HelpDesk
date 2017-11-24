@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.Unity;
-using HelpDesk.DataService.Interface;
+﻿using HelpDesk.DataService.Interface;
 using HelpDesk.WorkerWebApp.App_Start;
 using System.Collections.Generic;
 using System.Web.Mvc;

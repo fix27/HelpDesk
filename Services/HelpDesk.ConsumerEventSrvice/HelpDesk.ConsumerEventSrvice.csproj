@@ -120,6 +120,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consumers\Interface\IRequestAppEventConsumerLog.cs" />
+    <Compile Include="Consumers\Interface\IUserPasswordRecoveryAppEventConsumerLog.cs" />
+    <Compile Include="Consumers\Interface\IUserRegisterAppEventConsumerLog.cs" />
+    <Compile Include="Consumers\Interface\IRequestDeedlineAppEventConsumerLog.cs" />
     <Compile Include="Consumers\UserPasswordRecoveryAppEventConsumer.cs" />
     <Compile Include="Consumers\RequestDeedlineAppEventConsumer.cs" />
     <Compile Include="Consumers\UserRegisterAppEventConsumer.cs" />

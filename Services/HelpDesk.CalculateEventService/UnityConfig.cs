@@ -1,5 +1,4 @@
 using System;
-using Microsoft.Practices.Unity;
 using HelpDesk.EventBus;
 using System.Web.Configuration;
 using Unity;

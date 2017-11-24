@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using MassTransit;
-using MassTransit.BusConfigurators;
 using MassTransit.RabbitMqTransport;
 using MassTransit.Util;
 using Topshelf;

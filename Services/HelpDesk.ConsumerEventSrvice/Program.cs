@@ -5,7 +5,6 @@ using MassTransit.Log4NetIntegration.Logging;
 using Topshelf;
 using Topshelf.Logging;
 using System;
-using Unity;
 
 namespace HelpDesk.ConsumerEventSrvice
 {

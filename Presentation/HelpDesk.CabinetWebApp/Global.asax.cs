@@ -1,5 +1,4 @@
 ﻿using log4net;
-using Microsoft.Practices.Unity;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;

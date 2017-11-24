@@ -1,11 +1,14 @@
 using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.ConsumerEventSrvice.Consumers;
+using HelpDesk.ConsumerEventSrvice.Consumers.Interface;
 using HelpDesk.Data;
 using HelpDesk.Data.NHibernate;
 using HelpDesk.Data.NHibernate.Repository;
 using MassTransit;
+using MassTransit.Logging;
 using System;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 
 namespace HelpDesk.ConsumerEventSrvice
@@ -34,6 +37,15 @@ namespace HelpDesk.ConsumerEventSrvice
             DataInstaller.Install(container, new PerThreadLifetimeManager());
             NHibernateDataInstaller.Install(container, new PerThreadLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
+
+            container.RegisterType<IRequestAppEventConsumerLog>(
+                new InjectionFactory(c => Logger.Get<RequestAppEventConsumer>()));
+            container.RegisterType<IRequestDeedlineAppEventConsumerLog>(
+                new InjectionFactory(c => Logger.Get<RequestDeedlineAppEventConsumer>()));
+            container.RegisterType<IUserPasswordRecoveryAppEventConsumerLog>(
+                new InjectionFactory(c => Logger.Get<UserPasswordRecoveryAppEventConsumer>()));
+            container.RegisterType<IUserRegisterAppEventConsumerLog>(
+                new InjectionFactory(c => Logger.Get<UserRegisterAppEventConsumer>()));
 
             container.RegisterType<IConsumer<IRequestAppEvent> , RequestAppEventConsumer>();
             container.RegisterType<IConsumer<IRequestDeedlineAppEvent> , RequestDeedlineAppEventConsumer>();

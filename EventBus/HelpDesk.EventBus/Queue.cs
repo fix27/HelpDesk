@@ -1,9 +1,6 @@
 ﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.Common.EventBus.Interface;
 using MassTransit;
-using MassTransit.Transports;
-using System;
-using System.Threading.Tasks;
 
 namespace HelpDesk.EventBus
 {
