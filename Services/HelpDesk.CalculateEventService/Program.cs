@@ -16,10 +16,9 @@ namespace HelpDesk.CalculateEventService
         {
             try
             {
-                IUnityContainer container = new UnityContainer();
+                IUnityContainer container = UnityConfig.GetConfiguredContainer();
                 container.AddNewExtension<QuartzUnityExtension>();
                 
-                UnityConfig.RegisterTypes(container);
                 CommonLogging.LogManager.Adapter = new CommonLoggingSimple.ConsoleOutLoggerFactoryAdapter { Level = CommonLogging.LogLevel.Info };
 
                 // do your other Unity registrations
@@ -46,7 +45,7 @@ namespace HelpDesk.CalculateEventService
                 scheduler.ScheduleJob(job, trigger);
 
                 // some sleep to show what's happening
-                Thread.Sleep(TimeSpan.FromSeconds(6));
+                Thread.Sleep(TimeSpan.FromSeconds(60));
 
                 // and last shut down the scheduler when you are ready to close your program
                 scheduler.Shutdown();
@@ -56,8 +55,9 @@ namespace HelpDesk.CalculateEventService
                 Console.WriteLine(se);
             }
 
-            Console.WriteLine("Press any key to close the application");
             RabbitMQBusControlManager.StopBus();
+            Console.WriteLine("Press any key to close the application");
+            
             Console.ReadKey();
         }
     }

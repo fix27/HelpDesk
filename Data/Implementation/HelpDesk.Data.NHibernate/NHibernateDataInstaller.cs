@@ -12,9 +12,8 @@ namespace HelpDesk.Data.NHibernate
         public static void Install(IUnityContainer container, LifetimeManager lifetimeManager)
         {
             //регистрация ISession
-            container.RegisterType<ISession>(new InjectionFactory(c => NHibernateSessionManager.Instance.GetSession()));
-            container.RegisterType<ISession>(lifetimeManager);
-            
+            container.RegisterType<ISession>(lifetimeManager, new InjectionFactory(c => NHibernateSessionManager.Instance.GetSession()));
+                        
             container.RegisterType<IQueryRunner, QueryRunner>();
             container.RegisterType<ICommandRunner, CommandRunner>();
             

@@ -1,6 +1,7 @@
 ﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.Common.EventBus.Interface;
 using MassTransit;
+using MassTransit.Transports;
 using System;
 using System.Threading.Tasks;
 
@@ -17,15 +18,17 @@ namespace HelpDesk.EventBus
             this.serviceAddress = serviceAddress;
         }
 
-        private IRequestClient<T, T> client = null;
+        //private IRequestClient<T, T> client = null;
         public void Push(T evnt)
         {
-            if (client == null)
+            /*if (client == null)
                 client = bus.CreateRequestClient<T, T>(new Uri(serviceAddress), TimeSpan.FromSeconds(10)); ;
             Task.Run(async () =>
             {
                 T response = await client.Request(evnt);
-            }).Wait();
+            }).Wait();*/
+
+            bus.Publish<T>(evnt);
         }
     }
 }

@@ -5,15 +5,17 @@ using MassTransit.Log4NetIntegration.Logging;
 using Topshelf;
 using Topshelf.Logging;
 using System;
+using Unity;
 
 namespace HelpDesk.ConsumerEventSrvice
 {
     class Program
     {
+        
         static void Main(string[] args)
         {
             ConfigureLogger();
-
+            
             // Topshelf to use Log4Net
             Log4NetLogWriterFactory.Use();
 
@@ -46,5 +48,6 @@ namespace HelpDesk.ConsumerEventSrvice
                 XmlConfigurator.Configure(stream);
             }
         }
+        
     }
 }

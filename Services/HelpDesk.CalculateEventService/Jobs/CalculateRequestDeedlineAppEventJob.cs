@@ -1,4 +1,5 @@
-﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
+﻿using HelpDesk.Common.EventBus.AppEvents;
+using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.Common.EventBus.Interface;
 using Quartz;
 using System;
@@ -16,6 +17,7 @@ namespace HelpDesk.CalculateEventService.Jobs
 
         public void Execute(IJobExecutionContext context)
         {
+            queue.Push(new RequestDeedlineAppEvent() { RequestId = 2001254 });
             Console.WriteLine("-");
         }
     }

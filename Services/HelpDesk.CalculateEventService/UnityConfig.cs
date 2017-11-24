@@ -25,7 +25,7 @@ namespace HelpDesk.CalculateEventService
         }
         #endregion
 
-        public static void RegisterTypes(IUnityContainer container)
+        private static void RegisterTypes(IUnityContainer container)
         {
            
             //регистрация шины
