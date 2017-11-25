@@ -21,23 +21,32 @@ namespace HelpDesk.ConsumerEventSrvice.Query
             IQueryable<WorkerUserEventSubscribe> workerUserEventSubscribes,
             IQueryable<AccessWorkerUser> accessWorkerUser)
         {
-            Request request = requests.First(t => t.Id == requestId);
+            Request request = requests.FirstOrDefault(t => t.Id == requestId);
+            if(request == null)
+                return null;
+
             IEnumerable<long> userIds = accessWorkerUser
                 .Where(t => t.Worker.Id == request.Worker.Id)
-                .Select(t => t.User.Id).ToList();
-            
-            IEnumerable<UserDeedlineAppEventSubscribeDTO> ws =
-                workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id))
-                .Select(t => new UserDeedlineAppEventSubscribeDTO
-                {
-                    RequestId = requestId,
-                    RequestStatusName = request.Status.Name,
-                    Email = t.User.Email,
-                    DateEndPlan = request.DateEndPlan
-                })
+                .Select(t => t.User.Id)
                 .ToList();
-            
-            return ws;
+
+            if (userIds.Any())
+            {
+                IEnumerable<UserDeedlineAppEventSubscribeDTO> ws =
+                    workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id))
+                        .Select(t => new UserDeedlineAppEventSubscribeDTO
+                        {
+                            RequestId = requestId,
+                            RequestStatusName = request.Status.Name,
+                            Email = t.User.Email,
+                            DateEndPlan = request.DateEndPlan
+                        })
+                        .ToList();
+
+                return ws;
+            }
+
+            return null;
         }
     }
 }

@@ -7,6 +7,7 @@ using HelpDesk.Data.Query;
 using HelpDesk.ConsumerEventSrvice.Sender;
 using HelpDesk.ConsumerEventSrvice.DTO;
 using System.Collections.Generic;
+using System.Linq;
 using HelpDesk.ConsumerEventSrvice.Query;
 using HelpDesk.ConsumerEventSrvice.Resources;
 
@@ -27,12 +28,13 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
 
         public async Task Consume(ConsumeContext<IRequestDeedlineAppEvent> context)
         {
+            log.InfoFormat("RequestDeedlineAppEventConsumer: RequestId = {0}", context.Message.RequestId);
+            IEnumerable<UserDeedlineAppEventSubscribeDTO> list =
+                queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestId));
+            if (list == null || !list.Any())
+                return;
             await Task.Run(() =>
             {
-                log.InfoFormat("RequestDeedlineAppEventConsumer: RequestId = {0}", context.Message.RequestId);
-                IEnumerable<UserDeedlineAppEventSubscribeDTO> list =
-                    queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestId));
-
                 foreach (var evnt in list)
                 {
                     sender.Send(evnt, String.Format(Resource.Subject_RequestDeedlineAppEventConsumer, evnt.RequestId), "RequestDeedlineAppEvent");

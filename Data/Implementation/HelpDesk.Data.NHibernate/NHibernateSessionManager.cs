@@ -4,7 +4,8 @@ using NHibernate;
 using NHibernate.Cache;
 using NHibernate.Cfg;
 using System.Data;
-
+using System.Threading;
+using System;
 
 namespace HelpDesk.Data.NHibernate
 {
@@ -183,6 +184,11 @@ namespace HelpDesk.Data.NHibernate
             }
         }
 
+
+        [ThreadStatic]
+        private ISession threadSession;
+        
+
         /// <summary>
         /// If within a web context, this uses <see cref="HttpContext" /> instead of the WinForms 
         /// specific <see cref="CallContext" />.  Discussion concerning this found at 
@@ -194,7 +200,8 @@ namespace HelpDesk.Data.NHibernate
                     return (ISession)HttpContext.Current.Items[SESSION_KEY];
                 }
                 else {
-                    return (ISession)CallContext.GetData(SESSION_KEY); 
+                    //return (ISession)CallContext.GetData(SESSION_KEY);
+                    return threadSession;
                 }
             }
             set {
@@ -202,7 +209,8 @@ namespace HelpDesk.Data.NHibernate
                     HttpContext.Current.Items[SESSION_KEY] = value;
                 }
                 else {
-                    CallContext.SetData(SESSION_KEY, value);
+                    //CallContext.SetData(SESSION_KEY, value);
+                    threadSession = value;
                 }
             }
         }
@@ -213,6 +221,7 @@ namespace HelpDesk.Data.NHibernate
 
         private const string TRANSACTION_KEY = "CONTEXT_TRANSACTION";
         private const string SESSION_KEY = "CONTEXT_SESSION";
+        [ThreadStatic]
         private ISessionFactory sessionFactory;
     }
 }

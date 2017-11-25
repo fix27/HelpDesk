@@ -22,7 +22,10 @@ namespace HelpDesk.ConsumerEventSrvice.Query
             IQueryable<WorkerUserEventSubscribe> workerUserEventSubscribes,
             IQueryable<AccessWorkerUser> accessWorkerUser)
         {
-            RequestEvent evnt = events.First(t => t.Id == requestEventId);
+            RequestEvent evnt = events.FirstOrDefault(t => t.Id == requestEventId);
+            if (evnt == null)
+                return null;
+
             Request request = requests.First(t => t.Id == evnt.RequestId);
             IEnumerable<long> userIds = accessWorkerUser
                 .Where(t => t.Worker.Id == request.Worker.Id)

@@ -36,8 +36,8 @@ namespace HelpDesk.ConsumerEventSrvice
 
         private static void RegisterTypes(IUnityContainer container)
         {
-            DataInstaller.Install(container, new PerThreadLifetimeManager());
-            NHibernateDataInstaller.Install(container, new PerThreadLifetimeManager());
+            DataInstaller.Install(container, new ContainerControlledLifetimeManager());
+            NHibernateDataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
             
             container.RegisterType<IEmailTemplateService, RazorEmailTemplateService>();

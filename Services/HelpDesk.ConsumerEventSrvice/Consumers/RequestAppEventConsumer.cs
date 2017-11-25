@@ -9,6 +9,7 @@ using HelpDesk.ConsumerEventSrvice.DTO;
 using System.Collections.Generic;
 using HelpDesk.ConsumerEventSrvice.Sender;
 using HelpDesk.ConsumerEventSrvice.Resources;
+using System.Linq;
 
 namespace HelpDesk.ConsumerEventSrvice.Consumers
 {
@@ -26,12 +27,14 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
 
         public async Task Consume(ConsumeContext<IRequestAppEvent> context)
         {
+            log.InfoFormat("RequestAppEventConsumer: RequestEventId = {0}", context.Message.RequestEventId);
+            IEnumerable<UserRequestAppEventSubscribeDTO> list =
+                queryRunner.Run(new UserRequestAppEventSubscribeQuery(context.Message.RequestEventId));
+            if (list == null || !list.Any())
+                return;
+
             await Task.Run(() =>
             {
-                log.InfoFormat("RequestAppEventConsumer: RequestEventId = {0}", context.Message.RequestEventId);
-                IEnumerable<UserRequestAppEventSubscribeDTO> list =
-                    queryRunner.Run(new UserRequestAppEventSubscribeQuery(context.Message.RequestEventId));
-
                 foreach (var evnt in list)
                 {
                     sender.Send(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.RequestId, evnt.RequestStatusName), "RequestAppEvent");
