@@ -2,7 +2,6 @@
 using MassTransit;
 using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
-using HelpDesk.ConsumerEventSrvice.Consumers.Interface;
 using HelpDesk.ConsumerEventSrvice.Sender;
 using HelpDesk.ConsumerEventSrvice.DTO;
 using HelpDesk.ConsumerEventSrvice.Resources;
@@ -13,7 +12,7 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
     {
         private readonly ILog log;
         private readonly ISender sender;
-        public UserPasswordRecoveryAppEventConsumer(IUserPasswordRecoveryAppEventConsumerLog log, ISender sender)
+        public UserPasswordRecoveryAppEventConsumer(ILog log, ISender sender)
         {
             this.log = log;
             this.sender = sender;

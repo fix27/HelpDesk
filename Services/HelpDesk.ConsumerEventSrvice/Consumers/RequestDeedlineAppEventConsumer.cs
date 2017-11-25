@@ -3,7 +3,6 @@ using MassTransit;
 using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
 using System;
-using HelpDesk.ConsumerEventSrvice.Consumers.Interface;
 using HelpDesk.Data.Query;
 using HelpDesk.ConsumerEventSrvice.Sender;
 using HelpDesk.ConsumerEventSrvice.DTO;
@@ -18,7 +17,7 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
         private readonly ILog log;
         private readonly IQueryRunner queryRunner;
         private readonly ISender sender;
-        public RequestDeedlineAppEventConsumer(IQueryRunner queryRunner, IRequestDeedlineAppEventConsumerLog log, 
+        public RequestDeedlineAppEventConsumer(IQueryRunner queryRunner, ILog log, 
             ISender sender)
         {
             this.queryRunner = queryRunner;

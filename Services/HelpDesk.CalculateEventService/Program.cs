@@ -45,7 +45,7 @@ namespace HelpDesk.CalculateEventService
                 scheduler.ScheduleJob(job, trigger);
 
                 // some sleep to show what's happening
-                Thread.Sleep(TimeSpan.FromSeconds(60));
+                Thread.Sleep(TimeSpan.FromSeconds(600));
 
                 // and last shut down the scheduler when you are ready to close your program
                 scheduler.Shutdown();
