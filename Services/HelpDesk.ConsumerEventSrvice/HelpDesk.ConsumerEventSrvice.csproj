@@ -127,10 +127,14 @@
     <Compile Include="Consumers\UserPasswordRecoveryAppEventConsumer.cs" />
     <Compile Include="Consumers\RequestDeedlineAppEventConsumer.cs" />
     <Compile Include="Consumers\UserRegisterAppEventConsumer.cs" />
+    <Compile Include="DTO\UserEventSubscribeDTO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Consumers\RequestAppEventConsumer.cs" />
+    <Compile Include="Query\RequestLastEventQuery.cs" />
     <Compile Include="RequestService.cs" />
+    <Compile Include="Sender\EmailSender.cs" />
+    <Compile Include="Sender\ISender.cs" />
     <Compile Include="UnityConfig.cs" />
   </ItemGroup>
   <ItemGroup>

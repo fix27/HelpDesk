@@ -13,6 +13,16 @@ namespace HelpDesk.Data.NHibernate
             this.session = session;
         }
 
+        public TResult Run<TResult, TEntity1, TEntity2, TEntity3, TEntity4, TEntity5>(IQuery<TResult, TEntity1, TEntity2, TEntity3, TEntity4, TEntity5> query)
+            where TEntity1 : BaseEntity
+            where TEntity2 : BaseEntity
+            where TEntity3 : BaseEntity
+            where TEntity4 : BaseEntity
+            where TEntity5 : BaseEntity
+        {
+            return query.Run(session.Query<TEntity1>(), session.Query<TEntity2>(), session.Query<TEntity3>(), session.Query<TEntity4>(), session.Query<TEntity5>());
+        }
+
         public TResult Run<TResult, TEntity1, TEntity2, TEntity3, TEntity4>(IQuery<TResult, TEntity1, TEntity2, TEntity3, TEntity4> query)
             where TEntity1 : BaseEntity
             where TEntity2 : BaseEntity

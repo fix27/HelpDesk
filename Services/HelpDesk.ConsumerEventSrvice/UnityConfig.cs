@@ -1,6 +1,7 @@
 using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.ConsumerEventSrvice.Consumers;
 using HelpDesk.ConsumerEventSrvice.Consumers.Interface;
+using HelpDesk.ConsumerEventSrvice.Sender;
 using HelpDesk.Data;
 using HelpDesk.Data.NHibernate;
 using HelpDesk.Data.NHibernate.Repository;
@@ -38,6 +39,7 @@ namespace HelpDesk.ConsumerEventSrvice
             NHibernateDataInstaller.Install(container, new PerThreadLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
 
+            container.RegisterType<ISender, EmailSender>(); 
             container.RegisterType<IRequestAppEventConsumerLog>(
                 new InjectionFactory(c => Logger.Get<RequestAppEventConsumer>()));
             container.RegisterType<IRequestDeedlineAppEventConsumerLog>(

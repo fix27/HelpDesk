@@ -17,20 +17,16 @@ namespace HelpDesk.EventBus
             
             container.RegisterType<IQueue<IRequestAppEvent>, Queue<IRequestAppEvent>>(
                 new InjectionConstructor(
-                    new ResolvedParameter<IBusControl>(),
-                    serviceAddress));
+                    new ResolvedParameter<IBusControl>()));
             container.RegisterType<IQueue<IUserPasswordRecoveryAppEvent>, Queue<IUserPasswordRecoveryAppEvent>>(
                 new InjectionConstructor(
-                    new ResolvedParameter<IBusControl>(),
-                    serviceAddress));
+                    new ResolvedParameter<IBusControl>()));
             container.RegisterType<IQueue<IUserRegisterAppEvent>, Queue<IUserRegisterAppEvent>>(
                 new InjectionConstructor(
-                    new ResolvedParameter<IBusControl>(),
-                    serviceAddress));
+                    new ResolvedParameter<IBusControl>()));
             container.RegisterType<IQueue<IRequestDeedlineAppEvent>, Queue<IRequestDeedlineAppEvent>>(
                 new InjectionConstructor(
-                    new ResolvedParameter<IBusControl>(),
-                    serviceAddress));
+                    new ResolvedParameter<IBusControl>()));
             
         }
     }

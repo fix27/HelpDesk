@@ -13,7 +13,7 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
     {
         
 
-        private readonly ILog log = Logger.Get<RequestDeedlineAppEventConsumer>();
+        private readonly ILog log;
         private readonly IBaseRepository<Request> requestRepository;
 
         public RequestDeedlineAppEventConsumer(IBaseRepository<Request> requestRepository, IRequestDeedlineAppEventConsumerLog log)
@@ -25,9 +25,10 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
 
         public async Task Consume(ConsumeContext<IRequestDeedlineAppEvent> context)
         {
-            //await log.InfoFormat("RequestId = {0}", context.Message.RequestId);
+            //log.InfoFormat("RequestId = {0}", context.Message.RequestId);
             int c = requestRepository.Count();
-            await Console.Out.WriteLineAsync($"count request: {context.Message.RequestId} {c}");
+            await Console.Out.WriteLineAsync($"count request: {context.Message.RequestId} {c}");
+
         }
     }
 }

@@ -44,6 +44,8 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseRequest.cs" />
     <Compile Include="BaseRequestEvent.cs" />
+    <Compile Include="WorkerUserEventSubscribe.cs" />
+    <Compile Include="CabinetUserEventSubscribe.cs" />
     <Compile Include="UserSession.cs" />
     <Compile Include="DescriptionProblem.cs" />
     <Compile Include="WorkScheduleItem.cs" />

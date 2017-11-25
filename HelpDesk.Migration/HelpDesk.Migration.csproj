@@ -96,6 +96,7 @@
     <Compile Include="Migrations\0008\AlterRequestFile.cs" />
     <Compile Include="Migrations\0006\AlterSettings1.cs" />
     <Compile Include="Migrations\0007\CreateDescriptionProblem.cs" />
+    <Compile Include="Migrations\0009\CreateUserEventSubscribe.cs" />
     <Compile Include="MigratorInstaller.cs" />
     <Compile Include="MigrationRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

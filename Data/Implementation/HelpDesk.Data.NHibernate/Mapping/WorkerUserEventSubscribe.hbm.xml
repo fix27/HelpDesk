@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="HelpDesk.Entity.WorkerUserEventSubscribe, HelpDesk.Entity" table="WorkerUserEventSubscribe" lazy="false">
+    <id name="Id" column="Id" unsaved-value="0">
+      <generator class="sequence">
+        <param name="sequence">SQ_GLOBAL</param>
+      </generator>
+    </id>
+    
+    <many-to-one not-null="true" foreign-key="WorkerUserEventSubscribe_WorkerUser_FK"     name="User"   
+      fetch="join" column="UserId"    class="HelpDesk.Entity.WorkerUser, HelpDesk.Entity"/>
+    <many-to-one not-null="true" foreign-key="WorkerUserEventSubscribe_StatusRequest_FK"  name="StatusRequest" 
+      fetch="join" column="StatusRequestId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity"/>
+  </class>
+</hibernate-mapping>
