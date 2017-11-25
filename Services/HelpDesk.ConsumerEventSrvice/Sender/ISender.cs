@@ -4,6 +4,6 @@ namespace HelpDesk.ConsumerEventSrvice.Sender
 {
     public interface ISender
     {
-        void Send(UserEventSubscribeDTO evnt, string messageTemplate = null);
+        void Send(UserEventSubscribeDTO evnt, string subject, string messageTemplate = null);
     }
 }

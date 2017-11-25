@@ -6,6 +6,7 @@ using HelpDesk.Common.EventBus.AppEvents.Interface;
 using HelpDesk.ConsumerEventSrvice.Consumers.Interface;
 using HelpDesk.ConsumerEventSrvice.Sender;
 using HelpDesk.ConsumerEventSrvice.DTO;
+using HelpDesk.ConsumerEventSrvice.Resources;
 
 namespace HelpDesk.ConsumerEventSrvice.Consumers
 {
@@ -28,7 +29,7 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
                 {
                     Email = context.Message.Email,
                     Password = context.Message.Password
-                }, "UserPasswordRecoveryAppEvent");
+                }, Resource.Subject_UserPasswordRecoveryAppEventConsumer, "UserPasswordRecoveryAppEvent");
                 log.InfoFormat("UserPasswordRecoveryAppEventConsumer Send OK: Email = {0}", context.Message.Email);
             });
         }

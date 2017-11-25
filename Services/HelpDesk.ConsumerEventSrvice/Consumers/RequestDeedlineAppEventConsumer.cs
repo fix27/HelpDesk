@@ -11,6 +11,7 @@ using HelpDesk.ConsumerEventSrvice.Sender;
 using HelpDesk.ConsumerEventSrvice.DTO;
 using System.Collections.Generic;
 using HelpDesk.ConsumerEventSrvice.Query;
+using HelpDesk.ConsumerEventSrvice.Resources;
 
 namespace HelpDesk.ConsumerEventSrvice.Consumers
 {
@@ -37,7 +38,7 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
 
                 foreach (var evnt in list)
                 {
-                    sender.Send(evnt, "RequestDeedlineAppEvent");
+                    sender.Send(evnt, String.Format(Resource.Subject_RequestDeedlineAppEventConsumer, evnt.RequestId), "RequestDeedlineAppEvent");
                     log.InfoFormat("RequestDeedlineAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
                         evnt.RequestId, evnt.RequestStatusName, evnt.Email);
                 }

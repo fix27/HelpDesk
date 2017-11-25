@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
@@ -8,6 +9,7 @@ using HelpDesk.Data.Query;
 using HelpDesk.ConsumerEventSrvice.DTO;
 using System.Collections.Generic;
 using HelpDesk.ConsumerEventSrvice.Sender;
+using HelpDesk.ConsumerEventSrvice.Resources;
 
 namespace HelpDesk.ConsumerEventSrvice.Consumers
 {
@@ -33,7 +35,7 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
 
                 foreach (var evnt in list)
                 {
-                    sender.Send(evnt, "RequestAppEvent");
+                    sender.Send(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.RequestId, evnt.RequestStatusName), "RequestAppEvent");
                     log.InfoFormat("RequestAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
                         evnt.RequestId, evnt.RequestStatusName, evnt.Email);
                 }
