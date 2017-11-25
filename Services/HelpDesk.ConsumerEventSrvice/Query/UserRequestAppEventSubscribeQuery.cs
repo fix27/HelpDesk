@@ -9,15 +9,15 @@ namespace HelpDesk.ConsumerEventSrvice.Query
     /// <summary>
     /// Запрос: список рассылки для подписанных на событие пользователей личного кабинета и Исполнителя
     /// </summary>
-    public class UserEventSubscribeQuery : IQuery<IEnumerable<UserEventSubscribeDTO>, Request, RequestEvent, CabinetUserEventSubscribe, WorkerUserEventSubscribe, AccessWorkerUser>
+    public class UserRequestAppEventSubscribeQuery : IQuery<IEnumerable<UserRequestAppEventSubscribeDTO>, Request, RequestEvent, CabinetUserEventSubscribe, WorkerUserEventSubscribe, AccessWorkerUser>
     {
         private readonly long requestEventId;
-        public UserEventSubscribeQuery(long requestEventId)
+        public UserRequestAppEventSubscribeQuery(long requestEventId)
         {
             this.requestEventId = requestEventId;
         }
                 
-        public IEnumerable<UserEventSubscribeDTO> Run(IQueryable<Request> requests, IQueryable<RequestEvent> events, 
+        public IEnumerable<UserRequestAppEventSubscribeDTO> Run(IQueryable<Request> requests, IQueryable<RequestEvent> events, 
             IQueryable<CabinetUserEventSubscribe> cabinetUserEventSubscribes,
             IQueryable<WorkerUserEventSubscribe> workerUserEventSubscribes,
             IQueryable<AccessWorkerUser> accessWorkerUser)
@@ -28,13 +28,25 @@ namespace HelpDesk.ConsumerEventSrvice.Query
                 .Where(t => t.Worker.Id == request.Worker.Id)
                 .Select(t => t.User.Id).ToList();
 
-            IEnumerable<UserEventSubscribeDTO> cs =
+            IEnumerable<UserRequestAppEventSubscribeDTO> cs =
                 cabinetUserEventSubscribes.Where(t => t.User.Id == request.Employee.Id)
-                .Select(t => new UserEventSubscribeDTO())
+                .Select(t => new UserRequestAppEventSubscribeDTO
+                {
+                    RequestId = request.Id,
+                    RequestStatusName = request.Status.Name,
+                    Email = t.User.Email,
+                    DateEndPlan = request.DateEndPlan
+                })
                 .ToList();
-            IEnumerable<UserEventSubscribeDTO> ws =
+            IEnumerable<UserRequestAppEventSubscribeDTO> ws =
                 workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id))
-                .Select(t => new UserEventSubscribeDTO())
+                .Select(t => new UserRequestAppEventSubscribeDTO
+                {
+                    RequestId = request.Id,
+                    RequestStatusName = request.Status.Name,
+                    Email = t.User.Email,
+                    DateEndPlan = request.DateEndPlan
+                })
                 .ToList();
             
             return cs.Union(ws);

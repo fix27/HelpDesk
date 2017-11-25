@@ -27,15 +27,17 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
         {
             await Task.Run(() =>
             {
-                IEnumerable<UserEventSubscribeDTO> list =
-                    queryRunner.Run(new UserEventSubscribeQuery(context.Message.RequestEventId));
+                log.InfoFormat("RequestAppEventConsumer: RequestEventId = {0}", context.Message.RequestEventId);
+                IEnumerable<UserRequestAppEventSubscribeDTO> list =
+                    queryRunner.Run(new UserRequestAppEventSubscribeQuery(context.Message.RequestEventId));
 
                 foreach (var evnt in list)
                 {
-                    sender.Send(evnt);
+                    sender.Send(evnt, "RequestAppEvent");
+                    log.InfoFormat("RequestAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
+                        evnt.RequestId, evnt.RequestStatusName, evnt.Email);
                 }
             });
-       
         }        
     }
 }

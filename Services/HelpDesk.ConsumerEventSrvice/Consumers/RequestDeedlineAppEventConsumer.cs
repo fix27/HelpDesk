@@ -6,29 +6,42 @@ using System;
 using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 using HelpDesk.ConsumerEventSrvice.Consumers.Interface;
+using HelpDesk.Data.Query;
+using HelpDesk.ConsumerEventSrvice.Sender;
+using HelpDesk.ConsumerEventSrvice.DTO;
+using System.Collections.Generic;
+using HelpDesk.ConsumerEventSrvice.Query;
 
 namespace HelpDesk.ConsumerEventSrvice.Consumers
 {
     public class RequestDeedlineAppEventConsumer : IConsumer<IRequestDeedlineAppEvent>
     {
-        
-
         private readonly ILog log;
-        private readonly IBaseRepository<Request> requestRepository;
-
-        public RequestDeedlineAppEventConsumer(IBaseRepository<Request> requestRepository, IRequestDeedlineAppEventConsumerLog log)
+        private readonly IQueryRunner queryRunner;
+        private readonly ISender sender;
+        public RequestDeedlineAppEventConsumer(IQueryRunner queryRunner, IRequestDeedlineAppEventConsumerLog log, 
+            ISender sender)
         {
-            this.requestRepository = requestRepository;
+            this.queryRunner = queryRunner;
             this.log = log;
+            this.sender = sender;
         }
-
 
         public async Task Consume(ConsumeContext<IRequestDeedlineAppEvent> context)
         {
-            //log.InfoFormat("RequestId = {0}", context.Message.RequestId);
-            int c = requestRepository.Count();
-            await Console.Out.WriteLineAsync($"count request: {context.Message.RequestId} {c}");
+            await Task.Run(() =>
+            {
+                log.InfoFormat("RequestDeedlineAppEventConsumer: RequestId = {0}", context.Message.RequestId);
+                IEnumerable<UserDeedlineAppEventSubscribeDTO> list =
+                    queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestId));
 
+                foreach (var evnt in list)
+                {
+                    sender.Send(evnt, "RequestDeedlineAppEvent");
+                    log.InfoFormat("RequestDeedlineAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
+                        evnt.RequestId, evnt.RequestStatusName, evnt.Email);
+                }
+            });
         }
     }
 }
