@@ -3,8 +3,6 @@ using MassTransit;
 using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
 using System;
-using HelpDesk.Data.Repository;
-using HelpDesk.Entity;
 using HelpDesk.ConsumerEventSrvice.Consumers.Interface;
 using HelpDesk.Data.Query;
 using HelpDesk.ConsumerEventSrvice.Sender;
