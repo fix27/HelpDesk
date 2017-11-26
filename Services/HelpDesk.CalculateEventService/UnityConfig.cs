@@ -1,6 +1,5 @@
 using System;
 using HelpDesk.EventBus;
-using System.Web.Configuration;
 using Unity;
 using HelpDesk.Data;
 using HelpDesk.Data.NHibernate;
@@ -9,6 +8,7 @@ using MassTransit.Logging;
 using Unity.Injection;
 using HelpDesk.CalculateEventService.Jobs;
 using HelpDesk.Data.NHibernate.Repository;
+using System.Configuration;
 
 namespace HelpDesk.CalculateEventService
 {
@@ -40,10 +40,10 @@ namespace HelpDesk.CalculateEventService
             container.RegisterType<ILog>(new InjectionFactory(c => Logger.Get<CalculateRequestDeedlineAppEventJob>()));
             //регистрация шины
             EventBusInstaller.Install(container,
-                WebConfigurationManager.AppSettings["RabbitMQHost"],
-                WebConfigurationManager.AppSettings["ServiceAddress"],
-                WebConfigurationManager.AppSettings["RabbitMQUserName"],
-                WebConfigurationManager.AppSettings["RabbitMQPassword"]);
+                ConfigurationManager.AppSettings["RabbitMQHost"],
+                ConfigurationManager.AppSettings["ServiceAddress"],
+                ConfigurationManager.AppSettings["RabbitMQUserName"],
+                ConfigurationManager.AppSettings["RabbitMQPassword"]);
            
         }
         

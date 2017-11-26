@@ -14,11 +14,12 @@ namespace HelpDesk.CalculateEventService.Query
         public IEnumerable<long> Run(IQueryable<Request> requests)
         {
             var q = requests
+                .ToList()
                 .Where(r => r.Object.ObjectType.DeadlineHour > 0 && !r.DateEndFact.HasValue &&
                     r.DateEndPlan <= DateTime.Now.AddHours(r.Object.ObjectType.DeadlineHour) && r.DateEndPlan > DateTime.Now)
                 .Select(r => r.Id);
             
-            return q.ToList();
+            return q;
         }
     }
 }

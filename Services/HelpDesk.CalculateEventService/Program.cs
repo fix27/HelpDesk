@@ -7,6 +7,7 @@ using System.Threading;
 using Unity;
 using CommonLoggingSimple = Common.Logging.Simple;
 using CommonLogging = Common.Logging;
+using System.Configuration;
 
 namespace HelpDesk.CalculateEventService
 {
@@ -16,6 +17,8 @@ namespace HelpDesk.CalculateEventService
         {
             try
             {
+                int intervalInMinutes = Convert.ToInt32(ConfigurationManager.AppSettings["IntervalInMinutes"]);
+
                 IUnityContainer container = UnityConfig.GetConfiguredContainer();
                 container.AddNewExtension<QuartzUnityExtension>();
                 
@@ -37,28 +40,19 @@ namespace HelpDesk.CalculateEventService
                     .WithIdentity("trigger1", "group1")
                     .StartNow()
                     .WithSimpleSchedule(x => x
-                        .WithIntervalInSeconds(2)
+                        .WithIntervalInMinutes(intervalInMinutes)
                         .RepeatForever())
                     .Build();
 
                 // Tell quartz to schedule the job using our trigger
                 scheduler.ScheduleJob(job, trigger);
-
-                // some sleep to show what's happening
-                Thread.Sleep(TimeSpan.FromSeconds(600));
-
-                // and last shut down the scheduler when you are ready to close your program
-                scheduler.Shutdown();
+                
             }
             catch (SchedulerException se)
             {
                 Console.WriteLine(se);
             }
-
-            RabbitMQBusControlManager.StopBus();
-            Console.WriteLine("Press any key to close the application");
             
-            Console.ReadKey();
         }
     }
 }
