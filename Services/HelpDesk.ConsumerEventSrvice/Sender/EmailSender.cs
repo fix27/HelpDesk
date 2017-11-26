@@ -17,10 +17,10 @@ namespace HelpDesk.ConsumerEventService.Sender
             this.log = log;
         }
 
-        public void Send(UserEventSubscribeDTO evnt, string subject, string messageTemplate = null)
+        public void Send(UserEventSubscribeDTO msg, string subject, string messageTemplateName = null)
         {
-            var emailHtmlBody = emailTemplateService.GetEmailBody(evnt, messageTemplate);
-            sendEmail(evnt.Email, subject, emailHtmlBody);
+            var emailHtmlBody = emailTemplateService.GetEmailBody(msg, messageTemplateName);
+            sendEmail(msg.Email, subject, emailHtmlBody);
         }
         
 

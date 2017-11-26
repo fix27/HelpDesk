@@ -8,6 +8,9 @@ using HelpDesk.ConsumerEventService.Resources;
 
 namespace HelpDesk.ConsumerEventService.Consumers
 {
+    /// <summary>
+    /// Получатель события "Регистрация в личном кабинете"
+    /// </summary>
     public class UserRegisterAppEventConsumer : IConsumer<IUserRegisterAppEvent>
     {
         private readonly ILog log;

@@ -7,6 +7,9 @@ using System.IO;
 
 namespace HelpDesk.ConsumerEventService.EmailTemplateServices
 {
+    /// <summary>
+    /// RazorEngine Email-шаблонизатор. Шаблоны в виде отдельных cshtml-файлов
+    /// </summary>
     public class RazorEmailTemplateService : IEmailTemplateService
     {
         private readonly string templateFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EmailTemplates");

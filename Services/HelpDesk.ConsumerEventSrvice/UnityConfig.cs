@@ -40,24 +40,23 @@ namespace HelpDesk.ConsumerEventService
             NHibernateDataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
 
-
+            //логеры
             container.RegisterType<ILog>("EmailSender", new InjectionFactory(c => Logger.Get<EmailSender>()));
             container.RegisterType<ILog>("RequestAppEventConsumer", new InjectionFactory(c => Logger.Get<RequestAppEventConsumer>()));
             container.RegisterType<ILog>("RequestDeedlineAppEventConsumer", new InjectionFactory(c => Logger.Get<RequestDeedlineAppEventConsumer>()));
             container.RegisterType<ILog>("UserPasswordRecoveryAppEventConsumer", new InjectionFactory(c => Logger.Get<UserPasswordRecoveryAppEventConsumer>()));
             container.RegisterType<ILog>("UserRegisterAppEventConsumer", new InjectionFactory(c => Logger.Get<UserRegisterAppEventConsumer>()));
 
-            
+            //шаблонизатор
             container.RegisterType<IEmailTemplateService, RazorEmailTemplateService>();
             
-            //IEmailTemplateService emailTemplateService, ILog log
+            //получатели сообщений из шины
             container.RegisterType<ISender, EmailSender>(
                new InjectionConstructor(
                    container.Resolve<IEmailTemplateService>(),
                    container.Resolve<ILog>("EmailSender")
                 ));
 
-            //IQueryRunner queryRunner, ILog log, ISender sender
             container.RegisterType<IConsumer<IRequestAppEvent> , RequestAppEventConsumer>(
                 new InjectionConstructor(
                     container.Resolve<IQueryRunner>(),
@@ -65,7 +64,6 @@ namespace HelpDesk.ConsumerEventService
                     container.Resolve<ISender>()
                 ));
 
-            //IQueryRunner queryRunner, ILog log, ISender sender
             container.RegisterType<IConsumer<IRequestDeedlineAppEvent> , RequestDeedlineAppEventConsumer>(
                 new InjectionConstructor(
                     container.Resolve<IQueryRunner>(),
@@ -73,14 +71,12 @@ namespace HelpDesk.ConsumerEventService
                     container.Resolve<ISender>()
                 ));
 
-            //ILog log, ISender sender
             container.RegisterType<IConsumer<IUserPasswordRecoveryAppEvent> , UserPasswordRecoveryAppEventConsumer>(
                new InjectionConstructor(
                     container.Resolve<ILog>("UserPasswordRecoveryAppEventConsumer"),
                     container.Resolve<ISender>()
                 ));
 
-            //ILog log, ISender sender
             container.RegisterType<IConsumer<IUserRegisterAppEvent> , UserRegisterAppEventConsumer>(
                 new InjectionConstructor(
                     container.Resolve<ILog>("UserRegisterAppEventConsumer"),

@@ -13,6 +13,9 @@ using System.Linq;
 
 namespace HelpDesk.ConsumerEventService.Consumers
 {
+    /// <summary>
+    /// Получатель события "Изменилось состояние заявки"
+    /// </summary>
     public class RequestAppEventConsumer : IConsumer<IRequestAppEvent>
     {
         private readonly ILog log;

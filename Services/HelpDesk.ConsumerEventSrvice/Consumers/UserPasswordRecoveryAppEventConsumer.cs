@@ -8,6 +8,9 @@ using HelpDesk.ConsumerEventService.Resources;
 
 namespace HelpDesk.ConsumerEventService.Consumers
 {
+    /// <summary>
+    /// Получатель события "Восстановление пароля"
+    /// </summary>
     public class UserPasswordRecoveryAppEventConsumer : IConsumer<IUserPasswordRecoveryAppEvent>
     {
         private readonly ILog log;

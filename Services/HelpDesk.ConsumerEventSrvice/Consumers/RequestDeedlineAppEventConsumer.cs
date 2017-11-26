@@ -13,6 +13,9 @@ using HelpDesk.ConsumerEventService.Resources;
 
 namespace HelpDesk.ConsumerEventService.Consumers
 {
+    /// <summary>
+    /// Получатель события "Истекает срок по заявке"
+    /// </summary>
     public class RequestDeedlineAppEventConsumer : IConsumer<IRequestDeedlineAppEvent>
     {
         private readonly ILog log;

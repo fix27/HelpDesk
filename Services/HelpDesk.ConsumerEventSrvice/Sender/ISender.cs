@@ -2,8 +2,17 @@
 
 namespace HelpDesk.ConsumerEventService.Sender
 {
+    /// <summary>
+    /// Отправщик сообщений
+    /// </summary>
     public interface ISender
     {
-        void Send(UserEventSubscribeDTO evnt, string subject, string messageTemplate = null);
+        /// <summary>
+        /// Отправка сообщения
+        /// </summary>
+        /// <param name="evnt">Сообщение</param>
+        /// <param name="subject">Тепа сообщения</param>
+        /// <param name="messageTemplateName">Имя шаблона сообщения</param>
+        void Send(UserEventSubscribeDTO msg, string subject, string messageTemplateName = null);
     }
 }
