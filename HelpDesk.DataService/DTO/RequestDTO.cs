@@ -121,6 +121,8 @@ namespace HelpDesk.DataService.DTO
         public IEnumerable<StatusRequest> AllowableStates { get; set; }
 
         public WorkerUser User { get; set; }
+        
+        
 
         #region только для активных заявок
         /// <summary>
@@ -147,8 +149,8 @@ namespace HelpDesk.DataService.DTO
         {
             get
             {
-                if (DateEndPlan.HasValue && !DateEndFact.HasValue)
-                    return DateEndPlan.Value <= DateTime.Now.AddHours(4) && DateEndPlan.Value > DateTime.Now;
+                if (Object.ObjectType.DeadlineHour > 0 && DateEndPlan.HasValue && !DateEndFact.HasValue)
+                    return DateEndPlan.Value <= DateTime.Now.AddHours(Object.ObjectType.DeadlineHour) && DateEndPlan.Value > DateTime.Now;
 
                 return false;
             }

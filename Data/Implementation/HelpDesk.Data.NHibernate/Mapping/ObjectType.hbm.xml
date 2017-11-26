@@ -4,10 +4,10 @@
          table="ObjectType" 
          mutable="false" lazy="false" where="Archive = 0">
     <id name="Id" type="Int64" column="Id" />
-    <property insert="false" update="false" name="Name" length="200" not-null="true"/>
-    <property insert="false" update="false" name="Soft" type="Boolean" not-null="true"/>
-    <property insert="false" update="false" name="Archive" type="Boolean" not-null="true"/>
-    <property insert="false" update="false" name="CountHour" type="Int32" not-null="true"/>
+    <property insert="false" update="false" name="Name" length="200"           not-null="true"/>
+    <property insert="false" update="false" name="Soft"         type="Boolean" not-null="true"/>
+    <property insert="false" update="false" name="Archive"      type="Boolean" not-null="true"/>
+    <property insert="false" update="false" name="CountHour"    type="Int32"   not-null="true"/>
+    <property insert="false" update="false" name="DeadlineHour" type="Int32"   not-null="true"/>
   </class>
 </hibernate-mapping>
-

@@ -100,6 +100,7 @@
     <Compile Include="Jobs\CalculateRequestDeedlineAppEventJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\RequestDeedlineQuery.cs" />
     <Compile Include="UnityConfig.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +111,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\HelpDesk.Data\HelpDesk.Data.csproj">
+      <Project>{A13CA957-A9B4-4476-BF79-CB115BB611CB}</Project>
+      <Name>HelpDesk.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Implementation\HelpDesk.Data.NHibernate.Repository\HelpDesk.Data.NHibernate.Repository.csproj">
+      <Project>{B2C53EC7-C7D8-4DAD-8BCC-F644E3F5D217}</Project>
+      <Name>HelpDesk.Data.NHibernate.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Implementation\HelpDesk.Data.NHibernate\HelpDesk.Data.NHibernate.csproj">
+      <Project>{C480A8C6-A30E-4519-B2CA-E48B62E53CA6}</Project>
+      <Name>HelpDesk.Data.NHibernate</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\EventBus\HelpDesk.EventBus\HelpDesk.EventBus.csproj">
       <Project>{19ccd73d-255e-408d-ae8f-c2b2ede51b43}</Project>
       <Name>HelpDesk.EventBus</Name>
@@ -118,7 +131,12 @@
       <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
       <Name>HelpDesk.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\HelpDesk.Entity\HelpDesk.Entity.csproj">
+      <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>
+      <Name>HelpDesk.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
