@@ -16,13 +16,13 @@ namespace HelpDesk.ConsumerEventService.Query
         {
             this.requestIds = requestIds;
         }
-                
-        public IEnumerable<UserDeedlineAppEventSubscribeDTO> Run(IQueryable<Request> requests, 
+
+        public IEnumerable<UserDeedlineAppEventSubscribeDTO> Run(IQueryable<Request> requests,
             IQueryable<WorkerUserEventSubscribe> workerUserEventSubscribes,
             IQueryable<AccessWorkerUser> accessWorkerUsers)
         {
             IEnumerable<Request> deedlineRequests = requests.Where(t => requestIds.Contains(t.Id)).ToList();
-            if(deedlineRequests == null || !deedlineRequests.Any())
+            if (!deedlineRequests.Any())
                 return null;
 
             var q = accessWorkerUsers
@@ -40,22 +40,24 @@ namespace HelpDesk.ConsumerEventService.Query
             IList<UserDeedlineAppEventSubscribeDTO> list = new List<UserDeedlineAppEventSubscribeDTO>();
             foreach (var t in q)
             {
-                var u = new UserDeedlineAppEventSubscribeDTO() {Email = t.Email};
-                u.Items = deedlineRequests
-                    .Where(r => t.WorkerIds.Contains(r.Worker.Id))
-                    .Select(r => new DeedlineItem
-                    {
-                        RequestId = r.Id,
-                        RequestStatusName = r.Status.Name,
-                        DateEndPlan = r.DateEndPlan
-                    });
-                list.Add(u);
+                list.Add(new UserDeedlineAppEventSubscribeDTO
+                {
+                    Email = t.Email,
+                    Items = deedlineRequests
+                        .Where(r => t.WorkerIds.Contains(r.Worker.Id))
+                        .Select(r => new DeedlineItem
+                        {
+                            RequestId = r.Id,
+                            RequestStatusName = r.Status.Name,
+                            DateEndPlan = r.DateEndPlan
+                        })
+                });
             }
 
             return list;
         }
 
-        public class GroupedAccessWorkerUser
+        class GroupedAccessWorkerUser
         {
             public string Email { get; set; }
             public IEnumerable<long> WorkerIds { get; set; }
