@@ -2,11 +2,14 @@
 using System.Text;
 using log4net.Config;
 using MassTransit.Log4NetIntegration.Logging;
-using Topshelf;
 using Topshelf.Logging;
 using System;
+using HelpDesk.ConsumerEventService.EmailTemplateServices;
+using Unity;
+using HelpDesk.ConsumerEventService.DTO;
+using Topshelf;
 
-namespace HelpDesk.ConsumerEventSrvice
+namespace HelpDesk.ConsumerEventService
 {
     class Program
     {
@@ -22,6 +25,9 @@ namespace HelpDesk.ConsumerEventSrvice
             Log4NetLogger.Use();
 
             HostFactory.Run(x => x.Service<RequestService>());
+            /*string h = UnityConfig.GetConfiguredContainer().Resolve<IEmailTemplateService>()
+                .GetEmailBody(new UserRequestAppEventSubscribeDTO {RequestId = 20456}, "RequestAppEvent");
+            Console.WriteLine(h);*/
 
             Console.ReadKey();
 

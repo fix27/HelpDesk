@@ -1,7 +1,7 @@
 using HelpDesk.Common.EventBus.AppEvents.Interface;
-using HelpDesk.ConsumerEventSrvice.Consumers;
-using HelpDesk.ConsumerEventSrvice.EmailTemplateServices;
-using HelpDesk.ConsumerEventSrvice.Sender;
+using HelpDesk.ConsumerEventService.Consumers;
+using HelpDesk.ConsumerEventService.EmailTemplateServices;
+using HelpDesk.ConsumerEventService.Sender;
 using HelpDesk.Data;
 using HelpDesk.Data.NHibernate;
 using HelpDesk.Data.NHibernate.Repository;
@@ -13,7 +13,7 @@ using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
 
-namespace HelpDesk.ConsumerEventSrvice
+namespace HelpDesk.ConsumerEventService
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -39,14 +39,23 @@ namespace HelpDesk.ConsumerEventSrvice
             DataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateDataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
-            
-            container.RegisterType<IEmailTemplateService, RazorEmailTemplateService>();
-            container.RegisterType<ISender, EmailSender>(); 
 
+
+            container.RegisterType<ILog>("EmailSender", new InjectionFactory(c => Logger.Get<EmailSender>()));
             container.RegisterType<ILog>("RequestAppEventConsumer", new InjectionFactory(c => Logger.Get<RequestAppEventConsumer>()));
             container.RegisterType<ILog>("RequestDeedlineAppEventConsumer", new InjectionFactory(c => Logger.Get<RequestDeedlineAppEventConsumer>()));
             container.RegisterType<ILog>("UserPasswordRecoveryAppEventConsumer", new InjectionFactory(c => Logger.Get<UserPasswordRecoveryAppEventConsumer>()));
             container.RegisterType<ILog>("UserRegisterAppEventConsumer", new InjectionFactory(c => Logger.Get<UserRegisterAppEventConsumer>()));
+
+            
+            container.RegisterType<IEmailTemplateService, RazorEmailTemplateService>();
+            
+            //IEmailTemplateService emailTemplateService, ILog log
+            container.RegisterType<ISender, EmailSender>(
+               new InjectionConstructor(
+                   container.Resolve<IEmailTemplateService>(),
+                   container.Resolve<ILog>("EmailSender")
+                ));
 
             //IQueryRunner queryRunner, ILog log, ISender sender
             container.RegisterType<IConsumer<IRequestAppEvent> , RequestAppEventConsumer>(

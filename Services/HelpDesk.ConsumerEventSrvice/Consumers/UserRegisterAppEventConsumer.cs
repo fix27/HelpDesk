@@ -2,11 +2,11 @@
 using MassTransit;
 using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
-using HelpDesk.ConsumerEventSrvice.DTO;
-using HelpDesk.ConsumerEventSrvice.Sender;
-using HelpDesk.ConsumerEventSrvice.Resources;
+using HelpDesk.ConsumerEventService.DTO;
+using HelpDesk.ConsumerEventService.Sender;
+using HelpDesk.ConsumerEventService.Resources;
 
-namespace HelpDesk.ConsumerEventSrvice.Consumers
+namespace HelpDesk.ConsumerEventService.Consumers
 {
     public class UserRegisterAppEventConsumer : IConsumer<IUserRegisterAppEvent>
     {

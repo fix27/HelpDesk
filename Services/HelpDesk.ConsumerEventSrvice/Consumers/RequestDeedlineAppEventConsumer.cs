@@ -4,14 +4,14 @@ using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
 using System;
 using HelpDesk.Data.Query;
-using HelpDesk.ConsumerEventSrvice.Sender;
-using HelpDesk.ConsumerEventSrvice.DTO;
+using HelpDesk.ConsumerEventService.Sender;
+using HelpDesk.ConsumerEventService.DTO;
 using System.Collections.Generic;
 using System.Linq;
-using HelpDesk.ConsumerEventSrvice.Query;
-using HelpDesk.ConsumerEventSrvice.Resources;
+using HelpDesk.ConsumerEventService.Query;
+using HelpDesk.ConsumerEventService.Resources;
 
-namespace HelpDesk.ConsumerEventSrvice.Consumers
+namespace HelpDesk.ConsumerEventService.Consumers
 {
     public class RequestDeedlineAppEventConsumer : IConsumer<IRequestDeedlineAppEvent>
     {

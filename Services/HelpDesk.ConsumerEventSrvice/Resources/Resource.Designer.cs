@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HelpDesk.ConsumerEventSrvice.Resources {
+namespace HelpDesk.ConsumerEventService.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace HelpDesk.ConsumerEventSrvice.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HelpDesk.ConsumerEventSrvice.Resources.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HelpDesk.ConsumerEventService.Resources.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -70,7 +70,7 @@ namespace HelpDesk.ConsumerEventSrvice.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Истекает срок выполнения работ по заявке №{1}.
+        ///   Looks up a localized string similar to Истекает срок выполнения работ по заявке №{0}.
         /// </summary>
         internal static string Subject_RequestDeedlineAppEventConsumer {
             get {

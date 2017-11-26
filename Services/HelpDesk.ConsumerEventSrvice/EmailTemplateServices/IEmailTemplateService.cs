@@ -1,6 +1,6 @@
-﻿using HelpDesk.ConsumerEventSrvice.DTO;
+﻿using HelpDesk.ConsumerEventService.DTO;
 
-namespace HelpDesk.ConsumerEventSrvice.EmailTemplateServices
+namespace HelpDesk.ConsumerEventService.EmailTemplateServices
 {
     public interface IEmailTemplateService
     {

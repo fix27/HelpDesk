@@ -5,11 +5,11 @@ using MassTransit.RabbitMqTransport;
 using MassTransit.Util;
 using Topshelf;
 using Topshelf.Logging;
-using HelpDesk.ConsumerEventSrvice.Consumers;
+using HelpDesk.ConsumerEventService.Consumers;
 using Unity;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
 
-namespace HelpDesk.ConsumerEventSrvice
+namespace HelpDesk.ConsumerEventService
 {
     class RequestService: ServiceControl
     {

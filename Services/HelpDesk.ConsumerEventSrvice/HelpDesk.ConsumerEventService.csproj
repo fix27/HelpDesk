@@ -7,8 +7,8 @@
     <ProjectGuid>{3134BB07-0CC4-4EED-A927-D87351199708}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HelpDesk.ConsumerEventSrvice</RootNamespace>
-    <AssemblyName>HelpDesk.ConsumerEventSrvice</AssemblyName>
+    <RootNamespace>HelpDesk.ConsumerEventService</RootNamespace>
+    <AssemblyName>HelpDesk.ConsumerEventService</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -179,10 +179,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="EmailTemplates\RequestDeedlineAppEvent.cshtml" />
-    <None Include="EmailTemplates\UserPasswordRecoveryAppEvent.cshtml" />
-    <None Include="EmailTemplates\UserRegisterAppEvent.cshtml" />
-    <None Include="EmailTemplates\RequestAppEvent.cshtml" />
+    <None Include="EmailTemplates\RequestDeedlineAppEvent.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="EmailTemplates\UserPasswordRecoveryAppEvent.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="EmailTemplates\UserRegisterAppEvent.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="EmailTemplates\RequestAppEvent.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Web.config" />
   </ItemGroup>

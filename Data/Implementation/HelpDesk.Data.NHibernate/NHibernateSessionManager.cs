@@ -4,7 +4,6 @@ using NHibernate;
 using NHibernate.Cache;
 using NHibernate.Cfg;
 using System.Data;
-using System.Threading;
 using System;
 
 namespace HelpDesk.Data.NHibernate

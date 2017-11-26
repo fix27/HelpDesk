@@ -1,4 +1,4 @@
-﻿namespace HelpDesk.ConsumerEventSrvice.DTO
+﻿namespace HelpDesk.ConsumerEventService.DTO
 {
     public class UserEventSubscribeDTO
     {

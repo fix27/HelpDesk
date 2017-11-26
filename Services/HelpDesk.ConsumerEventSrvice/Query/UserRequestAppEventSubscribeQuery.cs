@@ -1,10 +1,10 @@
-﻿using HelpDesk.ConsumerEventSrvice.DTO;
+﻿using HelpDesk.ConsumerEventService.DTO;
 using HelpDesk.Data.Query;
 using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HelpDesk.ConsumerEventSrvice.Query
+namespace HelpDesk.ConsumerEventService.Query
 {
     /// <summary>
     /// Запрос: список рассылки для подписанных на событие пользователей личного кабинета и Исполнителя

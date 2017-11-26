@@ -1,10 +1,10 @@
-﻿using HelpDesk.ConsumerEventSrvice.DTO;
+﻿using HelpDesk.ConsumerEventService.DTO;
 using HelpDesk.Data.Query;
 using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HelpDesk.ConsumerEventSrvice.Query
+namespace HelpDesk.ConsumerEventService.Query
 {
     /// <summary>
     /// Запрос: список рассылки для подписанных на оповещение об истечении срока пользователей Исполнителя
@@ -25,28 +25,17 @@ namespace HelpDesk.ConsumerEventSrvice.Query
             if(request == null)
                 return null;
 
-            IEnumerable<long> userIds = accessWorkerUser
+            return accessWorkerUser
                 .Where(t => t.Worker.Id == request.Worker.Id)
-                .Select(t => t.User.Id)
+                .Select(t => new UserDeedlineAppEventSubscribeDTO
+                {
+                    RequestId = requestId,
+                    RequestStatusName = request.Status.Name,
+                    Email = t.User.Email,
+                    DateEndPlan = request.DateEndPlan
+                })
                 .ToList();
-
-            if (userIds.Any())
-            {
-                IEnumerable<UserDeedlineAppEventSubscribeDTO> ws =
-                    workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id))
-                        .Select(t => new UserDeedlineAppEventSubscribeDTO
-                        {
-                            RequestId = requestId,
-                            RequestStatusName = request.Status.Name,
-                            Email = t.User.Email,
-                            DateEndPlan = request.DateEndPlan
-                        })
-                        .ToList();
-
-                return ws;
-            }
-
-            return null;
+            
         }
     }
 }

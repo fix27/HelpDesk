@@ -1,6 +1,6 @@
-﻿using HelpDesk.ConsumerEventSrvice.DTO;
+﻿using HelpDesk.ConsumerEventService.DTO;
 
-namespace HelpDesk.ConsumerEventSrvice.Sender
+namespace HelpDesk.ConsumerEventService.Sender
 {
     public interface ISender
     {

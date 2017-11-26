@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
-using HelpDesk.ConsumerEventSrvice.Query;
+using HelpDesk.ConsumerEventService.Query;
 using HelpDesk.Data.Query;
-using HelpDesk.ConsumerEventSrvice.DTO;
+using HelpDesk.ConsumerEventService.DTO;
 using System.Collections.Generic;
-using HelpDesk.ConsumerEventSrvice.Sender;
-using HelpDesk.ConsumerEventSrvice.Resources;
+using HelpDesk.ConsumerEventService.Sender;
+using HelpDesk.ConsumerEventService.Resources;
 using System.Linq;
 
-namespace HelpDesk.ConsumerEventSrvice.Consumers
+namespace HelpDesk.ConsumerEventService.Consumers
 {
     public class RequestAppEventConsumer : IConsumer<IRequestAppEvent>
     {
@@ -25,15 +25,21 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
             this.sender = sender;
         }
 
+        static object lockObj = new object();
         public async Task Consume(ConsumeContext<IRequestAppEvent> context)
         {
             log.InfoFormat("RequestAppEventConsumer: RequestEventId = {0}", context.Message.RequestEventId);
-            IEnumerable<UserRequestAppEventSubscribeDTO> list =
-                queryRunner.Run(new UserRequestAppEventSubscribeQuery(context.Message.RequestEventId));
+
+            IEnumerable<UserRequestAppEventSubscribeDTO> list = null;
+            lock (lockObj)
+            {
+                list = queryRunner.Run(new UserRequestAppEventSubscribeQuery(context.Message.RequestEventId));
+            }
+            
             if (list == null || !list.Any())
                 return;
 
-            await Task.Run(() =>
+            var t =  Task.Run(() =>
             {
                 foreach (var evnt in list)
                 {
@@ -42,6 +48,8 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
                         evnt.RequestId, evnt.RequestStatusName, evnt.Email);
                 }
             });
+
+            await t;
         }        
     }
 }
