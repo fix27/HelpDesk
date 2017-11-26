@@ -29,9 +29,8 @@ namespace HelpDesk.CalculateEventService.Jobs
             if(requestIds == null || !requestIds.Any())
                 return;
 
-            foreach (var requestId in requestIds)
-                queue.Push(new RequestDeedlineAppEvent { RequestId = requestId });
-
+            queue.Push(new RequestDeedlineAppEvent { RequestIds = requestIds });
+            
             log.Info("Push events in bus OK");
         }
     }

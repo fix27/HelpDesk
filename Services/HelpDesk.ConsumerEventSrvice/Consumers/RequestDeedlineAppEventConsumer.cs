@@ -2,7 +2,6 @@
 using MassTransit;
 using MassTransit.Logging;
 using HelpDesk.Common.EventBus.AppEvents.Interface;
-using System;
 using HelpDesk.Data.Query;
 using HelpDesk.ConsumerEventService.Sender;
 using HelpDesk.ConsumerEventService.DTO;
@@ -32,12 +31,12 @@ namespace HelpDesk.ConsumerEventService.Consumers
         static object lockObj = new object();
         public async Task Consume(ConsumeContext<IRequestDeedlineAppEvent> context)
         {
-            log.InfoFormat("RequestDeedlineAppEventConsumer: RequestId = {0}", context.Message.RequestId);
+            log.InfoFormat("RequestDeedlineAppEventConsumer: RequestIds.Count = {0}", context.Message.RequestIds.Count());
 
             IEnumerable<UserDeedlineAppEventSubscribeDTO> list = null;
             lock (lockObj)
             {
-                list = queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestId));
+                list = queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestIds)); 
             }
             if (list == null || !list.Any())
                 return;
@@ -45,9 +44,8 @@ namespace HelpDesk.ConsumerEventService.Consumers
             {
                 foreach (var evnt in list)
                 {
-                    sender.Send(evnt, String.Format(Resource.Subject_RequestDeedlineAppEventConsumer, evnt.RequestId), "RequestDeedlineAppEvent");
-                    log.InfoFormat("RequestDeedlineAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
-                        evnt.RequestId, evnt.RequestStatusName, evnt.Email);
+                    sender.Send(evnt, Resource.Subject_RequestDeedlineAppEventConsumer, "RequestDeedlineAppEvent");
+                    log.InfoFormat("RequestDeedlineAppEventConsumer Send OK: Email = {0}", evnt.Email);
                 }
             });
         }

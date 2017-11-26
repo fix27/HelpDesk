@@ -121,7 +121,7 @@
     <value>Заявка №{0} ({1})</value>
   </data>
   <data name="Subject_RequestDeedlineAppEventConsumer" xml:space="preserve">
-    <value>Истекает срок выполнения работ по заявке №{0}</value>
+    <value>Истекает срок выполнения работ по заявкам</value>
   </data>
   <data name="Subject_UserPasswordRecoveryAppEventConsumer" xml:space="preserve">
     <value>Восстановление пароля</value>

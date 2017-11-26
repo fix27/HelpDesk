@@ -11,31 +11,54 @@ namespace HelpDesk.ConsumerEventService.Query
     /// </summary>
     public class UserRequestDeedlineAppEventSubscribeQuery : IQuery<IEnumerable<UserDeedlineAppEventSubscribeDTO>, Request, WorkerUserEventSubscribe, AccessWorkerUser>
     {
-        private readonly long requestId;
-        public UserRequestDeedlineAppEventSubscribeQuery(long requestId)
+        private readonly IEnumerable<long> requestIds;
+        public UserRequestDeedlineAppEventSubscribeQuery(IEnumerable<long> requestIds)
         {
-            this.requestId = requestId;
+            this.requestIds = requestIds;
         }
                 
         public IEnumerable<UserDeedlineAppEventSubscribeDTO> Run(IQueryable<Request> requests, 
             IQueryable<WorkerUserEventSubscribe> workerUserEventSubscribes,
-            IQueryable<AccessWorkerUser> accessWorkerUser)
+            IQueryable<AccessWorkerUser> accessWorkerUsers)
         {
-            Request request = requests.FirstOrDefault(t => t.Id == requestId);
-            if(request == null)
+            IEnumerable<Request> deedlineRequests = requests.Where(t => requestIds.Contains(t.Id)).ToList();
+            if(deedlineRequests == null || !deedlineRequests.Any())
                 return null;
 
-            return accessWorkerUser
-                .Where(t => t.Worker.Id == request.Worker.Id)
-                .Select(t => new UserDeedlineAppEventSubscribeDTO
+            var q = accessWorkerUsers
+                .Where(t => deedlineRequests.Select(r => r.Worker.Id).Contains(t.Worker.Id))
+                .GroupBy(a => a.User.Email)
+                .Select(g => new GroupedAccessWorkerUser
                 {
-                    RequestId = requestId,
-                    RequestStatusName = request.Status.Name,
-                    Email = t.User.Email,
-                    DateEndPlan = request.DateEndPlan
-                })
-                .ToList();
-            
+                    Email = g.Key,
+                    WorkerIds = g.Select(w => w.Worker.Id)
+                });
+
+            if (!q.Any())
+                return null;
+
+            IList<UserDeedlineAppEventSubscribeDTO> list = new List<UserDeedlineAppEventSubscribeDTO>();
+            foreach (var t in q)
+            {
+                var u = new UserDeedlineAppEventSubscribeDTO() {Email = t.Email};
+                u.Items = deedlineRequests
+                    .Where(r => t.WorkerIds.Contains(r.Worker.Id))
+                    .Select(r => new DeedlineItem
+                    {
+                        RequestId = r.Id,
+                        RequestStatusName = r.Status.Name,
+                        DateEndPlan = r.DateEndPlan
+                    });
+                list.Add(u);
+            }
+
+            return list;
+        }
+
+        public class GroupedAccessWorkerUser
+        {
+            public string Email { get; set; }
+            public IEnumerable<long> WorkerIds { get; set; }
         }
     }
 }

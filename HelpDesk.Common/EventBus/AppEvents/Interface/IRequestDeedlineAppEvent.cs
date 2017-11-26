@@ -1,4 +1,6 @@
-﻿namespace HelpDesk.Common.EventBus.AppEvents.Interface
+﻿using System.Collections.Generic;
+
+namespace HelpDesk.Common.EventBus.AppEvents.Interface
 {
     /// <summary>
     /// Событие "Истекает срок по заявке"
@@ -6,8 +8,8 @@
     public interface IRequestDeedlineAppEvent : IAppEvent
     {
         /// <summary>
-        /// Id заявки
+        /// Id заявок
         /// </summary>
-        long RequestId { get; }
+        IEnumerable<long> RequestIds { get; }
     }
 }

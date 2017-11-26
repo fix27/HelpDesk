@@ -70,7 +70,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Истекает срок выполнения работ по заявке №{0}.
+        ///   Looks up a localized string similar to Истекает срок выполнения работ по заявкам.
         /// </summary>
         internal static string Subject_RequestDeedlineAppEventConsumer {
             get {
