@@ -26,11 +26,16 @@ namespace HelpDesk.ConsumerEventSrvice.Consumers
             this.sender = sender;
         }
 
+        static object lockObj = new object();
         public async Task Consume(ConsumeContext<IRequestDeedlineAppEvent> context)
         {
             log.InfoFormat("RequestDeedlineAppEventConsumer: RequestId = {0}", context.Message.RequestId);
-            IEnumerable<UserDeedlineAppEventSubscribeDTO> list =
-                queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestId));
+
+            IEnumerable<UserDeedlineAppEventSubscribeDTO> list = null;
+            lock (lockObj)
+            {
+                list = queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestId));
+            }
             if (list == null || !list.Any())
                 return;
             await Task.Run(() =>
