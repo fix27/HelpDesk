@@ -13,6 +13,6 @@
         /// <summary>
         /// Состояние заявки
         /// </summary>
-        public virtual StatusRequest StatusRequest { get; set; }
+        public StatusRequest StatusRequest { get; set; }
     }
 }

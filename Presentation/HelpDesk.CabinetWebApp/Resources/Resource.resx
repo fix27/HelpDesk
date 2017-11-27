@@ -126,9 +126,6 @@
   <data name="Action_Register" xml:space="preserve">
     <value>Зарегистрироваться</value>
   </data>
-  <data name="Action_Transfer" xml:space="preserve">
-    <value>Перевести</value>
-  </data>
   <data name="ErrorMessage_ConfirmPassword" xml:space="preserve">
     <value>Пароль и его подтверждение не совпадают</value>
   </data>
@@ -138,20 +135,11 @@
   <data name="InvalidReCaptcha" xml:space="preserve">
     <value>Вы не подтвердили, что Вы не робот</value>
   </data>
-  <data name="Label_Amount" xml:space="preserve">
-    <value>Сумма</value>
-  </data>
-  <data name="Label_Balance" xml:space="preserve">
-    <value>Баланс</value>
-  </data>
   <data name="Label_ChooseLang" xml:space="preserve">
     <value>Язык</value>
   </data>
   <data name="Label_ConfirmPassword" xml:space="preserve">
     <value>Подтверждение пароля</value>
-  </data>
-  <data name="Label_Correspondent" xml:space="preserve">
-    <value>Корреспондент</value>
   </data>
   <data name="Label_DateTime" xml:space="preserve">
     <value>Дата/время</value>
@@ -170,9 +158,6 @@
   </data>
   <data name="Label_TotalCount" xml:space="preserve">
     <value>Всего записей</value>
-  </data>
-  <data name="Label_ToWhom" xml:space="preserve">
-    <value>Кому</value>
   </data>
   <data name="Label_FM" xml:space="preserve">
     <value>Фамилия</value>
@@ -194,9 +179,6 @@
   </data>
   <data name="Message_RequestComplete" xml:space="preserve">
     <value>Заявка успешно сохранена</value>
-  </data>
-  <data name="Placeholder_Amount" xml:space="preserve">
-    <value>Введите сумму</value>
   </data>
   <data name="Placeholder_Name" xml:space="preserve">
     <value>Введите имя</value>

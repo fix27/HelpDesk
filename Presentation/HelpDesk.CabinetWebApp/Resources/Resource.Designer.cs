@@ -187,15 +187,6 @@ namespace HelpDesk.CabinetWebApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перевести.
-        /// </summary>
-        public static string Action_Transfer {
-            get {
-                return ResourceManager.GetString("Action_Transfer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Обновить.
         /// </summary>
         public static string Action_Update {
@@ -304,29 +295,11 @@ namespace HelpDesk.CabinetWebApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сумма.
-        /// </summary>
-        public static string Label_Amount {
-            get {
-                return ResourceManager.GetString("Label_Amount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Архив.
         /// </summary>
         public static string Label_Archive {
             get {
                 return ResourceManager.GetString("Label_Archive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Баланс.
-        /// </summary>
-        public static string Label_Balance {
-            get {
-                return ResourceManager.GetString("Label_Balance", resourceCulture);
             }
         }
         
@@ -354,15 +327,6 @@ namespace HelpDesk.CabinetWebApp.Resources {
         public static string Label_ConfirmPassword {
             get {
                 return ResourceManager.GetString("Label_ConfirmPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Корреспондент.
-        /// </summary>
-        public static string Label_Correspondent {
-            get {
-                return ResourceManager.GetString("Label_Correspondent", resourceCulture);
             }
         }
         
@@ -655,15 +619,6 @@ namespace HelpDesk.CabinetWebApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Кому.
-        /// </summary>
-        public static string Label_ToWhom {
-            get {
-                return ResourceManager.GetString("Label_ToWhom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Тип работ.
         /// </summary>
         public static string Label_WorkTypeName {
@@ -768,15 +723,6 @@ namespace HelpDesk.CabinetWebApp.Resources {
         public static string Message_RequestEdit {
             get {
                 return ResourceManager.GetString("Message_RequestEdit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Введите сумму.
-        /// </summary>
-        public static string Placeholder_Amount {
-            get {
-                return ResourceManager.GetString("Placeholder_Amount", resourceCulture);
             }
         }
         
