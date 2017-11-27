@@ -41,7 +41,7 @@ namespace HelpDesk.ConsumerEventService
             DataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateDataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
-
+            DataServiceCommonInstaller.Install(container);
             //логеры
             container.RegisterType<ILog>("EmailSender", new InjectionFactory(c => Logger.Get<EmailSender>()));
             container.RegisterType<ILog>("RequestAppEventConsumer", new InjectionFactory(c => Logger.Get<RequestAppEventConsumer>()));

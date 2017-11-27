@@ -22,7 +22,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource {
+    public class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HelpDesk.ConsumerEventService.Resources.Resource", typeof(Resource).Assembly);
@@ -51,7 +51,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Заявка №{0} ({1}).
         /// </summary>
-        internal static string Subject_RequestAppEventConsumer {
+        public static string Subject_RequestAppEventConsumer {
             get {
                 return ResourceManager.GetString("Subject_RequestAppEventConsumer", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Истекает срок выполнения работ по заявкам.
         /// </summary>
-        internal static string Subject_RequestDeedlineAppEventConsumer {
+        public static string Subject_RequestDeedlineAppEventConsumer {
             get {
                 return ResourceManager.GetString("Subject_RequestDeedlineAppEventConsumer", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Восстановление пароля.
         /// </summary>
-        internal static string Subject_UserPasswordRecoveryAppEventConsumer {
+        public static string Subject_UserPasswordRecoveryAppEventConsumer {
             get {
                 return ResourceManager.GetString("Subject_UserPasswordRecoveryAppEventConsumer", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Регистрация в системе HelpDesk.
         /// </summary>
-        internal static string Subject_UserRegisterAppEventConsumer {
+        public static string Subject_UserRegisterAppEventConsumer {
             get {
                 return ResourceManager.GetString("Subject_UserRegisterAppEventConsumer", resourceCulture);
             }

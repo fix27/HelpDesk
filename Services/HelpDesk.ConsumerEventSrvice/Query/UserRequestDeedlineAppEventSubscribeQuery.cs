@@ -25,7 +25,7 @@ namespace HelpDesk.ConsumerEventService.Query
             if (!deedlineRequests.Any())
                 return null;
 
-            var q = accessWorkerUsers
+            var q = accessWorkerUsers.ToList()
                 .Where(t => deedlineRequests.Select(r => r.Worker.Id).Contains(t.Worker.Id))
                 .GroupBy(a => a.User.Email)
                 .Select(g => new GroupedAccessWorkerUser

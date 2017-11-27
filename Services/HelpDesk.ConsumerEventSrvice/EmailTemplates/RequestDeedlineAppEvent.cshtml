@@ -9,18 +9,18 @@
     <meta charset="utf-8" />
 </head>
 <body>
-    <h>@Resourse.Subject_RequestDeedlineAppEventConsumer</h>
+    <h>@Resource.Subject_RequestDeedlineAppEventConsumer</h>
     <p>
-        <li>
-            @foreach (var item in Model)
+        <ul>
+            @foreach (var item in Model.Items)
             {
-                <ul>
+                <li>
                     <span>@item.RequestId</span>
                     <span>@item.RequestStatusName</span>
                     <span>@item.DateEndPlan</span>
-                </ul>
+                </li>
             }
-        </li>
+        </ul>
     </p>
 
     

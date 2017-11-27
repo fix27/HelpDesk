@@ -46,7 +46,8 @@ namespace HelpDesk.CalculateEventService
 
                 // Tell quartz to schedule the job using our trigger
                 scheduler.ScheduleJob(job, trigger);
-                
+
+                //Thread.Sleep(1000);
             }
             catch (SchedulerException se)
             {

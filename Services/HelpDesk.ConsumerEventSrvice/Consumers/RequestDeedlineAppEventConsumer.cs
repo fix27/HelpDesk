@@ -38,6 +38,7 @@ namespace HelpDesk.ConsumerEventService.Consumers
             {
                 list = queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestIds)); 
             }
+            log.InfoFormat("-----------------------------: list.Count = {0}", list.Count());
             if (list == null || !list.Any())
                 return;
             await Task.Run(() =>
