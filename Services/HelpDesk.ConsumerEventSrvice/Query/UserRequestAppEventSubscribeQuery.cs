@@ -10,8 +10,8 @@ using System.Linq;
 namespace HelpDesk.ConsumerEventService.Query
 {
     /// <summary>
-    /// Запрос: списки рассылки для подписанных на событие пользователей Исполнителя (первый) 
-    /// и пользователей личного кабинета (второй)
+    /// Запрос: списки рассылки для подписанных на событие пользователей Исполнителя (первый элемент Tuple) 
+    /// и пользователей личного кабинета (второй элемент Tuple)
     /// </summary>
     public class UserRequestAppEventSubscribeQuery : IQuery<Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>>, 
         Request, RequestEvent, CabinetUserEventSubscribe, WorkerUserEventSubscribe, AccessWorkerUser>
@@ -59,8 +59,6 @@ namespace HelpDesk.ConsumerEventService.Query
                     DateEndPlan = request.DateEndPlan
                 })
                 .ToList();
-
-            cs = cs.Union(ws);
 
             return new Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, 
                              IEnumerable<UserRequestAppEventSubscribeDTO>>(ws, cs);
