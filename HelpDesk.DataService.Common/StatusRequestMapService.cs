@@ -1,9 +1,9 @@
-﻿using HelpDesk.DataService.Interface;
-using HelpDesk.DataService.DTO;
+﻿using HelpDesk.DataService.Common.Interface;
+using HelpDesk.DataService.Common.DTO;
 using System.Collections.Generic;
 
 
-namespace HelpDesk.DataService
+namespace HelpDesk.DataService.Common
 {
     public class StatusRequestMapService: IStatusRequestMapService
     {

@@ -1,4 +1,5 @@
 ﻿using HelpDesk.Common.Helpers;
+using HelpDesk.DataService.Common.DTO;
 using HelpDesk.Entity;
 using System;
 

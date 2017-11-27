@@ -15,6 +15,7 @@ using System.Web.Configuration;
 using Unity.AspNet.Mvc;
 using Unity;
 using Unity.Exceptions;
+using HelpDesk.DataService.Common;
 
 namespace HelpDesk.WorkerWebApp.App_Start
 {
@@ -71,6 +72,7 @@ namespace HelpDesk.WorkerWebApp.App_Start
             //регистраци€ ћигратора
             MigratorInstaller.Install(container, connectionString);
 
+            DataServiceCommonInstaller.Install(container);
             //регистраци€ дата-сервисов
             DataServiceInstaller.Install(container);
 

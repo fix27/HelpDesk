@@ -2,6 +2,7 @@
 using HelpDesk.Common.Helpers;
 using System;
 using HelpDesk.DataService.DTO;
+using HelpDesk.DataService.Common.DTO;
 
 namespace HelpDesk.DataService.Filters
 {

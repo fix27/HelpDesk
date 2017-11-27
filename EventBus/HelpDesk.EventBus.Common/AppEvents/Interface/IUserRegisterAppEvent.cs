@@ -1,4 +1,4 @@
-﻿namespace HelpDesk.Common.EventBus.AppEvents.Interface
+﻿namespace HelpDesk.EventBus.Common.AppEvents.Interface
 {
     /// <summary>
     /// Событие "Регистрация в личном кабинете" 

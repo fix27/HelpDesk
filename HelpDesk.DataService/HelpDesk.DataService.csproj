@@ -105,7 +105,6 @@
     </Compile>
     <Compile Include="DTO\SimpleDTO.cs" />
     <Compile Include="DTO\StatusRequestDTO.cs" />
-    <Compile Include="DTO\StatusRequestEnum.cs" />
     <Compile Include="DTO\WareDTO.cs" />
     <Compile Include="DTO\WorkerUserDTO.cs" />
     <Compile Include="DTO\Year.cs" />
@@ -141,7 +140,6 @@
     <Compile Include="Interface\IPostService.cs" />
     <Compile Include="Interface\ISettingsService.cs" />
     <Compile Include="Interface\IRequestConstraintsService.cs" />
-    <Compile Include="Interface\IStatusRequestMapService.cs" />
     <Compile Include="Interface\ICabinetUserService.cs" />
     <Compile Include="Query\AllowableObjectTypeQuery.cs" />
     <Compile Include="Query\AllowableObjectISQuery.cs" />
@@ -169,8 +167,6 @@
     <Compile Include="Specification\SimpleEntityByNameLikeSpecification.cs" />
     <Compile Include="Specification\RequestFileByNameAndForignKeyOrTempKeySpecification.cs" />
     <Compile Include="SettingsService.cs" />
-    <Compile Include="StatusRequestFactorization.cs" />
-    <Compile Include="StatusRequestMapService.cs" />
     <Compile Include="CabinetUserService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +193,17 @@
       <Project>{B2C53EC7-C7D8-4DAD-8BCC-F644E3F5D217}</Project>
       <Name>HelpDesk.Data.NHibernate.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EventBus\HelpDesk.EventBus.Common\HelpDesk.EventBus.Common.csproj">
+      <Project>{55804dbf-6229-4f0c-81dc-88472a707e6a}</Project>
+      <Name>HelpDesk.EventBus.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpDesk.Common\HelpDesk.Common.csproj">
       <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
       <Name>HelpDesk.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HelpDesk.DataService.Common\HelpDesk.DataService.Common.csproj">
+      <Project>{c0fa0e99-27f2-49fe-84f3-d10e79c8636a}</Project>
+      <Name>HelpDesk.DataService.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\HelpDesk.Entity\HelpDesk.Entity.csproj">
       <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>

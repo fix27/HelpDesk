@@ -1,6 +1,6 @@
-﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
+﻿using HelpDesk.EventBus.Common.AppEvents.Interface;
 
-namespace HelpDesk.Common.EventBus.Interface
+namespace HelpDesk.EventBus.Common.Interface
 {
     /// <summary>
     /// Очередь сообщений некоторого типа (физически для всех типов сообщений используется одна очередь)

@@ -1,23 +1,30 @@
-﻿using HelpDesk.ConsumerEventService.DTO;
+﻿using HelpDesk.Common.Helpers;
+using HelpDesk.ConsumerEventService.DTO;
 using HelpDesk.Data.Query;
+using HelpDesk.DataService.Common.DTO;
 using HelpDesk.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HelpDesk.ConsumerEventService.Query
 {
     /// <summary>
-    /// Запрос: список рассылки для подписанных на событие пользователей личного кабинета и Исполнителя
+    /// Запрос: списки рассылки для подписанных на событие пользователей Исполнителя (первый) 
+    /// и пользователей личного кабинета (второй)
     /// </summary>
-    public class UserRequestAppEventSubscribeQuery : IQuery<IEnumerable<UserRequestAppEventSubscribeDTO>, Request, RequestEvent, CabinetUserEventSubscribe, WorkerUserEventSubscribe, AccessWorkerUser>
+    public class UserRequestAppEventSubscribeQuery : IQuery<Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>>, 
+        Request, RequestEvent, CabinetUserEventSubscribe, WorkerUserEventSubscribe, AccessWorkerUser>
     {
         private readonly long requestEventId;
-        public UserRequestAppEventSubscribeQuery(long requestEventId)
+        private readonly Func<long, StatusRequestEnum> getEquivalenceByElement;
+        public UserRequestAppEventSubscribeQuery(long requestEventId, Func<long, StatusRequestEnum> getEquivalenceByElement)
         {
             this.requestEventId = requestEventId;
+            this.getEquivalenceByElement = getEquivalenceByElement;
         }
                 
-        public IEnumerable<UserRequestAppEventSubscribeDTO> Run(IQueryable<Request> requests, IQueryable<RequestEvent> events, 
+        public Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>> Run(IQueryable<Request> requests, IQueryable<RequestEvent> events, 
             IQueryable<CabinetUserEventSubscribe> cabinetUserEventSubscribes,
             IQueryable<WorkerUserEventSubscribe> workerUserEventSubscribes,
             IQueryable<AccessWorkerUser> accessWorkerUser)
@@ -36,11 +43,12 @@ namespace HelpDesk.ConsumerEventService.Query
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
                     RequestId = request.Id,
-                    RequestStatusName = request.Status.Name,
+                    RequestStatusName = getEquivalenceByElement(request.Status.Id).GetDisplayName(),
                     Email = t.User.Email,
                     DateEndPlan = request.DateEndPlan
                 })
                 .ToList();
+
             IEnumerable<UserRequestAppEventSubscribeDTO> ws =
                 workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id) && t.User.Id != request.User.Id && t.User.Subscribe)
                 .Select(t => new UserRequestAppEventSubscribeDTO
@@ -51,8 +59,11 @@ namespace HelpDesk.ConsumerEventService.Query
                     DateEndPlan = request.DateEndPlan
                 })
                 .ToList();
-            
-            return cs.Union(ws);
+
+            cs = cs.Union(ws);
+
+            return new Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, 
+                             IEnumerable<UserRequestAppEventSubscribeDTO>>(ws, cs);
         }
     }
 }

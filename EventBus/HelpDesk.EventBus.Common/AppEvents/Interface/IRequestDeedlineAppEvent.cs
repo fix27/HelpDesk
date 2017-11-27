@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using HelpDesk.EventBus.Common.AppEvents.Interface;
+using System.Collections.Generic;
 
-namespace HelpDesk.Common.EventBus.AppEvents.Interface
+namespace HelpDesk.EventBus.Common.AppEvents.Interface
 {
     /// <summary>
     /// Событие "Истекает срок по заявке"

@@ -7,7 +7,7 @@ using Topshelf;
 using Topshelf.Logging;
 using HelpDesk.ConsumerEventService.Consumers;
 using Unity;
-using HelpDesk.Common.EventBus.AppEvents.Interface;
+using HelpDesk.EventBus.Common.AppEvents.Interface;
 
 namespace HelpDesk.ConsumerEventService
 {
@@ -33,7 +33,7 @@ namespace HelpDesk.ConsumerEventService
                 {
                     e.Consumer(typeof(RequestAppEventConsumer), 
                         t => UnityConfig.GetConfiguredContainer().Resolve<IConsumer<IRequestAppEvent>>());
-
+                                       
                     e.Consumer(typeof(RequestDeedlineAppEventConsumer),
                         t => UnityConfig.GetConfiguredContainer().Resolve<IConsumer<IRequestDeedlineAppEvent>>());
 

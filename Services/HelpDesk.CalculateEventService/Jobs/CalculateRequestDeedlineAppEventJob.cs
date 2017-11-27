@@ -1,7 +1,7 @@
 ﻿using HelpDesk.CalculateEventService.Query;
-using HelpDesk.Common.EventBus.AppEvents;
-using HelpDesk.Common.EventBus.AppEvents.Interface;
-using HelpDesk.Common.EventBus.Interface;
+using HelpDesk.EventBus.Common.AppEvents;
+using HelpDesk.EventBus.Common.AppEvents.Interface;
+using HelpDesk.EventBus.Common.Interface;
 using HelpDesk.Data.Query;
 using MassTransit.Logging;
 using Quartz;

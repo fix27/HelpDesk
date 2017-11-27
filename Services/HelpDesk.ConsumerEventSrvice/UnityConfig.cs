@@ -1,4 +1,4 @@
-using HelpDesk.Common.EventBus.AppEvents.Interface;
+using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.ConsumerEventService.Consumers;
 using HelpDesk.ConsumerEventService.EmailTemplateServices;
 using HelpDesk.ConsumerEventService.Sender;
@@ -6,6 +6,8 @@ using HelpDesk.Data;
 using HelpDesk.Data.NHibernate;
 using HelpDesk.Data.NHibernate.Repository;
 using HelpDesk.Data.Query;
+using HelpDesk.DataService.Common;
+using HelpDesk.DataService.Common.Interface;
 using MassTransit;
 using MassTransit.Logging;
 using System;
@@ -57,9 +59,11 @@ namespace HelpDesk.ConsumerEventService
                    container.Resolve<ILog>("EmailSender")
                 ));
 
+            DataServiceCommonInstaller.Install(container);
             container.RegisterType<IConsumer<IRequestAppEvent> , RequestAppEventConsumer>(
                 new InjectionConstructor(
                     container.Resolve<IQueryRunner>(),
+                    container.Resolve<IStatusRequestMapService>(),
                     container.Resolve<ILog>("RequestAppEventConsumer"),
                     container.Resolve<ISender>()
                 ));

@@ -1,5 +1,5 @@
-﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
-using HelpDesk.Common.EventBus.Interface;
+﻿using HelpDesk.EventBus.Common.AppEvents.Interface;
+using HelpDesk.EventBus.Common.Interface;
 using MassTransit;
 
 namespace HelpDesk.EventBus

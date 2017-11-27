@@ -165,8 +165,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Consumers\RequestAppEventConsumer.cs" />
-    <Compile Include="Query\UserRequestDeedlineAppEventSubscribeQuery.cs" />
     <Compile Include="Query\UserRequestAppEventSubscribeQuery.cs" />
+    <Compile Include="Query\UserRequestDeedlineAppEventSubscribeQuery.cs" />
     <Compile Include="RequestService.cs" />
     <Compile Include="Resources\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -179,6 +179,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="EmailTemplates\RequestAppEventWorker.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="EmailTemplates\RequestDeedlineAppEvent.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -188,7 +191,7 @@
     <None Include="EmailTemplates\UserRegisterAppEvent.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="EmailTemplates\RequestAppEvent.cshtml">
+    <None Include="EmailTemplates\RequestAppEventCabinet.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -207,9 +210,17 @@
       <Project>{c480a8c6-a30e-4519-b2ca-e48b62e53ca6}</Project>
       <Name>HelpDesk.Data.NHibernate</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\EventBus\HelpDesk.EventBus.Common\HelpDesk.EventBus.Common.csproj">
+      <Project>{55804dbf-6229-4f0c-81dc-88472a707e6a}</Project>
+      <Name>HelpDesk.EventBus.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\HelpDesk.Common\HelpDesk.Common.csproj">
       <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
       <Name>HelpDesk.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\HelpDesk.DataService.Common\HelpDesk.DataService.Common.csproj">
+      <Project>{c0fa0e99-27f2-49fe-84f3-d10e79c8636a}</Project>
+      <Name>HelpDesk.DataService.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\HelpDesk.Entity\HelpDesk.Entity.csproj">
       <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>

@@ -143,6 +143,10 @@
       <Project>{C480A8C6-A30E-4519-B2CA-E48B62E53CA6}</Project>
       <Name>HelpDesk.Data.NHibernate</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\EventBus\HelpDesk.EventBus.Common\HelpDesk.EventBus.Common.csproj">
+      <Project>{55804dbf-6229-4f0c-81dc-88472a707e6a}</Project>
+      <Name>HelpDesk.EventBus.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\EventBus\HelpDesk.EventBus\HelpDesk.EventBus.csproj">
       <Project>{19ccd73d-255e-408d-ae8f-c2b2ede51b43}</Project>
       <Name>HelpDesk.EventBus</Name>

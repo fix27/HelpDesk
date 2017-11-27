@@ -77,16 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConstants.cs" />
-    <Compile Include="EventBus\AppEvents\Interface\IAppEvent.cs" />
-    <Compile Include="EventBus\AppEvents\Interface\IRequestDeedlineAppEvent.cs" />
-    <Compile Include="EventBus\AppEvents\Interface\IUserPasswordRecoveryAppEvent.cs" />
-    <Compile Include="EventBus\AppEvents\Interface\IUserRegisterAppEvent.cs" />
-    <Compile Include="EventBus\AppEvents\Interface\IRequestAppEvent.cs" />
-    <Compile Include="EventBus\AppEvents\UserRegisterAppEvent.cs" />
-    <Compile Include="EventBus\AppEvents\UserPasswordRecoveryAppEvent.cs" />
-    <Compile Include="EventBus\AppEvents\RequestDeedlineAppEvent.cs" />
-    <Compile Include="EventBus\AppEvents\RequestAppEvent.cs" />
-    <Compile Include="EventBus\Interface\IQueue.cs" />
     <Compile Include="Helpers\EnumExtensions.cs" />
     <Compile Include="Helpers\ExpressionExtensions.cs" />
     <Compile Include="Helpers\ImageExtensions.cs" />

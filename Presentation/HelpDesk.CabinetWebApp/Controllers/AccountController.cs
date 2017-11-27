@@ -18,9 +18,9 @@ using System;
 using System.Net.Configuration;
 using System.Configuration;
 using log4net;
-using HelpDesk.Common.EventBus.AppEvents.Interface;
-using HelpDesk.Common.EventBus.Interface;
-using HelpDesk.Common.EventBus.AppEvents;
+using HelpDesk.EventBus.Common.AppEvents.Interface;
+using HelpDesk.EventBus.Common.Interface;
+using HelpDesk.EventBus.Common.AppEvents;
 
 namespace HelpDesk.CabinetWebApp.Controllers
 {

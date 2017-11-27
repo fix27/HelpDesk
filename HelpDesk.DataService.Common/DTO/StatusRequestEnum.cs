@@ -1,7 +1,7 @@
-﻿using HelpDesk.DataService.DTO.Resources;
+﻿using HelpDesk.DataService.Common.DTO.Resources;
 using System.ComponentModel.DataAnnotations;
 
-namespace HelpDesk.DataService.DTO
+namespace HelpDesk.DataService.Common.DTO
 {
     /// <summary>
     /// Состояние заявки - то, которые видит пользователь в UI. Представляет собой

@@ -1,9 +1,9 @@
-﻿using HelpDesk.DataService.DTO;
+﻿using HelpDesk.DataService.Common.DTO;
 using HelpDesk.Entity;
 using System;
 using System.Collections.Generic;
 
-namespace HelpDesk.DataService
+namespace HelpDesk.DataService.Common
 {
     /// <summary>
     /// Прямое и обратное преобразование StatusRequestEnum - StatusRequestId

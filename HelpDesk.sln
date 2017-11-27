@@ -43,6 +43,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.ConsumerEventServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.CalculateEventService", "Services\HelpDesk.CalculateEventService\HelpDesk.CalculateEventService.csproj", "{355ABACB-9064-4659-A6B8-84E18DC1A2F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.DataService.Common", "HelpDesk.DataService.Common\HelpDesk.DataService.Common.csproj", "{C0FA0E99-27F2-49FE-84F3-D10E79C8636A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.EventBus.Common", "EventBus\HelpDesk.EventBus.Common\HelpDesk.EventBus.Common.csproj", "{55804DBF-6229-4F0C-81DC-88472A707E6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +113,14 @@ Global
 		{355ABACB-9064-4659-A6B8-84E18DC1A2F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{355ABACB-9064-4659-A6B8-84E18DC1A2F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{355ABACB-9064-4659-A6B8-84E18DC1A2F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0FA0E99-27F2-49FE-84F3-D10E79C8636A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FA0E99-27F2-49FE-84F3-D10E79C8636A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FA0E99-27F2-49FE-84F3-D10E79C8636A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FA0E99-27F2-49FE-84F3-D10E79C8636A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55804DBF-6229-4F0C-81DC-88472A707E6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55804DBF-6229-4F0C-81DC-88472A707E6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55804DBF-6229-4F0C-81DC-88472A707E6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55804DBF-6229-4F0C-81DC-88472A707E6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,5 +137,6 @@ Global
 		{19CCD73D-255E-408D-AE8F-C2B2EDE51B43} = {955DF889-3A78-41F8-80D0-E2A99FFA6DB7}
 		{3134BB07-0CC4-4EED-A927-D87351199708} = {6ECD3FF2-ED3D-4A43-8AB6-591B94463145}
 		{355ABACB-9064-4659-A6B8-84E18DC1A2F1} = {6ECD3FF2-ED3D-4A43-8AB6-591B94463145}
+		{55804DBF-6229-4F0C-81DC-88472A707E6A} = {955DF889-3A78-41F8-80D0-E2A99FFA6DB7}
 	EndGlobalSection
 EndGlobal

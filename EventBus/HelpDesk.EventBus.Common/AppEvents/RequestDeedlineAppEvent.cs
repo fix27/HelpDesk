@@ -1,7 +1,7 @@
-﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
+﻿using HelpDesk.EventBus.Common.AppEvents.Interface;
 using System.Collections.Generic;
 
-namespace HelpDesk.Common.EventBus.AppEvents
+namespace HelpDesk.EventBus.Common.AppEvents
 {
     public class RequestDeedlineAppEvent: IRequestDeedlineAppEvent
     {

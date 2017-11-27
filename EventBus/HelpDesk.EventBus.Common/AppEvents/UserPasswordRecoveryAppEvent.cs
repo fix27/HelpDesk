@@ -1,6 +1,6 @@
-﻿using HelpDesk.Common.EventBus.AppEvents.Interface;
+﻿using HelpDesk.EventBus.Common.AppEvents.Interface;
 
-namespace HelpDesk.Common.EventBus.AppEvents
+namespace HelpDesk.EventBus.Common.AppEvents
 {
     public class UserPasswordRecoveryAppEvent: IUserPasswordRecoveryAppEvent
     {

@@ -18,9 +18,11 @@ using HelpDesk.Common.Helpers;
 using HelpDesk.Common.Aspects;
 using System.Linq.Expressions;
 using HelpDesk.DataService.DTO.Parameters;
-using HelpDesk.Common.EventBus.Interface;
-using HelpDesk.Common.EventBus.AppEvents;
-using HelpDesk.Common.EventBus.AppEvents.Interface;
+using HelpDesk.EventBus.Common.Interface;
+using HelpDesk.EventBus.Common.AppEvents;
+using HelpDesk.EventBus.Common.AppEvents.Interface;
+using HelpDesk.DataService.Common.Interface;
+using HelpDesk.DataService.Common.DTO;
 
 namespace HelpDesk.DataService
 {
