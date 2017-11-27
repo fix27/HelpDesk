@@ -9,7 +9,7 @@
         
     <property name="Email"    length="200"  unique="true" index="User_Email_idx" not-null="true"/>
     <property name="Password" length="100" not-null="true"/>
-
+    <property name="Subscribe" type="Boolean" not-null="true"/>
     <one-to-one name="Employee" class="HelpDesk.Entity.Employee, HelpDesk.Entity"/>
   </class>
 </hibernate-mapping>

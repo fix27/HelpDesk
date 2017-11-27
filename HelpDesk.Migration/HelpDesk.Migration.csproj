@@ -98,6 +98,9 @@
     <Compile Include="Migrations\0007\CreateDescriptionProblem.cs" />
     <Compile Include="Migrations\0009\CreateUserEventSubscribe.cs" />
     <Compile Include="Migrations\0010\AlterObjectType2.cs" />
+    <Compile Include="Migrations\0011\AlterCabinetUser.cs" />
+    <Compile Include="Migrations\0011\AlterWorkerUser.cs" />
+    <Compile Include="Migrations\0011\AlterEmployee.cs" />
     <Compile Include="MigratorInstaller.cs" />
     <Compile Include="MigrationRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

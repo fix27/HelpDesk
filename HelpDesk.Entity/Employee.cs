@@ -41,11 +41,7 @@
         /// </summary>
         public string Phone { get; set; }
 
-        /// <summary>
-        /// Подписан на E-mail рассылку
-        /// </summary>
-        public bool Subscribe { get; set; }
-
+        
         public CabinetUser User { get; set; }
 
     }

@@ -19,7 +19,10 @@
         /// Сотрудник, связанный с пользователем личного кабинета
         /// </summary>
         public Employee Employee { get; set; }
-                
 
+        /// <summary>
+        /// Подписан на E-mail рассылку
+        /// </summary>
+        public bool Subscribe { get; set; }
     }
 }

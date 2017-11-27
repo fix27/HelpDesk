@@ -32,7 +32,7 @@ namespace HelpDesk.ConsumerEventService.Query
                 .Select(t => t.User.Id).ToList();
 
             IEnumerable<UserRequestAppEventSubscribeDTO> cs =
-                cabinetUserEventSubscribes.Where(t => t.User.Id == request.Employee.Id && t.User.Employee.Subscribe)
+                cabinetUserEventSubscribes.Where(t => t.User.Id == request.Employee.Id && t.User.Subscribe)
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
                     RequestId = request.Id,

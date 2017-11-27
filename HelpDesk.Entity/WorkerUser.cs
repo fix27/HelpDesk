@@ -29,5 +29,10 @@
         /// Тип пользователя
         /// </summary>
         public TypeWorkerUser UserType { get; set; }
+        
+        /// <summary>
+        /// Подписан на E-mail рассылку
+        /// </summary>
+        public bool Subscribe { get; set; }
     }
 }
