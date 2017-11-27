@@ -20,7 +20,8 @@ namespace HelpDesk.ConsumerEventService.EmailTemplateServices
             config.CachingProvider = new DefaultCachingProvider(t => { });
             var service = RazorEngineService.Create(config);
             Engine.Razor = service;
-            var template = File.ReadAllText(Path.Combine(templateFolderPath, !string.IsNullOrWhiteSpace(messageTemplate) ? $"{messageTemplate}.cshtml" : "Default.cshtml"));
+            var template = File.ReadAllText(Path.Combine(templateFolderPath, 
+                !string.IsNullOrWhiteSpace(messageTemplate) ? $"{messageTemplate}.cshtml" : "Default.cshtml"));
             
             
             return Engine.Razor.RunCompile(template, messageTemplate, evnt.GetType(), evnt);

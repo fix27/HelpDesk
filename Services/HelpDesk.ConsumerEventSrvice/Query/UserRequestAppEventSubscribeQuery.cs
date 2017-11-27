@@ -28,7 +28,7 @@ namespace HelpDesk.ConsumerEventService.Query
 
             Request request = requests.First(t => t.Id == evnt.RequestId);
             IEnumerable<long> userIds = accessWorkerUser
-                .Where(t => t.Worker.Id == request.Worker.Id)
+                .Where(t => t.Worker.Id == request.Worker.Id && (t.Worker.Id == 1 || t.Worker.Id == 3))
                 .Select(t => t.User.Id).ToList();
 
             IEnumerable<UserRequestAppEventSubscribeDTO> cs =
@@ -42,7 +42,7 @@ namespace HelpDesk.ConsumerEventService.Query
                 })
                 .ToList();
             IEnumerable<UserRequestAppEventSubscribeDTO> ws =
-                workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id))
+                workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id) && t.User.Id != request.User.Id && t.User.Subscribe)
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
                     RequestId = request.Id,

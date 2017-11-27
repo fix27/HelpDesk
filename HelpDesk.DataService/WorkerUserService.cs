@@ -121,5 +121,10 @@ namespace HelpDesk.DataService
             });
             repository.SaveChanges();
         }
+
+        public void ChangeSubscribeRequestState(long requestStateId, bool add)
+        {
+
+        }
     }
 }
