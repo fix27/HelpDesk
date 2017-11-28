@@ -418,11 +418,11 @@ namespace HelpDesk.DataService
 
             if (archive)
                 list = requestEventArchRepository.GetList(t => t.RequestId == requestId)
-                    .OrderBy(t => t.Id)
+                    .OrderBy(t => t.DateEvent)
                     .ToList();
             else
                 list = requestEventRepository.GetList(t => t.RequestId == requestId)
-                    .OrderBy(t => t.Id)
+                    .OrderBy(t => t.DateEvent)
                     .ToList();
 
             if(list != null)
