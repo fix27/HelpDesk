@@ -418,11 +418,11 @@ namespace HelpDesk.DataService
 
             if (archive)
                 list = requestEventArchRepository.GetList(t => t.RequestId == requestId)
-                    .OrderBy(t => t.DateEvent)
+                    .OrderBy(t => t.Id)
                     .ToList();
             else
                 list = requestEventRepository.GetList(t => t.RequestId == requestId)
-                    .OrderBy(t => t.DateEvent)
+                    .OrderBy(t => t.Id)
                     .ToList();
 
             if(list != null)
@@ -621,7 +621,7 @@ namespace HelpDesk.DataService
             IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState(allowableUserStates);
 
             StatusRequest statusRequest = statusRepository.Get(dto.StatusRequestId);
-            RequestEventDTO lastEvent = queryRunner.Run(new RequestLastEventQuery(new long[] { dto.RequestId })).FirstOrDefault();
+            RequestEventDTO lastEvent = queryRunner.Run(new RequestLastEventQuery(new long[] { dto.RequestId }, false)).FirstOrDefault();
             
             RequestEvent newEvent = new RequestEvent()
             {
@@ -633,6 +633,7 @@ namespace HelpDesk.DataService
                  StatusRequest = statusRequest,
                  Note       = dto.Note
             };
+            requestEventRepository.Save(newEvent);
 
             RequestEvent dateEndEvent = null;
             if (dto.StatusRequestId == (long)RawStatusRequestEnum.ExtendedDeadLine)
@@ -671,7 +672,7 @@ namespace HelpDesk.DataService
             request.DateUpdate  = currentDate;
             request.Status      = statusRequest;
             requestRepository.Save(request);
-            requestEventRepository.Save(newEvent);
+            
                         
             repository.SaveChanges();
 

@@ -12,9 +12,11 @@ namespace HelpDesk.DataService.Query
     public class RequestLastEventQuery : IQuery<IEnumerable<RequestEventDTO>, RequestEvent>
     {
         private readonly IEnumerable<long> requestIds;
-        public RequestLastEventQuery(IEnumerable<long> requestIds)
+        private readonly bool withDateEnd;
+        public RequestLastEventQuery(IEnumerable<long> requestIds, bool withDateEnd = true)
         {
             this.requestIds = requestIds;
+            this.withDateEnd = withDateEnd;
         }
                 
         public IEnumerable<RequestEventDTO> Run(IQueryable<RequestEvent> events)
@@ -24,7 +26,7 @@ namespace HelpDesk.DataService.Query
 
 
             IEnumerable<long> ids = (from z in events
-                                     where requestIds.Contains(z.RequestId) && z.StatusRequest.Id != (long)RawStatusRequestEnum.DateEnd
+                                     where requestIds.Contains(z.RequestId) && (!withDateEnd || z.StatusRequest.Id != (long)RawStatusRequestEnum.DateEnd)
                                      group z by z.RequestId into g
                                      select g.Max(d => d.Id)).ToList();
 
