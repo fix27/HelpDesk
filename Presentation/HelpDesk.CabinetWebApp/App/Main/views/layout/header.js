@@ -42,7 +42,7 @@
             var getCountRequiresConfirmation = function()
             {
                 requestService.getCountRequiresConfirmation().then(function (results) {
-                    vm.menu.items[1].countRequiresConfirmation = results.data.data;
+                    vm.menu.items[0].countRequiresConfirmation = results.data.data;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data? error.data.Message: "Нет связи с сервером" });
                 });
