@@ -459,4 +459,13 @@
   <data name="Placeholder_EmployeeObjectName2" xml:space="preserve">
     <value>Выберите объект заявки сотрудника</value>
   </data>
+  <data name="Menu_Subscribe" xml:space="preserve">
+    <value>Подписка</value>
+  </data>
+  <data name="Label_EmailSubscribe" xml:space="preserve">
+    <value>Получать рассылку на E-mail</value>
+  </data>
+  <data name="Label_SubscribeRequestState" xml:space="preserve">
+    <value>Получать уведомления о событиях заявки</value>
+  </data>
 </root>

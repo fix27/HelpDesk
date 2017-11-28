@@ -22,7 +22,7 @@ namespace HelpDesk.DataService.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource {
+    public class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace HelpDesk.DataService.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HelpDesk.DataService.Resources.Resource", typeof(Resource).Assembly);
@@ -51,7 +51,7 @@ namespace HelpDesk.DataService.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Запись удалена ранее другим пользователем.
         /// </summary>
-        internal static string AnotherUserDeleteRecordConstraintMsg {
+        public static string AnotherUserDeleteRecordConstraintMsg {
             get {
                 return ResourceManager.GetString("AnotherUserDeleteRecordConstraintMsg", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Апрель.
         /// </summary>
-        internal static string April {
+        public static string April {
             get {
                 return ResourceManager.GetString("April", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Август.
         /// </summary>
-        internal static string August {
+        public static string August {
             get {
                 return ResourceManager.GetString("August", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Другой пользователь изменил состояние записи. Требуется обновить журнал.
         /// </summary>
-        internal static string ConcurrencyConstraintMsg {
+        public static string ConcurrencyConstraintMsg {
             get {
                 return ResourceManager.GetString("ConcurrencyConstraintMsg", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Для совершения операции требуется выбрать корреспондента.
         /// </summary>
-        internal static string CorrespondentUserConstraintMsg {
+        public static string CorrespondentUserConstraintMsg {
             get {
                 return ResourceManager.GetString("CorrespondentUserConstraintMsg", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Дата должна быть не меньше текущей {0:dd.MM.yyyy HH:mm}.
         /// </summary>
-        internal static string DataMinConstraintMsg {
+        public static string DataMinConstraintMsg {
             get {
                 return ResourceManager.GetString("DataMinConstraintMsg", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Декабрь.
         /// </summary>
-        internal static string December {
+        public static string December {
             get {
                 return ResourceManager.GetString("December", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Не верный формат E-mail.
         /// </summary>
-        internal static string EmailConstraintMsg {
+        public static string EmailConstraintMsg {
             get {
                 return ResourceManager.GetString("EmailConstraintMsg", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Поле не должно быть пустым.
         /// </summary>
-        internal static string EmptyConstraintMsg {
+        public static string EmptyConstraintMsg {
             get {
                 return ResourceManager.GetString("EmptyConstraintMsg", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Тело файла не может быть пустым.
         /// </summary>
-        internal static string EmptyFileBodyConstraintMsg {
+        public static string EmptyFileBodyConstraintMsg {
             get {
                 return ResourceManager.GetString("EmptyFileBodyConstraintMsg", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Нельзя прикрепить пустой файл.
         /// </summary>
-        internal static string EmptyFileConstraintMsg {
+        public static string EmptyFileConstraintMsg {
             get {
                 return ResourceManager.GetString("EmptyFileConstraintMsg", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Имя файла не может быть пустым.
         /// </summary>
-        internal static string EmptyFileNameConstraintMsg {
+        public static string EmptyFileNameConstraintMsg {
             get {
                 return ResourceManager.GetString("EmptyFileNameConstraintMsg", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Февраль.
         /// </summary>
-        internal static string February {
+        public static string February {
             get {
                 return ResourceManager.GetString("February", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Формат поля должен быть {0}.
         /// </summary>
-        internal static string FormatPropConstraintMsg {
+        public static string FormatPropConstraintMsg {
             get {
                 return ResourceManager.GetString("FormatPropConstraintMsg", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Неверно заполненные поля формы.
         /// </summary>
-        internal static string GeneralConstraintMsg {
+        public static string GeneralConstraintMsg {
             get {
                 return ResourceManager.GetString("GeneralConstraintMsg", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Январь.
         /// </summary>
-        internal static string January {
+        public static string January {
             get {
                 return ResourceManager.GetString("January", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Июль.
         /// </summary>
-        internal static string July {
+        public static string July {
             get {
                 return ResourceManager.GetString("July", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Июнь.
         /// </summary>
-        internal static string June {
+        public static string June {
             get {
                 return ResourceManager.GetString("June", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Длина поля ({0}) не должна превышать {1} символов.
         /// </summary>
-        internal static string LengthMaxConstraintMsg {
+        public static string LengthMaxConstraintMsg {
             get {
                 return ResourceManager.GetString("LengthMaxConstraintMsg", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Длина поля ({0}) не должна быть меньше {1} символов.
         /// </summary>
-        internal static string LengthMinConstraintMsg {
+        public static string LengthMinConstraintMsg {
             get {
                 return ResourceManager.GetString("LengthMinConstraintMsg", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to В день можно подать заявок не более {0} .
         /// </summary>
-        internal static string LimitRequestCountConstraintMsg {
+        public static string LimitRequestCountConstraintMsg {
             get {
                 return ResourceManager.GetString("LimitRequestCountConstraintMsg", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Март.
         /// </summary>
-        internal static string March {
+        public static string March {
             get {
                 return ResourceManager.GetString("March", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Имя файла не может превышать {0} символов [{1}].
         /// </summary>
-        internal static string MaxFileNameConstraintMsg {
+        public static string MaxFileNameConstraintMsg {
             get {
                 return ResourceManager.GetString("MaxFileNameConstraintMsg", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Перевышено макс. количество файлов ({0}), которые можно прикреплять к заявке.
         /// </summary>
-        internal static string MaxRequestFileCountConstraintMsg {
+        public static string MaxRequestFileCountConstraintMsg {
             get {
                 return ResourceManager.GetString("MaxRequestFileCountConstraintMsg", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Превышен макс. размер файла ({0} Кб), который можно прикреплять к заявке [{1}].
         /// </summary>
-        internal static string MaxRequestFileSizeConstraintMsg {
+        public static string MaxRequestFileSizeConstraintMsg {
             get {
                 return ResourceManager.GetString("MaxRequestFileSizeConstraintMsg", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Май.
         /// </summary>
-        internal static string May {
+        public static string May {
             get {
                 return ResourceManager.GetString("May", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Заявки можно подавать с интервалом не менее {0} мин..
         /// </summary>
-        internal static string MinIntervalRequestConstraintMsg {
+        public static string MinIntervalRequestConstraintMsg {
             get {
                 return ResourceManager.GetString("MinIntervalRequestConstraintMsg", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Новая дата окончания {0} не может быть раньше текущей даты {1}.
         /// </summary>
-        internal static string NewDeadLineDateConstraintMsg {
+        public static string NewDeadLineDateConstraintMsg {
             get {
                 return ResourceManager.GetString("NewDeadLineDateConstraintMsg", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Данные не найдены. Возможно, запись была удалена другим пользователеи.
         /// </summary>
-        internal static string NoDataFoundMsg {
+        public static string NoDataFoundMsg {
             get {
                 return ResourceManager.GetString("NoDataFoundMsg", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Не кириллический символ {0} на позиции {1}.
         /// </summary>
-        internal static string NotCyrillicConstraintMsg {
+        public static string NotCyrillicConstraintMsg {
             get {
                 return ResourceManager.GetString("NotCyrillicConstraintMsg", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to На стороне сервера возникла необработанная ошибка.
         /// </summary>
-        internal static string NotHandledExceptionMsg {
+        public static string NotHandledExceptionMsg {
             get {
                 return ResourceManager.GetString("NotHandledExceptionMsg", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ноябрь.
         /// </summary>
-        internal static string November {
+        public static string November {
             get {
                 return ResourceManager.GetString("November", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Не верный формат данных: свойство {0} не должно быть null.
         /// </summary>
-        internal static string NullPropConstraintMsg {
+        public static string NullPropConstraintMsg {
             get {
                 return ResourceManager.GetString("NullPropConstraintMsg", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Октябрь.
         /// </summary>
-        internal static string October {
+        public static string October {
             get {
                 return ResourceManager.GetString("October", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Только владелец профиля может удалить запись.
         /// </summary>
-        internal static string OnlyOwnerEmployeeObjectCanDeleteRecordConstraintMsg {
+        public static string OnlyOwnerEmployeeObjectCanDeleteRecordConstraintMsg {
             get {
                 return ResourceManager.GetString("OnlyOwnerEmployeeObjectCanDeleteRecordConstraintMsg", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Архивную заявку №{0} нельзя редактировать/удалять.
         /// </summary>
-        internal static string RequesArchConstraintMsg {
+        public static string RequesArchConstraintMsg {
             get {
                 return ResourceManager.GetString("RequesArchConstraintMsg", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Заявка №{0} уже принята в работу Исполнителем. Редактирование/удаление запрещено.
         /// </summary>
-        internal static string RequestAcceptConstraintMsg {
+        public static string RequestAcceptConstraintMsg {
             get {
                 return ResourceManager.GetString("RequestAcceptConstraintMsg", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Поле обязательно для заполнения.
         /// </summary>
-        internal static string RequiredConstraintMsg {
+        public static string RequiredConstraintMsg {
             get {
                 return ResourceManager.GetString("RequiredConstraintMsg", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Сентябрь.
         /// </summary>
-        internal static string September {
+        public static string September {
             get {
                 return ResourceManager.GetString("September", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Значение поля должно быть уникальным.
         /// </summary>
-        internal static string UniqueConstraintMsg {
+        public static string UniqueConstraintMsg {
             get {
                 return ResourceManager.GetString("UniqueConstraintMsg", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Другой пользователь зарегистрирован в системе с этим E-mail. Используйте другой E-mail.
         /// </summary>
-        internal static string UniqueEmailConstraintMsg {
+        public static string UniqueEmailConstraintMsg {
             get {
                 return ResourceManager.GetString("UniqueEmailConstraintMsg", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Объект уже присутствует в профиле заявителя.
         /// </summary>
-        internal static string UniqueEmployeeObjectConstraintMsg {
+        public static string UniqueEmployeeObjectConstraintMsg {
             get {
                 return ResourceManager.GetString("UniqueEmployeeObjectConstraintMsg", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Не верный формат URL.
         /// </summary>
-        internal static string URLConstraintMsg {
+        public static string URLConstraintMsg {
             get {
                 return ResourceManager.GetString("URLConstraintMsg", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Значение поля ({0}) не должно превышать {1}.
         /// </summary>
-        internal static string ValueMaxConstraintMsg {
+        public static string ValueMaxConstraintMsg {
             get {
                 return ResourceManager.GetString("ValueMaxConstraintMsg", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Значение поля должно быть неотрицательным.
         /// </summary>
-        internal static string ValueNonNegativeConstraintMsg {
+        public static string ValueNonNegativeConstraintMsg {
             get {
                 return ResourceManager.GetString("ValueNonNegativeConstraintMsg", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Значение поля должно быть положительным.
         /// </summary>
-        internal static string ValuePositiveConstraintMsg {
+        public static string ValuePositiveConstraintMsg {
             get {
                 return ResourceManager.GetString("ValuePositiveConstraintMsg", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace HelpDesk.DataService.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Не возможно определить исполнителя.
         /// </summary>
-        internal static string WorkerNotDefinedConstraintMsg {
+        public static string WorkerNotDefinedConstraintMsg {
             get {
                 return ResourceManager.GetString("WorkerNotDefinedConstraintMsg", resourceCulture);
             }

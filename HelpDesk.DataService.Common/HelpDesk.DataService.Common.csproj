@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DTO\Resources\Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

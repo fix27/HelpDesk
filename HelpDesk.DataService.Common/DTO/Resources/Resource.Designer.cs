@@ -22,7 +22,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource {
+    public class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HelpDesk.DataService.Common.DTO.Resources.Resource", typeof(Resource).Assembly);
@@ -51,7 +51,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Принята в работу.
         /// </summary>
-        internal static string StatusRequestEnum_Accepted {
+        public static string StatusRequestEnum_Accepted {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_Accepted", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Выполнена.
         /// </summary>
-        internal static string StatusRequestEnum_ApprovedComplete {
+        public static string StatusRequestEnum_ApprovedComplete {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_ApprovedComplete", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Закрыта исполнителем.
         /// </summary>
-        internal static string StatusRequestEnum_Closing {
+        public static string StatusRequestEnum_Closing {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_Closing", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Перенос готовности.
         /// </summary>
-        internal static string StatusRequestEnum_ExtendedConfirmation {
+        public static string StatusRequestEnum_ExtendedConfirmation {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_ExtendedConfirmation", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Перенос срока.
         /// </summary>
-        internal static string StatusRequestEnum_ExtendedDeadLine {
+        public static string StatusRequestEnum_ExtendedDeadLine {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_ExtendedDeadLine", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Новая.
         /// </summary>
-        internal static string StatusRequestEnum_New {
+        public static string StatusRequestEnum_New {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_New", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Не подтверждена готовность.
         /// </summary>
-        internal static string StatusRequestEnum_NotApprovedComplete {
+        public static string StatusRequestEnum_NotApprovedComplete {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_NotApprovedComplete", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Пассив.
         /// </summary>
-        internal static string StatusRequestEnum_Passive {
+        public static string StatusRequestEnum_Passive {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_Passive", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Отказано.
         /// </summary>
-        internal static string StatusRequestEnum_Rejected {
+        public static string StatusRequestEnum_Rejected {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_Rejected", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace HelpDesk.DataService.Common.DTO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Состояние не определено.
         /// </summary>
-        internal static string StatusRequestEnum_Unknown {
+        public static string StatusRequestEnum_Unknown {
             get {
                 return ResourceManager.GetString("StatusRequestEnum_Unknown", resourceCulture);
             }

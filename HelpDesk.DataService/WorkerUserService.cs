@@ -2,11 +2,13 @@
 using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 using System;
+using System.Linq;
 using HelpDesk.DataService.DTO;
 using HelpDesk.DataService.Resources;
 using HelpDesk.DataService.Common;
 using System.Linq.Expressions;
 using HelpDesk.Common.Aspects;
+using System.Collections.Generic;
 
 namespace HelpDesk.DataService
 {
@@ -21,13 +23,17 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<Worker>        workerRepository;
         private readonly ISettingsRepository            settingsRepository;
         private readonly IDateTimeService               dateTimeService;
+        private readonly IBaseRepository<WorkerUserEventSubscribe> userEventSubscribeRepository;
+        private readonly IBaseRepository<StatusRequest> statusRepository;
         private readonly IRepository                    repository;
-
+        
         public WorkerUserService(IBaseRepository<WorkerUser> userRepository,
             IBaseRepository<UserSession> userSessionRepository,
             IBaseRepository<Worker> workerRepository,
             ISettingsRepository settingsRepository,
             IDateTimeService dateTimeService,
+            IBaseRepository<WorkerUserEventSubscribe> userEventSubscribeRepository,
+            IBaseRepository<StatusRequest> statusRepository,
             IRepository repository)
         {
             this.userRepository = userRepository;
@@ -35,6 +41,8 @@ namespace HelpDesk.DataService
             this.workerRepository = workerRepository;
             this.settingsRepository = settingsRepository;
             this.dateTimeService = dateTimeService;
+            this.userEventSubscribeRepository = userEventSubscribeRepository;
+            this.statusRepository = statusRepository;
             this.repository = repository;
         }
 
@@ -122,9 +130,60 @@ namespace HelpDesk.DataService
             repository.SaveChanges();
         }
 
-        public void ChangeSubscribeRequestState(long requestStateId, bool add)
+        /// <summary>
+        /// События заявки, на которые подписан пользователь
+        /// </summary>
+        public IEnumerable<RawStatusRequestDTO> GetListSubscribeStatus(long userId)
         {
+            IEnumerable<RawStatusRequestDTO> list = statusRepository.GetList(t => !RequestService.IgnoredRawRequestStates.Contains(t.Id))
+                .OrderBy(s => s.Name)
+                .Select(s => new RawStatusRequestDTO { Id = s.Id, Name = s.Name })
+                .ToList();
 
+            IEnumerable<WorkerUserEventSubscribe> listSubscribe = userEventSubscribeRepository.GetList(e => e.User.Id == userId).ToList();
+
+            var q = from s in list
+                    join ss in listSubscribe on s.Id equals ss.StatusRequest.Id into jss
+                    from ss in jss.DefaultIfEmpty()
+                    select
+                    new RawStatusRequestDTO { Id = s.Id, Name = s.Name, Checked = ss != null };
+
+            return q.ToList();
+        }
+
+        /// <summary>
+        /// Подписка/отписка пользователя на события заявки
+        /// </summary>
+        public void ChangeSubscribeRequestState(long userId, long requestStateId)
+        {
+            WorkerUserEventSubscribe subscribe = userEventSubscribeRepository.Get(s => s.User.Id == userId && s.StatusRequest.Id == requestStateId);
+            if (subscribe == null)
+            {
+                subscribe = new WorkerUserEventSubscribe()
+                {
+                    StatusRequest = statusRepository.Get(requestStateId),
+                    User = userRepository.Get(userId)
+                };
+                userEventSubscribeRepository.Save(subscribe);
+            }
+            else
+            {
+                userEventSubscribeRepository.Delete(subscribe);
+            }
+
+            repository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Подписка/отписка пользователя на E-mail-рассылку
+        /// </summary>
+        public void ChangeSubscribe(long userId)
+        {
+            WorkerUser user = userRepository.Get(userId);
+            user.Subscribe = !user.Subscribe;
+            userRepository.Save(user);
+
+            repository.SaveChanges();
         }
     }
 }

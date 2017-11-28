@@ -1,0 +1,31 @@
+﻿@using HelpDesk.WorkerWebApp.Resources
+
+<div ng-controller="app.views.subscribe.subscribe as vm" style="width: 40%" class="center-block">
+    
+    <div>
+        <div ng-show="vm.errors.ErrorGeneralMessage.Errors.length > 0 && vm.showAlert == true" class="alert alert-danger alert-dismissable">
+            <button type="button" ng-click="vm.closeAlert()" class="close" data-hide="alert">&times;</button>
+            <div ng-repeat="e in vm.errors.ErrorGeneralMessage.Errors">
+                {{e.ErrorMessage}}
+            </div>
+        </div>
+
+        <div>
+            <input ng-model="vm.user.Subscribe" ng-change="vm.changeSubscribe()" id="checkboxSubscribe" type="checkbox"> 
+            <label for="checkboxSubscribe">@Resource.Label_EmailSubscribe</label>
+            
+        </div>
+
+        <div ng-show="vm.user.Subscribe">
+            <label for="checkboxSubscribe">@Resource.Label_SubscribeRequestState:</label>
+
+            <div ng-repeat="s in vm.listSubscribe">
+                <input ng-model="s.Checked" ng-change="vm.changeSubscribeRequestState(s.Id)" type="checkbox"> {{s.Name}}
+            </div>
+
+        </div>
+
+    </div>
+    
+    
+</div>

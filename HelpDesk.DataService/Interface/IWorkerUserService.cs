@@ -1,5 +1,6 @@
 ﻿using HelpDesk.Entity;
 using HelpDesk.DataService.DTO;
+using System.Collections.Generic;
 
 namespace HelpDesk.DataService.Interface
 {
@@ -11,6 +12,8 @@ namespace HelpDesk.DataService.Interface
         void Create(string email, string password);
         void SaveStartSessionFact(long userId, string ip);
 
-
+        IEnumerable<RawStatusRequestDTO> GetListSubscribeStatus(long userId);
+        void ChangeSubscribeRequestState(long userId, long requestStateId);
+        void ChangeSubscribe(long userId);
     }
 }

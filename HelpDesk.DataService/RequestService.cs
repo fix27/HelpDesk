@@ -36,7 +36,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// Состояния заявок, которые не отображаются в UI
         /// </summary>
-        private readonly long[] ignoredRawRequestStates = new long[]
+        public readonly static long[] IgnoredRawRequestStates = new long[]
         {
             (long)RawStatusRequestEnum.DateEnd
         };
@@ -346,7 +346,7 @@ namespace HelpDesk.DataService
 
         public IEnumerable<StatusRequestDTO> GetListStatus(bool archive)
         {
-            IEnumerable<StatusRequestDTO> list = statusRepository.GetList(t => !ignoredRawRequestStates.Contains(t.Id)).OrderBy(s => s.Name)
+            IEnumerable<StatusRequestDTO> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id)).OrderBy(s => s.Name)
                 .ToList()
                 .Select(s => new StatusRequestDTO()
                 {
@@ -365,7 +365,7 @@ namespace HelpDesk.DataService
 
         public IEnumerable<StatusRequest> GetListRawStatus(bool archive)
         {
-            IEnumerable<StatusRequest> list = statusRepository.GetList(t => !ignoredRawRequestStates.Contains(t.Id))
+            IEnumerable<StatusRequest> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id))
                 .OrderBy(s => s.Name)
                 .ToList();
 

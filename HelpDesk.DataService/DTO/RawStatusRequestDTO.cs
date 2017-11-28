@@ -3,31 +3,27 @@
 namespace HelpDesk.DataService.DTO
 {
     /// <summary>
-    /// Состояние заявки (факторизованное)
+    /// Состояние заявки (чистое)
     /// </summary>
-    public class StatusRequestDTO : IChecked<StatusRequestEnum>
+    public class RawStatusRequestDTO : IChecked<long>
     {
-        public StatusRequestEnum Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Наименование
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// True - Архивное состояние, False - активное состояние. Используется при фильтрации заявок
-        /// </summary>
-        public bool? Archive { get; set; }
+               
 
         #region IChecked
         public bool Checked { get; set; }
 
-        public StatusRequestEnum Value { get { return Id; } }
+        public long Value { get { return Id; } }
         #endregion IChecked
 
         public override bool Equals(object obj)
         {
-            StatusRequestDTO obj2 = obj as StatusRequestDTO;
+            RawStatusRequestDTO obj2 = obj as RawStatusRequestDTO;
             if (obj2 == null) return false;
             return Id == obj2.Id;
         }
@@ -37,5 +33,4 @@ namespace HelpDesk.DataService.DTO
             return (int)Id;
         }
     }
-        
 }

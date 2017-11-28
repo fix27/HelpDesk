@@ -8,7 +8,7 @@
       <property name="connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
       <property name="dialect">NHibernate.Dialect.MsSql2012Dialect</property>
 
-      <property name="connection.connection_string">Server=ICAG-01907\SQLEXPRESS2012;Database=HelpDesk;User Id=sa;Password=sa;</property>
+      <property name="connection.connection_string">Server=FIX0007_HOME\SQLEXPRESS2012;Database=HelpDesk;User Id=sa;Password=sa;</property>
 
       <property name="show_sql">true</property>
       <property name="query.substitutions">true 1, false 0, yes 'Y', no 'N'</property>

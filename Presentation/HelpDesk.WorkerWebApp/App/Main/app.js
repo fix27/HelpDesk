@@ -36,6 +36,12 @@
                     templateUrl: '/' + culture + '/AngularTemplate/RequestHistory',
                     menu: 'requestHistory',
 
+                })
+                .state('subscribe', {
+                    url: '/',
+                    templateUrl: '/' + culture + '/AngularTemplate/Subscribe',
+                    menu: 'subscribe',
+
                 });
 
             delete $httpProvider.defaults.headers.common['X-Requested-With'];

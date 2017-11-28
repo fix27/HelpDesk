@@ -62,7 +62,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
             {
                 ViewBag.Menu = new Dictionary<string, string>()
                 {
-                    { "requestHistory", Resource.Menu_RequestHistory }
+                    { "requestHistory", Resource.Menu_RequestHistory },
+                    { "subscribe", Resource.Menu_Subscribe }
                 };
             }
             else
@@ -70,7 +71,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 ViewBag.Menu = new Dictionary<string, string>()
                 {
                     { "request", Resource.Menu_Request },
-                    { "requestHistory", Resource.Menu_RequestHistory }
+                    { "requestHistory", Resource.Menu_RequestHistory }                    
                 };
             }
             
@@ -105,9 +106,6 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return PartialView("~/App/Main/views/request/request.cshtml");
         }
 
-        
-        
-
         #endregion Request
 
         #region RequestHistory
@@ -133,6 +131,15 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return PartialView("~/App/Main/views/requestHistory/event.cshtml");
         }
         #endregion RequestHistory
+
+        #region Subscribe
+        [HttpGet]
+        public ActionResult Subscribe()
+        {
+            return PartialView("~/App/Main/views/subscribe/subscribe.cshtml");
+        }
+        
+        #endregion Subscribe
 
         #region Employee
         [HttpGet]
