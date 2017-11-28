@@ -103,6 +103,10 @@
       <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
       <Name>HelpDesk.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HelpDesk.DataService.Common\HelpDesk.DataService.Common.csproj">
+      <Project>{C0FA0E99-27F2-49FE-84F3-D10E79C8636A}</Project>
+      <Name>HelpDesk.DataService.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelpDesk.DataService\HelpDesk.DataService.csproj">
       <Project>{b0535568-f554-4f6c-9520-b3195be0ec62}</Project>
       <Name>HelpDesk.DataService</Name>

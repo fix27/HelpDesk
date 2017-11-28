@@ -12,12 +12,10 @@
            
             vm.menu = {};
             localizedMenu = localizedMenuService.get();
-            vm.menu.items = [
-                { displayName: localizedMenu.request,           name: 'request' },
-                { displayName: localizedMenu.requestHistory,    name: 'requestHistory' },
-                { displayName: localizedMenu.employeeObject, name: 'employeeObject' },
-                { displayName: localizedMenu.employee,          name: 'employee' }
-            ];
+            vm.menu.items = [];
+            for (var propertyName in localizedMenu) {
+                vm.menu.items.push({ displayName: localizedMenu[propertyName], name: propertyName })
+            }
             
             vm.isActive = function(item) {
                 return (item.name == $state.current.name);

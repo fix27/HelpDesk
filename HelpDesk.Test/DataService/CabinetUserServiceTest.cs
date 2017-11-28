@@ -9,6 +9,8 @@ using HelpDesk.Entity;
 using HelpDesk.DataService.DTO;
 using System;
 using System.Linq.Expressions;
+using HelpDesk.DataService.Common.Interface;
+using HelpDesk.Data.Command;
 
 namespace HelpDesk.Test.DataService
 {
@@ -55,9 +57,13 @@ namespace HelpDesk.Test.DataService
                 mockPersonalProfileRepository.Object,
                 Mock.Of<ISettingsRepository>(),
                 Mock.Of<IDateTimeService>(),
+                Mock.Of<IBaseRepository<CabinetUserEventSubscribe>>(),
+                Mock.Of<IBaseRepository<StatusRequest>>(),
+                Mock.Of<IStatusRequestMapService>(),
+                Mock.Of<ICommandRunner>(),
                 Mock.Of<IRepository>());
         }
-       
+        
 
         [TestMethod]
         public void CabinetUserService_GetDTO_ByUserId()

@@ -63,7 +63,8 @@ namespace HelpDesk.CabinetWebApp.Controllers
                 { "request", Resource.Menu_Request },
                 { "requestHistory", Resource.Menu_RequestHistory },
                 { "employeeObject", Resource.Menu_EmployeeObject },
-                { "employee", Resource.Menu_Employee }
+                { "employee", Resource.Menu_Employee },
+                { "subscribe", Resource.Menu_Subscribe }
             };
 
             Settings settings = settingsService.Get();
@@ -116,6 +117,15 @@ namespace HelpDesk.CabinetWebApp.Controllers
             return PartialView("~/App/Main/views/requestHistory/events.cshtml");
         }
         #endregion RequestHistory
+
+        #region Subscribe
+        [HttpGet]
+        public ActionResult Subscribe()
+        {
+            return PartialView("~/App/Main/views/subscribe/subscribe.cshtml");
+        }
+
+        #endregion Subscribe
 
         #region Employee
         [HttpGet]

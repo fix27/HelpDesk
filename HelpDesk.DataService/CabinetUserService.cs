@@ -2,11 +2,18 @@
 using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 using System;
+using System.Linq;
 using HelpDesk.DataService.DTO;
 using HelpDesk.DataService.Resources;
 using HelpDesk.DataService.Common;
 using System.Linq.Expressions;
 using HelpDesk.Common.Aspects;
+using HelpDesk.DataService.Common.Interface;
+using HelpDesk.DataService.Common.DTO;
+using System.Collections.Generic;
+using HelpDesk.Common.Helpers;
+using HelpDesk.Data.Command;
+using HelpDesk.DataService.Command;
 
 namespace HelpDesk.DataService
 {
@@ -21,6 +28,10 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<Employee>      employeeRepository;
         private readonly ISettingsRepository            settingsRepository;
         private readonly IDateTimeService               dateTimeService;
+        private readonly IBaseRepository<CabinetUserEventSubscribe> userEventSubscribeRepository;
+        private readonly IBaseRepository<StatusRequest> statusRepository;
+        private readonly IStatusRequestMapService       statusRequestMapService;
+        private readonly ICommandRunner                 commandRunner;
         private readonly IRepository                    repository;
 
         public CabinetUserService(IBaseRepository<CabinetUser> userRepository,
@@ -28,6 +39,10 @@ namespace HelpDesk.DataService
             IBaseRepository<Employee> employeeRepository,
             ISettingsRepository settingsRepository,
             IDateTimeService dateTimeService,
+            IBaseRepository<CabinetUserEventSubscribe> userEventSubscribeRepository,
+            IBaseRepository<StatusRequest> statusRepository,
+            IStatusRequestMapService statusRequestMapService,
+            ICommandRunner commandRunner,
             IRepository repository)
         {
             this.userRepository = userRepository;
@@ -35,6 +50,10 @@ namespace HelpDesk.DataService
             this.employeeRepository = employeeRepository;
             this.settingsRepository = settingsRepository;
             this.dateTimeService = dateTimeService;
+            this.userEventSubscribeRepository = userEventSubscribeRepository;
+            this.statusRepository = statusRepository;
+            this.statusRequestMapService = statusRequestMapService;
+            this.commandRunner = commandRunner;
             this.repository = repository;
         }
 
@@ -122,6 +141,79 @@ namespace HelpDesk.DataService
                 });
             repository.SaveChanges();
         }
+
+
+
+        /// <summary>
+        /// События заявки, на которые подписан пользователь
+        /// </summary>
+        public IEnumerable<StatusRequestDTO> GetListSubscribeStatus(long userId)
+        {
+            IEnumerable<RawStatusRequestDTO> list = statusRepository.GetList(t => !RequestService.IgnoredRawRequestStates.Contains(t.Id))
+                .OrderBy(s => s.Name)
+                .Select(s => new RawStatusRequestDTO { Id = s.Id, Name = s.Name })
+                .ToList();
+
+            IEnumerable<CabinetUserEventSubscribe> listSubscribe = userEventSubscribeRepository.GetList(e => e.User.Id == userId).ToList();
+
+            var q = (from s in list
+                     join ss in listSubscribe on s.Id equals ss.StatusRequest.Id into jss
+                     from ss in jss.DefaultIfEmpty()
+                     select new { s, Checked = (ss != null) })
+                    .ToList()
+                    .Select(t =>
+                        new StatusRequestDTO
+                        {
+                            Id = statusRequestMapService.GetEquivalenceByElement(t.s.Id),
+                            Name = statusRequestMapService.GetEquivalenceByElement(t.s.Id).GetDisplayName(),
+                            Checked = t.Checked
+                        });
+
+            return q.Distinct();
+        }
+
+        /// <summary>
+        /// Подписка/отписка пользователя на события заявки
+        /// </summary>
+        public void ChangeSubscribeRequestState(long userId, StatusRequestEnum requestState)
+        {
+            IEnumerable<long> statusRequestIds = statusRequestMapService.GetElementsByEquivalence(requestState);
+            IEnumerable<CabinetUserEventSubscribe> subscribes = userEventSubscribeRepository.GetList(s => s.User.Id == userId 
+                && statusRequestIds.Contains(s.StatusRequest.Id));
+            
+            if (!subscribes.Any())
+            {
+                foreach (long statusRequestId in statusRequestIds)
+                {
+                    var subscribe = new CabinetUserEventSubscribe()
+                    {
+                        StatusRequest = statusRepository.Get(statusRequestId),
+                        User = userRepository.Get(userId)
+                    };
+                    userEventSubscribeRepository.Save(subscribe);
+                }
                 
+            }
+            else
+            {
+                commandRunner.Run(new DeleteCabinetUserEventSubscribeCommand(userId, statusRequestIds));
+            }
+
+            repository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Подписка/отписка пользователя на E-mail-рассылку
+        /// </summary>
+        public void ChangeSubscribe(long userId)
+        {
+            CabinetUser user = userRepository.Get(userId);
+            user.Subscribe = !user.Subscribe;
+            userRepository.Save(user);
+
+            repository.SaveChanges();
+        }
+
+
     }
 }

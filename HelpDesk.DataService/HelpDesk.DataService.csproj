@@ -77,6 +77,7 @@
     <Compile Include="AccessWorkerUserExpressionService.cs" />
     <Compile Include="BaseDataService.cs" />
     <Compile Include="BaseService.cs" />
+    <Compile Include="Command\DeleteCabinetUserEventSubscribeCommand.cs" />
     <Compile Include="Command\TransferRequestToArchiveCommand.cs" />
     <Compile Include="DTO\CabinetUserDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />

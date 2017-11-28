@@ -367,6 +367,15 @@ namespace HelpDesk.CabinetWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Получать рассылку на E-mail.
+        /// </summary>
+        public static string Label_EmailSubscribe {
+            get {
+                return ResourceManager.GetString("Label_EmailSubscribe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата события.
         /// </summary>
         public static string Label_EventDateEvent {
@@ -601,6 +610,15 @@ namespace HelpDesk.CabinetWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Получать уведомления о событиях заявки.
+        /// </summary>
+        public static string Label_SubscribeRequestState {
+            get {
+                return ResourceManager.GetString("Label_SubscribeRequestState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to До.
         /// </summary>
         public static string Label_To {
@@ -660,6 +678,15 @@ namespace HelpDesk.CabinetWebApp.Resources {
         public static string Menu_RequestHistory {
             get {
                 return ResourceManager.GetString("Menu_RequestHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Подписка.
+        /// </summary>
+        public static string Menu_Subscribe {
+            get {
+                return ResourceManager.GetString("Menu_Subscribe", resourceCulture);
             }
         }
         

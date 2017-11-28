@@ -80,10 +80,11 @@ namespace HelpDesk.CabinetWebApp
                     .IncludeDirectory("~/App/Main/views/requestHistory", "*.js")
                     .IncludeDirectory("~/App/Main/views/organization", "*.js")
                     .IncludeDirectory("~/App/Main/views/object", "*.js")
+                    .IncludeDirectory("~/App/Main/views/subscribe", "*.js")
                     .IncludeDirectory("~/App/Main/services", "*.js")
                     .IncludeDirectory("~/App/Main/directives", "*.js")
                 );
-
+            
 
             bundles.Add(new StyleBundle("~/Content/jQuery-File-Upload").Include(
                     "~/Content/jQuery.FileUpload/css/jquery.fileupload.css",

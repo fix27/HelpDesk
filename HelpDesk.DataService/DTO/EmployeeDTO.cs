@@ -45,11 +45,7 @@ namespace HelpDesk.DataService.DTO
         /// Телефон
         /// </summary>
         public string Phone { get; set; }
-
-        /// <summary>
-        /// Подписан на E-mail рассылку
-        /// </summary>
-        public bool Subscribe { get; set; }
+               
 
         public static string GetEmployeeInfo(string fm, string im, string ot, string phone, string organizationName, string organizationAddress)
         {

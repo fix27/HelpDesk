@@ -68,8 +68,7 @@ namespace HelpDesk.DataService
                 OT = entity.OT,
                 Cabinet = entity.Cabinet,
                 Phone = entity.Phone,
-                PostName = entity.Post!=null? entity.Post.Name: null,
-                Subscribe = (entity.User != null? entity.User.Subscribe: false)
+                PostName = entity.Post!=null? entity.Post.Name: null
             };
 
             if (entity.Organization != null)
@@ -103,7 +102,6 @@ namespace HelpDesk.DataService
                     Cabinet = e.Cabinet,
                     Phone = e.Phone,
                     PostName = e.Post != null ? e.Post.Name : null,
-                    Subscribe = (e.User != null ? e.User.Subscribe : false),
                     OrganizationId = e.Organization.Id,
                     OrganizationName = e.Organization.Name,
                     OrganizationAddress = e.Organization.Address
@@ -162,7 +160,6 @@ namespace HelpDesk.DataService
                         Cabinet = e.Cabinet,
                         Phone = e.Phone,
                         PostName = e.Post != null ? e.Post.Name : null,
-                        Subscribe = (e.User != null ? e.User.Subscribe : false),
                         OrganizationId = e.Organization.Id,
                         OrganizationName = e.Organization.Name,
                         OrganizationAddress = e.Organization.Address
@@ -194,7 +191,6 @@ namespace HelpDesk.DataService
                     Cabinet = e.Cabinet,
                     Phone = e.Phone,
                     PostName = e.Post != null ? e.Post.Name : null,
-                    Subscribe = (e.User != null ? e.User.Subscribe : false),
                     OrganizationId = e.Organization.Id,
                     OrganizationName = e.Organization.Name,
                     OrganizationAddress = e.Organization.Address
@@ -226,7 +222,6 @@ namespace HelpDesk.DataService
                         Cabinet = e.Cabinet,
                         Phone = e.Phone,
                         PostName = e.Post != null ? e.Post.Name : null,
-                        Subscribe = (e.User != null ? e.User.Subscribe : false),
                         OrganizationId = e.Organization.Id,
                         OrganizationName = e.Organization.Name,
                         OrganizationAddress = e.Organization.Address
@@ -260,7 +255,6 @@ namespace HelpDesk.DataService
                         Cabinet = e.Cabinet,
                         Phone = e.Phone,
                         PostName = e.Post != null ? e.Post.Name : null,
-                        Subscribe = (e.User != null ? e.User.Subscribe : false),
                         OrganizationId = e.Organization.Id,
                         OrganizationName = e.Organization.Name,
                         OrganizationAddress = e.Organization.Address
@@ -353,9 +347,6 @@ namespace HelpDesk.DataService
             entity.OT = dto.OT.Trim().ToFirstLetterUpper();
             entity.Cabinet = dto.Cabinet.Trim().ToUpper();
             entity.Phone = dto.Phone.ToPhoneList();
-
-            if (user != null)
-                user.Subscribe = dto.Subscribe;
 
             if (dto.OrganizationId.HasValue)
                 entity.Organization = organizationRepository.Get(dto.OrganizationId.Value);

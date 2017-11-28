@@ -7,8 +7,8 @@
       </generator>
     </id>
     
-    <many-to-one not-null="true" foreign-key="CabinetUserEventSubscribe_WorkerUser_FK"     name="User"   
-      fetch="join" column="UserId"    class="HelpDesk.Entity.WorkerUser, HelpDesk.Entity"/>
+    <many-to-one not-null="true" foreign-key="CabinetUserEventSubscribe_CabinetUser_FK"     name="User"   
+      fetch="join" column="UserId"    class="HelpDesk.Entity.CabinetUser, HelpDesk.Entity"/>
     <many-to-one not-null="true" foreign-key="CabinetUserEventSubscribe_StatusRequest_FK"  name="StatusRequest" 
       fetch="join" column="StatusRequestId"  class="HelpDesk.Entity.StatusRequest, HelpDesk.Entity"/>
   </class>

@@ -414,4 +414,13 @@
   <data name="Label_Archive" xml:space="preserve">
     <value>Архив</value>
   </data>
+  <data name="Menu_Subscribe" xml:space="preserve">
+    <value>Подписка</value>
+  </data>
+  <data name="Label_SubscribeRequestState" xml:space="preserve">
+    <value>Получать уведомления о событиях заявки</value>
+  </data>
+  <data name="Label_EmailSubscribe" xml:space="preserve">
+    <value>Получать рассылку на E-mail</value>
+  </data>
 </root>
