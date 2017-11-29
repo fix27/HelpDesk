@@ -6,5 +6,7 @@
     <id name="Id" type="Int64" column="Id" />
     <property insert="false" update="false" name="Name" length="200" not-null="true" />
     <property insert="false" update="false" name="AllowableStates" length="200"/>
+    <property insert="false" update="false" name="TypeCode" not-null="true"
+              type="HelpDesk.Entity.TypeWorkerUserEnum, HelpDesk.Entity"/>
   </class>
 </hibernate-mapping>

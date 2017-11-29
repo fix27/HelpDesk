@@ -58,7 +58,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
         [Culture]
         public ActionResult Index()
         {
-            if (CurrentUser.UserType.Id == 1)
+            if (CurrentUser.UserType.TypeCode == TypeWorkerUserEnum.Worker)
             {
                 ViewBag.Menu = new Dictionary<string, string>()
                 {

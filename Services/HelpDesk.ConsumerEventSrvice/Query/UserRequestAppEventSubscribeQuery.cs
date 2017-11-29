@@ -35,7 +35,8 @@ namespace HelpDesk.ConsumerEventService.Query
 
             Request request = requests.First(t => t.Id == evnt.RequestId);
             IEnumerable<long> userIds = accessWorkerUser
-                .Where(t => t.Worker.Id == request.Worker.Id && (t.Worker.Id == 1 || t.Worker.Id == 3))
+                .Where(t => t.Worker.Id == request.Worker.Id && 
+                    (t.User.UserType.TypeCode == TypeWorkerUserEnum.Worker || t.User.UserType.TypeCode == TypeWorkerUserEnum.WorkerAndDispatcher))
                 .Select(t => t.User.Id).ToList();
 
             IEnumerable<UserRequestAppEventSubscribeDTO> cs =

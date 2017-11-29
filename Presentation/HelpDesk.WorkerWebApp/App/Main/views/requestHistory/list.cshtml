@@ -35,7 +35,7 @@
         </div>
         @{
             var controller = ViewContext.Controller as AngularTemplateController;
-            if (controller.CurrentUser.UserType.Id != 1)
+            if (controller.CurrentUser.UserType.TypeCode !=  HelpDesk.Entity.TypeWorkerUserEnum.Worker)
             {
                 <div class="col-md-6" style="text-align:right">
                     <button type="button" ng-click="vm.createRequest()" class="btn btn-primary">@Resource.Menu_Request</button>
@@ -215,7 +215,7 @@
                 <td>
                     <table>
                         <tr class="buttons">
-                            @if (Model.CurrentUser.UserType.Id == 2 || Model.CurrentUser.UserType.Id == 3)
+                            @if (Model.CurrentUser.UserType.TypeCode != HelpDesk.Entity.TypeWorkerUserEnum.Worker)
                             {
                                 <td ng-show="t.Archive != true"><span ng-click="vm.delete(t.Id)" style="color: lightgrey; cursor: pointer; font-size: 14pt" class="glyphicon glyphicon-remove-circle"></span></td>
                                 <td ng-show="t.Archive != true"><span ng-click="vm.edit(t.Id)" title="@Resource.Title_EditRequest..." style="color: lightgrey; cursor: pointer" class="glyphicon glyphicon-pencil"></span></td>

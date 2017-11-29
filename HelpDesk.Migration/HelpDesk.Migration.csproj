@@ -101,6 +101,7 @@
     <Compile Include="Migrations\0011\AlterCabinetUser.cs" />
     <Compile Include="Migrations\0011\AlterWorkerUser.cs" />
     <Compile Include="Migrations\0011\AlterEmployee.cs" />
+    <Compile Include="Migrations\0012\AlterTypeWorkerUser.cs" />
     <Compile Include="MigratorInstaller.cs" />
     <Compile Include="MigrationRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
