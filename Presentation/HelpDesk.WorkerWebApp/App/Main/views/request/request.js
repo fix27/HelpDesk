@@ -350,11 +350,8 @@
                         if (result.cancel)
                             return;
                         
-                        vm.request.EmployeeId = result.employee.Id;
-                        vm.request.EmployeeInfo = result.employee.EmployeeInfo;
-                        vm.request.ObjectId = 0;
-                        vm.request.ObjectName = null;
-                                                
+                        vm.request.EmployeeInfo = result.employee.EmployeeInfo;                        
+                        vm.selectEmployee(result.employee);
                     });
                 });
             }
