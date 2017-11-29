@@ -36,26 +36,30 @@ namespace HelpDesk.ConsumerEventService.Query
             Request request = requests.First(t => t.Id == evnt.RequestId);
             IEnumerable<long> userIds = accessWorkerUser
                 .Where(t => t.Worker.Id == request.Worker.Id && 
-                    (t.User.UserType.TypeCode == TypeWorkerUserEnum.Worker || t.User.UserType.TypeCode == TypeWorkerUserEnum.WorkerAndDispatcher))
+                    (t.User.UserType.TypeCode == TypeWorkerUserEnum.Worker || 
+                     t.User.UserType.TypeCode == TypeWorkerUserEnum.WorkerAndDispatcher))
                 .Select(t => t.User.Id).ToList();
 
-            IEnumerable<UserRequestAppEventSubscribeDTO> cs =
-                cabinetUserEventSubscribes.Where(t => t.User.Id == request.Employee.Id && t.User.Subscribe)
+            IEnumerable<UserRequestAppEventSubscribeDTO> ws =
+                workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id) && 
+                    t.User.Id != request.User.Id && 
+                    t.User.Subscribe)
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
                     RequestId = request.Id,
-                    RequestStatusName = getEquivalenceByElement(request.Status.Id).GetDisplayName(),
+                    RequestStatusName = request.Status.Name,
                     Email = t.User.Email,
                     DateEndPlan = request.DateEndPlan
                 })
                 .ToList();
 
-            IEnumerable<UserRequestAppEventSubscribeDTO> ws =
-                workerUserEventSubscribes.Where(t => userIds.Contains(t.User.Id) && t.User.Id != request.User.Id && t.User.Subscribe)
+            IEnumerable<UserRequestAppEventSubscribeDTO> cs =
+                cabinetUserEventSubscribes.Where(t => t.User.Id == request.Employee.Id && 
+                t.User.Subscribe)
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
                     RequestId = request.Id,
-                    RequestStatusName = request.Status.Name,
+                    RequestStatusName = getEquivalenceByElement(request.Status.Id).GetDisplayName(),
                     Email = t.User.Email,
                     DateEndPlan = request.DateEndPlan
                 })

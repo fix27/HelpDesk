@@ -87,21 +87,7 @@
   <ItemGroup>
     <Compile Include="IMigrationRunner.cs" />
     <EmbeddedResource Include="Migrations\0001\create-database.sql" />
-    <Compile Include="Migrations\0002\AlterSettings.cs" />
-    <Compile Include="Migrations\0002\AlterObjectType.cs" />
     <Compile Include="Migrations\0001\InitialDeployment.cs" />
-    <Compile Include="Migrations\0003\CreateWorkCalendarItem.cs" />
-    <Compile Include="Migrations\0004\CreateWorkScheduleItem.cs" />
-    <Compile Include="Migrations\0005\CreateUserSession.cs" />
-    <Compile Include="Migrations\0008\AlterRequestFile.cs" />
-    <Compile Include="Migrations\0006\AlterSettings1.cs" />
-    <Compile Include="Migrations\0007\CreateDescriptionProblem.cs" />
-    <Compile Include="Migrations\0009\CreateUserEventSubscribe.cs" />
-    <Compile Include="Migrations\0010\AlterObjectType2.cs" />
-    <Compile Include="Migrations\0011\AlterCabinetUser.cs" />
-    <Compile Include="Migrations\0011\AlterWorkerUser.cs" />
-    <Compile Include="Migrations\0011\AlterEmployee.cs" />
-    <Compile Include="Migrations\0012\AlterTypeWorkerUser.cs" />
     <Compile Include="MigratorInstaller.cs" />
     <Compile Include="MigrationRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
