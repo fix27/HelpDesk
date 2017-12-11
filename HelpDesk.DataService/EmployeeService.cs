@@ -239,7 +239,7 @@ namespace HelpDesk.DataService
                 if (workerUser.Worker != null)
                 {
                     if (!organizationObjectTypeWorkerRepository.GetList()
-                        .Any(t => organizationIds.Contains(t.Organization.Id) && t.Worker.Id == workerUser.Id))
+                        .Any(t => organizationIds.Contains(t.Organization.Id) && t.Worker.Id == workerUser.Worker.Id))
                         return null;
                 }
             }
