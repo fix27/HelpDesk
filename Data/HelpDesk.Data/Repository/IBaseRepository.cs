@@ -28,6 +28,8 @@ namespace HelpDesk.Data.Repository
 
         void Save(T entity);
 
+        void Insert(T entity, long id);
+
         int Count(Expression<Func<T, bool>> predicate = null);
     }
 }

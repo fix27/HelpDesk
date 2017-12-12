@@ -98,5 +98,10 @@ namespace HelpDesk.Data.NHibernate.Repository
             else
                 session.Save(entity);
         }
+
+        public virtual void Insert(T entity, long id)
+        {
+            session.Save(entity, id);
+        }
     }
 }

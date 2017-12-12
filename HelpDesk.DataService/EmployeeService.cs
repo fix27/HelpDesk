@@ -312,11 +312,7 @@ namespace HelpDesk.DataService
 
                 if (entity == null)
                 {
-                    entity = new Employee()
-                    {
-                        Id = user != null ? user.Id : 0,
-                        User = user
-                    };
+                    entity = new Employee();
                 }
             }
             else
@@ -365,11 +361,10 @@ namespace HelpDesk.DataService
             else
                 entity.Post = null;
 
-
-            employeeRepository.Save(entity);
             if (user != null)
-                userRepository.Save(user);
-
+                employeeRepository.Insert(entity, user.Id);
+            else
+                employeeRepository.Save(entity);
 
             repository.SaveChanges();
 

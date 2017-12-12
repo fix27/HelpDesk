@@ -1,7 +1,8 @@
 ﻿namespace HelpDesk.Entity
 {
     /// <summary>
-    /// Сотрудник обслуживаемой организации
+    /// Сотрудник обслуживаемой организации. 
+    /// Если запись создается из личного кабинета, то Employee.Id = CabinetUser.Id  
     /// </summary>
     public class Employee : BaseEntity
     {

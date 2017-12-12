@@ -34,6 +34,7 @@ namespace HelpDesk.Data.NHibernate.Repository
             container.RegisterType<IBaseRepository<OrganizationObjectTypeWorker>, BaseRepository<OrganizationObjectTypeWorker>>();
             container.RegisterType<IBaseRepository<Organization>, BaseRepository<Organization>>();
             container.RegisterType<IBaseRepository<Employee>, BaseRepository<Employee>>();
+            
             container.RegisterType<IBaseRepository<WorkCalendarItem>, BaseRepository<WorkCalendarItem>>();
             container.RegisterType<IBaseRepository<WorkScheduleItem>, BaseRepository<WorkScheduleItem>>();
             container.RegisterType<IBaseRepository<UserSession>, BaseRepository<UserSession>>();

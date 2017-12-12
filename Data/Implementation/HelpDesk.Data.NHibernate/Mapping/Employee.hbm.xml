@@ -17,6 +17,6 @@
     <many-to-one  foreign-key="Employee_Post_FK" name="Post" fetch="join" column="PostId" class="HelpDesk.Entity.Post, HelpDesk.Entity" not-null="true"/>
     <many-to-one  foreign-key="Employee_Organization_FK" name="Organization" fetch="join" column="OrganizationId" class="HelpDesk.Entity.Organization, HelpDesk.Entity" not-null="true"/>
 
-    <one-to-one foreign-key="Employee_CabinetUser_FK" name="User" class="HelpDesk.Entity.CabinetUser, HelpDesk.Entity"/>
+    <one-to-one name="User" class="HelpDesk.Entity.CabinetUser, HelpDesk.Entity"/>
   </class>
 </hibernate-mapping>
