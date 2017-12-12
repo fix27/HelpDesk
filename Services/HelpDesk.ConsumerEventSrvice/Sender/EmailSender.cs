@@ -8,6 +8,9 @@ using System.Net.Mail;
 
 namespace HelpDesk.ConsumerEventService.Sender
 {
+    /// <summary>
+    /// Отправщик сообщений, отформатированных как html (на основе Razor-шаблона), на e-mail
+    /// </summary>
     public class EmailSender: ISender
     {
         private readonly IEmailTemplateService emailTemplateService;
@@ -18,7 +21,7 @@ namespace HelpDesk.ConsumerEventService.Sender
             this.log = log;
         }
 
-        public void Send(UserEventSubscribeDTO msg, string subject, string messageTemplateName = null)
+        public void Send(UserEventSubscribeDTO msg, string subject, string messageTemplateName)
         {
             var emailHtmlBody = emailTemplateService.GetEmailBody(msg, messageTemplateName);
             sendEmail(msg.Email, subject, emailHtmlBody);
