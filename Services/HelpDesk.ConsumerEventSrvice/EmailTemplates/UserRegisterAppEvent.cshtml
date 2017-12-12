@@ -1,10 +1,11 @@
 ﻿@using HelpDesk.ConsumerEventService.DTO
+@using HelpDesk.ConsumerEventService.Resources
 @model UserEventSubscribeDTO
 
 @{
-    Layout = "~/EmailTemplates/_Layout.cshtml";
+    Layout = "_Layout.cshtml";
 }
 
 <p>
-
+    Вы зарегистрированы в системе <b>@Resource.AppName</b>. Ваш логин @Model.Email
 </p>

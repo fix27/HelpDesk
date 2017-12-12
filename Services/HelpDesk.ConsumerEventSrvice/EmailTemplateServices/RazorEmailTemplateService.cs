@@ -24,8 +24,16 @@ namespace HelpDesk.ConsumerEventService.EmailTemplateServices
             var config = new TemplateServiceConfiguration();
             config.DisableTempFileLocking = true;
             config.CachingProvider = new DefaultCachingProvider(t => { });
+            config.TemplateManager = new DelegateTemplateManager(name =>
+            {
+                string path = Path.Combine(templateFolderPath, name);
+                return File.ReadAllText(path);
+            });
+
+
             var service = RazorEngineService.Create(config);
             Engine.Razor = service;
+            
             var template = File.ReadAllText(Path.Combine(templateFolderPath, $"{messageTemplate}.cshtml"));
             
             

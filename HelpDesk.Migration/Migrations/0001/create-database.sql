@@ -1321,3 +1321,6 @@ insert into OrganizationObjectTypeWorker(Id, ObjectTypeId, OrganizationId, Worke
 
 insert into Post(Id, Name) values(1, 'Начальник управления');
 insert into Post(Id, Name) values(2, 'Начальник отдела');
+
+insert into AccessWorkerUser(Id, [Type], UserId, WorkerId) values(1, 1, 1, 1);
+insert into AccessWorkerUser(Id, [Type], UserId, WorkerId) values(2, 1, 3, 2);

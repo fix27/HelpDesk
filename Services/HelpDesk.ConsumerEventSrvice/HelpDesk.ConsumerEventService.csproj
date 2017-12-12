@@ -194,7 +194,9 @@
     <None Include="EmailTemplates\RequestAppEventCabinet.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="EmailTemplates\_Layout.cshtml" />
+    <None Include="EmailTemplates\_Layout.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Web.config" />
   </ItemGroup>
