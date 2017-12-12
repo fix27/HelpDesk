@@ -13,6 +13,8 @@
             vm.requestEvent.RequestId = params.requestId;
             vm.requestEvent.StatusName = params.statusName;
             vm.requestEvent.StatusRequestId = params.statusRequestId;
+            vm.requestEvent.RequestVersion = params.requestVersion;
+
             vm.requestEvent.Note = null;
             vm.requestEvent.NewDeadLineDate = null;
             vm.requestEvent.MaxDeadLineDate = null;

@@ -135,7 +135,8 @@ namespace HelpDesk.DataService.Query
                     DateInsert = r.DateInsert,
                     DateUpdate = r.DateUpdate,
                     DescriptionProblem = r.DescriptionProblem,
-                    CountCorrectionDateEndPlan = r.CountCorrectionDateEndPlan
+                    CountCorrectionDateEndPlan = r.CountCorrectionDateEndPlan,
+                    Version = r.Version
                 });
 
 

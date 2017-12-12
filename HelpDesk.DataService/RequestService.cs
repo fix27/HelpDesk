@@ -143,7 +143,8 @@ namespace HelpDesk.DataService
                 DescriptionProblem = request.DescriptionProblem,
                 EmployeeId = request.Employee.Id,
                 EmployeeInfo = EmployeeDTO.GetEmployeeInfo(request.Employee.FM, request.Employee.IM, request.Employee.OT, request.Employee.Phone, 
-                    request.Employee.Organization.Name, request.Employee.Organization.Address)
+                    request.Employee.Organization.Name, request.Employee.Organization.Address),
+                Version = request.Version
             };
         }
         public RequestParameter Get(long id = 0)
@@ -500,7 +501,13 @@ namespace HelpDesk.DataService
             DateTime currentDateTime = dateTimeService.GetCurrent();
             if (dto.Id > 0)
             {
+            
                 requestConstraintsService.CheckExistsRequest(dto.Id);
+
+                if (r.Version > dto.Version)
+                {
+                    throw new DataServiceException(Resource.ConcurrencyConstraintMsg);
+                }
 
                 r = requestRepository.Get(dto.Id);
 
@@ -598,6 +605,10 @@ namespace HelpDesk.DataService
         {
             DateTime currentDate = dateTimeService.GetCurrent();
             Request request = requestRepository.Get(dto.RequestId);
+            if (request.Version > dto.RequestVersion)
+            {
+                throw new DataServiceException(Resource.ConcurrencyConstraintMsg);
+            }
 
             if(dto.StatusRequestId == (long)RawStatusRequestEnum.ExtendedDeadLine && !dto.NewDeadLineDate.HasValue)
                 setErrorMsg("NewDeadLineDate", Resource.EmptyConstraintMsg);

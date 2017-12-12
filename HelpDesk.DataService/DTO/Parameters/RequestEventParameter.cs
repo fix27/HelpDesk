@@ -8,6 +8,11 @@ namespace HelpDesk.DataService.DTO.Parameters
     public class RequestEventParameter
     {
         /// <summary>
+        /// Версия записи заявки для разруливания конкурентного доступа
+        /// </summary>
+        public int RequestVersion { get; set; }
+
+        /// <summary>
         /// Id заявки
         /// </summary>
         public long RequestId { get; set; }

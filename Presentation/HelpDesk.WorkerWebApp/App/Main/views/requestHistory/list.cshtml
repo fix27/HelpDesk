@@ -232,7 +232,7 @@
             <tr>
                 <td style="text-align: right; border-top: none" colspan="5">
                     <span style="margin-right:10px; margin-left:10px; padding:3px; text-align: center; border-bottom: 3px solid {{s.BackColor}}" ng-repeat="s in t.AllowableStates">
-                        <a ng-click="vm.openNewRequestEventForm(t.Id, s.Id, s.Name)" href="" style="text-decoration:none">{{s.ActionName}}</a>
+                        <a ng-click="vm.openNewRequestEventForm(t.Id, s.Id, s.Name, t.Version)" href="" style="text-decoration:none">{{s.ActionName}}</a>
                     </span>
                 </td>
             </tr>

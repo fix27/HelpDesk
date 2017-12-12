@@ -10,6 +10,10 @@ namespace HelpDesk.Entity
 
         //все свойства помечены как virtual, потому что так нужно 
         //для маппинга union-subclass в NHibernate
+
+        /// <summary>
+        /// Версия записи для разруливания конкурентного доступа
+        /// </summary>
         public virtual int Version { get; set; }
 
         /// <summary>

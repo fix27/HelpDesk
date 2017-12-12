@@ -147,7 +147,8 @@ namespace HelpDesk.DataService.Query
                     EmployeePostName = r.Employee.Post.Name,
                     EmployeeOrganizationName = r.Employee.Organization.Name,
                     EmployeeOrganizationAddress = r.Employee.Organization.Address,
-                    User = r.User
+                    User = r.User,
+                    Version = r.Version
                 });
 
 

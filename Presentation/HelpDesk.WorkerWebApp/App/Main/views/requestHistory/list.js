@@ -141,13 +141,13 @@
             }
         };
 
-        vm.openNewRequestEventForm = function (requestId, statusRequestId, statusName)
+        vm.openNewRequestEventForm = function (requestId, statusRequestId, statusName, requestVersion)
         {
             modalService.showModal({
                 templateUrl: "/AngularTemplate/RequestEvent?statusRequestId=" + statusRequestId,
                 controller: "app.views.requestHistory.event as vm",
                 inputs: {
-                    params: { requestId: requestId, statusRequestId: statusRequestId, statusName: statusName }
+                    params: { requestId: requestId, statusRequestId: statusRequestId, statusName: statusName, requestVersion: requestVersion }
                 }
             }).then(function (modal) {
                 modal.element.modal();

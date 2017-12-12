@@ -8,6 +8,11 @@ namespace HelpDesk.DataService.DTO.Parameters
     public class RequestParameter
     {
         /// <summary>
+        /// Версия записи для разруливания конкурентного доступа (для Id > 0)
+        /// </summary>
+        public int Version { get; set; }
+
+        /// <summary>
         /// Id существующей заявки
         /// </summary>
         public long Id { get; set; }

@@ -13,6 +13,11 @@ namespace HelpDesk.DataService.DTO
     public class RequestDTO
     {
         /// <summary>
+        /// Версия записи для разруливания конкурентного доступа
+        /// </summary>
+        public int Version { get; set; }
+
+        /// <summary>
         /// ID
         /// </summary>
         public long Id { get; set; }
