@@ -28,6 +28,8 @@ namespace HelpDesk.CabinetWebApp.Controllers
             {
                 long userId = User.Identity.GetUserId<long>();
                 CabinetUser user = userService.Get(userId);
+                if (user.Employee != null)
+                    user.Employee.User = null;
                 result = Json(new { success = true, data = user });
             });
         }
