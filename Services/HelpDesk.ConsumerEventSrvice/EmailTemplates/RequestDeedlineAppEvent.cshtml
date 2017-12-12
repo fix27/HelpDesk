@@ -2,27 +2,20 @@
 @using HelpDesk.ConsumerEventService.Resources
 @model UserDeedlineAppEventSubscribeDTO
 
-<!DOCTYPE html>
+@{
+    Layout = "~/EmailTemplates/_Layout.cshtml";
+}
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-</head>
-<body>
-    <h>@Resource.Subject_RequestDeedlineAppEventConsumer</h>
-    <p>
-        <ul>
-            @foreach (var item in Model.Items)
+<h>@Resource.Subject_RequestDeedlineAppEventConsumer</h>
+<p>
+    <ul>
+        @foreach (var item in Model.Items)
             {
-                <li>
-                    <span>@item.RequestId</span>
-                    <span>@item.RequestStatusName</span>
-                    <span>@item.DateEndPlan</span>
-                </li>
-            }
-        </ul>
-    </p>
-
-    
-</body>
-</html>
+            <li>
+                <span>@item.RequestId</span>
+                <span>@item.RequestStatusName</span>
+                <span>@item.DateEndPlan</span>
+            </li>
+        }
+    </ul>
+</p>

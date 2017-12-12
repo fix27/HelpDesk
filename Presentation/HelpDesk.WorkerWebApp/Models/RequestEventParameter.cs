@@ -6,6 +6,11 @@
     public class RequestEventParameterModel
     {
         /// <summary>
+        /// Версия записи заявки для разруливания конкурентного доступа
+        /// </summary>
+        public int RequestVersion { get; set; }
+
+        /// <summary>
         /// Id заявки
         /// </summary>
         public long RequestId { get; set; }

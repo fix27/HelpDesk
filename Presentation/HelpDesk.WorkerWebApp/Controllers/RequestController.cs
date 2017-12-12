@@ -156,10 +156,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
         {
             RequestEventParameter dto = new RequestEventParameter
             {
-                 Note = param.Note,
-                 RequestId = param.RequestId,
-                 StatusRequestId = param.StatusRequestId,
-                 NewDeadLineDate = String.IsNullOrEmpty(param.NewDeadLineDate) ? (DateTime?)null: Convert.ToDateTime(param.NewDeadLineDate)
+                RequestVersion = param.RequestVersion,
+                Note = param.Note,
+                RequestId = param.RequestId,
+                StatusRequestId = param.StatusRequestId,
+                NewDeadLineDate = String.IsNullOrEmpty(param.NewDeadLineDate) ? (DateTime?)null : Convert.ToDateTime(param.NewDeadLineDate)
             };
 
             return execute(delegate ()
