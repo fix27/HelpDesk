@@ -55,7 +55,8 @@ namespace HelpDesk.DataService.Query
                 q = q.Where(o => o.SoftName != null && o.SoftName.ToUpper().Contains(name.ToUpper()) ||
                         o.SoftName == null && o.ObjectType.Name.ToUpper().Contains(name.ToUpper()));
 
-            q = q.Where(accessPredicate);
+            if(accessPredicate !=null)
+                q = q.Where(accessPredicate);
 
             return q.Select(o => new RequestObjectISDTO()
             {

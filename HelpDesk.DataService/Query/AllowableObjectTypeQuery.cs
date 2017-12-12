@@ -40,7 +40,8 @@ namespace HelpDesk.DataService.Query
                     orderby ootw.ObjectType.Name
                     select ootw;
 
-            q = q.Where(accessPredicate);
+            if(accessPredicate !=null)
+                q = q.Where(accessPredicate);
             
             return q.Select(ootw => new SimpleDTO()
             {
