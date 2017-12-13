@@ -263,6 +263,12 @@ namespace HelpDesk.DataService
 
         }
 
+
+        /// <summary>
+        /// Метод вызывается из личного кабинета (когда он вызывается из личного кабинета, то 
+        /// существует CabinetUser, и Employee создается с Employee.Id = CabinetUser.Id) и из АРМ Диспетчера 
+        /// </summary>
+        /// <param name="dto"></param>
         [Transaction]
         public void Save(EmployeeDTO dto)
         {
@@ -394,11 +400,7 @@ namespace HelpDesk.DataService
 
             dto.Id = entity.Id;
         }
-
-
-
-
-
+        
         public bool IsComplete(long id)
         {
             Employee entity = employeeRepository.Get(id);

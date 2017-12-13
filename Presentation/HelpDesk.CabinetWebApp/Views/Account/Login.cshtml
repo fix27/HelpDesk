@@ -31,16 +31,17 @@
     </div>
            
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
             <button class="btn btn-lg btn-block btn-default" type="submit">@Resource.Action_Login</button>
         </div>
-        <div class="col-md-7">
-            <a href="@Url.Action("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl })">@Resource.Action_Register</a>
-        </div>
+        <div class="col-md-3"></div>
     </div>
 
     <div style="padding-top: 20px" class="text-center">
         <a href="@Url.Action("RecoveryPassword", "Account")">@Resource.Label_ForgetPassword</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="@Url.Action("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl })">@Resource.Action_Register</a>
     </div>
 }
 
