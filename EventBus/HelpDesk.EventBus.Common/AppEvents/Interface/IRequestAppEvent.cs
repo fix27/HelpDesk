@@ -9,5 +9,10 @@
         /// Id события заявки из RequestEvent
         /// </summary>
         long RequestEventId { get; }
+
+        /// <summary>
+        /// Заявка перенесена в архив, или событие произошло с архивной заявкой
+        /// </summary>
+        bool Archive { get; }
     }
 }

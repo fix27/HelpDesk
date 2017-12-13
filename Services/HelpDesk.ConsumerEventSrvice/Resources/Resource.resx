@@ -120,6 +120,24 @@
   <data name="AppName" xml:space="preserve">
     <value>help-desk</value>
   </data>
+  <data name="Name_Model" xml:space="preserve">
+    <value>модель</value>
+  </data>
+  <data name="Name_PhoneShort" xml:space="preserve">
+    <value>тел.</value>
+  </data>
+  <data name="Name_WareIS" xml:space="preserve">
+    <value>ПО</value>
+  </data>
+  <data name="Name_WareTO" xml:space="preserve">
+    <value>Оборудование</value>
+  </data>
+  <data name="Name_WorkTypeWareIS" xml:space="preserve">
+    <value>Сопровождение ИС</value>
+  </data>
+  <data name="Name_WorkTypeWareTO" xml:space="preserve">
+    <value>ТО ВТ и КМТ</value>
+  </data>
   <data name="Subject_RequestAppEventConsumer" xml:space="preserve">
     <value>Заявка №{0} ({1})</value>
   </data>

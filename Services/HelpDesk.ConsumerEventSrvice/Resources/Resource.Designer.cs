@@ -70,6 +70,60 @@ namespace HelpDesk.ConsumerEventService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to модель.
+        /// </summary>
+        public static string Name_Model {
+            get {
+                return ResourceManager.GetString("Name_Model", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to тел..
+        /// </summary>
+        public static string Name_PhoneShort {
+            get {
+                return ResourceManager.GetString("Name_PhoneShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ПО.
+        /// </summary>
+        public static string Name_WareIS {
+            get {
+                return ResourceManager.GetString("Name_WareIS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Оборудование.
+        /// </summary>
+        public static string Name_WareTO {
+            get {
+                return ResourceManager.GetString("Name_WareTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сопровождение ИС.
+        /// </summary>
+        public static string Name_WorkTypeWareIS {
+            get {
+                return ResourceManager.GetString("Name_WorkTypeWareIS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ТО ВТ и КМТ.
+        /// </summary>
+        public static string Name_WorkTypeWareTO {
+            get {
+                return ResourceManager.GetString("Name_WorkTypeWareTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Заявка №{0} ({1}).
         /// </summary>
         public static string Subject_RequestAppEventConsumer {

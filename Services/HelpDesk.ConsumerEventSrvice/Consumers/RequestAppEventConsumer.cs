@@ -41,7 +41,7 @@ namespace HelpDesk.ConsumerEventService.Consumers
             Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>,IEnumerable<UserRequestAppEventSubscribeDTO>> result = null;
             lock (lockObj)
             {
-                result = queryRunner.Run(new UserRequestAppEventSubscribeQuery(context.Message.RequestEventId, statusRequestMapService.GetEquivalenceByElement));
+                result = queryRunner.Run(new UserRequestAppEventSubscribeQuery(context.Message.RequestEventId, context.Message.Archive, statusRequestMapService.GetEquivalenceByElement));
             }
             
 

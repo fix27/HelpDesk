@@ -18,10 +18,13 @@ namespace HelpDesk.ConsumerEventService.Query
     {
         private readonly long requestEventId;
         private readonly Func<long, StatusRequestEnum> getEquivalenceByElement;
-        public UserRequestAppEventSubscribeQuery(long requestEventId, Func<long, StatusRequestEnum> getEquivalenceByElement)
+        private readonly bool archive;
+
+        public UserRequestAppEventSubscribeQuery(long requestEventId, bool archive, Func<long, StatusRequestEnum> getEquivalenceByElement)
         {
             this.requestEventId = requestEventId;
             this.getEquivalenceByElement = getEquivalenceByElement;
+            this.archive = archive;
         }
                 
         public Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>> Run(IQueryable<Request> requests, IQueryable<RequestEvent> events, 
@@ -34,6 +37,9 @@ namespace HelpDesk.ConsumerEventService.Query
                 return null;
 
             Request request = requests.First(t => t.Id == evnt.RequestId);
+
+
+
             IEnumerable<long> userIds = accessWorkerUser
                 .Where(t => t.Worker.Id == request.Worker.Id && 
                     (t.User.UserType.TypeCode == TypeWorkerUserEnum.Worker || 
@@ -55,7 +61,7 @@ namespace HelpDesk.ConsumerEventService.Query
 
             IEnumerable<UserRequestAppEventSubscribeDTO> cs =
                 cabinetUserEventSubscribes.Where(t => t.User.Id == request.Employee.Id && 
-                t.User.Subscribe)
+                    t.User.Subscribe)
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
                     RequestId = request.Id,

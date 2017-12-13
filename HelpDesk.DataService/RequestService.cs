@@ -598,7 +598,7 @@ namespace HelpDesk.DataService
 
             commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, r.Id));
 
-            queue.Push(new RequestAppEvent() { RequestEventId = newEvent.Id });
+            queue.Push(new RequestAppEvent() { RequestEventId = newEvent.Id, Archive = false });
 
             return r.Id;
         }
@@ -686,19 +686,21 @@ namespace HelpDesk.DataService
             request.DateUpdate  = currentDate;
             request.Status      = statusRequest;
             requestRepository.Save(request);
-            
-                        
+                       
             repository.SaveChanges();
 
-            //перенос заявки в архив
-            if (dto.StatusRequestId == (long)RawStatusRequestEnum.ApprovedComplete ||
+            bool transferRequestToArchive = dto.StatusRequestId == (long)RawStatusRequestEnum.ApprovedComplete ||
                 dto.StatusRequestId == (long)RawStatusRequestEnum.ApprovedRejected ||
-                dto.StatusRequestId == (long)RawStatusRequestEnum.Passive)
-            {
+                dto.StatusRequestId == (long)RawStatusRequestEnum.Passive;
+            //перенос заявки в архив
+            if (transferRequestToArchive)
                 commandRunner.Run(new TransferRequestToArchiveCommand(request.Id, currentDate));
-            }
 
-            queue.Push(new RequestAppEvent() { RequestEventId = newEvent.Id });
+            queue.Push(new RequestAppEvent()
+            {
+                RequestEventId = newEvent.Id,
+                Archive = transferRequestToArchive
+            });
         }
 
         public Interval<DateTime, DateTime?> GetAllowableDeadLine(long requestId)
