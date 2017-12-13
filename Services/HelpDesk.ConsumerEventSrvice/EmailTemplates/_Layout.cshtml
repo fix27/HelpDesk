@@ -1,17 +1,35 @@
 ﻿@using HelpDesk.ConsumerEventService.Resources
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+<style>
+    .mail-body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color:black;
+        font-size:12pt;
+        width:100%;
+    }
+    .mail-header {
+        background-color:#f8f8f8;
+        width:100%;
+        color: dimgray;
+        border-bottom: 1px solid #e7e7e7;
+    }
 
-    <title>@Resource.AppName</title>
+    .navbar-brand {
+        float: left;
+        padding: 15px 15px;
+        font-size: 18px;
 
-    
-</head>
-<body>
-    @RenderBody()
-</body>
-</html>
+    }
+</style>
+<table class="mail-body">
+    <tr>
+        <td class="mail-header"><span class="navbar-brand"><a style="text-decoration:none; color: #333" href="#">@Resource.AppName</a></span></td>
+    </tr>
+    <tr>
+        <td>
+            @RenderBody()
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+</table>

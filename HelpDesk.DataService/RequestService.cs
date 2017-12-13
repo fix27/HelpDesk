@@ -538,7 +538,7 @@ namespace HelpDesk.DataService
             };
             requestRepository.Save(r);
 
-            RequestEvent newRequestEvent = new RequestEvent()
+            RequestEvent newEvent = new RequestEvent()
             {
                 StatusRequest = newStatusRequest,
                 DateEvent = currentDateTime,
@@ -546,7 +546,7 @@ namespace HelpDesk.DataService
                 RequestId = r.Id,
                 User = user
             };
-            requestEventRepository.Save(newRequestEvent);
+            requestEventRepository.Save(newEvent);
 
             RequestEvent dateEndRequestEvent = new RequestEvent()
             {
@@ -597,6 +597,9 @@ namespace HelpDesk.DataService
             repository.SaveChanges();
 
             commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, r.Id));
+
+            queue.Push(new RequestAppEvent() { RequestEventId = newEvent.Id });
+
             return r.Id;
         }
 
