@@ -130,6 +130,6 @@
     <value>Восстановление пароля</value>
   </data>
   <data name="Subject_UserRegisterAppEventConsumer" xml:space="preserve">
-    <value>Регистрация в системе HelpDesk</value>
+    <value>Регистрация в системе {0}</value>
   </data>
 </root>

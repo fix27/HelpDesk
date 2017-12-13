@@ -29,8 +29,10 @@ namespace HelpDesk.ConsumerEventService.Consumers
                 sender.Send(new UserPasswordRecoveryAppEventSubscribeDTO
                 {
                     Email = context.Message.Email,
-                    Password = context.Message.Password
-                }, Resource.Subject_UserPasswordRecoveryAppEventConsumer, "UserPasswordRecoveryAppEvent");
+                    Password = context.Message.Password,
+                    BaseUrl = context.Message.Cabinet? Program.BaseCabinetUrl: Program.BaseWorkerUrl
+                }, 
+                Resource.Subject_UserPasswordRecoveryAppEventConsumer, "UserPasswordRecoveryAppEvent");
                 log.InfoFormat("UserPasswordRecoveryAppEventConsumer Send OK: Email = {0}", context.Message.Email);
             });
         }

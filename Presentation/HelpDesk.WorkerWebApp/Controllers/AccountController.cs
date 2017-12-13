@@ -18,6 +18,9 @@ using System;
 using System.Net.Configuration;
 using System.Configuration;
 using log4net;
+using HelpDesk.EventBus.Common.Interface;
+using HelpDesk.EventBus.Common.AppEvents.Interface;
+using HelpDesk.EventBus.Common.AppEvents;
 
 namespace HelpDesk.WorkerWebApp.Controllers
 {
@@ -27,10 +30,11 @@ namespace HelpDesk.WorkerWebApp.Controllers
     {
         private readonly ILog log = LogManager.GetLogger("HelpDesk.WorkerWebApp");
         private readonly IWorkerUserService userService;
-        
-        public AccountController(IWorkerUserService userService)
+        private readonly IQueue<IUserPasswordRecoveryAppEvent> queuePasswordRecovery;
+        public AccountController(IWorkerUserService userService, IQueue<IUserPasswordRecoveryAppEvent> queuePasswordRecovery)
         {
             this.userService = userService;
+            this.queuePasswordRecovery = queuePasswordRecovery;
         }
                 
         private ApplicationSignInManager signInManager;
@@ -123,10 +127,17 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 }
                 else
                 {
-                    Task task = new Task(() => sendEmail(model.Email,
+                    queuePasswordRecovery.Push(new UserPasswordRecoveryAppEvent()
+                    {
+                        Email = model.Email,
+                        Password = user.Password,
+                        Cabinet = false
+                    });
+
+                    /*Task task = new Task(() => sendEmail(model.Email,
                         String.Format(Resource.Text_RecoveryPasswordSubject, Resource.AppName),
                         user.Password));
-                    task.Start();
+                    task.Start();*/
 
                     model.IsSend = true;
                 }

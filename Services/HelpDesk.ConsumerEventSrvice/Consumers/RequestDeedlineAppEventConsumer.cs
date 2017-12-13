@@ -45,6 +45,7 @@ namespace HelpDesk.ConsumerEventService.Consumers
             {
                 foreach (var evnt in list)
                 {
+                    evnt.BaseUrl = Program.BaseWorkerUrl;
                     sender.Send(evnt, Resource.Subject_RequestDeedlineAppEventConsumer, "RequestDeedlineAppEvent");
                     log.InfoFormat("RequestDeedlineAppEventConsumer Send OK: Email = {0}", evnt.Email);
                 }

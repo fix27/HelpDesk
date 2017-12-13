@@ -97,18 +97,6 @@
        primary key (Id)
     )
 
-    create table BaseRequest (
-        Id BIGINT not null,
-       Version INT not null,
-       DateInsert DATETIME2 not null,
-       DateUpdate DATETIME2 not null,
-       DateEndPlan DATETIME2 not null,
-       DateEndFact DATETIME2 null,
-       DescriptionProblem VARCHAR(2000) not null,
-       CountCorrectionDateEndPlan INT not null,
-       primary key (Id)
-    )
-
     create table Request (
         Id BIGINT not null,
        Version INT not null,
@@ -142,17 +130,7 @@
        UserId BIGINT null,
        primary key (Id)
     )
-
-    create table BaseRequestEvent (
-        Id BIGINT not null,
-       RequestId BIGINT not null,
-       Note VARCHAR(2000) null,
-       OrdGroup INT not null,
-       DateEvent DATETIME2 not null,
-       DateInsert DATETIME2 not null,
-       primary key (Id)
-    )
-
+	
     create table RequestEvent (
         Id BIGINT not null,
        RequestId BIGINT not null,

@@ -50,6 +50,7 @@ namespace HelpDesk.ConsumerEventService.Consumers
                 if (result != null && result.Item1!=null && result.Item1.Any())
                     foreach (var evnt in result.Item1)
                     {
+                        evnt.BaseUrl = Program.BaseWorkerUrl;
                         sender.Send(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.RequestId, evnt.RequestStatusName), "RequestAppEventWorker");
                         log.InfoFormat("RequestAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
                             evnt.RequestId, evnt.RequestStatusName, evnt.Email);
@@ -58,6 +59,7 @@ namespace HelpDesk.ConsumerEventService.Consumers
                 if (result != null && result.Item2 != null && result.Item2.Any())
                     foreach (var evnt in result.Item2)
                     {
+                        evnt.BaseUrl = Program.BaseCabinetUrl;
                         sender.Send(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.RequestId, evnt.RequestStatusName), "RequestAppEventCabinet");
                         log.InfoFormat("RequestAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
                             evnt.RequestId, evnt.RequestStatusName, evnt.Email);

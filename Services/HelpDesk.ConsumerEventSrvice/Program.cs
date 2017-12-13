@@ -8,14 +8,19 @@ using HelpDesk.ConsumerEventService.EmailTemplateServices;
 using Unity;
 using HelpDesk.ConsumerEventService.DTO;
 using Topshelf;
+using System.Configuration;
 
 namespace HelpDesk.ConsumerEventService
 {
-    class Program
+    public class Program
     {
-        
+        public static string BaseCabinetUrl { get; set; }
+        public static string BaseWorkerUrl { get; set; }
         static void Main(string[] args)
         {
+            BaseCabinetUrl = ConfigurationManager.AppSettings["BaseCabinetUrl"];
+            BaseWorkerUrl = ConfigurationManager.AppSettings["BaseWorkerUrl"];
+
             ConfigureLogger();
             
             // Topshelf to use Log4Net

@@ -97,7 +97,7 @@ namespace HelpDesk.ConsumerEventService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Регистрация в системе HelpDesk.
+        ///   Looks up a localized string similar to Регистрация в системе {0}.
         /// </summary>
         public static string Subject_UserRegisterAppEventConsumer {
             get {

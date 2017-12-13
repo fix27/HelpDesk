@@ -1,5 +1,6 @@
 ﻿using HelpDesk.ConsumerEventService.DTO;
 using HelpDesk.ConsumerEventService.EmailTemplateServices;
+using HelpDesk.ConsumerEventService.Resources;
 using MassTransit.Logging;
 using System;
 using System.Configuration;
@@ -34,7 +35,8 @@ namespace HelpDesk.ConsumerEventService.Sender
             {
                 var smtpSection = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
                 var smtpClient = new SmtpClient();
-                var msg = new MailMessage(smtpSection.From, email, subject, body);
+                
+                var msg = new MailMessage($"{Resource.AppName} <{smtpSection.From}>" , email, subject, body);
                 msg.IsBodyHtml = true;
                 smtpClient.Send(msg);
             }

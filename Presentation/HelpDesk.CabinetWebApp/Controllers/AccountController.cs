@@ -189,11 +189,14 @@ namespace HelpDesk.CabinetWebApp.Controllers
                 }
                 else
                 {
-                    queuePasswordRecovery.Push(new UserPasswordRecoveryAppEvent() { Email = model.Email, Password = user.Password });
-                    Task task = new Task(() => sendEmail(model.Email,
+                    queuePasswordRecovery.Push(new UserPasswordRecoveryAppEvent()
+                    {
+                        Email = model.Email, Password = user.Password, Cabinet = true
+                    });
+                    /*Task task = new Task(() => sendEmail(model.Email,
                         String.Format(Resource.Text_RecoveryPasswordSubject, Resource.AppName),
                         user.Password));
-                    task.Start();
+                    task.Start();*/
 
                     model.IsSend = true;
                 }

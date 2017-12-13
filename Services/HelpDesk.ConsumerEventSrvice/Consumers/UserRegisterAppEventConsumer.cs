@@ -5,6 +5,7 @@ using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.ConsumerEventService.DTO;
 using HelpDesk.ConsumerEventService.Sender;
 using HelpDesk.ConsumerEventService.Resources;
+using System;
 
 namespace HelpDesk.ConsumerEventService.Consumers
 {
@@ -26,8 +27,8 @@ namespace HelpDesk.ConsumerEventService.Consumers
             log.InfoFormat("UserRegisterAppEventConsumer: Email = {0}", context.Message.Email);
             await Task.Run(() =>
             {
-                sender.Send(new UserEventSubscribeDTO {Email = context.Message.Email }, 
-                    Resource.Subject_UserRegisterAppEventConsumer, "UserRegisterAppEvent");
+                sender.Send(new UserEventSubscribeDTO {Email = context.Message.Email, BaseUrl = Program.BaseCabinetUrl }, 
+                    String.Format(Resource.Subject_UserRegisterAppEventConsumer, Resource.AppName), "UserRegisterAppEvent");
                 log.InfoFormat("UserRegisterAppEventConsumer Send OK: Email = {0}", context.Message.Email);
             });
         }        
