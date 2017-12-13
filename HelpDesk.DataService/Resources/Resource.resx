@@ -258,4 +258,7 @@
   <data name="September" xml:space="preserve">
     <value>Сентябрь</value>
   </data>
+  <data name="UniqueEmployeeConstraintMsg" xml:space="preserve">
+    <value>Сотрудник с указанными данными уже существует в системе. Если это действительно Ваши данные, обратитесь в службу поддержки системы</value>
+  </data>
 </root>

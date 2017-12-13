@@ -299,7 +299,8 @@ namespace HelpDesk.DataService
             if (!String.IsNullOrWhiteSpace(dto.PostName))
                 post = postRepository.Get(new SimpleEntityByNameEqualSpecification<Post>(dto.PostName));
 
-            if (entity == null)
+            bool isNew = entity == null;
+            if (isNew)
             {
                 //проверяем, не был ли ранее создан сотрудник
                 entity = employeeRepository.Get(
@@ -310,10 +311,33 @@ namespace HelpDesk.DataService
                     e.Post.Id           == (post != null? post.Id: 0) &&
                     e.Phone.ToUpper()   == dto.Phone.ToPhoneList());
 
-                if (entity == null)
+                if (entity != null)                 //сотрудник был создан ранее
                 {
-                    entity = new Employee();
+                    dto.Id = entity.Id;
+                    if (user != null)               //1. ф-я вызывается из личного кабинета
+                    {
+                        if (entity.Id == user.Id)   //1.1. сотрудник был создан ранее из личного кабинета
+                        {
+                            return;
+                        }
+                        else                        //1.2. сотрудник был создан ранее из АРМ Диспетчера
+                        {
+                            //Требуется вручную в БД изменить Id у user, за счет чего произойдёт привязка 1-1 к employee
+                            //Вообще говоря, это может быть каким-то злономеренным действием, 
+                            //когда пользователь пытается привязаться к существующему другому сотруднику
+                            throw new DataServiceException(Resource.UniqueEmployeeConstraintMsg);
+                        }
+                    }
+                    else                            //2. ф-я вызывается из АРМ Диспетчера
+                    {
+                        if (entity.User != null)    //2.1. сотрудник был создан ранее из личного кабинета
+                            return;
+                        else                        //2.2. сотрудник был создан ранее из АРМ Диспетчера
+                            return;
+                    }
                 }
+                else
+                    entity = new Employee();
             }
             else
             {
@@ -321,7 +345,7 @@ namespace HelpDesk.DataService
                     entity.Organization.Id != dto.OrganizationId)
                 {
                     //удаляем из профиля заявителя объекты, на которые он не сможет подавать заявки,
-                    //так как для них не определится исполнитель
+                    //так как для них не определится Исполнитель
                     IEnumerable<EmployeeObjectDTO> listPersonalProfileObject = queryRunner.Run(new EmployeeObjectQuery(
                         entity.User.Id));
 
@@ -361,7 +385,7 @@ namespace HelpDesk.DataService
             else
                 entity.Post = null;
 
-            if (user != null)
+            if (isNew && user != null)
                 employeeRepository.Insert(entity, user.Id);
             else
                 employeeRepository.Save(entity);
@@ -370,6 +394,10 @@ namespace HelpDesk.DataService
 
             dto.Id = entity.Id;
         }
+
+
+
+
 
         public bool IsComplete(long id)
         {
