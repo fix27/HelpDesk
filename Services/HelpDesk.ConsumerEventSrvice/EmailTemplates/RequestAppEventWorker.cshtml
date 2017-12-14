@@ -1,10 +1,14 @@
 ﻿@using HelpDesk.ConsumerEventService.DTO
+@using HelpDesk.ConsumerEventService.Resources
 @model UserRequestAppEventSubscribeDTO
 
 @{
     Layout = "_Layout.cshtml";
 }
 
-<p>
-    @Html.Partial("_Request", Model.Request)
-</p>
+<table class="table table-striped">
+    @Html.Partial("_RequestHeader")
+    <tbody>
+        @Html.Partial("_Request", Model.Request)
+    </tbody>
+</table>

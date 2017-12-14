@@ -2,7 +2,6 @@
 using HelpDesk.DataService.Common.DTO;
 using HelpDesk.Entity;
 using System;
-using System.Collections.Generic;
 
 namespace HelpDesk.ConsumerEventService.DTO
 {
@@ -94,8 +93,6 @@ namespace HelpDesk.ConsumerEventService.DTO
             }
         }
         
-        public bool ConfirmationStatusRequest { get { return StatusRequest == StatusRequestEnum.Closing; } }
-        
         public string EmployeeFM { get; set; }
         public string EmployeeIM { get; set; }
         public string EmployeeOT { get; set; }
@@ -109,8 +106,6 @@ namespace HelpDesk.ConsumerEventService.DTO
 
         public string EmployeeOrganizationName { get; set; }
         public string EmployeeOrganizationAddress { get; set; }
-
-        public IEnumerable<StatusRequest> AllowableStates { get; set; }
 
         public WorkerUser User { get; set; }
         

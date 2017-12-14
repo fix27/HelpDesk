@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HelpDesk.ConsumerEventService.DTO
+﻿namespace HelpDesk.ConsumerEventService.DTO
 {
     public class UserRequestAppEventSubscribeDTO: UserEventSubscribeDTO
     {

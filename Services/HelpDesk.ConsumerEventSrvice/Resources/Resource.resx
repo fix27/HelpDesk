@@ -120,6 +120,30 @@
   <data name="AppName" xml:space="preserve">
     <value>help-desk</value>
   </data>
+  <data name="Label_DateEndPlan" xml:space="preserve">
+    <value>Дата окончания</value>
+  </data>
+  <data name="Label_DescriptionProblem" xml:space="preserve">
+    <value>Описание проблемы</value>
+  </data>
+  <data name="Label_Employee" xml:space="preserve">
+    <value>Заявитель</value>
+  </data>
+  <data name="Label_ObjectName" xml:space="preserve">
+    <value>Объект заявки</value>
+  </data>
+  <data name="Label_RequestDate" xml:space="preserve">
+    <value>Дата подачи</value>
+  </data>
+  <data name="Label_RequestNumber" xml:space="preserve">
+    <value>№ заявки</value>
+  </data>
+  <data name="Label_StatusName" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="Label_Worker" xml:space="preserve">
+    <value>Исполнитель</value>
+  </data>
   <data name="Name_Model" xml:space="preserve">
     <value>модель</value>
   </data>

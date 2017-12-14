@@ -3,6 +3,33 @@
 @model RequestDTO
 
 
-<p>
-    @Model.Id
-</p>
+
+<tr>
+    <td style="vertical-align:middle; font-weight: bold">
+        <span style="font-size:14pt">@Model.Id</span>
+    </td>
+    <td style="text-align:center; background-color: @Model.StatusBackColor">
+        <div>@Model.Status.Name</div>
+        <div>@Model.LastEvent.DateEvent</div>
+        <div>@Model.User.Name</div>
+    </td>
+    <td>
+        <div style="padding-bottom:5px;">@Model.EmployeeName, @Model.EmployeePostName</div>
+        <div>@Model.EmployeeOrganizationName, @Model.EmployeeOrganizationAddress</div>
+        <div>каб. @Model.EmployeeCabinet, тел. @Model.EmployeePhone</div>
+    </td>
+    <td>
+        <span>@Model.ObjectName</span>
+    </td>
+    <td>
+        <div>@Model.DescriptionProblem</div>
+        <div style="font-style:italic; color: darkgreen; margin-top: 10px">@Model.LastEvent.Note</div>
+    </td>
+    <td><span>@Model.WorkerName</span></td>
+    <td><span>@Model.DateInsert</span></td>
+    <td>
+        <div>@Model.DateEndPlan</div>
+        <div style="color: gray">@Model.DateEndFact</div>
+    </td>
+    
+</tr>

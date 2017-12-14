@@ -6,14 +6,12 @@
     Layout = "_Layout.cshtml";
 }
 
-<h>@Resource.Subject_RequestDeedlineAppEventConsumer</h>
-<p>
-    <table>
-       @foreach (var item in Model.Items)
+<table class="table table-striped">
+    @Html.Partial("_RequestHeader")
+    <tbody>
+        @foreach (var item in Model.Items)
         {
-            <tr>
-                <td>@item.Id</td>
-            </tr>
+            @Html.Partial("_Request", item)
         }
-    </table>
-</p>
+    </tbody>
+</table>
