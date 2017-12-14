@@ -14,7 +14,7 @@ namespace HelpDesk.ConsumerEventService.Query
     /// и пользователей личного кабинета (второй элемент Tuple)
     /// </summary>
     public class UserRequestAppEventSubscribeQuery : IQuery<Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>>, 
-        Request, RequestEvent, CabinetUserEventSubscribe, WorkerUserEventSubscribe, AccessWorkerUser>
+        Request, RequestEvent, RequestArch, RequestEventArch, CabinetUserEventSubscribe, WorkerUserEventSubscribe, AccessWorkerUser>
     {
         private readonly long requestEventId;
         private readonly Func<long, StatusRequestEnum> getEquivalenceByElement;
@@ -27,21 +27,60 @@ namespace HelpDesk.ConsumerEventService.Query
             this.archive = archive;
         }
                 
-        public Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>> Run(IQueryable<Request> requests, IQueryable<RequestEvent> events, 
+        public Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>> Run(
+            IQueryable<Request> requests, IQueryable<RequestEvent> events,
+            IQueryable<RequestArch> requestArchs, IQueryable<RequestEventArch> eventArchs,
             IQueryable<CabinetUserEventSubscribe> cabinetUserEventSubscribes,
             IQueryable<WorkerUserEventSubscribe> workerUserEventSubscribes,
             IQueryable<AccessWorkerUser> accessWorkerUser)
         {
-            RequestEvent evnt = events.FirstOrDefault(t => t.Id == requestEventId);
-            if (evnt == null)
-                return null;
+            BaseRequest r = null;
+            BaseRequestEvent evnt = null;
 
-            Request request = requests.First(t => t.Id == evnt.RequestId);
+            if (archive)
+            {
+                evnt = eventArchs.FirstOrDefault(t => t.Id == requestEventId);
 
+                if (evnt == null)
+                    return null;
+
+                r = requestArchs.First(t => t.Id == evnt.RequestId);
+            }
+            else
+            {
+                evnt = events.FirstOrDefault(t => t.Id == requestEventId);
+                if (evnt == null)
+                    return null;
+
+                r = requests.First(t => t.Id == evnt.RequestId);
+            }
+
+            RequestDTO request = new RequestDTO()
+            {
+                Id = r.Id,
+                WorkerName = r.Worker.Name,
+                Status = r.Status,
+                Object = r.Object,
+                DateEndFact = r.DateEndFact,
+                DateEndPlan = r.DateEndPlan,
+                DateInsert = r.DateInsert,
+                DateUpdate = r.DateUpdate,
+                DescriptionProblem = r.DescriptionProblem,
+                CountCorrectionDateEndPlan = r.CountCorrectionDateEndPlan,
+                EmployeeFM = r.Employee.FM,
+                EmployeeIM = r.Employee.IM,
+                EmployeeOT = r.Employee.OT,
+                EmployeeCabinet = r.Employee.Cabinet,
+                EmployeePhone = r.Employee.Phone,
+                EmployeePostName = r.Employee.Post.Name,
+                EmployeeOrganizationName = r.Employee.Organization.Name,
+                EmployeeOrganizationAddress = r.Employee.Organization.Address,
+                User = r.User
+            };
 
 
             IEnumerable<long> userIds = accessWorkerUser
-                .Where(t => t.Worker.Id == request.Worker.Id && 
+                .Where(t => t.Worker.Id == r.Worker.Id && 
                     (t.User.UserType.TypeCode == TypeWorkerUserEnum.Worker || 
                      t.User.UserType.TypeCode == TypeWorkerUserEnum.WorkerAndDispatcher))
                 .Select(t => t.User.Id).ToList();
@@ -52,22 +91,18 @@ namespace HelpDesk.ConsumerEventService.Query
                     t.User.Subscribe)
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
-                    RequestId = request.Id,
-                    RequestStatusName = request.Status.Name,
-                    Email = t.User.Email,
-                    DateEndPlan = request.DateEndPlan
+                    Request = request,
+                    Email = t.User.Email
                 })
                 .ToList();
 
             IEnumerable<UserRequestAppEventSubscribeDTO> cs =
-                cabinetUserEventSubscribes.Where(t => t.User.Id == request.Employee.Id && 
+                cabinetUserEventSubscribes.Where(t => t.User.Id == r.Employee.Id && 
                     t.User.Subscribe)
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
-                    RequestId = request.Id,
-                    RequestStatusName = getEquivalenceByElement(request.Status.Id).GetDisplayName(),
-                    Email = t.User.Email,
-                    DateEndPlan = request.DateEndPlan
+                    Request = request,
+                    Email = t.User.Email
                 })
                 .ToList();
 
