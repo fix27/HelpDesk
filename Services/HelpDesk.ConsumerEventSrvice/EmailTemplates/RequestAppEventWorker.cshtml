@@ -5,4 +5,6 @@
     Layout = "_Layout.cshtml";
 }
 
-<h>RequestId = @Model.Request.Id</h>
+<p>
+    @Html.Partial("_Request", Model.Request)
+</p>

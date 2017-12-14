@@ -8,14 +8,12 @@
 
 <h>@Resource.Subject_RequestDeedlineAppEventConsumer</h>
 <p>
-    <ul>
-        @foreach (var item in Model.Items)
-            {
-            <li>
-                <span>@item.RequestId</span>
-                <span>@item.RequestStatusName</span>
-                <span>@item.DateEndPlan</span>
-            </li>
+    <table>
+       @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Id</td>
+            </tr>
         }
-    </ul>
+    </table>
 </p>

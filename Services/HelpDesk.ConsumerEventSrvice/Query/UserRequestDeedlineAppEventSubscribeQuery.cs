@@ -1,4 +1,5 @@
 ﻿using HelpDesk.ConsumerEventService.DTO;
+using HelpDesk.ConsumerEventService.Helpers;
 using HelpDesk.Data.Query;
 using HelpDesk.Entity;
 using System.Collections.Generic;
@@ -45,12 +46,7 @@ namespace HelpDesk.ConsumerEventService.Query
                     Email = t.Email,
                     Items = deedlineRequests
                         .Where(r => t.WorkerIds.Contains(r.Worker.Id))
-                        .Select(r => new DeedlineItem
-                        {
-                            RequestId = r.Id,
-                            RequestStatusName = r.Status.Name,
-                            DateEndPlan = r.DateEndPlan
-                        })
+                        .Select(r => r.GetDTO())
                 });
             }
 
