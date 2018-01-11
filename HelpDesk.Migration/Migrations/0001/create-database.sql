@@ -82,7 +82,7 @@
        Name VARCHAR(200) not null,
        Body VARBINARY(MAX) not null,
        Thumbnail VARBINARY(MAX) null,
-       Type VARCHAR(10) not null,
+       Type VARCHAR(500) not null,
        Size INT not null,
        TempRequestKey UNIQUEIDENTIFIER not null,
        RequestId BIGINT null,
