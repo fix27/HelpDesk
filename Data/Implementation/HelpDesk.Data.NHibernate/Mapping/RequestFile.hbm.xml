@@ -10,7 +10,7 @@
     <property name="Name"             length="200" not-null="true"/>
     <property name="Body" type="BinaryBlob" not-null="true"/>
     <property name="Thumbnail" type="BinaryBlob"/>
-    <property name="Type" length="10"   not-null="true"/>
+    <property name="Type" length="500"   not-null="true"/>
     <property type="Int32" name="Size"  not-null="true"/>
     <property name="TempRequestKey"     type="Guid" not-null="true"/>
        
