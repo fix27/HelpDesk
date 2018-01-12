@@ -114,14 +114,14 @@ namespace HelpDesk.WorkerWebApp.Controllers
             });
         }
 
-        [Route("api/{lang}/Request/GetCountRequiresConfirmation")]
+        [Route("api/{lang}/Request/GetCountRequiresReaction")]
         [HttpGet]
-        public IHttpActionResult GetCountRequiresConfirmation()
+        public IHttpActionResult GetCountRequiresReaction()
         {
             return execute(delegate ()
             {
                 long userId = User.Identity.GetUserId<long>();
-                int count = requestService.GetCountRequiresConfirmationForWorker(userId);
+                int count = requestService.GetCountRequiresReaction(userId);
                 result = Json(new { success = true, data = count });
             });
         }

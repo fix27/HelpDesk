@@ -23,8 +23,8 @@ namespace HelpDesk.DataService.Interface
         IEnumerable<StatusRequestDTO> GetListStatus(bool archive);
         IEnumerable<StatusRequest> GetListRawStatus(bool archive);
 
-        int GetCountRequiresConfirmationForEmployee(long employeeId);
-        int GetCountRequiresConfirmationForWorker(long userId);
+        int GetCountRequiresConfirmationEmployee(long employeeId);
+        int GetCountRequiresReaction(long userId);
 
         IEnumerable<Year> GetListEmployeeArchiveYear(long employeeId);
         IEnumerable<Year> GetListArchiveYear(long userId);

@@ -373,19 +373,56 @@ namespace HelpDesk.DataService
             return list.Where(t => (archive) ? arсhiveRawRequestStates.Contains(t.Id) : !arсhiveRawRequestStates.Contains(t.Id));
         }
         
-        public int GetCountRequiresConfirmationForEmployee(long employeeId)
+        /// <summary>
+        /// Количество заявок в состоянии, для которого требуется подтверждение Заявителя
+        /// </summary>
+        public int GetCountRequiresConfirmationEmployee(long employeeId)
         {
-            return requestRepository.Count(t => t.Employee.Id == employeeId && t.Status.Id == (long)RawStatusRequestEnum.Closing);
+            return requestRepository.Count(t => t.Employee.Id == employeeId && 
+                t.Status.Id == (long)RawStatusRequestEnum.Closing);
         }
 
-        public int GetCountRequiresConfirmationForWorker(long userId)
+        /// <summary>
+        /// Количество заявок в состоянии, для которого требуется реакция Исполнителя/Диспетчера
+        /// </summary>
+        public int GetCountRequiresReaction(long userId)
         {
+            int c = 0;
             WorkerUser user = workerUserRepository.Get(userId);
-            if (user.Worker == null)
-                return 0;
+            Expression<Func<BaseRequest, bool>> accessPredicate = null;
+            switch (user.UserType.TypeCode)
+            {
+                case TypeWorkerUserEnum.Worker:
+                    c = requestRepository.Count(t => t.Worker.Id == user.Worker.Id &&
+                        (t.Status.Id == (long)RawStatusRequestEnum.New ||
+                         t.Status.Id == (long)RawStatusRequestEnum.NotApprovedComplete));
+                    break;
+                    
+                case TypeWorkerUserEnum.Dispatcher:
+                    accessPredicate = accessWorkerUserExpressionService
+                        .GetAccessRequestPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+                    c = requestRepository.GetList()
+                        .Where(accessPredicate)
+                        .Count(t => (t.Status.Id == (long)RawStatusRequestEnum.Closing ||
+                            t.Status.Id == (long)RawStatusRequestEnum.Rejected ||
+                            t.Status.Id == (long)RawStatusRequestEnum.RejectedAfterAccepted));
+                    break;
 
-            return requestRepository.Count(t => t.Worker.Id == user.Worker.Id && 
-                t.Status.Id == (long)RawStatusRequestEnum.Closing);
+                case TypeWorkerUserEnum.WorkerAndDispatcher:
+                    accessPredicate = accessWorkerUserExpressionService
+                        .GetAccessRequestPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+                    c = requestRepository.GetList()
+                        .Where(accessPredicate)
+                        .Count(t => (t.Status.Id == (long)RawStatusRequestEnum.Closing ||
+                            t.Status.Id == (long)RawStatusRequestEnum.Rejected ||
+                            t.Status.Id == (long)RawStatusRequestEnum.RejectedAfterAccepted ||
+
+                            t.Status.Id == (long)RawStatusRequestEnum.New ||
+                            t.Status.Id == (long)RawStatusRequestEnum.NotApprovedComplete));
+                    break;
+            }
+            
+            return c;
         }
 
         public IEnumerable<Year> GetListEmployeeArchiveYear(long employeeId)
@@ -441,8 +478,7 @@ namespace HelpDesk.DataService
 
             return null;
         }
-
-        
+                
 
         [Transaction]
         public long Save(RequestParameter dto)
