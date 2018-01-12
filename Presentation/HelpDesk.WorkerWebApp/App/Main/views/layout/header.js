@@ -9,7 +9,7 @@
             var vm = this;
             vm.errorMsg = null;
 
-           
+            vm.requestStateCounts = [];
             vm.menu = {};
             localizedMenu = localizedMenuService.get();
             vm.menu.items = [];
@@ -42,7 +42,7 @@
             else
                 vm.go('requestHistory');
 
-            var getCountRequiresReaction = function ()
+            var getStatistics = function ()
             {
                 requestService.getCountRequiresReaction().then(function (results) {
                     vm.menu.items[vm.menu.items.length == 1 ? 1 : 0].countRequiresConfirmation = results.data.data;
@@ -51,7 +51,7 @@
                 });
             }
             
-            $interval(getCountRequiresReaction, 5000);
+            $interval(getStatistics, 5000);
         }
     ]);
 })();

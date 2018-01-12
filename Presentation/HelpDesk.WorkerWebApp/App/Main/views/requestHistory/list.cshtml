@@ -10,7 +10,17 @@
         <button type="button" ng-click="vm.closeAlert()" class="close" data-hide="alert">&times;</button>
         {{vm.errors.ErrorGeneralMessage.Errors[0].ErrorMessage}}
     </div>
-
+    <div class="row" style="min-height:30px; height:30px">
+        <div class="col-md-3"></div>
+        <div class="col-md-9">
+            <span ng-repeat="item in vm.requestStateCounts" style="padding: 3px; cursor: pointer; border: 1px solid {{item.StatusBackColor}}">
+                <a>
+                    {{item.StatusName}} -
+                    <span>{{item.Count}}</span>
+                </a>
+            </span>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-3">
             <label>@Resource.Label_TotalCount: {{vm.count}}</label>
@@ -19,6 +29,8 @@
                 <a style="cursor: pointer; color: red" ng-click="vm.resetFilter()">@Resource.Action_ResetFilter.ToLower()</a>
             </span>
             <span title="@Resource.Title_Refresh" style="color: lightgrey; cursor: pointer;" class="glyphicon glyphicon-refresh" ng-click="vm.refresh()"></span>
+
+            
         </div>
 
         <div class="col-md-3">

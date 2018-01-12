@@ -126,6 +126,12 @@
                 });
             };
 
+            var _getListRequestStateCount = function () {
+                return $http.get(localizedWebAPIService.get("Request/GetListRequestStateCount")).then(function (results) {
+                    return results;
+                });
+            };
+            
             factory.getNewByObjectId    = _getNewByObjectId;
             factory.getNewByRequestId   = _getNewByRequestId;
             factory.save                = _save;
@@ -138,7 +144,9 @@
             factory.getListRequestEvent = _getListRequestEvent;
             factory.delete              = _delete;
             factory.getAllowableDeadLine = _getAllowableDeadLine;
-            factory.getListDescriptionProblem = _getListDescriptionProblem;
+            factory.getListDescriptionProblem   = _getListDescriptionProblem;
+            factory.getListRequestStateCount    = _getListRequestStateCount;
+
             return factory;
 
         }

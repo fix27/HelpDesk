@@ -776,5 +776,14 @@ namespace HelpDesk.DataService
         {
             return queryRunner.Run(new DescriptionProblemQuery(name, objectId));
         }
+
+        public IEnumerable<RequestStateCountDTO> GetListRequestStateCount(long userId)
+        {
+            Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
+                        .GetAccessRequestPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
+
+            IEnumerable<RequestStateCountDTO> list = queryRunner.Run(new RequestStateCountQuery(accessPredicate));
+            return list;
+        }
     }
 }

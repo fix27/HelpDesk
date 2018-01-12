@@ -37,5 +37,6 @@ namespace HelpDesk.DataService.Interface
         Interval<DateTime, DateTime?> GetAllowableDeadLine(long requestId);
 
         IEnumerable<SimpleDTO> GetListDescriptionProblem(string name, long objectId);
+        IEnumerable<RequestStateCountDTO> GetListRequestStateCount(long userId);
     }
 }

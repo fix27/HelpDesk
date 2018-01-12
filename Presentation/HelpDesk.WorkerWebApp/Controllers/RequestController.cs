@@ -193,5 +193,17 @@ namespace HelpDesk.WorkerWebApp.Controllers
                 result = Json(new { success = true, data = list });
             });
         }
+
+        [Route("api/{lang}/Request/GetListRequestStateCount")]
+        [HttpGet]
+        public IHttpActionResult GetListRequestStateCount()
+        {
+            return execute(delegate ()
+            {
+                long userId = User.Identity.GetUserId<long>();
+                var list = requestService.GetListRequestStateCount(userId);
+                result = Json(new { success = true, data = list });
+            });
+        }
     }
 }
