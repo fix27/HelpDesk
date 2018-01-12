@@ -1,5 +1,4 @@
-﻿using HelpDesk.EventBus.Common.AppEvents.Interface;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace HelpDesk.EventBus.Common.AppEvents.Interface
 {

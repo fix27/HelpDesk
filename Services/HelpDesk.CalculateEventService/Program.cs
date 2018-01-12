@@ -1,9 +1,7 @@
 ﻿using HelpDesk.CalculateEventService.Jobs;
-using HelpDesk.EventBus;
 using Quartz;
 using Quartz.Unity;
 using System;
-using System.Threading;
 using Unity;
 using CommonLoggingSimple = Common.Logging.Simple;
 using CommonLogging = Common.Logging;

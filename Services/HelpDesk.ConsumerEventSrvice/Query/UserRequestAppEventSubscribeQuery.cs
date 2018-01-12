@@ -1,5 +1,4 @@
-﻿using HelpDesk.Common.Helpers;
-using HelpDesk.ConsumerEventService.DTO;
+﻿using HelpDesk.ConsumerEventService.DTO;
 using HelpDesk.ConsumerEventService.Helpers;
 using HelpDesk.Data.Query;
 using HelpDesk.DataService.Common.DTO;

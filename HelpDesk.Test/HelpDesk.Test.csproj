@@ -80,6 +80,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DataService\RequestServiceTest.cs" />
     <Compile Include="DataService\EmployeeObjectServiceTest.cs" />
     <Compile Include="DataService\OrganizationServiceTest.cs" />
     <Compile Include="DataService\DateTimeServiceTest.cs" />
@@ -98,6 +99,10 @@
     <ProjectReference Include="..\Data\Implementation\HelpDesk.Data.NHibernate\HelpDesk.Data.NHibernate.csproj">
       <Project>{C480A8C6-A30E-4519-B2CA-E48B62E53CA6}</Project>
       <Name>HelpDesk.Data.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EventBus\HelpDesk.EventBus.Common\HelpDesk.EventBus.Common.csproj">
+      <Project>{55804DBF-6229-4F0C-81DC-88472A707E6A}</Project>
+      <Name>HelpDesk.EventBus.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\HelpDesk.Common\HelpDesk.Common.csproj">
       <Project>{40185033-2355-4e6c-9bc9-ecc2d8685133}</Project>
