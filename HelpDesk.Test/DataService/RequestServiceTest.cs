@@ -32,7 +32,8 @@ namespace HelpDesk.Test.DataService
         IList<AccessWorkerUser> listAccessUser = new List<AccessWorkerUser>()
         {
             new AccessWorkerUser { User = new WorkerUser { Id = 1 }, Worker = new Worker { Id = 1 }, Type= TypeAccessWorkerUserEnum.Worker  },
-            new AccessWorkerUser { User = new WorkerUser { Id = 2 }, Worker = new Worker { Id = 2 }, Type= TypeAccessWorkerUserEnum.Worker  }
+            new AccessWorkerUser { User = new WorkerUser { Id = 2 }, Worker = new Worker { Id = 2 }, Type= TypeAccessWorkerUserEnum.Worker  },
+            new AccessWorkerUser { User = new WorkerUser { Id = 2 }, Worker = new Worker { Id = 4 }, Type= TypeAccessWorkerUserEnum.Worker  }
         };
 
         IList<Request> listRequest = new List<Request>()
@@ -110,7 +111,7 @@ namespace HelpDesk.Test.DataService
             Assert.IsTrue(c == 3);/*1000, 3100 - Worker.Id = 1*/
 
             c = requestService.GetCountRequiresReaction(2);
-            Assert.IsTrue(c == 5);/*1000, 3100, 2400, 2100, 2200 - Worker.Id = 2*/
+            Assert.IsTrue(c == 8);/*1000, 3100, 2400, 2100, 2200 - Worker.Id = 2, 4*/
 
             c = requestService.GetCountRequiresReaction(3);
             Assert.IsTrue(c == 8);/*2400, 2100, 2200 - Worker.Id = 3*/
