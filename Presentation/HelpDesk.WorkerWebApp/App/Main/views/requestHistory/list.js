@@ -3,8 +3,8 @@
 
     var controllerId = 'app.views.requestHistory.list';
     app.controller(controllerId, [
-                 '$rootScope', '$scope', '$state', '$http', '$timeout', 'requestService', 'modalService', 'inlineDetailService',
-    function ($rootScope, $scope, $state, $http, $timeout, requestService, modalService, inlineDetailService) {
+                 '$rootScope', '$scope', '$state', '$http', '$timeout', '$interval', 'requestService', 'modalService', 'inlineDetailService',
+    function ($rootScope, $scope, $state, $http, $timeout, $interval, requestService, modalService, inlineDetailService) {
 
         var vm = this;
         vm.showAlert = true;
@@ -61,6 +61,8 @@
             }, function (error) {
                 $rootScope.$broadcast("error", { errorMsg: error.data.Message });
             });
+
+            getStatistics();
         };
    
         vm.refreshFilterStatuses = function ()
@@ -161,6 +163,17 @@
             });
         }
 
+        var getStatistics = function ()
+        {
+            requestService.getListRequestStateCount().then(function (results) {
+                vm.requestStateCounts = results.data.data;
+            }, function (error) {
+                $rootScope.$broadcast("error", { errorMsg: error.data ? error.data.Message : "Нет связи с сервером" });
+            });
+        }
+        
+        $interval(getStatistics, 5000);
+        
         vm.refreshFilterStatuses();
         vm.refresh();
 

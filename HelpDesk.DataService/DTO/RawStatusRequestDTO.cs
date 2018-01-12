@@ -1,6 +1,4 @@
-﻿using HelpDesk.DataService.Common.DTO;
-
-namespace HelpDesk.DataService.DTO
+﻿namespace HelpDesk.DataService.DTO
 {
     /// <summary>
     /// Состояние заявки (чистое)

@@ -26,8 +26,8 @@
                     });
             };
 
-            var _getCountRequiresConfirmation = function () {
-                return $http.get(localizedWebAPIService.get("Request/GetCountRequiresConfirmation"))
+            var _getCountRequiresReaction = function () {
+                return $http.get(localizedWebAPIService.get("Request/GetCountRequiresReaction"))
                     .then(function (results) {
                         return results;
                     });
@@ -126,11 +126,17 @@
                 });
             };
 
+            var _getListRequestStateCount = function () {
+                return $http.get(localizedWebAPIService.get("Request/GetListRequestStateCount")).then(function (results) {
+                    return results;
+                });
+            };
+            
             factory.getNewByObjectId    = _getNewByObjectId;
             factory.getNewByRequestId   = _getNewByRequestId;
             factory.save                = _save;
             factory.createRequestEvent  = _createRequestEvent;
-            factory.getCountRequiresConfirmation = _getCountRequiresConfirmation;
+            factory.getCountRequiresReaction = _getCountRequiresReaction;
             factory.getList             = _getList;
             factory.getListStatus       = _getListStatus;
             factory.getRequestFilter    = _getRequestFilter;
@@ -138,7 +144,9 @@
             factory.getListRequestEvent = _getListRequestEvent;
             factory.delete              = _delete;
             factory.getAllowableDeadLine = _getAllowableDeadLine;
-            factory.getListDescriptionProblem = _getListDescriptionProblem;
+            factory.getListDescriptionProblem   = _getListDescriptionProblem;
+            factory.getListRequestStateCount    = _getListRequestStateCount;
+
             return factory;
 
         }

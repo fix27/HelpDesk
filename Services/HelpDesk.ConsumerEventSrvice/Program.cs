@@ -4,9 +4,6 @@ using log4net.Config;
 using MassTransit.Log4NetIntegration.Logging;
 using Topshelf.Logging;
 using System;
-using HelpDesk.ConsumerEventService.EmailTemplateServices;
-using Unity;
-using HelpDesk.ConsumerEventService.DTO;
 using Topshelf;
 using System.Configuration;
 

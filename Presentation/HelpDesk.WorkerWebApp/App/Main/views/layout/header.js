@@ -9,7 +9,7 @@
             var vm = this;
             vm.errorMsg = null;
 
-           
+            vm.requestStateCounts = [];
             vm.menu = {};
             localizedMenu = localizedMenuService.get();
             vm.menu.items = [];
@@ -42,16 +42,16 @@
             else
                 vm.go('requestHistory');
 
-            var getCountRequiresConfirmation = function()
+            var getStatistics = function ()
             {
-                requestService.getCountRequiresConfirmation().then(function (results) {
+                requestService.getCountRequiresReaction().then(function (results) {
                     vm.menu.items[vm.menu.items.length == 1 ? 1 : 0].countRequiresConfirmation = results.data.data;
                 }, function (error) {
                     $rootScope.$broadcast("error", { errorMsg: error.data? error.data.Message: "Нет связи с сервером" });
                 });
             }
             
-            $interval(getCountRequiresConfirmation, 5000);
+            $interval(getStatistics, 5000);
         }
     ]);
 })();

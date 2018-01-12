@@ -114,14 +114,14 @@ namespace HelpDesk.WorkerWebApp.Controllers
             });
         }
 
-        [Route("api/{lang}/Request/GetCountRequiresConfirmation")]
+        [Route("api/{lang}/Request/GetCountRequiresReaction")]
         [HttpGet]
-        public IHttpActionResult GetCountRequiresConfirmation()
+        public IHttpActionResult GetCountRequiresReaction()
         {
             return execute(delegate ()
             {
                 long userId = User.Identity.GetUserId<long>();
-                int count = requestService.GetCountRequiresConfirmationForWorker(userId);
+                int count = requestService.GetCountRequiresReaction(userId);
                 result = Json(new { success = true, data = count });
             });
         }
@@ -190,6 +190,18 @@ namespace HelpDesk.WorkerWebApp.Controllers
             return execute(delegate ()
             {
                 var list = requestService.GetListDescriptionProblem(name, objectId);
+                result = Json(new { success = true, data = list });
+            });
+        }
+
+        [Route("api/{lang}/Request/GetListRequestStateCount")]
+        [HttpGet]
+        public IHttpActionResult GetListRequestStateCount()
+        {
+            return execute(delegate ()
+            {
+                long userId = User.Identity.GetUserId<long>();
+                var list = requestService.GetListRequestStateCount(userId);
                 result = Json(new { success = true, data = list });
             });
         }
