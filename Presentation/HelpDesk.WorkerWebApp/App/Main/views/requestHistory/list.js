@@ -67,6 +67,7 @@
    
         vm.refreshFilterStatuses = function ()
         {
+            vm.filter.Statuses = [];
             requestService.getListStatus(vm.filter.Archive).then(function (results) {
                 vm.filterStatuses = results.data.data;
             }, function (error) {
@@ -163,6 +164,34 @@
             });
         }
 
+        vm.getFilterStateChecked = function (stateId)
+        {
+            for (var i = 0; i < vm.filterStatuses.length; i++)
+            {
+                var t = vm.filterStatuses[i];
+                if(t.Id == stateId && t.Checked)
+                    return true;
+            }
+            return false;
+        }
+
+        vm.setFilterState = function (stateId)
+        {
+            if (vm.filter.Archive) {
+                vm.filter.Archive = false;
+                vm.refreshFilterStatuses();
+            }
+                       
+            for (var i = 0; i < vm.filterStatuses.length; i++)
+            {
+                var t = vm.filterStatuses[i];
+                if (t.Id == stateId)
+                    t.Checked = !t.Checked;
+            }
+                        
+            vm.applyFilter('Statuses');
+        }
+
         var getStatistics = function ()
         {
             requestService.getListRequestStateCount().then(function (results) {
@@ -172,7 +201,7 @@
             });
         }
         
-        $interval(getStatistics, 5000);
+        //$interval(getStatistics, 5000);
         
         vm.refreshFilterStatuses();
         vm.refresh();
