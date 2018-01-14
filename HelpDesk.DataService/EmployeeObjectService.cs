@@ -227,6 +227,10 @@ namespace HelpDesk.DataService
                     model = existsModel;
                 else
                     model = new Model() { Name = dto.ModelName.ToUpper().Trim(), Manufacturer = manufacturer };
+
+                if (!model.Name.ToUpper().Contains(hardType.Name.ToUpper()))
+                    model.Name = String.Format("{0} {1}", hardType.Name.ToUpper(), model.Name);
+
                 modelRepository.Save(model);
             }
 
