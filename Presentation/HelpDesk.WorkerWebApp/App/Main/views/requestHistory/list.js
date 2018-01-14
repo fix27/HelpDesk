@@ -65,11 +65,13 @@
             getStatistics();
         };
    
-        vm.refreshFilterStatuses = function ()
+        vm.refreshFilterStatuses = function (setFilterState, stateId)
         {
             vm.filter.Statuses = [];
             requestService.getListStatus(vm.filter.Archive).then(function (results) {
                 vm.filterStatuses = results.data.data;
+                if (setFilterState && stateId)
+                    setFilterState(stateId);
             }, function (error) {
                 $rootScope.$broadcast("error", { errorMsg: error.data.Message });
             });
@@ -175,21 +177,26 @@
             return false;
         }
 
-        vm.setFilterState = function (stateId)
+        var setFilterState = function (stateId)
         {
-            if (vm.filter.Archive) {
-                vm.filter.Archive = false;
-                vm.refreshFilterStatuses();
-            }
-                       
-            for (var i = 0; i < vm.filterStatuses.length; i++)
-            {
+            for (var i = 0; i < vm.filterStatuses.length; i++) {
                 var t = vm.filterStatuses[i];
                 if (t.Id == stateId)
                     t.Checked = !t.Checked;
             }
-                        
+
             vm.applyFilter('Statuses');
+        }
+
+        vm.setFilterState = function (stateId)
+        {
+            if (vm.filter.Archive) {
+                vm.filter.Archive = false;
+                vm.refreshFilterStatuses(setFilterState, stateId);
+                return;
+            }
+                       
+            setFilterState(stateId);
         }
 
         var getStatistics = function ()
