@@ -89,7 +89,7 @@ namespace HelpDesk.Test.DataService
                 Mock.Of<IQueryRunner>(),
                 Mock.Of<IBaseRepository<RequestObject>>(),
                 Mock.Of<IBaseRepository<DescriptionProblem>>(),
-                Mock.Of<ISettingsRepository>(),
+                Mock.Of<ISettingsService>(),
                 Mock.Of<IBaseRepository<OrganizationObjectTypeWorker>>(),
                 Mock.Of<IBaseRepository<Employee>>(),
                 Mock.Of<IBaseRepository<StatusRequest>>(),

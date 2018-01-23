@@ -11,8 +11,7 @@ namespace HelpDesk.Data.NHibernate.Repository
 
             //регистрация репозиториев
             container.RegisterType<IRepository, BaseRepository>();
-            container.RegisterType<ISettingsRepository, SettingsRepository>("SettingsRepository");
-
+            
             //TODO: сделать динимически по классам BaseEntity сборки HelpDesk.Entity
             container.RegisterType<IBaseRepository<AccessWorkerUser>, BaseRepository<AccessWorkerUser>>();
             container.RegisterType<IBaseRepository<WorkerUser>, BaseRepository<WorkerUser>>();
@@ -34,7 +33,7 @@ namespace HelpDesk.Data.NHibernate.Repository
             container.RegisterType<IBaseRepository<OrganizationObjectTypeWorker>, BaseRepository<OrganizationObjectTypeWorker>>();
             container.RegisterType<IBaseRepository<Organization>, BaseRepository<Organization>>();
             container.RegisterType<IBaseRepository<Employee>, BaseRepository<Employee>>();
-            
+            container.RegisterType<IBaseRepository<Settings>, BaseRepository<Settings>>();
             container.RegisterType<IBaseRepository<WorkCalendarItem>, BaseRepository<WorkCalendarItem>>();
             container.RegisterType<IBaseRepository<WorkScheduleItem>, BaseRepository<WorkScheduleItem>>();
             container.RegisterType<IBaseRepository<UserSession>, BaseRepository<UserSession>>();

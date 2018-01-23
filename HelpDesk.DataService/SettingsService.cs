@@ -1,7 +1,7 @@
 ﻿using HelpDesk.DataService.Interface;
 using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
-
+using System.Linq;
 
 namespace HelpDesk.DataService
 {
@@ -10,16 +10,16 @@ namespace HelpDesk.DataService
     /// </summary>
     public class SettingsService : BaseService, ISettingsService
     {
-        private readonly ISettingsRepository settingsRepository;
+        private readonly IBaseRepository<Settings> settingsRepository;
 
-        public SettingsService(ISettingsRepository settingsRepository)
+        public SettingsService(IBaseRepository<Settings> settingsRepository)
         {
             this.settingsRepository = settingsRepository;
         }
 
         public Settings Get()
         {
-            return settingsRepository.Get();
+            return settingsRepository.GetList().FirstOrDefault();
         }
     }
 }

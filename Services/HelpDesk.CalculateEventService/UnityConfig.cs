@@ -9,6 +9,7 @@ using Unity.Injection;
 using HelpDesk.CalculateEventService.Jobs;
 using HelpDesk.Data.NHibernate.Repository;
 using System.Configuration;
+using HelpDesk.Common.Cache;
 
 namespace HelpDesk.CalculateEventService
 {
@@ -33,7 +34,7 @@ namespace HelpDesk.CalculateEventService
 
         private static void RegisterTypes(IUnityContainer container)
         {
-            DataInstaller.Install(container, new ContainerControlledLifetimeManager());
+            CacheInstaller.Install(container);
             NHibernateDataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
 

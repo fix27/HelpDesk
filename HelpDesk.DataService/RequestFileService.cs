@@ -21,18 +21,18 @@ namespace HelpDesk.DataService
     {
         private readonly IRepository repository;
         private readonly IBaseRepository<RequestFile> requestFileRepository;
-        private readonly ISettingsRepository settingsRepository;
+        private readonly ISettingsService settingsService;
         private readonly IRequestConstraintsService requestConstraintsService;
 
         public RequestFileService(IRepository repository,
             IBaseRepository<RequestFile> requestFileRepository,
-            ISettingsRepository settingsRepository,
+            ISettingsService settingsService,
             IRequestConstraintsService requestConstraintsService)
         {
             
             this.repository             = repository;
             this.requestFileRepository  = requestFileRepository;
-            this.settingsRepository     = settingsRepository;
+            this.settingsService = settingsService;
             this.requestConstraintsService = requestConstraintsService;
         }
 
@@ -42,7 +42,7 @@ namespace HelpDesk.DataService
         {
             lock (lockObj)
             {
-                Settings settings = settingsRepository.Get();
+                Settings settings = settingsService.Get();
                                 
                 int c = requestFileRepository.GetList(
                     new RequestFileByNameAndForignKeyOrTempKeySpecification(dto.Name, dto.ForignKeyId, dto.TempRequestKey))

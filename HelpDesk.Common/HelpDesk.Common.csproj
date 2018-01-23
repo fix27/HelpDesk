@@ -80,6 +80,7 @@
     <Compile Include="AppConstants.cs" />
     <Compile Include="Aspects\CacheAttribute.cs" />
     <Compile Include="Aspects\CacheBehavior.cs" />
+    <Compile Include="Cache\CacheInstaller.cs" />
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Cache\InMemoryCache.cs" />
     <Compile Include="Helpers\EnumExtensions.cs" />

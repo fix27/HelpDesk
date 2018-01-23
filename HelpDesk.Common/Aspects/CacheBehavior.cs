@@ -20,28 +20,30 @@ namespace HelpDesk.Common.Aspects
             {
                 if (cacheAttribute != null)
                 {
-                    if (cacheAttribute.Cache != null)
-                    {
-                        IList<object> methodPapameters = new List<object>();
-                        IEnumerator enumerator = input.Arguments.GetEnumerator();
-                        while (enumerator.MoveNext())
-                            methodPapameters.Add(enumerator.Current);
-                        
+                    //if (cacheAttribute.Implementation != null)
+                    //{
+                    //    IList<object> methodPapameters = new List<object>();
+                    //    IEnumerator enumerator = input.Arguments.GetEnumerator();
+                    //    while (enumerator.MoveNext())
+                    //        methodPapameters.Add(enumerator.Current);
 
-                        result.ReturnValue = cacheAttribute
-                            .Cache
-                            .AddOrGetExisting(String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray()),
-                            () =>
-                            {
-                                return result.ReturnValue;
-                            });
 
-                        return result;
-                    }
-                    else
-                    {
-                        return result;
-                    }
+                    //    result.ReturnValue = cacheAttribute
+                    //        .Implementation
+                    //        .AddOrGetExisting(String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray()),
+                    //        () =>
+                    //        {
+                    //            return result.ReturnValue;
+                    //        });
+
+                    //    return result;
+                    //}
+                    //else
+                    //{
+                    //    return result;
+                    //}
+
+                    return result;
                 }
                 else
                     return result;

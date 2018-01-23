@@ -58,7 +58,7 @@ namespace HelpDesk.DataService
         private readonly IQueryRunner queryRunner;
         private readonly IBaseRepository<RequestObject> objectRepository;
         private readonly IBaseRepository<DescriptionProblem> descriptionProblemRepository;
-        private readonly ISettingsRepository settingsRepository;
+        private readonly ISettingsService settingsService;
         private readonly IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository;
         private readonly IBaseRepository<Employee> employeeRepository;
         private readonly IBaseRepository<StatusRequest> statusRepository;
@@ -82,7 +82,7 @@ namespace HelpDesk.DataService
             IQueryRunner queryRunner,
             IBaseRepository<RequestObject> objectRepository,
             IBaseRepository<DescriptionProblem> descriptionProblemRepository,
-            ISettingsRepository settingsRepository,
+            ISettingsService settingsService,
             IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository,
             IBaseRepository<Employee> employeeRepository,
             IBaseRepository<StatusRequest> statusRepository,
@@ -106,7 +106,7 @@ namespace HelpDesk.DataService
             this.objectRepository       = objectRepository;
             this.descriptionProblemRepository = descriptionProblemRepository;
             this.commandRunner          = commandRunner;
-            this.settingsRepository     = settingsRepository;
+            this.settingsService     = settingsService;
             this.organizationObjectTypeWorkerRepository = organizationObjectTypeWorkerRepository;
             this.employeeRepository = employeeRepository;
             this.statusRepository       = statusRepository;
@@ -492,7 +492,7 @@ namespace HelpDesk.DataService
         [Transaction]
         public long Save(RequestParameter dto)
         {
-            Settings settings = settingsRepository.Get();
+            Settings settings = settingsService.Get();
             if (dto.Id == 0)
             {
                 DateTime currentDate = dateTimeService.GetCurrent();
@@ -753,7 +753,7 @@ namespace HelpDesk.DataService
             Request r = requestRepository.Get(requestId);
             Interval<DateTime, DateTime?> interval = new Interval<DateTime, DateTime?>();
 
-            Settings settings = settingsRepository.Get();
+            Settings settings = settingsService.Get();
             int minCountHour = 0;
             int maxCountHour = 0;
             if (settings.StartWorkDay.HasValue && settings.EndWorkDay.HasValue && settings.StartWorkDay < settings.EndWorkDay)

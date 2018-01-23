@@ -16,6 +16,7 @@ using Unity.AspNet.Mvc;
 using Unity;
 using Unity.Exceptions;
 using HelpDesk.DataService.Common;
+using HelpDesk.Common.Cache;
 
 namespace HelpDesk.WorkerWebApp.App_Start
 {
@@ -67,7 +68,7 @@ namespace HelpDesk.WorkerWebApp.App_Start
             NHibernateDataInstaller.Install(container, new PerRequestLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
            
-            DataInstaller.Install(container, new PerRequestLifetimeManager());
+            CacheInstaller.Install(container);
 
             //регистрация Мигратора
             MigratorInstaller.Install(container, connectionString);

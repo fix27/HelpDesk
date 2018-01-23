@@ -7,6 +7,7 @@ using HelpDesk.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using HelpDesk.DataService.Interface;
 
 namespace HelpDesk.Test.DataService
 {
@@ -31,8 +32,8 @@ namespace HelpDesk.Test.DataService
                .Returns(() =>
                { return null; });
 
-            Mock<ISettingsRepository> settingsRepository = new Mock<ISettingsRepository>(MockBehavior.Strict);
-            settingsRepository.Setup(x => x.Get())
+            Mock<ISettingsService> settingsService = new Mock<ISettingsService>(MockBehavior.Strict);
+            settingsService.Setup(x => x.Get())
                .Returns(() =>
                {
                    return new Settings()
@@ -46,8 +47,8 @@ namespace HelpDesk.Test.DataService
 
             DateTimeService s = new DateTimeService(
                 workCalendarItemRepository.Object, 
-                workScheduleItemRepository.Object, 
-                settingsRepository.Object);
+                workScheduleItemRepository.Object,
+                settingsService.Object);
 
             DateTime currentDateTime = DateTime.Parse("04.10.2017 11:20");
             int countHour           = 8;
@@ -132,8 +133,8 @@ namespace HelpDesk.Test.DataService
                .Returns(() =>
                { return null; });
 
-            Mock<ISettingsRepository> settingsRepository = new Mock<ISettingsRepository>(MockBehavior.Strict);
-            settingsRepository.Setup(x => x.Get())
+            Mock<ISettingsService> settingsService = new Mock<ISettingsService>(MockBehavior.Strict);
+            settingsService.Setup(x => x.Get())
                .Returns(() =>
                {
                    return new Settings()
@@ -148,7 +149,7 @@ namespace HelpDesk.Test.DataService
             DateTimeService s = new DateTimeService(
                 workCalendarItemRepository.Object,
                 workScheduleItemRepository.Object,
-                settingsRepository.Object);
+                settingsService.Object);
 
             DateTime currentDateTime = DateTime.Parse("04.10.2017 11:20");
             int countHour = 8;
@@ -228,7 +229,7 @@ namespace HelpDesk.Test.DataService
                .Returns(() =>
                { return null; });
 
-            Mock<ISettingsRepository> settingsRepository = new Mock<ISettingsRepository>(MockBehavior.Strict);
+            Mock<ISettingsService> settingsRepository = new Mock<ISettingsService>(MockBehavior.Strict);
             settingsRepository.Setup(x => x.Get())
                .Returns(() =>
                {

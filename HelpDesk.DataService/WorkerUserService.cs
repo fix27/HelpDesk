@@ -21,7 +21,7 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<WorkerUser>    userRepository;
         private readonly IBaseRepository<UserSession>   userSessionRepository;
         private readonly IBaseRepository<Worker>        workerRepository;
-        private readonly ISettingsRepository            settingsRepository;
+        private readonly ISettingsService               settingsService;
         private readonly IDateTimeService               dateTimeService;
         private readonly IBaseRepository<WorkerUserEventSubscribe> userEventSubscribeRepository;
         private readonly IBaseRepository<StatusRequest> statusRepository;
@@ -30,7 +30,7 @@ namespace HelpDesk.DataService
         public WorkerUserService(IBaseRepository<WorkerUser> userRepository,
             IBaseRepository<UserSession> userSessionRepository,
             IBaseRepository<Worker> workerRepository,
-            ISettingsRepository settingsRepository,
+            ISettingsService settingsService,
             IDateTimeService dateTimeService,
             IBaseRepository<WorkerUserEventSubscribe> userEventSubscribeRepository,
             IBaseRepository<StatusRequest> statusRepository,
@@ -39,7 +39,7 @@ namespace HelpDesk.DataService
             this.userRepository = userRepository;
             this.userSessionRepository = userSessionRepository;
             this.workerRepository = workerRepository;
-            this.settingsRepository = settingsRepository;
+            this.settingsService = settingsService;
             this.dateTimeService = dateTimeService;
             this.userEventSubscribeRepository = userEventSubscribeRepository;
             this.statusRepository = statusRepository;

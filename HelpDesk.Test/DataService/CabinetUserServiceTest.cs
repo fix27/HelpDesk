@@ -55,7 +55,7 @@ namespace HelpDesk.Test.DataService
                 mockUserRepository.Object,
                 Mock.Of<IBaseRepository<UserSession>>(),
                 mockPersonalProfileRepository.Object,
-                Mock.Of<ISettingsRepository>(),
+                Mock.Of<ISettingsService>(),
                 Mock.Of<IDateTimeService>(),
                 Mock.Of<IBaseRepository<CabinetUserEventSubscribe>>(),
                 Mock.Of<IBaseRepository<StatusRequest>>(),

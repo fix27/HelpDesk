@@ -17,15 +17,15 @@ namespace HelpDesk.DataService
         
         private readonly IBaseRepository<WorkCalendarItem> workCalendarItemRepository;
         private readonly IBaseRepository<WorkScheduleItem> workScheduleItemRepository;
-        private readonly ISettingsRepository settingsRepository;
+        private readonly ISettingsService settingsService;
 
         public DateTimeService(IBaseRepository<WorkCalendarItem> workCalendarItemRepository,
             IBaseRepository<WorkScheduleItem> workScheduleItemRepository,
-            ISettingsRepository settingsRepository)
+            ISettingsService settingsService)
         {
             this.workCalendarItemRepository = workCalendarItemRepository;
             this.workScheduleItemRepository = workScheduleItemRepository;
-            this.settingsRepository = settingsRepository;
+            this.settingsService = settingsService;
         }
 
 
@@ -61,7 +61,7 @@ namespace HelpDesk.DataService
         /// <returns>Дата окончания срока по заявке</returns>
         public DateTime GetRequestDateEnd(DateTime currentDateTime, int countHour)
         {
-            Settings settings = settingsRepository.Get();
+            Settings settings = settingsService.Get();
 
             if (!settings.StartWorkDay.HasValue || !settings.EndWorkDay.HasValue || 
                 settings.StartWorkDay.HasValue && settings.EndWorkDay.HasValue && settings.StartWorkDay >= settings.EndWorkDay)

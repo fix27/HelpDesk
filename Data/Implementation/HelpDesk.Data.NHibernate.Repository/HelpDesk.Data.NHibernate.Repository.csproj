@@ -97,7 +97,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SettingsRepository.cs" />
     <Compile Include="BaseRepository.cs" />
     <Compile Include="NHibernateRepositoryInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

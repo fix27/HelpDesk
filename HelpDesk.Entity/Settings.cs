@@ -5,8 +5,6 @@
     /// </summary>
     public class Settings : BaseEntity
     {
-        public static readonly string CACHE_KEY_TEMPLATE = "Settings";
-
         /// <summary>
         /// Минимальный интервал (мин), через который можно пользователю подать очередную заявку
         /// </summary>
