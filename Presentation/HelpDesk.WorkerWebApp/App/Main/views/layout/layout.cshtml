@@ -14,7 +14,7 @@
     <meta name="author" content="">
 
     <title>@Resource.AppName</title>
-
+    <link rel="manifest" href="/Scripts/OneSignal/manifest.json">
     <link rel="shortcut icon" href="~/favicon.ico">
 
     @Styles.Render("~/Bundles/App/vendor/css")
@@ -77,6 +77,17 @@
         }
     </style>
     
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(["init", {
+      appId: "82aa269d-93d9-4cc6-9112-fce271ff30c5",
+      autoRegister: true,
+      notifyButton: {
+        enable: true /* Set to false to hide */
+      }
+    }]);
+    </script>
 </head>
 <body>
     <div class="wrapper">

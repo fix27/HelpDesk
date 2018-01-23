@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace HelpDesk.Data.Cache
+namespace HelpDesk.Common.Cache
 {
-    public interface IInMemoryCache
+    public interface ICache
     {
         T AddOrGetExisting<T>(object key, Func<T> get);
     }

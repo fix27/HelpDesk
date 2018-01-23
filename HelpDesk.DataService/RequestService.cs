@@ -23,6 +23,8 @@ using HelpDesk.EventBus.Common.AppEvents;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.DataService.Common.Interface;
 using HelpDesk.DataService.Common.DTO;
+using HelpDesk.Common.Cache;
+using Unity.ServiceLocation;
 
 namespace HelpDesk.DataService
 {
@@ -31,6 +33,7 @@ namespace HelpDesk.DataService
     /// Для работы с заявками
     /// </summary>
     [Transaction]
+    [Cache]
     public class RequestService : BaseService, IRequestService
     {
         /// <summary>
@@ -73,6 +76,7 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<AccessWorkerUser> accessWorkerUserRepository;
         private readonly IAccessWorkerUserExpressionService accessWorkerUserExpressionService;
         private readonly IQueue<IRequestAppEvent> queue;
+        private readonly ICache memoryCache;
 
         public RequestService(ICommandRunner commandRunner,
             IQueryRunner queryRunner,
@@ -95,7 +99,8 @@ namespace HelpDesk.DataService
             IStatusRequestMapService statusRequestMapService,
             IBaseRepository<AccessWorkerUser> accessWorkerUserRepository,
             IAccessWorkerUserExpressionService accessWorkerUserExpressionService,
-            IQueue<IRequestAppEvent> queue)
+            IQueue<IRequestAppEvent> queue,
+            ICache memoryCache)
         {
             this.queryRunner            = queryRunner;
             this.objectRepository       = objectRepository;
@@ -118,7 +123,8 @@ namespace HelpDesk.DataService
             this.statusRequestMapService = statusRequestMapService;
             this.accessWorkerUserRepository = accessWorkerUserRepository;
             this.accessWorkerUserExpressionService = accessWorkerUserExpressionService;
-            this.queue = queue;
+            this.queue          = queue;
+            this.memoryCache    = memoryCache;
         }
         
         private RequestParameter getCreateOrUpdateRequest(long id)
@@ -345,6 +351,7 @@ namespace HelpDesk.DataService
         }
         #endregion GetList
 
+        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequestDTO>({0})")]
         public IEnumerable<StatusRequestDTO> GetListStatus(bool archive)
         {
             IEnumerable<StatusRequestDTO> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id)).OrderBy(s => s.Name)
@@ -362,8 +369,10 @@ namespace HelpDesk.DataService
                 };
 
             return list.Where(t => (archive) ? archiveStates.Contains(t.Id) : !archiveStates.Contains(t.Id)).Distinct();
+
         }
 
+        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequest>({0})")]
         public IEnumerable<StatusRequest> GetListRawStatus(bool archive)
         {
             IEnumerable<StatusRequest> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id))

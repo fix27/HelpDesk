@@ -1,8 +1,8 @@
-﻿using HelpDesk.Data.Cache;
-using HelpDesk.Data.Repository;
+﻿using HelpDesk.Data.Repository;
 using Unity;
 using Unity.Lifetime;
 using Unity.Injection;
+using HelpDesk.Common.Cache;
 
 namespace HelpDesk.Data
 {
@@ -10,11 +10,11 @@ namespace HelpDesk.Data
     {
         public static void Install(IUnityContainer container, LifetimeManager lifetimeManager)
         {
-            container.RegisterType<IInMemoryCache, InMemoryCache>();
+            container.RegisterType<ICache, InMemoryCache>();
             container.RegisterType<ISettingsRepository, SettingsManager>(
                 new InjectionConstructor(
                     new ResolvedParameter<ISettingsRepository>("SettingsRepository"),
-                    new ResolvedParameter<IInMemoryCache>()));
+                    new ResolvedParameter<ICache>()));
             
         }
             

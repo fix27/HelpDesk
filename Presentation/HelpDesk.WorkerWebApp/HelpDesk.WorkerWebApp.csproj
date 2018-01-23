@@ -449,6 +449,8 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\OneSignal\OneSignalSDKUpdaterWorker.js" />
+    <Content Include="Scripts\OneSignal\OneSignalSDKWorker.js" />
     <Content Include="Scripts\others\html5shiv.js" />
     <Content Include="Scripts\others\respond.min.js" />
     <Content Include="Scripts\others\respond.src.js" />
@@ -482,6 +484,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_LangMenu.cshtml" />
     <Content Include="Views\Account\RecoveryPassword.cshtml" />
+    <Content Include="Scripts\OneSignal\manifest.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

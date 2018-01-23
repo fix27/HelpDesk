@@ -1,4 +1,4 @@
-﻿using HelpDesk.Data.Cache;
+﻿using HelpDesk.Common.Cache;
 using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 
@@ -10,9 +10,9 @@ namespace HelpDesk.Data
     public class SettingsManager: ISettingsRepository
     {
         private readonly ISettingsRepository settingsRepository;
-        private readonly IInMemoryCache memoryCache;
+        private readonly ICache memoryCache;
 
-        public SettingsManager(ISettingsRepository settingsRepository, IInMemoryCache memoryCache)
+        public SettingsManager(ISettingsRepository settingsRepository, ICache memoryCache)
         {
             this.settingsRepository = settingsRepository;
             this.memoryCache = memoryCache;

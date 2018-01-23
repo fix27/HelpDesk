@@ -13,6 +13,7 @@ using HelpDesk.DataService.Common.Interface;
 using HelpDesk.EventBus.Common.Interface;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.Data.Command;
+using HelpDesk.Common.Cache;
 
 namespace HelpDesk.Test.DataService
 {
@@ -105,7 +106,8 @@ namespace HelpDesk.Test.DataService
                 Mock.Of<IStatusRequestMapService>(),
                 accessWorkerUserRepository.Object,
                 new AccessWorkerUserExpressionService(),
-                Mock.Of<IQueue<IRequestAppEvent>>());
+                Mock.Of<IQueue<IRequestAppEvent>>(),
+                Mock.Of<ICache>());
 
             int c = requestService.GetCountRequiresReaction(1);
             Assert.IsTrue(c == 3);/*1000, 3100 - Worker.Id = 1*/

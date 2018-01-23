@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.Caching;
 
-namespace HelpDesk.Data.Cache
+namespace HelpDesk.Common.Cache
 {
-    public class InMemoryCache: IInMemoryCache
+    public class InMemoryCache: ICache
     {
         private readonly ObjectCache cache;
 
