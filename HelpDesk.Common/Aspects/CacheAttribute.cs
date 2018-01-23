@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelpDesk.Common.Cache;
+using System;
 
 namespace HelpDesk.Common.Aspects
 {
@@ -8,6 +9,8 @@ namespace HelpDesk.Common.Aspects
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public class CacheAttribute : Attribute 
     {
-        public string CacheKeyTemplate { get; set; }        
+        public string CacheKeyTemplate { get; set; }
+        public TypeCacheEnum TypeCache { get; set; }
+
     }
 }

@@ -17,5 +17,6 @@ namespace HelpDesk.Common.Cache
             T existingVal = (T)cache.AddOrGetExisting(key.ToString(), val, new CacheItemPolicy());
             return existingVal !=null ? existingVal: val;
         }
+
     }
 }

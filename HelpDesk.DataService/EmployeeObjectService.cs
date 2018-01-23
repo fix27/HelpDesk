@@ -21,6 +21,7 @@ namespace HelpDesk.DataService
     /// Для работы с профилем заявителя - сотрудника обслуживаемой организации
     /// </summary>
     [Transaction]
+    [Cache]
     public class EmployeeObjectService : BaseService, IEmployeeObjectService
     {
 

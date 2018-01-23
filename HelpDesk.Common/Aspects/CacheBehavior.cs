@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelpDesk.Common.Cache;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,30 +21,27 @@ namespace HelpDesk.Common.Aspects
             {
                 if (cacheAttribute != null)
                 {
-                    //if (cacheAttribute.Implementation != null)
-                    //{
-                    //    IList<object> methodPapameters = new List<object>();
-                    //    IEnumerator enumerator = input.Arguments.GetEnumerator();
-                    //    while (enumerator.MoveNext())
-                    //        methodPapameters.Add(enumerator.Current);
+                    var cacheImplementation = CacheInstaller.GetCache(cacheAttribute.TypeCache.ToString());
+                    if (cacheImplementation != null)
+                    {
+                        IList<object> methodPapameters = new List<object>();
+                        IEnumerator enumerator = input.Arguments.GetEnumerator();
+                        while (enumerator.MoveNext())
+                            methodPapameters.Add(enumerator.Current);
 
+                        string cacheKey = String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray());
+                        result.ReturnValue = cacheImplementation
+                            .AddOrGetExisting(cacheKey,
+                            () =>
+                            {
+                                return result.ReturnValue;
+                            });
 
-                    //    result.ReturnValue = cacheAttribute
-                    //        .Implementation
-                    //        .AddOrGetExisting(String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray()),
-                    //        () =>
-                    //        {
-                    //            return result.ReturnValue;
-                    //        });
-
-                    //    return result;
-                    //}
-                    //else
-                    //{
-                    //    return result;
-                    //}
+                        return result;
+                    }
 
                     return result;
+
                 }
                 else
                     return result;

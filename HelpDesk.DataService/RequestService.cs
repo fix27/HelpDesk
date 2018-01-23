@@ -76,7 +76,6 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<AccessWorkerUser> accessWorkerUserRepository;
         private readonly IAccessWorkerUserExpressionService accessWorkerUserExpressionService;
         private readonly IQueue<IRequestAppEvent> queue;
-        private readonly ICache memoryCache;
 
         public RequestService(ICommandRunner commandRunner,
             IQueryRunner queryRunner,
@@ -123,8 +122,7 @@ namespace HelpDesk.DataService
             this.statusRequestMapService = statusRequestMapService;
             this.accessWorkerUserRepository = accessWorkerUserRepository;
             this.accessWorkerUserExpressionService = accessWorkerUserExpressionService;
-            this.queue          = queue;
-            this.memoryCache    = memoryCache;
+            this.queue          = queue;           
         }
         
         private RequestParameter getCreateOrUpdateRequest(long id)
@@ -351,7 +349,7 @@ namespace HelpDesk.DataService
         }
         #endregion GetList
 
-        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequestDTO>({0})")]
+        [Cache(TypeCache = TypeCacheEnum.InMemoryCache, CacheKeyTemplate = "IEnumerable<StatusRequestDTO>({0})")]
         public IEnumerable<StatusRequestDTO> GetListStatus(bool archive)
         {
             IEnumerable<StatusRequestDTO> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id)).OrderBy(s => s.Name)
@@ -372,7 +370,7 @@ namespace HelpDesk.DataService
 
         }
 
-        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequest>({0})")]
+        [Cache(TypeCache = TypeCacheEnum.InMemoryCache, CacheKeyTemplate = "IEnumerable<StatusRequest>({0})")]
         public IEnumerable<StatusRequest> GetListRawStatus(bool archive)
         {
             IEnumerable<StatusRequest> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id))

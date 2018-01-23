@@ -27,15 +27,35 @@ namespace HelpDesk.DataService
 
                 IList<MethodInfo> mInfo = t.GetType().GetMethods().ToList();
 
-                Attribute a = Attribute.GetCustomAttribute(t, typeof(TransactionAttribute));
+                Attribute transactional = Attribute.GetCustomAttribute(t, typeof(TransactionAttribute));
+                Attribute cached = Attribute.GetCustomAttribute(t, typeof(CacheAttribute));
 
-                if (a != null)
+                if (transactional != null && cached != null)
+                {
+                    container.RegisterType(interfaceType, t,
+                        new Interceptor<InterfaceInterceptor>(),
+                        new InterceptionBehavior<TransactionBehavior>(),
+                        new InterceptionBehavior<CacheBehavior>()
+                    );
+                }
+                                
+                else if (transactional != null)
+                {
                     container.RegisterType(interfaceType, t,
                         new Interceptor<InterfaceInterceptor>(),
                         new InterceptionBehavior<TransactionBehavior>()
                     );
+                }
+                else if (cached != null)
+                {
+                    container.RegisterType(interfaceType, t,
+                        new Interceptor<InterfaceInterceptor>(),
+                        new InterceptionBehavior<CacheBehavior>()
+                    );
+                }
                 else
                     container.RegisterType(interfaceType, t);
+
             }
             
                         
