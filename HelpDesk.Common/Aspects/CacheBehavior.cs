@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,11 +22,15 @@ namespace HelpDesk.Common.Aspects
                 {
                     if (cacheAttribute.Cache != null)
                     {
-                        object[] methodPapameters = null;
+                        IList<object> methodPapameters = new List<object>();
+                        IEnumerator enumerator = input.Arguments.GetEnumerator();
+                        while (enumerator.MoveNext())
+                            methodPapameters.Add(enumerator.Current);
+                        
 
                         result.ReturnValue = cacheAttribute
                             .Cache
-                            .AddOrGetExisting(String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters),
+                            .AddOrGetExisting(String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray()),
                             () =>
                             {
                                 return result.ReturnValue;
