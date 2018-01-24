@@ -58,26 +58,13 @@ namespace HelpDesk.Common.Aspects
                         {
 
                             string cacheKey = String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray());
-                            if (cacheAttribute.AbsoluteExpiration == 0)
-                                result.ReturnValue = cacheImplementation
-                                    .AddOrGetExisting(cacheKey,
-                                    () =>
-                                    {
-                                        return result.ReturnValue;
-                                    });
-                            else
-                            {
-                                result.ReturnValue = cacheImplementation
+                            result.ReturnValue = cacheImplementation
                                     .AddOrGetExisting(cacheKey,
                                     () =>
                                     {
                                         return result.ReturnValue;
                                     },
-                                    new CacheItemPolicy()
-                                    {
-                                        AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheAttribute.AbsoluteExpiration)
-                                    });
-                            }
+                                    cacheAttribute.ExpirationSeconds);
                         }                        
 
                         return result;

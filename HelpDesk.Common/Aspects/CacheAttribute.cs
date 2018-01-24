@@ -20,6 +20,6 @@ namespace HelpDesk.Common.Aspects
 
         public int[] SkippedParameterIndexes { get; set; }
 
-        public int AbsoluteExpiration { get; set; }
+        public int ExpirationSeconds { get; set; }
     }
 }

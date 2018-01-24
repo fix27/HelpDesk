@@ -12,7 +12,7 @@ namespace HelpDesk.Common.Cache
         {
             
         }
-        public T AddOrGetExisting<T>(string key, Func<T> valueFactory, CacheItemPolicy policy = null)
+        public T AddOrGetExisting<T>(string key, Func<T> valueFactory, int expirationSeconds = 0)
         {
             using (MemcachedClient client = new MemcachedClient())
             {
@@ -22,8 +22,8 @@ namespace HelpDesk.Common.Cache
 
                 obj = valueFactory();
 
-                if (policy != null)
-                    client.Store(StoreMode.Set, key, obj, policy.AbsoluteExpiration.DateTime);
+                if (expirationSeconds > 0)
+                    client.Store(StoreMode.Set, key, obj, DateTime.Now.AddSeconds(expirationSeconds));
                 else
                     client.Store(StoreMode.Set, key, obj);
 

@@ -11,10 +11,14 @@ namespace HelpDesk.Common.Cache
         {
             cache = MemoryCache.Default;
         }
-        public T AddOrGetExisting<T>(string key, Func<T> valueFactory, CacheItemPolicy policy = null)
+        public T AddOrGetExisting<T>(string key, Func<T> valueFactory, int expirationSeconds = 0)
         {
-            if (policy == null)
-                policy = new CacheItemPolicy() { AbsoluteExpiration = MemoryCache.InfiniteAbsoluteExpiration };
+            CacheItemPolicy policy = new CacheItemPolicy();
+            if (expirationSeconds == 0)
+                policy.AbsoluteExpiration = MemoryCache.InfiniteAbsoluteExpiration;
+            else
+                policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(expirationSeconds);
+                                    
             var newValue = new Lazy<T>(valueFactory);
             // the line belows returns existing item or adds the new value if it doesn't exist
             var value = (Lazy<T>)cache.AddOrGetExisting(key, newValue, policy);

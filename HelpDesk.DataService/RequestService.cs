@@ -437,7 +437,7 @@ namespace HelpDesk.DataService
             return list;
         }
 
-        [Cache(CacheKeyTemplate = "IEnumerable<Year>(userId={0})", AbsoluteExpiration = 100)]
+        [Cache(CacheKeyTemplate = "IEnumerable<Year>(userId={0})", ExpirationSeconds = 100)]
         public IEnumerable<Year> GetListArchiveYear(long userId)
         {
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
@@ -446,7 +446,7 @@ namespace HelpDesk.DataService
             return list;
         }
 
-        [Cache(CacheKeyTemplate = "IEnumerable<RequestEventDTO>(requestId={0})", AbsoluteExpiration = 100)]
+        [Cache(CacheKeyTemplate = "IEnumerable<RequestEventDTO>(requestId={0})", ExpirationSeconds = 100)]
         public IEnumerable<RequestEventDTO> GetListRequestEvent(long requestId)
         {
             bool archive = false;
