@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Caching;
 using Unity.Interception.InterceptionBehaviors;
 using Unity.Interception.PolicyInjection.Pipeline;
 
@@ -26,8 +27,21 @@ namespace HelpDesk.Common.Aspects
                     {
                         IList<object> methodPapameters = new List<object>();
                         IEnumerator enumerator = input.Arguments.GetEnumerator();
+                        int ind = 0;
                         while (enumerator.MoveNext())
-                            methodPapameters.Add(enumerator.Current);
+                        {
+                            if (cacheAttribute.SkippedParameterIndexes == null ||
+                                !cacheAttribute.SkippedParameterIndexes.Contains(ind))
+                            {
+                                IForCacheKeyValue forCacheKeyValue = enumerator.Current as IForCacheKeyValue;
+                                if(forCacheKeyValue != null)
+                                    methodPapameters.Add(forCacheKeyValue.GetForCacheKeyValue());
+                                else
+                                    methodPapameters.Add(enumerator.Current);
+                            }
+                            
+                            ind++;
+                        }
 
                         
                         if (cacheAttribute.Invalidate)
@@ -44,13 +58,26 @@ namespace HelpDesk.Common.Aspects
                         {
 
                             string cacheKey = String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray());
-
-                            result.ReturnValue = cacheImplementation
-                                .AddOrGetExisting(cacheKey,
-                                () =>
-                                {
-                                    return result.ReturnValue;
-                                });
+                            if (cacheAttribute.AbsoluteExpiration == 0)
+                                result.ReturnValue = cacheImplementation
+                                    .AddOrGetExisting(cacheKey,
+                                    () =>
+                                    {
+                                        return result.ReturnValue;
+                                    });
+                            else
+                            {
+                                result.ReturnValue = cacheImplementation
+                                    .AddOrGetExisting(cacheKey,
+                                    () =>
+                                    {
+                                        return result.ReturnValue;
+                                    },
+                                    new CacheItemPolicy()
+                                    {
+                                        AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheAttribute.AbsoluteExpiration)
+                                    });
+                            }
                         }                        
 
                         return result;

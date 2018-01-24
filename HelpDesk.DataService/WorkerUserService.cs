@@ -135,7 +135,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// События заявки, на которые подписан пользователь
         /// </summary>
-        [Cache(CacheKeyTemplate = "IEnumerable<RawStatusRequestDTO>({0})")]
+        [Cache(CacheKeyTemplate = "IEnumerable<RawStatusRequestDTO>(userId={0})")]
         public IEnumerable<RawStatusRequestDTO> GetListSubscribeStatus(long userId)
         {
             IEnumerable<RawStatusRequestDTO> list = statusRepository.GetList(t => !RequestService.IgnoredRawRequestStates.Contains(t.Id))
@@ -157,7 +157,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// Подписка/отписка пользователя на события заявки
         /// </summary>
-        [Cache(Invalidate = true, InvalidateCacheKeyTemplates = "IEnumerable<RawStatusRequestDTO>({0})")]
+        [Cache(Invalidate = true, InvalidateCacheKeyTemplates = "IEnumerable<RawStatusRequestDTO>(userId={0})")]
         public void ChangeSubscribeRequestState(long userId, long requestStateId)
         {
             WorkerUserEventSubscribe subscribe = userEventSubscribeRepository.Get(s => s.User.Id == userId && s.StatusRequest.Id == requestStateId);
@@ -181,6 +181,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// Подписка/отписка пользователя на E-mail-рассылку
         /// </summary>
+        [Cache(Invalidate = true, InvalidateCacheKeyTemplates = "IEnumerable<RawStatusRequestDTO>(userId={0})")]
         public void ChangeSubscribe(long userId)
         {
             WorkerUser user = userRepository.Get(userId);

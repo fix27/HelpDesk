@@ -81,6 +81,7 @@
     <Compile Include="Aspects\CacheAttribute.cs" />
     <Compile Include="Aspects\CacheBehavior.cs" />
     <Compile Include="Cache\CacheInstaller.cs" />
+    <Compile Include="Cache\IForCacheKeyValue.cs" />
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Cache\InMemoryCache.cs" />
     <Compile Include="Cache\CacheLocation.cs" />

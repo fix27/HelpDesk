@@ -1,11 +1,12 @@
-﻿using System;
+﻿using HelpDesk.Common.Cache;
+using System;
 
 namespace HelpDesk.DataService.DTO.Parameters
 {
     /// <summary>
     /// Параметр: Новое состояние заявки
     /// </summary>
-    public class RequestEventParameter
+    public class RequestEventParameter: IForCacheKeyValue
     {
         /// <summary>
         /// Версия записи заявки для разруливания конкурентного доступа
@@ -31,6 +32,11 @@ namespace HelpDesk.DataService.DTO.Parameters
         /// Новая дата окончания срока выполнения работ по заявке
         /// </summary>
         public DateTime? NewDeadLineDate { get; set; }
+
+        public string GetForCacheKeyValue()
+        {
+            return RequestId.ToString();
+        }
 
     }
 }

@@ -11,11 +11,15 @@ namespace HelpDesk.Common.Aspects
     {
         public CacheAttribute()
         {
-            Location = CacheLocation.InMemoryCache;
+            Location = CacheLocation.InMemoryCache;           
         }
         public string CacheKeyTemplate { get; set; }
         public CacheLocation Location { get; set; }
         public bool Invalidate { get; set; }
         public string InvalidateCacheKeyTemplates { get; set; }
+
+        public int[] SkippedParameterIndexes { get; set; }
+
+        public int AbsoluteExpiration { get; set; }
     }
 }

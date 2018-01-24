@@ -149,7 +149,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// События заявки, на которые подписан пользователь
         /// </summary>
-        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequestDTO>({0})")]
+        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequestDTO>(userId={0})")]
         public IEnumerable<StatusRequestDTO> GetListSubscribeStatus(long userId)
         {
             IEnumerable<RawStatusRequestDTO> list = statusRepository.GetList(t => !RequestService.IgnoredRawRequestStates.Contains(t.Id))
@@ -178,7 +178,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// Подписка/отписка пользователя на события заявки
         /// </summary>
-        [Cache(Invalidate = true, InvalidateCacheKeyTemplates = "IEnumerable<StatusRequestDTO>({0})")]
+        [Cache(Invalidate = true, InvalidateCacheKeyTemplates = "IEnumerable<StatusRequestDTO>(userId={0})")]
         public void ChangeSubscribeRequestState(long userId, StatusRequestEnum requestState)
         {
             IEnumerable<long> statusRequestIds = statusRequestMapService.GetElementsByEquivalence(requestState);
@@ -209,6 +209,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// Подписка/отписка пользователя на E-mail-рассылку
         /// </summary>
+        [Cache(Invalidate = true, InvalidateCacheKeyTemplates = "IEnumerable<StatusRequestDTO>(userId={0})")]
         public void ChangeSubscribe(long userId)
         {
             CabinetUser user = userRepository.Get(userId);

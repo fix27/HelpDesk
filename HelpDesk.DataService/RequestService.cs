@@ -348,7 +348,7 @@ namespace HelpDesk.DataService
         }
         #endregion GetList
 
-        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequestDTO>({0})")]
+        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequestDTO>(archive={0})")]
         public IEnumerable<StatusRequestDTO> GetListStatus(bool archive)
         {
             IEnumerable<StatusRequestDTO> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id)).OrderBy(s => s.Name)
@@ -369,7 +369,7 @@ namespace HelpDesk.DataService
 
         }
 
-        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequest>({0})")]
+        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequest>(archive={0})")]
         public IEnumerable<StatusRequest> GetListRawStatus(bool archive)
         {
             IEnumerable<StatusRequest> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id))
@@ -437,6 +437,7 @@ namespace HelpDesk.DataService
             return list;
         }
 
+        [Cache(CacheKeyTemplate = "IEnumerable<Year>(userId={0})", AbsoluteExpiration = 100)]
         public IEnumerable<Year> GetListArchiveYear(long userId)
         {
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
@@ -445,6 +446,7 @@ namespace HelpDesk.DataService
             return list;
         }
 
+        [Cache(CacheKeyTemplate = "IEnumerable<RequestEventDTO>(requestId={0})", AbsoluteExpiration = 100)]
         public IEnumerable<RequestEventDTO> GetListRequestEvent(long requestId)
         {
             bool archive = false;
@@ -646,6 +648,8 @@ namespace HelpDesk.DataService
         }
 
         [Transaction]
+        [Cache(Invalidate = true, SkippedParameterIndexes = new int[] {0}, 
+            InvalidateCacheKeyTemplates = "IEnumerable<RequestEventDTO>(requestId={0})")]
         public void CreateRequestEvent(long userId, RequestEventParameter dto)
         {
             DateTime currentDate = dateTimeService.GetCurrent();
@@ -744,7 +748,7 @@ namespace HelpDesk.DataService
                 Archive = transferRequestToArchive
             });
         }
-
+        
         public Interval<DateTime, DateTime?> GetAllowableDeadLine(long requestId)
         {
             Request r = requestRepository.Get(requestId);
