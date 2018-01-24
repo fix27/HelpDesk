@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.DataService.Specification;
 using HelpDesk.DataService.DTO;
+using HelpDesk.Common.Aspects;
 
 namespace HelpDesk.DataService
 {
     /// <summary>
     /// Для запроса данных из справочника организаций
     /// </summary>
+    [Cache]
     public class OrganizationService : BaseService, IOrganizationService
     {
         
@@ -34,7 +36,8 @@ namespace HelpDesk.DataService
             return organizationRepository.GetList(new SimpleEntityByNameLikeSpecification<Organization>(name))
                 .OrderBy(p => p.Name).ToList();
         }
-                
+
+        [Cache(CacheKeyTemplate = "IEnumerable<Organization>(parentId={0})", AbsoluteExpiration = 100)]
         public IEnumerable<Organization> GetList(long? parentId)
         {
             return organizationRepository.GetList(o => o.ParentId == parentId)
@@ -107,6 +110,8 @@ namespace HelpDesk.DataService
 
             return list;
         }
+
+        [Cache(CacheKeyTemplate = "IEnumerable<OrganizationDTO>(userId={0}, parentId={1})", AbsoluteExpiration = 100)]
         public IEnumerable<OrganizationDTO> GetListByWorkerUser(long userId, long? parentId)
         {
             WorkerUser user = workerUserRepository.Get(userId);
@@ -140,6 +145,7 @@ namespace HelpDesk.DataService
             return list;
         }
 
+        [Cache(CacheKeyTemplate = "IEnumerable<OrganizationDTO>(userId={0})", AbsoluteExpiration = 100)]
         public IEnumerable<OrganizationDTO> GetListByWorkerUser(long userId)
         {
             WorkerUser user = workerUserRepository.Get(userId);
@@ -172,6 +178,8 @@ namespace HelpDesk.DataService
 
             return list;
         }
+
+        [Cache(CacheKeyTemplate = "GetExistsByWorkerUser(userId={0})", AbsoluteExpiration = 100)]
         public bool GetExistsByWorkerUser(long userId)
         {
             WorkerUser user = workerUserRepository.Get(userId);

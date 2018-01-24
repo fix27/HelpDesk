@@ -196,8 +196,8 @@ namespace HelpDesk.DataService
                     OrganizationAddress = e.Organization.Address
                 });
         }
-        
 
+        
         public IEnumerable<EmployeeDTO> GetListByOrganization(long organizationId, long? workerUserId = null)
         {
             if (workerUserId.HasValue)
