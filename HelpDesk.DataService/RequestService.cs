@@ -24,11 +24,10 @@ using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.DataService.Common.Interface;
 using HelpDesk.DataService.Common.DTO;
 using HelpDesk.Common.Cache;
-using Unity.ServiceLocation;
 
 namespace HelpDesk.DataService
 {
-    
+
     /// <summary>
     /// Для работы с заявками
     /// </summary>
@@ -349,7 +348,7 @@ namespace HelpDesk.DataService
         }
         #endregion GetList
 
-        [Cache(TypeCache = TypeCacheEnum.InMemoryCache, CacheKeyTemplate = "IEnumerable<StatusRequestDTO>({0})")]
+        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequestDTO>({0})")]
         public IEnumerable<StatusRequestDTO> GetListStatus(bool archive)
         {
             IEnumerable<StatusRequestDTO> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id)).OrderBy(s => s.Name)
@@ -370,7 +369,7 @@ namespace HelpDesk.DataService
 
         }
 
-        [Cache(TypeCache = TypeCacheEnum.InMemoryCache, CacheKeyTemplate = "IEnumerable<StatusRequest>({0})")]
+        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequest>({0})")]
         public IEnumerable<StatusRequest> GetListRawStatus(bool archive)
         {
             IEnumerable<StatusRequest> list = statusRepository.GetList(t => !IgnoredRawRequestStates.Contains(t.Id))

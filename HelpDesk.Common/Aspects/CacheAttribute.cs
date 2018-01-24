@@ -9,8 +9,13 @@ namespace HelpDesk.Common.Aspects
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public class CacheAttribute : Attribute 
     {
+        public CacheAttribute()
+        {
+            Location = CacheLocation.InMemoryCache;
+        }
         public string CacheKeyTemplate { get; set; }
-        public TypeCacheEnum TypeCache { get; set; }
-
+        public CacheLocation Location { get; set; }
+        public bool Invalidate { get; set; }
+        public string InvalidateCacheKeyTemplates { get; set; }
     }
 }

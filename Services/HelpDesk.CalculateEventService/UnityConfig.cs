@@ -1,7 +1,6 @@
 using System;
 using HelpDesk.EventBus;
 using Unity;
-using HelpDesk.Data;
 using HelpDesk.Data.NHibernate;
 using Unity.Lifetime;
 using MassTransit.Logging;

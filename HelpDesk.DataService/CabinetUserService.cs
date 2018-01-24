@@ -14,12 +14,14 @@ using System.Collections.Generic;
 using HelpDesk.Common.Helpers;
 using HelpDesk.Data.Command;
 using HelpDesk.DataService.Command;
+using HelpDesk.Common.Cache;
 
 namespace HelpDesk.DataService
 {
     /// <summary>
     /// Для работы с пользователями личного кабинета
     /// </summary>
+    [Cache]
     public class CabinetUserService : BaseService, ICabinetUserService
     {
         
@@ -147,6 +149,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// События заявки, на которые подписан пользователь
         /// </summary>
+        [Cache(CacheKeyTemplate = "IEnumerable<StatusRequestDTO>({0})")]
         public IEnumerable<StatusRequestDTO> GetListSubscribeStatus(long userId)
         {
             IEnumerable<RawStatusRequestDTO> list = statusRepository.GetList(t => !RequestService.IgnoredRawRequestStates.Contains(t.Id))
@@ -175,6 +178,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// Подписка/отписка пользователя на события заявки
         /// </summary>
+        [Cache(Invalidate = true, InvalidateCacheKeyTemplates = "IEnumerable<StatusRequestDTO>({0})")]
         public void ChangeSubscribeRequestState(long userId, StatusRequestEnum requestState)
         {
             IEnumerable<long> statusRequestIds = statusRequestMapService.GetElementsByEquivalence(requestState);

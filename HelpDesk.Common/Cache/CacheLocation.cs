@@ -1,6 +1,6 @@
 ﻿namespace HelpDesk.Common.Cache
 {
-    public enum TypeCacheEnum
+    public enum CacheLocation
     {
         InMemoryCache
     }

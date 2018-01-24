@@ -19,5 +19,10 @@ namespace HelpDesk.Common.Cache
             return (value ?? newValue).Value; // Lazy<T> handles the locking itself
         }
 
+        public void Remove(string key)
+        {
+            cache.Remove(key);
+        }
+
     }
 }

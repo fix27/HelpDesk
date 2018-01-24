@@ -25,12 +25,10 @@ namespace HelpDesk.DataService.Interface
         IEnumerable<RequestStateCountDTO> GetListRequestStateCount(long userId);
 
 
-        #region методы с кэшированием
         IEnumerable<Year> GetListEmployeeArchiveYear(long employeeId);
         IEnumerable<Year> GetListArchiveYear(long userId);
         IEnumerable<RequestEventDTO> GetListRequestEvent(long requestId);
         IEnumerable<StatusRequestDTO> GetListStatus(bool archive);
         IEnumerable<StatusRequest> GetListRawStatus(bool archive);
-        #endregion методы с кэшированием
     }
 }

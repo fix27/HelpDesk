@@ -4,7 +4,6 @@ using System.Web.Http.Dependencies;
 using HelpDesk.Migration;
 using HelpDesk.DataService;
 using HelpDesk.Data.NHibernate.Repository;
-using HelpDesk.Data;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using System.Xml;

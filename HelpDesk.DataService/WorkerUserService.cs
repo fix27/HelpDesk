@@ -9,12 +9,14 @@ using HelpDesk.DataService.Common;
 using System.Linq.Expressions;
 using HelpDesk.Common.Aspects;
 using System.Collections.Generic;
+using HelpDesk.Common.Cache;
 
 namespace HelpDesk.DataService
 {
     /// <summary>
     /// Для работы с пользователями исполнителями/диспетчерами
     /// </summary>
+    [Cache]
     public class WorkerUserService : BaseService, IWorkerUserService
     {
         
@@ -133,6 +135,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// События заявки, на которые подписан пользователь
         /// </summary>
+        [Cache(CacheKeyTemplate = "IEnumerable<RawStatusRequestDTO>({0})")]
         public IEnumerable<RawStatusRequestDTO> GetListSubscribeStatus(long userId)
         {
             IEnumerable<RawStatusRequestDTO> list = statusRepository.GetList(t => !RequestService.IgnoredRawRequestStates.Contains(t.Id))
@@ -154,6 +157,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// Подписка/отписка пользователя на события заявки
         /// </summary>
+        [Cache(Invalidate = true, InvalidateCacheKeyTemplates = "IEnumerable<RawStatusRequestDTO>({0})")]
         public void ChangeSubscribeRequestState(long userId, long requestStateId)
         {
             WorkerUserEventSubscribe subscribe = userEventSubscribeRepository.Get(s => s.User.Id == userId && s.StatusRequest.Id == requestStateId);

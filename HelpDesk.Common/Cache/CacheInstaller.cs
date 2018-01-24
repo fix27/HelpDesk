@@ -9,17 +9,17 @@ namespace HelpDesk.Common.Cache
         public static void Install(IUnityContainer container)
         {
             _container = container;
-            string key = TypeCacheEnum.InMemoryCache.ToString();
+            string key = CacheLocation.InMemoryCache.ToString();
             container.RegisterType<ICache, InMemoryCache>();
             container.RegisterType<ICache, InMemoryCache>(key); 
         }
 
-        public static ICache GetCache(string typeCacheName = null)
+        public static ICache GetCache(string location = null)
         {
-            if(string.IsNullOrWhiteSpace(typeCacheName))
+            if(string.IsNullOrWhiteSpace(location))
                 _container.Resolve<ICache>();
 
-            return _container.Resolve<ICache>(typeCacheName);
+            return _container.Resolve<ICache>(location);
         }
     }
 }

@@ -2,12 +2,15 @@
 using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 using System.Linq;
+using HelpDesk.Common.Aspects;
+using HelpDesk.Common.Cache;
 
 namespace HelpDesk.DataService
 {
     /// <summary>
     /// Для работы с системными настройками
     /// </summary>
+    [Cache]
     public class SettingsService : BaseService, ISettingsService
     {
         private readonly IBaseRepository<Settings> settingsRepository;
@@ -17,6 +20,7 @@ namespace HelpDesk.DataService
             this.settingsRepository = settingsRepository;
         }
 
+        [Cache(CacheKeyTemplate = "Settings")]
         public Settings Get()
         {
             return settingsRepository.GetList().FirstOrDefault();

@@ -21,7 +21,7 @@ namespace HelpDesk.Common.Aspects
             {
                 if (cacheAttribute != null)
                 {
-                    var cacheImplementation = CacheInstaller.GetCache(cacheAttribute.TypeCache.ToString());
+                    var cacheImplementation = CacheInstaller.GetCache(cacheAttribute.Location.ToString());
                     if (cacheImplementation != null)
                     {
                         IList<object> methodPapameters = new List<object>();
@@ -29,13 +29,29 @@ namespace HelpDesk.Common.Aspects
                         while (enumerator.MoveNext())
                             methodPapameters.Add(enumerator.Current);
 
-                        string cacheKey = String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray());
-                        result.ReturnValue = cacheImplementation
-                            .AddOrGetExisting(cacheKey,
-                            () =>
+                        
+                        if (cacheAttribute.Invalidate)
+                        {
+                            if (!String.IsNullOrWhiteSpace(cacheAttribute.InvalidateCacheKeyTemplates))
                             {
-                                return result.ReturnValue;
-                            });
+                                string[] invalidateCacheKeyTemplates = cacheAttribute.InvalidateCacheKeyTemplates.Split(',');
+                                foreach (var t in invalidateCacheKeyTemplates)
+                                    cacheImplementation.Remove(String.Format(t.Trim(), methodPapameters.ToArray()));
+                            }
+                            
+                        }
+                        else
+                        {
+
+                            string cacheKey = String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray());
+
+                            result.ReturnValue = cacheImplementation
+                                .AddOrGetExisting(cacheKey,
+                                () =>
+                                {
+                                    return result.ReturnValue;
+                                });
+                        }                        
 
                         return result;
                     }
