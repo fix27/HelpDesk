@@ -11,11 +11,12 @@ namespace HelpDesk.Common.Cache
         {
             cache = MemoryCache.Default;
         }
-        public T AddOrGetExisting<T>(object key, Func<T> get)
+        public T AddOrGetExisting<T>(string key, Func<T> valueFactory)
         {
-            T val = get();
-            T existingVal = (T)cache.AddOrGetExisting(key.ToString(), val, new CacheItemPolicy());
-            return existingVal !=null ? existingVal: val;
+            var newValue = new Lazy<T>(valueFactory);
+            // the line belows returns existing item or adds the new value if it doesn't exist
+            var value = (Lazy<T>)cache.AddOrGetExisting(key, newValue, MemoryCache.InfiniteAbsoluteExpiration);
+            return (value ?? newValue).Value; // Lazy<T> handles the locking itself
         }
 
     }
