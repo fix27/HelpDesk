@@ -2,6 +2,7 @@
 {
     public enum CacheLocation
     {
-        InMemoryCache
+        InMemory,
+        Memcached
     }
 }

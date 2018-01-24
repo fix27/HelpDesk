@@ -9,7 +9,6 @@ using HelpDesk.DataService.Common;
 using System.Linq.Expressions;
 using HelpDesk.Common.Aspects;
 using System.Collections.Generic;
-using HelpDesk.Common.Cache;
 
 namespace HelpDesk.DataService
 {

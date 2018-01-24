@@ -11,7 +11,7 @@ namespace HelpDesk.Common.Aspects
     {
         public CacheAttribute()
         {
-            Location = CacheLocation.InMemoryCache;           
+            Location = CacheLocation.InMemory;           
         }
         public string CacheKeyTemplate { get; set; }
         public CacheLocation Location { get; set; }

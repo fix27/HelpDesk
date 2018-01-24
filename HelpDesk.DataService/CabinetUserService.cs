@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using HelpDesk.Common.Helpers;
 using HelpDesk.Data.Command;
 using HelpDesk.DataService.Command;
-using HelpDesk.Common.Cache;
 
 namespace HelpDesk.DataService
 {

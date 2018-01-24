@@ -22,7 +22,7 @@ namespace HelpDesk.Common.Aspects
             {
                 if (cacheAttribute != null)
                 {
-                    var cacheImplementation = CacheInstaller.GetCache(cacheAttribute.Location.ToString());
+                    var cacheImplementation = CacheInstaller.GetCache(cacheAttribute.Location);
                     if (cacheImplementation != null)
                     {
                         IList<object> methodPapameters = new List<object>();

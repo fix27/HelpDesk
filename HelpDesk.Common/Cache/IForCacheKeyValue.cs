@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HelpDesk.Common.Cache
+﻿namespace HelpDesk.Common.Cache
 {
     public interface IForCacheKeyValue
     {

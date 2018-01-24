@@ -3,7 +3,6 @@ using HelpDesk.Data.Repository;
 using HelpDesk.Entity;
 using System.Linq;
 using HelpDesk.Common.Aspects;
-using HelpDesk.Common.Cache;
 
 namespace HelpDesk.DataService
 {
