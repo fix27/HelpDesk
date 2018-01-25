@@ -13,7 +13,6 @@ using System;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
-using HelpDesk.Common.Cache;
 
 namespace HelpDesk.ConsumerEventService
 {
@@ -38,7 +37,7 @@ namespace HelpDesk.ConsumerEventService
 
         private static void RegisterTypes(IUnityContainer container)
         {
-            CacheInstaller.Install(container);
+            
             NHibernateDataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
             DataServiceCommonInstaller.Install(container);

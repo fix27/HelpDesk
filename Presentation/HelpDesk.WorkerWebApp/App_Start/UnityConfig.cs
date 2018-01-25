@@ -66,8 +66,9 @@ namespace HelpDesk.WorkerWebApp.App_Start
             //регистраци€ NHibernate-репозиториев
             NHibernateDataInstaller.Install(container, new PerRequestLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
-           
-            CacheInstaller.Install(container);
+
+            string redisConnectionString = WebConfigurationManager.AppSettings["redisConnectionString"];
+            CacheInstaller.Install(redisConnectionString, container, new PerRequestLifetimeManager());
 
             //регистраци€ ћигратора
             MigratorInstaller.Install(container, connectionString);
