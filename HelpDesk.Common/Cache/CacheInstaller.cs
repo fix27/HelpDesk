@@ -1,5 +1,4 @@
 ﻿using ServiceStack.Redis;
-using System;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;

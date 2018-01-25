@@ -1,5 +1,4 @@
 ﻿using ServiceStack.Redis;
-using ServiceStack.Redis.Generic;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Json;

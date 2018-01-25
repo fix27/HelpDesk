@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Caching;
 
 namespace HelpDesk.Common.Cache
 {
