@@ -29,7 +29,6 @@ namespace HelpDesk.Common.Cache
                 {
                     using (var ms = new MemoryStream(Encoding.Unicode.GetBytes((string)obj)))
                     {
-                        // Deserialization from JSON  
                         DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeValue);
                         return deserializer.ReadObject(ms); 
                     }
