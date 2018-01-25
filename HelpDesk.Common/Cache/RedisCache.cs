@@ -18,10 +18,10 @@ namespace HelpDesk.Common.Cache
         {
             throw new NotSupportedException();            
         }
-
+               
         public object AddOrGetExisting(Type typeValue, string key, Func<object> valueFactory, int expirationSeconds = 0)
         {
-            TimeSpan expiresAt = new TimeSpan(0, 0, 0, expirationSeconds > 0 ? expirationSeconds : 100);
+            TimeSpan expiresAt = new TimeSpan(0, 0, 0, expirationSeconds > 0 ? expirationSeconds : 1000);
             using (IRedisClient redisClient = clientsManager.GetClient())
             {
                 object obj = redisClient.GetValue(key);
@@ -30,7 +30,7 @@ namespace HelpDesk.Common.Cache
                     using (var ms = new MemoryStream(Encoding.Unicode.GetBytes((string)obj)))
                     {
                         DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeValue);
-                        return deserializer.ReadObject(ms); 
+                        return deserializer.ReadObject(ms);
                     }
                 }
                 else

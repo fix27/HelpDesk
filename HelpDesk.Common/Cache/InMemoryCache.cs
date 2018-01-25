@@ -17,7 +17,7 @@ namespace HelpDesk.Common.Cache
             if (expirationSeconds == 0)
                 policy.AbsoluteExpiration = MemoryCache.InfiniteAbsoluteExpiration;
             else
-                policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(expirationSeconds);
+                policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(expirationSeconds > 0 ? expirationSeconds : 1000);
                                     
             var newValue = new Lazy<T>(valueFactory);
             // the line belows returns existing item or adds the new value if it doesn't exist

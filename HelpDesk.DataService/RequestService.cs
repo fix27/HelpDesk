@@ -365,7 +365,10 @@ namespace HelpDesk.DataService
                     StatusRequestEnum.Passive
                 };
 
-            return list.Where(t => (archive) ? archiveStates.Contains(t.Id) : !archiveStates.Contains(t.Id)).Distinct();
+            return list
+                .Where(t => (archive) ? archiveStates.Contains(t.Id) : !archiveStates.Contains(t.Id))
+                .Distinct()
+                .ToList();
 
         }
 
@@ -376,7 +379,9 @@ namespace HelpDesk.DataService
                 .OrderBy(s => s.Name)
                 .ToList();
 
-            return list.Where(t => (archive) ? arсhiveRawRequestStates.Contains(t.Id) : !arсhiveRawRequestStates.Contains(t.Id));
+            return list
+                .Where(t => (archive) ? arсhiveRawRequestStates.Contains(t.Id) : !arсhiveRawRequestStates.Contains(t.Id))
+                .ToList();
         }
         
         /// <summary>
