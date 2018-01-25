@@ -25,6 +25,11 @@ namespace HelpDesk.Common.Cache
             return (value ?? newValue).Value; // Lazy<T> handles the locking itself
         }
 
+        public object AddOrGetExisting(Type typeValue, string key, Func<object> valueFactory, int expirationSeconds = 0)
+        {
+            throw new NotSupportedException();
+        }
+
         public void Remove(string key)
         {
             cache.Remove(key);

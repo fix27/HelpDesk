@@ -56,10 +56,19 @@ namespace HelpDesk.Common.Aspects
                         }
                         else
                         {
-
                             string cacheKey = String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray());
+
+                            if(cacheAttribute.Location == CacheLocation.InMemory)
                             result.ReturnValue = cacheImplementation
                                     .AddOrGetExisting(cacheKey,
+                                    () =>
+                                    {
+                                        return result.ReturnValue;
+                                    },
+                                    cacheAttribute.ExpirationSeconds);
+                            else
+                                result.ReturnValue = cacheImplementation
+                                    .AddOrGetExisting(result.ReturnValue.GetType(), cacheKey,
                                     () =>
                                     {
                                         return result.ReturnValue;

@@ -1,5 +1,9 @@
 ﻿using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
 using System;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace HelpDesk.Common.Cache
 {
@@ -12,17 +16,29 @@ namespace HelpDesk.Common.Cache
         }
         public T AddOrGetExisting<T>(string key, Func<T> valueFactory, int expirationSeconds = 0)
         {
-            TimeSpan expiresAt = TimeSpan.FromTicks(DateTime.Now.AddSeconds(0).Ticks);
+            throw new NotSupportedException();            
+        }
+
+        public object AddOrGetExisting(Type typeValue, string key, Func<object> valueFactory, int expirationSeconds = 0)
+        {
+            TimeSpan expiresAt = new TimeSpan(0, 0, 0, expirationSeconds > 0 ? expirationSeconds : 100);
             using (IRedisClient redisClient = clientsManager.GetClient())
             {
-                var obj = redisClient.Get<T>(key);
+                object obj = redisClient.GetValue(key);
                 if (obj != null)
-                    return obj;
+                {
+                    using (var ms = new MemoryStream(Encoding.Unicode.GetBytes((string)obj)))
+                    {
+                        // Deserialization from JSON  
+                        DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeValue);
+                        return deserializer.ReadObject(ms); 
+                    }
+                }
                 else
                 {
                     obj = valueFactory();
                     if (obj != null)
-                        redisClient.Set<T>(key, obj, expiresAt);
+                        redisClient.Set(key, obj, expiresAt);
                     return obj;
                 }
             }

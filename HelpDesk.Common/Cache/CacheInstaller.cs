@@ -21,8 +21,7 @@ namespace HelpDesk.Common.Cache
 
             container.RegisterType<ICache, RedisCache>(CacheLocation.Redis.ToString(),
                 lifetimeManager,
-                new InjectionConstructor(
-                    new InjectionFactory(c => new BasicRedisClientManager(redisConnectionString))));
+                new InjectionConstructor(new BasicRedisClientManager(redisConnectionString)));
         }
 
         public static ICache GetCache(CacheLocation? location = null)

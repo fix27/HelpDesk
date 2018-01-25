@@ -1,4 +1,6 @@
-﻿namespace HelpDesk.Entity
+﻿using System;
+
+namespace HelpDesk.Entity
 {
     /// <summary>
     /// Различные системные настройки
