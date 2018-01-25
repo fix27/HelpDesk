@@ -487,7 +487,8 @@ namespace HelpDesk.DataService
                      Transfer   = t.StatusRequest.Id == (long)RawStatusRequestEnum.ExtendedDeadLine,
                      StatusRequest = statusRequestMapService.GetEquivalenceByElement(t.StatusRequest.Id),
                      User = t.User              
-                });
+                })
+                .ToList();
 
             return null;
         }

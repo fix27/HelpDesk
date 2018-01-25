@@ -1,4 +1,5 @@
-﻿using ServiceStack.Redis;
+﻿using Newtonsoft.Json;
+using ServiceStack.Redis;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
@@ -25,13 +26,7 @@ namespace HelpDesk.Common.Cache
             {
                 object obj = redisClient.GetValue(key);
                 if (obj != null)
-                {
-                    using (var ms = new MemoryStream(Encoding.Unicode.GetBytes((string)obj)))
-                    {
-                        DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeValue);
-                        return deserializer.ReadObject(ms);
-                    }
-                }
+                    return JsonConvert.DeserializeObject((string)obj, typeValue);
                 else
                 {
                     obj = valueFactory();
