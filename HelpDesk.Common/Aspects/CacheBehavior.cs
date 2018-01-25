@@ -22,6 +22,7 @@ namespace HelpDesk.Common.Aspects
                 if (cacheAttribute != null)
                 {
                     var cacheImplementation = CacheInstaller.GetCache(cacheAttribute.Location);
+
                     if (cacheImplementation != null)
                     {
                         IList<object> methodPapameters = new List<object>();
@@ -57,22 +58,14 @@ namespace HelpDesk.Common.Aspects
                         {
                             string cacheKey = String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray());
 
-                            if(cacheAttribute.Location == CacheLocation.InMemory)
                             result.ReturnValue = cacheImplementation
-                                    .AddOrGetExisting(cacheKey,
-                                    () =>
-                                    {
-                                        return result.ReturnValue;
-                                    },
-                                    cacheAttribute.ExpirationSeconds);
-                            else
-                                result.ReturnValue = cacheImplementation
                                     .AddOrGetExisting(result.ReturnValue.GetType(), cacheKey,
                                     () =>
                                     {
                                         return result.ReturnValue;
                                     },
                                     cacheAttribute.ExpirationSeconds);
+
                         }                        
 
                         return result;

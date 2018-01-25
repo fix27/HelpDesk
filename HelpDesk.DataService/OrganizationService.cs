@@ -106,7 +106,8 @@ namespace HelpDesk.DataService
 
             IEnumerable<OrganizationDTO> list2 = list;
 
-            list = list.Where(t => t.Name.ToUpper().Contains(name.ToUpper()) && inOrganizationObjectTypeWorker(t, list2, ids));
+            list = list.Where(t => t.Name.ToUpper().Contains(name.ToUpper()) && inOrganizationObjectTypeWorker(t, list2, ids))
+                .ToList();
 
             return list;
         }
@@ -140,7 +141,7 @@ namespace HelpDesk.DataService
 
             IEnumerable<OrganizationDTO> list2 = list;
 
-            list = list.Where(t => t.ParentId == parentId && inOrganizationObjectTypeWorker(t, list2, ids));
+            list = list.Where(t => t.ParentId == parentId && inOrganizationObjectTypeWorker(t, list2, ids)).ToList();
 
             return list;
         }
@@ -174,7 +175,7 @@ namespace HelpDesk.DataService
 
             IEnumerable<OrganizationDTO> list2 = list;
 
-            list = list.Where(t => inOrganizationObjectTypeWorker(t, list2, ids));
+            list = list.Where(t => inOrganizationObjectTypeWorker(t, list2, ids)).ToList();
 
             return list;
         }

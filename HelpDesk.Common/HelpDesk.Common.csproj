@@ -104,6 +104,7 @@
     <Compile Include="Cache\CacheInstaller.cs" />
     <Compile Include="Cache\IForCacheKeyValue.cs" />
     <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cache\BaseCache.cs" />
     <Compile Include="Cache\RedisCache.cs" />
     <Compile Include="Cache\InMemoryCache.cs" />
     <Compile Include="Cache\CacheLocation.cs" />

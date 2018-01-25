@@ -1,16 +1,13 @@
 ﻿using Newtonsoft.Json;
 using ServiceStack.Redis;
 using System;
-using System.IO;
-using System.Runtime.Serialization.Json;
-using System.Text;
 
 namespace HelpDesk.Common.Cache
 {
-    public class RedisCache : ICache
+    public class RedisCache : BaseCache, ICache
     {
         private readonly IRedisClientsManager clientsManager;
-        public RedisCache(IRedisClientsManager clientsManager)
+        public RedisCache(IRedisClientsManager clientsManager, int defaultExpirationSeconds): base(defaultExpirationSeconds)
         {
             this.clientsManager = clientsManager;
         }
@@ -21,7 +18,7 @@ namespace HelpDesk.Common.Cache
                
         public object AddOrGetExisting(Type typeValue, string key, Func<object> valueFactory, int expirationSeconds = 0)
         {
-            TimeSpan expiresAt = new TimeSpan(0, 0, 0, expirationSeconds > 0 ? expirationSeconds : 1000);
+            TimeSpan expiresAt = new TimeSpan(0, 0, 0, expirationSeconds > 0 ? expirationSeconds : defaultExpirationSeconds);
             using (IRedisClient redisClient = clientsManager.GetClient())
             {
                 object obj = redisClient.GetValue(key);

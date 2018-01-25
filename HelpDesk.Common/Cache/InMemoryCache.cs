@@ -3,31 +3,26 @@ using System.Runtime.Caching;
 
 namespace HelpDesk.Common.Cache
 {
-    public class InMemoryCache: ICache
+    public class InMemoryCache: BaseCache, ICache
     {
         private readonly ObjectCache cache;
 
-        public InMemoryCache()
+        public InMemoryCache(int defaultExpirationSeconds) : base(defaultExpirationSeconds)
         {
             cache = MemoryCache.Default;
         }
-        public T AddOrGetExisting<T>(string key, Func<T> valueFactory, int expirationSeconds = 0)
+        
+        public object AddOrGetExisting(Type typeValue, string key, Func<object> valueFactory, int expirationSeconds = 0)
         {
             CacheItemPolicy policy = new CacheItemPolicy();
             if (expirationSeconds == 0)
                 policy.AbsoluteExpiration = MemoryCache.InfiniteAbsoluteExpiration;
             else
-                policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(expirationSeconds > 0 ? expirationSeconds : 1000);
-                                    
-            var newValue = new Lazy<T>(valueFactory);
-            // the line belows returns existing item or adds the new value if it doesn't exist
-            var value = (Lazy<T>)cache.AddOrGetExisting(key, newValue, policy);
-            return (value ?? newValue).Value; // Lazy<T> handles the locking itself
-        }
+                policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(expirationSeconds > 0 ? expirationSeconds : defaultExpirationSeconds);
 
-        public object AddOrGetExisting(Type typeValue, string key, Func<object> valueFactory, int expirationSeconds = 0)
-        {
-            throw new NotSupportedException();
+            var newValue = new Lazy<object>(valueFactory);
+            var value = (Lazy<object>)cache.AddOrGetExisting(key, newValue, policy);
+            return (value ?? newValue).Value;
         }
 
         public void Remove(string key)

@@ -451,7 +451,7 @@ namespace HelpDesk.DataService
             return list;
         }
 
-        [Cache(CacheKeyTemplate = "IEnumerable<RequestEventDTO>(requestId={0})", ExpirationSeconds = 100)]
+        [Cache(CacheKeyTemplate = "IEnumerable<RequestEventDTO>(requestId={0})", ExpirationSeconds = 1000)]
         public IEnumerable<RequestEventDTO> GetListRequestEvent(long requestId)
         {
             bool archive = false;
