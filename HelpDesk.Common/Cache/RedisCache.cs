@@ -11,11 +11,7 @@ namespace HelpDesk.Common.Cache
         {
             this.clientsManager = clientsManager;
         }
-        public T AddOrGetExisting<T>(string key, Func<T> valueFactory, int expirationSeconds = 0)
-        {
-            throw new NotSupportedException();            
-        }
-               
+           
         public object AddOrGetExisting(Type typeValue, string key, Func<object> valueFactory, int expirationSeconds = 0)
         {
             TimeSpan expiresAt = new TimeSpan(0, 0, 0, expirationSeconds > 0 ? expirationSeconds : defaultExpirationSeconds);

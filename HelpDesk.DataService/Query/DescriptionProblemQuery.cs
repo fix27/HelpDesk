@@ -7,7 +7,7 @@ using System.Linq;
 namespace HelpDesk.DataService.Query
 {
     /// <summary>
-    /// Запрос: типовые проблемы
+    /// Запрос: Список проблем, зафиксированных для некоторого объекта (для ПО)/типа ТО (для ТО)
     /// </summary>
     public class DescriptionProblemQuery : IQuery<IEnumerable<SimpleDTO>, DescriptionProblem, RequestObject>
     {

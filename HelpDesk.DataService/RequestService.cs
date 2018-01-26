@@ -150,6 +150,10 @@ namespace HelpDesk.DataService
                 Version = request.Version
             };
         }
+
+        /// <summary>
+        /// Параметры для создания (id = 0)/редактирования заявки
+        /// </summary>
         public RequestParameter Get(long id = 0)
         {
             if(id == 0)
@@ -160,6 +164,10 @@ namespace HelpDesk.DataService
 
             return getCreateOrUpdateRequest(id);
         }
+
+        /// <summary>
+        /// Параметры для создания новой заявки на основе существующей заявки
+        /// </summary>
         public RequestParameter GetNewByRequestId(long requestId)
         {
             RequestParameter r = getCreateOrUpdateRequest(requestId);
@@ -168,6 +176,10 @@ namespace HelpDesk.DataService
             return r;
 
         }
+
+        /// <summary>
+        /// Параметры для создания новой заявки на основе существующего объекта (ПО/ТО)
+        /// </summary>
         public RequestParameter GetNewByObjectId(long objectId)
         {
             RequestObject edsObject = objectRepository.Get(objectId);
@@ -198,6 +210,9 @@ namespace HelpDesk.DataService
             return graphState;
         }
 
+        /// <summary>
+        /// Удаление заявки
+        /// </summary>
         public void Delete(long id)
         {
             requestConstraintsService.CheckExistsRequest(id);
@@ -291,6 +306,9 @@ namespace HelpDesk.DataService
             return list;
         }
         
+        /// <summary>
+        /// Заявки пользователя личного кабинета
+        /// </summary>
         public IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
         {
             if (filter.StatusIds != null && filter.StatusIds.Any())
@@ -314,6 +332,9 @@ namespace HelpDesk.DataService
 
         }
 
+        /// <summary>
+        /// Заявки Исполнителя/Диспетчера
+        /// </summary>
         public IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
         {
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
@@ -436,12 +457,18 @@ namespace HelpDesk.DataService
             return c;
         }
 
+        /// <summary>
+        /// Архивные года для пользователя личного кабинета
+        /// </summary>
         public IEnumerable<Year> GetListEmployeeArchiveYear(long employeeId)
         {
             IEnumerable<Year> list = queryRunner.Run(new EmployeeArchiveYearQuery(employeeId));
             return list;
         }
 
+        /// <summary>
+        /// Архивные года для Исполнителя/Диспетчера
+        /// </summary>
         [Cache(CacheKeyTemplate = "IEnumerable<Year>(userId={0})", ExpirationSeconds = 100)]
         public IEnumerable<Year> GetListArchiveYear(long userId)
         {
@@ -451,6 +478,9 @@ namespace HelpDesk.DataService
             return list;
         }
 
+        /// <summary>
+        /// События заявки
+        /// </summary>
         [Cache(CacheKeyTemplate = "IEnumerable<RequestEventDTO>(requestId={0})", ExpirationSeconds = 1000)]
         public IEnumerable<RequestEventDTO> GetListRequestEvent(long requestId)
         {
@@ -493,7 +523,9 @@ namespace HelpDesk.DataService
             return null;
         }
                 
-
+        /// <summary>
+        /// Сохранение заявки
+        /// </summary>
         [Transaction]
         public long Save(RequestParameter dto)
         {
@@ -653,6 +685,9 @@ namespace HelpDesk.DataService
             return r.Id;
         }
 
+        /// <summary>
+        /// Создание события заявки (изменение состояния заявки)
+        /// </summary>
         [Transaction]
         [Cache(Invalidate = true, SkippedParameterIndexes = new int[] {0}, 
             InvalidateCacheKeyTemplates = "IEnumerable<RequestEventDTO>(requestId={0})")]
@@ -755,6 +790,9 @@ namespace HelpDesk.DataService
             });
         }
         
+        /// <summary>
+        /// Допустимый перенос срока заявки
+        /// </summary>
         public Interval<DateTime, DateTime?> GetAllowableDeadLine(long requestId)
         {
             Request r = requestRepository.Get(requestId);
@@ -788,11 +826,17 @@ namespace HelpDesk.DataService
             return interval;
         }
 
+        /// <summary>
+        /// Список проблем, зафиксированных для некоторого объекта (для ПО)/типа ТО (для ТО)
+        /// </summary>
         public IEnumerable<SimpleDTO> GetListDescriptionProblem(string name, long objectId)
         {
             return queryRunner.Run(new DescriptionProblemQuery(name, objectId));
         }
 
+        /// <summary>
+        /// Статистика активных заявок по состояниям
+        /// </summary>
         public IEnumerable<RequestStateCountDTO> GetListRequestStateCount(long userId)
         {
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
