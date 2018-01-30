@@ -81,11 +81,11 @@
         var OneSignal = window.OneSignal || [];
         var oneSignalAppId = '@ViewBag.OneSignalAppId';
         OneSignal.push(["init", {
-          appId: oneSignalAppId,
-          autoRegister: false,
-          notifyButton: {
-            enable: true
-          }
+            appId: oneSignalAppId,
+            autoRegister: false,
+            notifyButton: {
+                enable: true
+            }
         }]);
 
         OneSignal.push(function() {
@@ -93,7 +93,7 @@
                 $.post( "api/"+culture+"/User/SetOneSignalUserId", { userId: userId } );
             });
 
-            OneSignal.sendTag('userId', '@ViewBag.UserId');
+            OneSignal.sendTag('userEmail', '@ViewBag.UserEmail');
         });
     </script>
 </head>

@@ -75,7 +75,7 @@ namespace HelpDesk.WorkerWebApp.Controllers
                     { "requestHistory", Resource.Menu_RequestHistory }                    
                 };
             }
-            ViewBag.UserId = CurrentUser.Id;
+            ViewBag.UserEmail = CurrentUser.Email;
             ViewBag.OneSignalAppId = WebConfigurationManager.AppSettings["OneSignal:AppId"];
             Settings settings = settingsService.Get();
 

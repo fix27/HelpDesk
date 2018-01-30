@@ -67,7 +67,7 @@ namespace HelpDesk.CabinetWebApp.Controllers
                 { "employee", Resource.Menu_Employee },
                 { "subscribe", Resource.Menu_Subscribe }
             };
-            ViewBag.UserId = CurrentUser.Id;
+            ViewBag.UserEmail = CurrentUser.Email;
             ViewBag.OneSignalAppId = WebConfigurationManager.AppSettings["OneSignal:AppId"];
             Settings settings = settingsService.Get();
 
