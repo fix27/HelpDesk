@@ -68,8 +68,9 @@
 
     create table WorkerUser (
         Id BIGINT not null,
-       Name VARCHAR(200) not null,
-       Email VARCHAR(200) not null unique,
+       OneSignalUserId VARCHAR(200),
+	   Name VARCHAR(200) not null,
+	   Email VARCHAR(200) not null unique,
        Password VARCHAR(100) not null,
        Subscribe BIT not null,
        WorkerId BIGINT null,
@@ -228,7 +229,8 @@
 
     create table CabinetUser (
         Id BIGINT not null,
-       Email VARCHAR(200) not null unique,
+       OneSignalUserId VARCHAR(200),
+	   Email VARCHAR(200) not null unique,
        Password VARCHAR(100) not null,
        Subscribe BIT not null,
        primary key (Id)

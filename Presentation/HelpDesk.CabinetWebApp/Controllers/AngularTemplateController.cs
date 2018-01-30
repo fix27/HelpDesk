@@ -9,6 +9,7 @@ using HelpDesk.CabinetWebApp.Resources;
 using System.Threading;
 using HelpDesk.CabinetWebApp.Models;
 using HelpDesk.Entity;
+using System.Web.Configuration;
 
 namespace HelpDesk.CabinetWebApp.Controllers
 {
@@ -66,7 +67,8 @@ namespace HelpDesk.CabinetWebApp.Controllers
                 { "employee", Resource.Menu_Employee },
                 { "subscribe", Resource.Menu_Subscribe }
             };
-
+            ViewBag.UserId = CurrentUser.Id;
+            ViewBag.OneSignalAppId = WebConfigurationManager.AppSettings["OneSignal:AppId"];
             Settings settings = settingsService.Get();
 
             return View("~/App/Main/views/layout/layout.cshtml",

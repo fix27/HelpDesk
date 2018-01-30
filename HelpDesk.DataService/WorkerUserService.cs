@@ -64,7 +64,6 @@ namespace HelpDesk.DataService
                 Name = user.Name,
                 Worker = user.Worker,
                 UserType = user.UserType
-
             };
             return dto;
         }
@@ -185,6 +184,15 @@ namespace HelpDesk.DataService
         {
             WorkerUser user = userRepository.Get(userId);
             user.Subscribe = !user.Subscribe;
+            userRepository.Save(user);
+
+            repository.SaveChanges();
+        }
+
+        public void SetOneSignalUserId(long userId, string oneSignalUserId)
+        {
+            WorkerUser user = userRepository.Get(userId);
+            user.OneSignalUserId = oneSignalUserId;
             userRepository.Save(user);
 
             repository.SaveChanges();

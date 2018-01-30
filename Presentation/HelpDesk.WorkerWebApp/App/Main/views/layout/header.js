@@ -52,6 +52,7 @@
             }
             
             $interval(getStatistics, 5000);
+
         }
     ]);
 })();

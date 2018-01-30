@@ -38,8 +38,7 @@
     @Scripts.Render("~/Bundles/App/Main/js")
     <script>
         var culture = '@ViewBag.CurrentCulture';
-        var menu = @Html.ToJson((IDictionary<string, string>)ViewBag.Menu);
-
+        var menu = @Html.ToJson((IDictionary<string, string>)ViewBag.Menu);        
     </script>
 
     <style type="text/css">
@@ -79,14 +78,23 @@
     
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
     <script>
-    var OneSignal = window.OneSignal || [];
-    OneSignal.push(["init", {
-      appId: "82aa269d-93d9-4cc6-9112-fce271ff30c5",
-      autoRegister: true,
-      notifyButton: {
-        enable: true /* Set to false to hide */
-      }
-    }]);
+        var OneSignal = window.OneSignal || [];
+        var oneSignalAppId = '@ViewBag.OneSignalAppId';
+        OneSignal.push(["init", {
+          appId: oneSignalAppId,
+          autoRegister: false,
+          notifyButton: {
+            enable: true
+          }
+        }]);
+
+        OneSignal.push(function() {
+            OneSignal.getUserId(function(userId) {
+                $.post( "api/"+culture+"/User/SetOneSignalUserId", { userId: userId } );
+            });
+
+            OneSignal.sendTag('userId', '@ViewBag.UserId');
+        });
     </script>
 </head>
 <body>

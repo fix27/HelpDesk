@@ -24,5 +24,10 @@
         /// Подписан на E-mail рассылку
         /// </summary>
         public bool Subscribe { get; set; }
+
+        /// <summary>
+        /// https://documentation.onesignal.com/docs/user-user-messages
+        /// </summary>
+        public string OneSignalUserId { get; set; }
     }
 }

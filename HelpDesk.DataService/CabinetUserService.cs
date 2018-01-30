@@ -75,7 +75,6 @@ namespace HelpDesk.DataService
                 FM = user.Employee != null ? user.Employee.FM : null,
                 IM = user.Employee != null ? user.Employee.IM : null,
                 OT = user.Employee != null ? user.Employee.OT : null
-
             };
             return dto;
         }
@@ -218,6 +217,13 @@ namespace HelpDesk.DataService
             repository.SaveChanges();
         }
 
+        public void SetOneSignalUserId(long userId, string oneSignalUserId)
+        {
+            CabinetUser user = userRepository.Get(userId);
+            user.OneSignalUserId = oneSignalUserId;
+            userRepository.Save(user);
 
+            repository.SaveChanges();
+        }
     }
 }

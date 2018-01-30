@@ -16,5 +16,6 @@ namespace HelpDesk.DataService.Interface
         IEnumerable<StatusRequestDTO> GetListSubscribeStatus(long userId);
         void ChangeSubscribeRequestState(long userId, StatusRequestEnum requestState);
         void ChangeSubscribe(long userId);
+        void SetOneSignalUserId(long userId, string oneSignalUserId);
     }
 }

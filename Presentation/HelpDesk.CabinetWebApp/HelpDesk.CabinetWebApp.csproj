@@ -253,6 +253,7 @@
     <Compile Include="Models\ColumnHeaderModel.cs" />
     <Compile Include="Models\FilterGridDialogModel.cs" />
     <Compile Include="Models\jstree.cs" />
+    <Compile Include="Models\OneSignalUserParameter.cs" />
     <Compile Include="Models\RecoveryPassvordViewModel.cs" />
     <Compile Include="Models\AppLayoutModel.cs" />
     <Compile Include="Models\RequestModel.cs" />

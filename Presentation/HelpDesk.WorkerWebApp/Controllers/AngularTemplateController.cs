@@ -9,6 +9,7 @@ using HelpDesk.WorkerWebApp.Resources;
 using System.Threading;
 using HelpDesk.WorkerWebApp.Models;
 using HelpDesk.Entity;
+using System.Web.Configuration;
 
 namespace HelpDesk.WorkerWebApp.Controllers
 {
@@ -74,8 +75,8 @@ namespace HelpDesk.WorkerWebApp.Controllers
                     { "requestHistory", Resource.Menu_RequestHistory }                    
                 };
             }
-            
-
+            ViewBag.UserId = CurrentUser.Id;
+            ViewBag.OneSignalAppId = WebConfigurationManager.AppSettings["OneSignal:AppId"];
             Settings settings = settingsService.Get();
 
             return View("~/App/Main/views/layout/layout.cshtml",

@@ -258,6 +258,7 @@
     <Compile Include="Models\RequestEventParameter.cs" />
     <Compile Include="Models\RequestHistoryModel.cs" />
     <Compile Include="Models\ChangeSubscribeRequestStateParameter.cs" />
+    <Compile Include="Models\OneSignalUserParameter.cs" />
     <Compile Include="Models\RequestObjectTOParameter.cs" />
     <Compile Include="Models\RequestObjectISParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

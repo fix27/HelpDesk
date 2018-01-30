@@ -71,5 +71,17 @@ namespace HelpDesk.CabinetWebApp.Controllers
             });
         }
 
+        [Route("api/{lang}/User/SetOneSignalUserId")]
+        [HttpPost]
+        public IHttpActionResult SetOneSignalUserId(OneSignalUserParameter param)
+        {
+            return execute(delegate ()
+            {
+                long userId = User.Identity.GetUserId<long>();
+                userService.SetOneSignalUserId(userId, param.UserId);
+                result = Json(new { success = true });
+            });
+        }
+
     }
 }
