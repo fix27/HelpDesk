@@ -2,7 +2,6 @@
 using HelpDesk.ConsumerEventService.EmailTemplateServices;
 using HelpDesk.ConsumerEventService.Resources;
 using MassTransit.Logging;
-using System;
 using System.Configuration;
 using System.Net.Configuration;
 using System.Net.Mail;

@@ -1,12 +1,8 @@
 ﻿using HelpDesk.ConsumerEventService.DTO;
-using HelpDesk.ConsumerEventService.EmailTemplateServices;
-using HelpDesk.ConsumerEventService.Resources;
 using MassTransit.Logging;
-using System;
-using System.Configuration;
-using System.Net.Configuration;
+using Newtonsoft.Json;
 using System.Net.Http;
-using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HelpDesk.ConsumerEventService.Sender
@@ -27,7 +23,20 @@ namespace HelpDesk.ConsumerEventService.Sender
 
         public Task SendAsync(UserEventSubscribeDTO msg, string subject, string messageTemplateName)
         {
-            return client.PostAsync("https://onesignal.com/api/v1/notifications", null);
+            var model = new
+            {
+                app_id = appId,
+                contents = new { ru = subject },
+                filters = new object[] 
+                {
+                    new { field = "tag" },
+                    new { key = "userEmail" },
+                    new { relation = "=" },
+                    new { value = msg.Email }
+                }
+            };
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            return client.PostAsync("https://onesignal.com/api/v1/notifications", content);
         }        
         
     }
