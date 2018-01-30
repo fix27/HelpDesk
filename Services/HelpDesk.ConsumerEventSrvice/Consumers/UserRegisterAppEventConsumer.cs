@@ -25,12 +25,9 @@ namespace HelpDesk.ConsumerEventService.Consumers
         public async Task Consume(ConsumeContext<IUserRegisterAppEvent> context)
         {
             log.InfoFormat("UserRegisterAppEventConsumer: Email = {0}", context.Message.Email);
-            await Task.Run(() =>
-            {
-                sender.Send(new UserEventSubscribeDTO {Email = context.Message.Email, BaseUrl = Program.BaseCabinetUrl }, 
-                    String.Format(Resource.Subject_UserRegisterAppEventConsumer, Resource.AppName), "UserRegisterAppEvent");
-                log.InfoFormat("UserRegisterAppEventConsumer Send OK: Email = {0}", context.Message.Email);
-            });
-        }        
+            await sender.SendAsync(new UserEventSubscribeDTO { Email = context.Message.Email, BaseUrl = Program.BaseCabinetUrl },
+                String.Format(Resource.Subject_UserRegisterAppEventConsumer, Resource.AppName), "UserRegisterAppEvent");
+            log.InfoFormat("UserRegisterAppEventConsumer Send OK: Email = {0}", context.Message.Email);
+        }
     }
 }

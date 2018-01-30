@@ -24,13 +24,13 @@ namespace HelpDesk.ConsumerEventService.Consumers
         private readonly IQueryRunner queryRunner;
         private readonly IStatusRequestMapService statusRequestMapService;
         private readonly ILog log;
-        private readonly ISender sender;
-        public RequestAppEventConsumer(IQueryRunner queryRunner, IStatusRequestMapService statusRequestMapService, ILog log, ISender sender)
+        private readonly IEnumerable<ISender> senders;
+        public RequestAppEventConsumer(IQueryRunner queryRunner, IStatusRequestMapService statusRequestMapService, ILog log, IEnumerable<ISender> senders)
         {
             this.queryRunner = queryRunner;
             this.statusRequestMapService = statusRequestMapService;
             this.log = log;
-            this.sender = sender;
+            this.senders = senders;
         }
 
         static object lockObj = new object();
@@ -43,30 +43,30 @@ namespace HelpDesk.ConsumerEventService.Consumers
             {
                 result = queryRunner.Run(new UserRequestAppEventSubscribeQuery(context.Message.RequestEventId, context.Message.Archive, statusRequestMapService.GetEquivalenceByElement));
             }
-            
 
-            var t =  Task.Run(() =>
-            {
-                if (result != null && result.Item1!=null && result.Item1.Any())
-                    foreach (var evnt in result.Item1)
+            if (result != null && result.Item1 != null && result.Item1.Any())
+                foreach (var evnt in result.Item1)
+                {
+                    evnt.BaseUrl = Program.BaseWorkerUrl;
+                    foreach (var sender in senders)
                     {
-                        evnt.BaseUrl = Program.BaseWorkerUrl;
-                        sender.Send(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.Request.Id, evnt.Request.StatusName), "RequestAppEventWorker");
+                        await sender.SendAsync(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.Request.Id, evnt.Request.StatusName), "RequestAppEventWorker");
                         log.InfoFormat("RequestAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
                             evnt.Request.Id, evnt.Request.StatusName, evnt.Email);
                     }
+                }
 
-                if (result != null && result.Item2 != null && result.Item2.Any())
-                    foreach (var evnt in result.Item2)
+            if (result != null && result.Item2 != null && result.Item2.Any())
+                foreach (var evnt in result.Item2)
+                {
+                    evnt.BaseUrl = Program.BaseCabinetUrl;
+                    foreach (var sender in senders)
                     {
-                        evnt.BaseUrl = Program.BaseCabinetUrl;
-                        sender.Send(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.Request.Id, evnt.Request.StatusName), "RequestAppEventCabinet");
+                        await sender.SendAsync(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.Request.Id, evnt.Request.StatusName), "RequestAppEventCabinet");
                         log.InfoFormat("RequestAppEventConsumer Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
                             evnt.Request.Id, evnt.Request.StatusName, evnt.Email);
                     }
-            });
-
-            await t;
+                }
         }        
     }
 }

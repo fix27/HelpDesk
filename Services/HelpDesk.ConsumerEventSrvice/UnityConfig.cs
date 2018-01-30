@@ -13,6 +13,8 @@ using System;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
+using System.Configuration;
+using System.Collections.Generic;
 
 namespace HelpDesk.ConsumerEventService
 {
@@ -52,11 +54,24 @@ namespace HelpDesk.ConsumerEventService
             container.RegisterType<IEmailTemplateService, RazorEmailTemplateService>();
             
             //получатели сообщений из шины
-            container.RegisterType<ISender, EmailSender>(
+            container.RegisterType<ISender, EmailSender>("EmailSender",
                new InjectionConstructor(
                    container.Resolve<IEmailTemplateService>(),
                    container.Resolve<ILog>("EmailSender")
                 ));
+
+            string oneSignalAppId = ConfigurationManager.AppSettings["OneSignal:AppId"];
+            if (!String.IsNullOrWhiteSpace(oneSignalAppId))
+                container.RegisterType<ISender, WebPushSender>("WebPushSender",
+                   new InjectionConstructor(
+                       oneSignalAppId,
+                       container.Resolve<ILog>("WebPushSender")
+                    ));
+
+            IList<ISender> senders = new List<ISender>();
+            senders.Add(container.Resolve<ISender>("EmailSender"));
+            if (!String.IsNullOrWhiteSpace(oneSignalAppId))
+                senders.Add(container.Resolve<ISender>("WebPushSender"));
 
             DataServiceCommonInstaller.Install(container);
             container.RegisterType<IConsumer<IRequestAppEvent> , RequestAppEventConsumer>(
@@ -64,26 +79,26 @@ namespace HelpDesk.ConsumerEventService
                     container.Resolve<IQueryRunner>(),
                     container.Resolve<IStatusRequestMapService>(),
                     container.Resolve<ILog>("RequestAppEventConsumer"),
-                    container.Resolve<ISender>()
+                    senders
                 ));
 
             container.RegisterType<IConsumer<IRequestDeedlineAppEvent> , RequestDeedlineAppEventConsumer>(
                 new InjectionConstructor(
                     container.Resolve<IQueryRunner>(),
                     container.Resolve<ILog>("RequestDeedlineAppEventConsumer"),
-                    container.Resolve<ISender>()
+                    senders
                 ));
 
             container.RegisterType<IConsumer<IUserPasswordRecoveryAppEvent> , UserPasswordRecoveryAppEventConsumer>(
                new InjectionConstructor(
                     container.Resolve<ILog>("UserPasswordRecoveryAppEventConsumer"),
-                    container.Resolve<ISender>()
+                    senders[0]
                 ));
 
             container.RegisterType<IConsumer<IUserRegisterAppEvent> , UserRegisterAppEventConsumer>(
                 new InjectionConstructor(
                     container.Resolve<ILog>("UserRegisterAppEventConsumer"),
-                    container.Resolve<ISender>()
+                    senders[0]
                 ));
         }
         

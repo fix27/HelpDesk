@@ -1,4 +1,5 @@
 ﻿using HelpDesk.ConsumerEventService.DTO;
+using System.Threading.Tasks;
 
 namespace HelpDesk.ConsumerEventService.Sender
 {
@@ -13,6 +14,6 @@ namespace HelpDesk.ConsumerEventService.Sender
         /// <param name="msg">Сообщение</param>
         /// <param name="subject">Тема сообщения</param>
         /// <param name="messageTemplateName">Имя шаблона сообщения</param>
-        void Send(UserEventSubscribeDTO msg, string subject, string messageTemplateName);
+        Task SendAsync(UserEventSubscribeDTO msg, string subject, string messageTemplateName);
     }
 }

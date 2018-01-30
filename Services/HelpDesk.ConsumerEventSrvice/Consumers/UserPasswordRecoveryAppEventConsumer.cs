@@ -24,17 +24,14 @@ namespace HelpDesk.ConsumerEventService.Consumers
         public async Task Consume(ConsumeContext<IUserPasswordRecoveryAppEvent> context)
         {
             log.InfoFormat("UserPasswordRecoveryAppEventConsumer: Email = {0}", context.Message.Email);
-            await Task.Run(() =>
+            await sender.SendAsync(new UserPasswordRecoveryAppEventSubscribeDTO
             {
-                sender.Send(new UserPasswordRecoveryAppEventSubscribeDTO
-                {
-                    Email = context.Message.Email,
-                    Password = context.Message.Password,
-                    BaseUrl = context.Message.Cabinet? Program.BaseCabinetUrl: Program.BaseWorkerUrl
-                }, 
+                Email = context.Message.Email,
+                Password = context.Message.Password,
+                BaseUrl = context.Message.Cabinet ? Program.BaseCabinetUrl : Program.BaseWorkerUrl
+            },
                 Resource.Subject_UserPasswordRecoveryAppEventConsumer, "UserPasswordRecoveryAppEvent");
-                log.InfoFormat("UserPasswordRecoveryAppEventConsumer Send OK: Email = {0}", context.Message.Email);
-            });
+            log.InfoFormat("UserPasswordRecoveryAppEventConsumer Send OK: Email = {0}", context.Message.Email);
         }
     }
 }

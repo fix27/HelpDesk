@@ -19,13 +19,13 @@ namespace HelpDesk.ConsumerEventService.Consumers
     {
         private readonly ILog log;
         private readonly IQueryRunner queryRunner;
-        private readonly ISender sender;
+        private readonly IEnumerable<ISender> senders;
         public RequestDeedlineAppEventConsumer(IQueryRunner queryRunner, ILog log, 
-            ISender sender)
+            IEnumerable<ISender> senders)
         {
             this.queryRunner = queryRunner;
             this.log = log;
-            this.sender = sender;
+            this.senders = senders;
         }
 
         static object lockObj = new object();
@@ -41,15 +41,15 @@ namespace HelpDesk.ConsumerEventService.Consumers
             log.InfoFormat("-----------------------------: list.Count = {0}", list.Count());
             if (list == null || !list.Any())
                 return;
-            await Task.Run(() =>
+            foreach (var evnt in list)
             {
-                foreach (var evnt in list)
+                evnt.BaseUrl = Program.BaseWorkerUrl;
+                foreach (var sender in senders)
                 {
-                    evnt.BaseUrl = Program.BaseWorkerUrl;
-                    sender.Send(evnt, Resource.Subject_RequestDeedlineAppEventConsumer, "RequestDeedlineAppEvent");
+                    await sender.SendAsync(evnt, Resource.Subject_RequestDeedlineAppEventConsumer, "RequestDeedlineAppEvent");
                     log.InfoFormat("RequestDeedlineAppEventConsumer Send OK: Email = {0}", evnt.Email);
                 }
-            });
+            }
         }
     }
 }

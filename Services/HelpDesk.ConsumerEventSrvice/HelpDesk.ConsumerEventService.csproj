@@ -177,7 +177,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Sender\WebPushlSender.cs" />
+    <Compile Include="Sender\WebPushSender.cs" />
     <Compile Include="Sender\EmailSender.cs" />
     <Compile Include="Sender\ISender.cs" />
     <Compile Include="UnityConfig.cs" />

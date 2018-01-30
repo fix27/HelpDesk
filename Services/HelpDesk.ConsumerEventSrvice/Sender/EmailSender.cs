@@ -6,6 +6,7 @@ using System;
 using System.Configuration;
 using System.Net.Configuration;
 using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace HelpDesk.ConsumerEventService.Sender
 {
@@ -22,28 +23,22 @@ namespace HelpDesk.ConsumerEventService.Sender
             this.log = log;
         }
 
-        public void Send(UserEventSubscribeDTO msg, string subject, string messageTemplateName)
+        public Task SendAsync(UserEventSubscribeDTO msg, string subject, string messageTemplateName)
         {
             var emailHtmlBody = emailTemplateService.GetEmailBody(msg, messageTemplateName);
-            sendEmail(msg.Email, subject, emailHtmlBody);
+            Task t = new Task(() => sendEmail(msg.Email, subject, emailHtmlBody));
+            return t;
         }
         
 
-        private void sendEmail(string email, string subject, string body)
+        private Task sendEmail(string email, string subject, string body)
         {
-            try
-            {
-                var smtpSection = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
-                var smtpClient = new SmtpClient();
-                
-                var msg = new MailMessage($"{Resource.AppName} <{smtpSection.From}>" , email, subject, body);
-                msg.IsBodyHtml = true;
-                smtpClient.Send(msg);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            var smtpSection = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+            var smtpClient = new SmtpClient();
+
+            var msg = new MailMessage($"{Resource.AppName} <{smtpSection.From}>", email, subject, body);
+            msg.IsBodyHtml = true;
+            return smtpClient.SendMailAsync(msg);
         }
     }
 }
