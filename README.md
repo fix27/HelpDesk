@@ -6,4 +6,6 @@
   <li>Изменить коннекшнстринг в NHibernate.cfg.xml (проект Data/Implementation/HelpDesk.Data.NHibernate)</li>
   <li>Создать в RabbitMQ очередь HelpDesk (порядок установки RabbitMQ см. в rabbitmq.txt)</li>
   <li>Redis для Windows скачать тут https://github.com/rgl/redis/downloads (параметры кэша в Web.config)</li>
+  <li>AppId для https://onesignal.com в Web.config</li>
 </ul>
+OneSignal
