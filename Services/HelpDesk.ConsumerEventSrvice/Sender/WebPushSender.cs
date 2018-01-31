@@ -1,9 +1,12 @@
 ﻿using HelpDesk.ConsumerEventService.DTO;
 using MassTransit.Logging;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using System;
 
 namespace HelpDesk.ConsumerEventService.Sender
 {
@@ -23,10 +26,28 @@ namespace HelpDesk.ConsumerEventService.Sender
 
         public Task SendAsync(UserEventSubscribeDTO msg, string subject, string messageTemplateName)
         {
+            string msgBody = null;
+            string msgTitle = null;
+            if (msg is UserRequestAppEventSubscribeDTO)
+            {
+                RequestDTO request = ((UserRequestAppEventSubscribeDTO)msg).Request;
+                msgTitle = request.Id.ToString();
+                msgBody = subject;
+            }
+
+            if (msg is UserDeedlineAppEventSubscribeDTO)
+            {
+                IEnumerable<RequestDTO> requests = ((UserDeedlineAppEventSubscribeDTO)msg).Items;
+                msgTitle = subject;
+                msgBody = String.Join(", ", requests.Select(r => r.Id));
+            }
+
+
             var model = new
             {
                 app_id = appId,
-                contents = new { ru = subject },
+                contents = new { en = msgBody },
+                headings = new { en = msgTitle },
                 filters = new object[] 
                 {
                     new { field = "tag" },
