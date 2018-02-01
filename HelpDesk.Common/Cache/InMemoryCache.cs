@@ -3,6 +3,9 @@ using System.Runtime.Caching;
 
 namespace HelpDesk.Common.Cache
 {
+    /// <summary>
+    /// Кэш в памяти
+    /// </summary>
     public class InMemoryCache: BaseCache, ICache
     {
         private readonly ObjectCache cache;

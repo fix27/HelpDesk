@@ -4,6 +4,9 @@ using System;
 
 namespace HelpDesk.Common.Cache
 {
+    /// <summary>
+    /// Redis-кэш
+    /// </summary>
     public class RedisCache : BaseCache, ICache
     {
         private readonly IRedisClientsManager clientsManager;

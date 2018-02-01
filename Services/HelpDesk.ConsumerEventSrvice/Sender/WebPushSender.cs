@@ -28,6 +28,8 @@ namespace HelpDesk.ConsumerEventService.Sender
         {
             string msgBody = null;
             string msgTitle = null;
+
+            //TODO: надо переделать, чтобы такого не было
             if (msg is UserRequestAppEventSubscribeDTO)
             {
                 RequestDTO request = ((UserRequestAppEventSubscribeDTO)msg).Request;
