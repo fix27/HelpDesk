@@ -165,6 +165,11 @@
     <Compile Include="DTO\UserRequestAppEventSubscribeDTO.cs" />
     <Compile Include="EmailTemplateServices\RazorEmailTemplateService.cs" />
     <Compile Include="EmailTemplateServices\IEmailTemplateService.cs" />
+    <Compile Include="Handlers\RequestAppEventHandler.cs" />
+    <Compile Include="Handlers\RequestDeedlineAppEventHandler.cs" />
+    <Compile Include="Handlers\UserPasswordRecoveryAppEventHandler.cs" />
+    <Compile Include="Handlers\IAppEventHandler.cs" />
+    <Compile Include="Handlers\UserRegisterAppEventHandler.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

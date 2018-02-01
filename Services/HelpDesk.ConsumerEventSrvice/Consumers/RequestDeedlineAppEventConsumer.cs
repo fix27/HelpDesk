@@ -9,6 +9,7 @@ using System.Linq;
 using HelpDesk.ConsumerEventService.Query;
 using HelpDesk.ConsumerEventService.Resources;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
+using HelpDesk.ConsumerEventService.Handlers;
 
 namespace HelpDesk.ConsumerEventService.Consumers
 {
@@ -17,15 +18,13 @@ namespace HelpDesk.ConsumerEventService.Consumers
     /// </summary>
     public class RequestDeedlineAppEventConsumer : IConsumer<IRequestDeedlineAppEvent>
     {
+        
+        private readonly IAppEventHandler<IRequestDeedlineAppEvent> handler;
         private readonly ILog log;
-        private readonly IQueryRunner queryRunner;
-        private readonly IEnumerable<ISender> senders;
-        public RequestDeedlineAppEventConsumer(IQueryRunner queryRunner, ILog log, 
-            IEnumerable<ISender> senders)
+        public RequestDeedlineAppEventConsumer(IAppEventHandler<IRequestDeedlineAppEvent> handler, ILog log)
         {
-            this.queryRunner = queryRunner;
+            this.handler = handler;
             this.log = log;
-            this.senders = senders;
         }
 
         static object lockObj = new object();
@@ -33,23 +32,7 @@ namespace HelpDesk.ConsumerEventService.Consumers
         {
             log.InfoFormat("RequestDeedlineAppEventConsumer: RequestIds.Count = {0}", context.Message.RequestIds.Count());
 
-            IEnumerable<UserDeedlineAppEventSubscribeDTO> list = null;
-            lock (lockObj)
-            {
-                list = queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(context.Message.RequestIds)); 
-            }
-            log.InfoFormat("-----------------------------: list.Count = {0}", list.Count());
-            if (list == null || !list.Any())
-                return;
-            foreach (var evnt in list)
-            {
-                evnt.BaseUrl = Program.BaseWorkerUrl;
-                foreach (var sender in senders)
-                {
-                    await sender.SendAsync(evnt, Resource.Subject_RequestDeedlineAppEventConsumer, "RequestDeedlineAppEvent");
-                    log.InfoFormat("RequestDeedlineAppEventConsumer Send OK: Email = {0}", evnt.Email);
-                }
-            }
+            await handler.Handle(context.Message);
         }
     }
 }

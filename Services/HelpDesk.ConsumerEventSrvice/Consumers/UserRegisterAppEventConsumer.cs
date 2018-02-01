@@ -6,6 +6,7 @@ using HelpDesk.ConsumerEventService.DTO;
 using HelpDesk.ConsumerEventService.Sender;
 using HelpDesk.ConsumerEventService.Resources;
 using System;
+using HelpDesk.ConsumerEventService.Handlers;
 
 namespace HelpDesk.ConsumerEventService.Consumers
 {
@@ -14,20 +15,19 @@ namespace HelpDesk.ConsumerEventService.Consumers
     /// </summary>
     public class UserRegisterAppEventConsumer : IConsumer<IUserRegisterAppEvent>
     {
+        private readonly IAppEventHandler<IUserRegisterAppEvent> handler;
         private readonly ILog log;
-        private readonly ISender sender;
-        public UserRegisterAppEventConsumer(ILog log, ISender sender)
+        
+        public UserRegisterAppEventConsumer(IAppEventHandler<IUserRegisterAppEvent> handler, ILog log)
         {
-            this.log = log;
-            this.sender = sender;
+            this.handler = handler;
+            this.log = log;            
         }
         
         public async Task Consume(ConsumeContext<IUserRegisterAppEvent> context)
         {
             log.InfoFormat("UserRegisterAppEventConsumer: Email = {0}", context.Message.Email);
-            await sender.SendAsync(new UserEventSubscribeDTO { Email = context.Message.Email, BaseUrl = Program.BaseCabinetUrl },
-                String.Format(Resource.Subject_UserRegisterAppEventConsumer, Resource.AppName), "UserRegisterAppEvent");
-            log.InfoFormat("UserRegisterAppEventConsumer Send OK: Email = {0}", context.Message.Email);
+            await handler.Handle(context.Message);
         }
     }
 }

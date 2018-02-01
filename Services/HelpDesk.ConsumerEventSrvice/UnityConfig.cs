@@ -15,6 +15,7 @@ using Unity.Injection;
 using Unity.Lifetime;
 using System.Configuration;
 using System.Collections.Generic;
+using HelpDesk.ConsumerEventService.Handlers;
 
 namespace HelpDesk.ConsumerEventService
 {
@@ -43,17 +44,26 @@ namespace HelpDesk.ConsumerEventService
             NHibernateDataInstaller.Install(container, new ContainerControlledLifetimeManager());
             NHibernateRepositoryInstaller.Install(container);
             DataServiceCommonInstaller.Install(container);
+            
             //логеры
             container.RegisterType<ILog>("EmailSender", new InjectionFactory(c => Logger.Get<EmailSender>()));
+            container.RegisterType<ILog>("WebPushSender", new InjectionFactory(c => Logger.Get<WebPushSender>()));
+
+            container.RegisterType<ILog>("RequestAppEventHandler", new InjectionFactory(c => Logger.Get<RequestAppEventHandler>()));
+            container.RegisterType<ILog>("RequestDeedlineAppEventHandler", new InjectionFactory(c => Logger.Get<RequestDeedlineAppEventHandler>()));
+            container.RegisterType<ILog>("UserPasswordRecoveryAppEventHandler", new InjectionFactory(c => Logger.Get<UserPasswordRecoveryAppEventHandler>()));
+            container.RegisterType<ILog>("UserRegisterAppEventHandler", new InjectionFactory(c => Logger.Get<UserRegisterAppEventHandler>()));
+
             container.RegisterType<ILog>("RequestAppEventConsumer", new InjectionFactory(c => Logger.Get<RequestAppEventConsumer>()));
             container.RegisterType<ILog>("RequestDeedlineAppEventConsumer", new InjectionFactory(c => Logger.Get<RequestDeedlineAppEventConsumer>()));
             container.RegisterType<ILog>("UserPasswordRecoveryAppEventConsumer", new InjectionFactory(c => Logger.Get<UserPasswordRecoveryAppEventConsumer>()));
             container.RegisterType<ILog>("UserRegisterAppEventConsumer", new InjectionFactory(c => Logger.Get<UserRegisterAppEventConsumer>()));
 
+
             //шаблонизатор
             container.RegisterType<IEmailTemplateService, RazorEmailTemplateService>();
             
-            //получатели сообщений из шины
+            //отправщики сообщений
             container.RegisterType<ISender, EmailSender>("EmailSender",
                new InjectionConstructor(
                    container.Resolve<IEmailTemplateService>(),
@@ -74,31 +84,60 @@ namespace HelpDesk.ConsumerEventService
                 senders.Add(container.Resolve<ISender>("WebPushSender"));
 
             DataServiceCommonInstaller.Install(container);
-            container.RegisterType<IConsumer<IRequestAppEvent> , RequestAppEventConsumer>(
+
+
+            //обработчикм сообщений из шины
+            container.RegisterType<IAppEventHandler<IRequestAppEvent> , RequestAppEventHandler>(
                 new InjectionConstructor(
                     container.Resolve<IQueryRunner>(),
                     container.Resolve<IStatusRequestMapService>(),
-                    container.Resolve<ILog>("RequestAppEventConsumer"),
+                    container.Resolve<ILog>("RequestAppEventHandler"),
                     senders
                 ));
 
-            container.RegisterType<IConsumer<IRequestDeedlineAppEvent> , RequestDeedlineAppEventConsumer>(
+            container.RegisterType<IAppEventHandler<IRequestDeedlineAppEvent> , RequestDeedlineAppEventHandler>(
                 new InjectionConstructor(
                     container.Resolve<IQueryRunner>(),
-                    container.Resolve<ILog>("RequestDeedlineAppEventConsumer"),
+                    container.Resolve<ILog>("RequestDeedlineAppEventHandler"),
                     senders
                 ));
 
-            container.RegisterType<IConsumer<IUserPasswordRecoveryAppEvent> , UserPasswordRecoveryAppEventConsumer>(
+            container.RegisterType<IAppEventHandler<IUserPasswordRecoveryAppEvent> , UserPasswordRecoveryAppEventHandler>(
                new InjectionConstructor(
-                    container.Resolve<ILog>("UserPasswordRecoveryAppEventConsumer"),
+                    container.Resolve<ILog>("UserPasswordRecoveryAppEventHandler"),
                     senders[0]
                 ));
 
-            container.RegisterType<IConsumer<IUserRegisterAppEvent> , UserRegisterAppEventConsumer>(
+            container.RegisterType<IAppEventHandler<IUserRegisterAppEvent> , UserRegisterAppEventHandler>(
                 new InjectionConstructor(
-                    container.Resolve<ILog>("UserRegisterAppEventConsumer"),
+                    container.Resolve<ILog>("UserRegisterAppEventHandler"),
                     senders[0]
+                ));
+
+
+            //получатели сообщений из шины
+            container.RegisterType<IConsumer<IRequestAppEvent>, RequestAppEventConsumer>(
+                new InjectionConstructor(
+                    container.Resolve<IAppEventHandler<IRequestAppEvent>>(),
+                    container.Resolve<ILog>("RequestAppEventConsumer")
+                ));
+
+            container.RegisterType<IConsumer<IRequestDeedlineAppEvent>, RequestDeedlineAppEventConsumer>(
+                new InjectionConstructor(
+                    container.Resolve<IAppEventHandler<IRequestDeedlineAppEvent>>(),
+                    container.Resolve<ILog>("RequestDeedlineAppEventConsumer")
+                ));
+
+            container.RegisterType<IConsumer<IUserPasswordRecoveryAppEvent>, UserPasswordRecoveryAppEventConsumer>(
+               new InjectionConstructor(
+                   container.Resolve<IAppEventHandler<IUserPasswordRecoveryAppEvent>>(),
+                   container.Resolve<ILog>("UserPasswordRecoveryAppEventConsumer")
+                ));
+
+            container.RegisterType<IConsumer<IUserRegisterAppEvent>, UserRegisterAppEventConsumer>(
+                new InjectionConstructor(
+                    container.Resolve<IAppEventHandler<IUserRegisterAppEvent>>(),
+                    container.Resolve<ILog>("UserRegisterAppEventConsumer")
                 ));
         }
         
