@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using MassTransit;
 using MassTransit.Logging;
 using HelpDesk.Data.Query;
 using HelpDesk.ConsumerEventService.Sender;

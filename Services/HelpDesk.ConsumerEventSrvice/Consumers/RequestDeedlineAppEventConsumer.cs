@@ -1,13 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Logging;
-using HelpDesk.Data.Query;
-using HelpDesk.ConsumerEventService.Sender;
-using HelpDesk.ConsumerEventService.DTO;
-using System.Collections.Generic;
 using System.Linq;
-using HelpDesk.ConsumerEventService.Query;
-using HelpDesk.ConsumerEventService.Resources;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.ConsumerEventService.Handlers;
 

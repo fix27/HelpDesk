@@ -29,7 +29,7 @@ namespace HelpDesk.ConsumerEventService.Sender
             string msgBody = null;
             string msgTitle = null;
 
-            //TODO: тут приплыли - надо все отрефакторить
+            //TODO: ... вроде этот switch(Type) пока не расползается за пределы метода
             if (msg is UserRequestAppEventSubscribeDTO)
             {
                 RequestDTO request = ((UserRequestAppEventSubscribeDTO)msg).Request;
