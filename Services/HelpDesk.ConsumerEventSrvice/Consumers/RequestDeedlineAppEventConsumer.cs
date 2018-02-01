@@ -21,7 +21,6 @@ namespace HelpDesk.ConsumerEventService.Consumers
             this.log = log;
         }
 
-        static object lockObj = new object();
         public async Task Consume(ConsumeContext<IRequestDeedlineAppEvent> context)
         {
             log.InfoFormat("RequestDeedlineAppEventConsumer: RequestIds.Count = {0}", context.Message.RequestIds.Count());

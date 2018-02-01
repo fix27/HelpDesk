@@ -23,7 +23,6 @@ namespace HelpDesk.ConsumerEventService.Consumers
             this.log = log;
         }
 
-        static object lockObj = new object();
         public async Task Consume(ConsumeContext<IRequestAppEvent> context)
         {
             log.InfoFormat("RequestAppEventConsumer: RequestEventId = {0}", context.Message.RequestEventId);
