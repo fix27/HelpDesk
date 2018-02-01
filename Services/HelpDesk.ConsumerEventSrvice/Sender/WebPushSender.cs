@@ -29,7 +29,7 @@ namespace HelpDesk.ConsumerEventService.Sender
             string msgBody = null;
             string msgTitle = null;
 
-            //TODO: тут приплыли - надо все отрефакторить на шаблон Visitor
+            //TODO: тут приплыли - надо все отрефакторить
             if (msg is UserRequestAppEventSubscribeDTO)
             {
                 RequestDTO request = ((UserRequestAppEventSubscribeDTO)msg).Request;
