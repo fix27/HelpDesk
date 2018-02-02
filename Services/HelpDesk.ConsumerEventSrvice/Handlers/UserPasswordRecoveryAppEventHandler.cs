@@ -27,8 +27,7 @@ namespace HelpDesk.ConsumerEventService.Handlers
                 Email = appEvent.Email,
                 Password = appEvent.Password,
                 BaseUrl = appEvent.Cabinet ? Program.BaseCabinetUrl : Program.BaseWorkerUrl
-            },
-                Resource.Subject_UserPasswordRecoveryAppEventConsumer, "UserPasswordRecoveryAppEvent");
+            });
             log.InfoFormat("UserPasswordRecoveryAppEventHandler Send OK: Email = {0}", appEvent.Email);
         }
     }

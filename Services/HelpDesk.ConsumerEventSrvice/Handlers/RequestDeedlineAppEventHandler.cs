@@ -43,7 +43,7 @@ namespace HelpDesk.ConsumerEventService.Handlers
                 evnt.BaseUrl = Program.BaseWorkerUrl;
                 foreach (var sender in senders)
                 {
-                    await sender.SendAsync(evnt, Resource.Subject_RequestDeedlineAppEventConsumer, "RequestDeedlineAppEvent");
+                    await sender.SendAsync(evnt);
                     log.InfoFormat("RequestDeedlineAppEventHandler Send OK: Email = {0}", evnt.Email);
                 }
             }

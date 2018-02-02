@@ -2,7 +2,7 @@
 
 namespace HelpDesk.ConsumerEventService.DTO
 {
-    public class UserDeedlineAppEventSubscribeDTO: UserEventSubscribeDTO
+    public class UserDeedlineAppEventSubscribeDTO: BaseUserEventSubscribeDTO
     {
         public IEnumerable<RequestDTO> Items { get; set; }
     }

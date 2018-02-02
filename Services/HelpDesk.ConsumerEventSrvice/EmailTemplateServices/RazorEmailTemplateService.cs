@@ -13,7 +13,7 @@ namespace HelpDesk.ConsumerEventService.EmailTemplateServices
     public class RazorEmailTemplateService : IEmailTemplateService
     {
         private readonly string templateFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EmailTemplates");
-        public string GetEmailBody(UserEventSubscribeDTO message, string messageTemplate)
+        public string GetEmailBody(BaseUserEventSubscribeDTO message, string messageTemplate)
         {
             if (message == null)
                 throw new ArgumentException("message is null");

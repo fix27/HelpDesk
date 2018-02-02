@@ -23,8 +23,8 @@ namespace HelpDesk.ConsumerEventService.Handlers
 
         public async Task Handle(IUserRegisterAppEvent appEvent)
         {
-            await sender.SendAsync(new UserEventSubscribeDTO { Email = appEvent.Email, BaseUrl = Program.BaseCabinetUrl },
-                String.Format(Resource.Subject_UserRegisterAppEventConsumer, Resource.AppName), "UserRegisterAppEvent");
+            await sender.SendAsync(new UserEventSubscribeDTO
+            { Email = appEvent.Email, BaseUrl = Program.BaseCabinetUrl });
             log.InfoFormat("UserRegisterAppEventHandler Send OK: Email = {0}", appEvent.Email);
         }
     }

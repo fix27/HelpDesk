@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using HelpDesk.ConsumerEventService.Resources;
 
 namespace HelpDesk.ConsumerEventService.Sender
 {
@@ -24,32 +25,30 @@ namespace HelpDesk.ConsumerEventService.Sender
             this.log = log;
         }
 
-        public Task SendAsync(UserEventSubscribeDTO msg, string subject, string messageTemplateName)
+        public Task SendAsync(BaseUserEventSubscribeDTO msg)
         {
-            string msgBody = null;
-            string msgTitle = null;
+            string body = null;
+            string title = null;
 
-            //TODO: ... вроде этот switch(Type) пока не расползается за пределы метода
-            if (msg is UserRequestAppEventSubscribeDTO)
+            var msg1 = msg as UserRequestAppEventSubscribeDTO;
+            if (msg1 != null)
             {
-                RequestDTO request = ((UserRequestAppEventSubscribeDTO)msg).Request;
-                msgTitle = request.Id.ToString();
-                msgBody = subject;
+                title = msg1.Request.Id.ToString();
+                body = String.Format(Resource.Subject_RequestAppEventConsumer, msg1.Request.Id, msg1.Request.StatusName); ;
             }
 
-            if (msg is UserDeedlineAppEventSubscribeDTO)
+            var msg2 = msg as UserDeedlineAppEventSubscribeDTO;
+            if (msg2 != null)
             {
-                IEnumerable<RequestDTO> requests = ((UserDeedlineAppEventSubscribeDTO)msg).Items;
-                msgTitle = subject;
-                msgBody = String.Join(", ", requests.Select(r => r.Id));
+                title = Resource.Subject_UserPasswordRecoveryAppEventConsumer;
+                body = String.Join(", ", msg2.Items.Select(r => r.Id));
             }
-
 
             var model = new
             {
                 app_id = appId,
-                contents = new { en = msgBody },
-                headings = new { en = msgTitle },
+                contents = new { en = body },
+                headings = new { en = title },
                 filters = new object[] 
                 {
                     new { field = "tag" },

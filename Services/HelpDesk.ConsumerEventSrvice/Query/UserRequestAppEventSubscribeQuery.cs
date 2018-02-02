@@ -71,7 +71,8 @@ namespace HelpDesk.ConsumerEventService.Query
                 .Select(t => new UserRequestAppEventSubscribeDTO
                 {
                     Request = request,
-                    Email = t.User.Email
+                    Email = t.User.Email,
+                    IsWorker = true
                 })
                 .ToList();
 

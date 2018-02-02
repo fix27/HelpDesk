@@ -159,6 +159,7 @@
     <Compile Include="DTO\RequestDTO.cs" />
     <Compile Include="DTO\RequestEventDTO.cs" />
     <Compile Include="DTO\RequestObjectDTO.cs" />
+    <Compile Include="DTO\BaseUserEventSubscribeDTO.cs" />
     <Compile Include="DTO\UserPasswordRecoveryAppEventSubscribeDTO.cs" />
     <Compile Include="DTO\UserEventSubscribeDTO.cs" />
     <Compile Include="DTO\UserDeedlineAppEventSubscribeDTO.cs" />

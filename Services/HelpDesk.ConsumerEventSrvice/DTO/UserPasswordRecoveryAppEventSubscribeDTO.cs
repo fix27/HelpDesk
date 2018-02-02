@@ -1,6 +1,6 @@
 ﻿namespace HelpDesk.ConsumerEventService.DTO
 {
-    public class UserPasswordRecoveryAppEventSubscribeDTO: UserEventSubscribeDTO
+    public class UserPasswordRecoveryAppEventSubscribeDTO: BaseUserEventSubscribeDTO
     {
         public string Password { get; set; }
     }

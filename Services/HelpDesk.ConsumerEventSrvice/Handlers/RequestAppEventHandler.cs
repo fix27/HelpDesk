@@ -47,7 +47,7 @@ namespace HelpDesk.ConsumerEventService.Handlers
                     evnt.BaseUrl = Program.BaseWorkerUrl;
                     foreach (var sender in senders)
                     {
-                        await sender.SendAsync(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.Request.Id, evnt.Request.StatusName), "RequestAppEventWorker");
+                        await sender.SendAsync(evnt);
                         log.InfoFormat("RequestAppEventConsumerHandler Worker Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
                             evnt.Request.Id, evnt.Request.StatusName, evnt.Email);
                     }
@@ -59,7 +59,7 @@ namespace HelpDesk.ConsumerEventService.Handlers
                     evnt.BaseUrl = Program.BaseCabinetUrl;
                     foreach (var sender in senders)
                     {
-                        await sender.SendAsync(evnt, String.Format(Resource.Subject_RequestAppEventConsumer, evnt.Request.Id, evnt.Request.StatusName), "RequestAppEventCabinet");
+                        await sender.SendAsync(evnt);
                         log.InfoFormat("RequestAppEventConsumerHandler Cabinet Send OK: RequestId = {0}, RequestStatusName = {1}, Email = {2}",
                             evnt.Request.Id, evnt.Request.StatusName, evnt.Email);
                     }

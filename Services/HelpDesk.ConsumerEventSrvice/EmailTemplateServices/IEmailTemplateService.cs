@@ -7,6 +7,6 @@ namespace HelpDesk.ConsumerEventService.EmailTemplateServices
     /// </summary>
     public interface IEmailTemplateService
     {
-        string GetEmailBody(UserEventSubscribeDTO message, string messageTemplate);
+        string GetEmailBody(BaseUserEventSubscribeDTO message, string messageTemplate);
     }
 }

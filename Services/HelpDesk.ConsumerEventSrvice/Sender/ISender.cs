@@ -12,8 +12,6 @@ namespace HelpDesk.ConsumerEventService.Sender
         /// Отправка сообщения
         /// </summary>
         /// <param name="msg">Сообщение</param>
-        /// <param name="subject">Тема сообщения</param>
-        /// <param name="messageTemplateName">Имя шаблона сообщения</param>
-        Task SendAsync(UserEventSubscribeDTO msg, string subject, string messageTemplateName);
+        Task SendAsync(BaseUserEventSubscribeDTO msg);
     }
 }
