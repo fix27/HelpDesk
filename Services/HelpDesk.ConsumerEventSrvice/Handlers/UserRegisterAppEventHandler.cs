@@ -3,8 +3,6 @@ using MassTransit.Logging;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.ConsumerEventService.DTO;
 using HelpDesk.ConsumerEventService.Sender;
-using HelpDesk.ConsumerEventService.Resources;
-using System;
 
 namespace HelpDesk.ConsumerEventService.Handlers
 {

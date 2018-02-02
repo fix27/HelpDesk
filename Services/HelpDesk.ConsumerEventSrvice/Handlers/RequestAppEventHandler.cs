@@ -7,7 +7,6 @@ using HelpDesk.Data.Query;
 using HelpDesk.ConsumerEventService.DTO;
 using System.Collections.Generic;
 using HelpDesk.ConsumerEventService.Sender;
-using HelpDesk.ConsumerEventService.Resources;
 using System.Linq;
 using HelpDesk.DataService.Common.Interface;
 

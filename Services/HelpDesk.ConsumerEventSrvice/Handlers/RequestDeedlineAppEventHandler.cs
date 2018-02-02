@@ -6,7 +6,6 @@ using HelpDesk.ConsumerEventService.DTO;
 using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.ConsumerEventService.Query;
-using HelpDesk.ConsumerEventService.Resources;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
 
 namespace HelpDesk.ConsumerEventService.Handlers
