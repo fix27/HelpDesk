@@ -14,7 +14,7 @@ namespace HelpDesk.Data.NHibernate
             //регистрация ISession
             container.RegisterType<ISession>(lifetimeManager, new InjectionFactory(c => NHibernateSessionManager.Instance.GetSession()));
                         
-            container.RegisterType<IQueryRunner, QueryRunner>();
+            container.RegisterType<IQueryHandler, QueryHandler>();
             container.RegisterType<ICommandRunner, CommandRunner>();
             
         }

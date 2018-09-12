@@ -3,18 +3,26 @@ using HelpDesk.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using NHibernate;
 
 namespace HelpDesk.CalculateEventService.Query
 {
-    /// <summary>
-    /// Запрос: список Id заявок, у которых истекает срок исполнения
-    /// </summary>
-    public class RequestDeedlineQuery : IQuery<IEnumerable<long>, Request>
+	/// <summary>
+	/// Запрос: список Id заявок, у которых истекает срок исполнения
+	/// </summary>
+	public class RequestDeedlineQuery : IQuery<object, IEnumerable<long>>
     {
-        public IEnumerable<long> Run(IQueryable<Request> requests)
+		private readonly ISession _session;
+
+		public RequestDeedlineQuery(ISession session)
+		{
+			_session = session;
+		}
+
+		public IEnumerable<long> Get(object param)
         {
-            var q = requests
-                .ToList()
+            var q = _session.Query<Request>()
+				.ToList()
                 .Where(r => r.Object.ObjectType.DeadlineHour > 0 && !r.DateEndFact.HasValue &&
                     r.DateEndPlan <= DateTime.Now.AddHours(r.Object.ObjectType.DeadlineHour) && r.DateEndPlan > DateTime.Now)
                 .Select(r => r.Id);

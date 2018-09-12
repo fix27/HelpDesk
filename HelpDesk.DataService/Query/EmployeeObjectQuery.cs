@@ -7,43 +7,40 @@ using System.Collections.Generic;
 using System.Linq;
 using HelpDesk.Common.Helpers;
 using System;
+using NHibernate;
 
 namespace HelpDesk.DataService.Query
 {
-    /// <summary>
-    /// Запрос: объекты заявок пользователя (профиль заявителя)
-    /// </summary>
-    public class EmployeeObjectQuery : IQuery<IEnumerable<EmployeeObjectDTO>, EmployeeObject>
+	public class EmployeeObjectQueryParam
+	{
+		public long EmployeeId { get; set; }
+		public OrderInfo OrderInfo { get; set; }
+		public PageInfo PageInfo { get; set; }
+		public EmployeeObjectFilter Filter { get; set; }
+	}
+
+	/// <summary>
+	/// Запрос: объекты заявок пользователя (профиль заявителя)
+	/// </summary>
+	public class EmployeeObjectQuery : IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>
     {
-        private readonly long employeeId;
-        private readonly OrderInfo orderInfo;
-        private readonly PageInfo pageInfo;
-        private readonly EmployeeObjectFilter filter;
+		private readonly ISession _session;
 
+		public EmployeeObjectQuery(ISession session)
+		{
+			_session = session;
+		}
 
-        public EmployeeObjectQuery(long employeeId, EmployeeObjectFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
-            :this(employeeId, filter)
+		public IEnumerable<EmployeeObjectDTO> Get(EmployeeObjectQueryParam param)
         {
-            this.orderInfo = orderInfo;
-            this.pageInfo = pageInfo;
-        }
+			if (param == null)
+				throw new ArgumentNullException("param");
 
-        public EmployeeObjectQuery(long employeeId, EmployeeObjectFilter filter)
-            : this(employeeId)
-        {
-            this.filter = filter;
-        }
+			if (param.EmployeeId <= 0)
+				throw new ArgumentException("param.EmployeeId <= 0");
 
-        public EmployeeObjectQuery(long employeeId)
-        {
-            this.employeeId = employeeId;
-        }
-
-        public IEnumerable<EmployeeObjectDTO> Run(IQueryable<EmployeeObject> employeeObjects)
-        {
-            
-            var qb = (from uo in employeeObjects
-                      where uo.Employee.Id == employeeId && uo.Object.Archive == false
+			var qb = (from uo in _session.Query<EmployeeObject>()
+                      where uo.Employee.Id == param.EmployeeId && uo.Object.Archive == false
                       select new EmployeeObjectDTO()
                       {
                           ObjectId = uo.Object.Id,
@@ -57,23 +54,23 @@ namespace HelpDesk.DataService.Query
                       });
 
             var q = qb;
-            if (filter!= null && !String.IsNullOrWhiteSpace(filter.ObjectName))
-                q = qb.Where(t => t.SoftName.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                t.HardType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                t.Model.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                t.Model.Manufacturer.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                t.ObjectType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()));
+            if (param.Filter != null && !String.IsNullOrWhiteSpace(param.Filter.ObjectName))
+                q = qb.Where(t => t.SoftName.ToUpper().Contains(param.Filter.ObjectName.ToUpper()) ||
+                t.HardType.Name.ToUpper().Contains(param.Filter.ObjectName.ToUpper()) ||
+                t.Model.Name.ToUpper().Contains(param.Filter.ObjectName.ToUpper()) ||
+                t.Model.Manufacturer.Name.ToUpper().Contains(param.Filter.ObjectName.ToUpper()) ||
+                t.ObjectType.Name.ToUpper().Contains(param.Filter.ObjectName.ToUpper()));
                     
 
-            if (filter != null && filter.Wares !=null && filter.Wares.Any())
-                q = q.Where(t => filter.Wares.Contains(t.Soft));
+            if (param.Filter != null && param.Filter.Wares !=null && param.Filter.Wares.Any())
+                q = q.Where(t => param.Filter.Wares.Contains(t.Soft));
 
-            if (orderInfo != null)
+            if (param.OrderInfo != null)
             {
-                switch (orderInfo.PropertyName)
+                switch (param.OrderInfo.PropertyName)
                 {
                     case "Wares":
-                        if (orderInfo.Asc)
+                        if (param.OrderInfo.Asc)
                             q = q.OrderBy(t => t.Soft)
                                 .ThenBy(t => t.ObjectType.Name);
                         else
@@ -81,7 +78,7 @@ namespace HelpDesk.DataService.Query
                                 .ThenByDescending(t => t.ObjectType.Name);
                         break;
                     case "ObjectName":
-                        if (orderInfo.Asc)
+                        if (param.OrderInfo.Asc)
                             q = q.OrderBy(t => t.SoftName)
                                 .ThenBy(t => t.Model.Manufacturer.Name)
                                 .ThenBy(t => t.Model.Name)
@@ -99,14 +96,14 @@ namespace HelpDesk.DataService.Query
             }
                 
 
-            if (pageInfo != null)
+            if (param.PageInfo != null)
             {
-                pageInfo.TotalCount = qb.Count();
-                pageInfo.Count = q.Count();
+				param.PageInfo.TotalCount = qb.Count();
+				param.PageInfo.Count = q.Count();
             }
 
-            if (pageInfo != null && pageInfo.PageSize > 0)
-                q = q.Skip(pageInfo.PageSize * pageInfo.CurrentPage).Take(pageInfo.PageSize);
+            if (param.PageInfo != null && param.PageInfo.PageSize > 0)
+                q = q.Skip(param.PageInfo.PageSize * param.PageInfo.CurrentPage).Take(param.PageInfo.PageSize);
 
             return q.ToList();
         }

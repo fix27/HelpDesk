@@ -54,7 +54,7 @@ namespace HelpDesk.DataService
         };
 
         private readonly ICommandRunner commandRunner;
-        private readonly IQueryRunner queryRunner;
+        private readonly IQueryHandler queryHandler;
         private readonly IBaseRepository<RequestObject> objectRepository;
         private readonly IBaseRepository<DescriptionProblem> descriptionProblemRepository;
         private readonly ISettingsService settingsService;
@@ -76,9 +76,30 @@ namespace HelpDesk.DataService
         private readonly IAccessWorkerUserExpressionService accessWorkerUserExpressionService;
         private readonly IQueue<IRequestAppEvent> queue;
 
-        public RequestService(ICommandRunner commandRunner,
-            IQueryRunner queryRunner,
-            IBaseRepository<RequestObject> objectRepository,
+		private readonly IQuery<DescriptionProblemQueryParam, IEnumerable<SimpleDTO>> _descriptionProblemQuery;
+		private readonly IQuery<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>> _requestLastEventQuery;
+		private readonly IQuery<ArchiveYearQueryParam, IEnumerable<Year>> _archiveYearQuery;
+		private readonly IQuery<EmployeeArchiveYearQueryParam, IEnumerable<Year>> _employeeArchiveYearQuery;
+		private readonly IQuery<RequestStateCountQueryParam, IEnumerable<RequestStateCountDTO>> _requestStateCountQuery;
+		private readonly IEmployeeRequestQuery<Request> _employeeRequestQuery;
+		private readonly IEmployeeRequestQuery<RequestArch> _employeeRequestArchQuery;
+		private readonly IRequestQuery<Request> _requestQuery;
+		private readonly IRequestQuery<RequestArch> _requestArchQuery;
+
+		public RequestService(ICommandRunner commandRunner,
+            IQueryHandler queryHandler,
+
+			IQuery<DescriptionProblemQueryParam, IEnumerable<SimpleDTO>> descriptionProblemQuery,
+			IQuery<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>> requestLastEventQuery,
+			IQuery<ArchiveYearQueryParam, IEnumerable<Year>> archiveYearQuery,
+			IQuery<EmployeeArchiveYearQueryParam, IEnumerable<Year>> employeeArchiveYearQuery,
+			IQuery<RequestStateCountQueryParam, IEnumerable<RequestStateCountDTO>> requestStateCountQuery,
+			IEmployeeRequestQuery<Request> employeeRequestQuery,
+			IEmployeeRequestQuery<RequestArch> employeeRequestArchQuery,
+			IRequestQuery<Request> requestQuery,
+			IRequestQuery<RequestArch> requestArchQuery,
+
+			IBaseRepository<RequestObject> objectRepository,
             IBaseRepository<DescriptionProblem> descriptionProblemRepository,
             ISettingsService settingsService,
             IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository,
@@ -100,8 +121,19 @@ namespace HelpDesk.DataService
             IQueue<IRequestAppEvent> queue,
             ICache memoryCache)
         {
-            this.queryRunner            = queryRunner;
-            this.objectRepository       = objectRepository;
+            this.queryHandler            = queryHandler;
+
+			_descriptionProblemQuery = descriptionProblemQuery;
+			_requestLastEventQuery = requestLastEventQuery;
+			_archiveYearQuery = archiveYearQuery;
+			_employeeArchiveYearQuery = employeeArchiveYearQuery;
+			_requestStateCountQuery = requestStateCountQuery;
+			_employeeRequestQuery = employeeRequestQuery;
+			_employeeRequestArchQuery = employeeRequestArchQuery;
+			_requestQuery = requestQuery;
+			_requestArchQuery = requestArchQuery;
+
+			this.objectRepository       = objectRepository;
             this.descriptionProblemRepository = descriptionProblemRepository;
             this.commandRunner          = commandRunner;
             this.settingsService     = settingsService;
@@ -223,9 +255,9 @@ namespace HelpDesk.DataService
         }
 
         #region GetList
-        public delegate IEnumerable<RequestDTO> GetListRequestDelegate(ref PageInfo pageInfo);
+        public delegate IEnumerable<RequestDTO> GetListRequestDelegate(PageInfo pageInfo);
         private IEnumerable<RequestDTO> getList(GetListRequestDelegate getListActive, GetListRequestDelegate getListArchive, 
-            RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
+            RequestFilter filter, OrderInfo orderInfo, PageInfo pageInfo)
         {
             IEnumerable<RequestDTO> list = null;
 
@@ -243,8 +275,8 @@ namespace HelpDesk.DataService
                     PageSize = int.MaxValue
                 };
 
-                IEnumerable<RequestDTO> listActive = getListActive(ref pageInfoActive);
-                IEnumerable<RequestDTO> listArchive = getListArchive(ref pageInfoArchive);
+                IEnumerable<RequestDTO> listActive = getListActive(pageInfoActive);
+                IEnumerable<RequestDTO> listArchive = getListArchive(pageInfoArchive);
                 foreach (RequestDTO r in listArchive)
                     r.Archive = true;
 
@@ -256,13 +288,13 @@ namespace HelpDesk.DataService
             }
             else if (filter.Archive)
             {
-                list = getListArchive(ref pageInfo);
+                list = getListArchive(pageInfo);
                 foreach (RequestDTO r in list)
                     r.Archive = true;
             }
             else
             {
-                list = getListActive(ref pageInfo);
+                list = getListActive(pageInfo);
             }
 
             IEnumerable<long> requestIds = list.Select(r => r.Id).ToList();
@@ -289,8 +321,16 @@ namespace HelpDesk.DataService
             #endregion files
 
             #region LastEvent
-            IEnumerable<RequestEventDTO> events = queryRunner.Run(new RequestLastEventQuery(requestIds));
-            IDictionary<long, RequestEventDTO> eventIndex = new Dictionary<long, RequestEventDTO>();
+            //IEnumerable<RequestEventDTO> events = queryHandler.Run(new RequestLastEventQuery(requestIds));
+
+
+			var events = queryHandler.Handle<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>, IQuery<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>>>
+				(new RequestLastEventQueryParam
+				{
+					RequestIds = requestIds
+				}, _requestLastEventQuery);
+
+			IDictionary<long, RequestEventDTO> eventIndex = new Dictionary<long, RequestEventDTO>();
             foreach (RequestEventDTO e in events)
             {
                 eventIndex[e.RequestId] = e;
@@ -309,7 +349,7 @@ namespace HelpDesk.DataService
         /// <summary>
         /// Заявки пользователя личного кабинета
         /// </summary>
-        public IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
+        public IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, PageInfo pageInfo)
         {
             if (filter.StatusIds != null && filter.StatusIds.Any())
             {
@@ -320,36 +360,64 @@ namespace HelpDesk.DataService
             }
             
             return getList(
-                delegate (ref PageInfo _pageInfo)
+                delegate (PageInfo _pageInfo)
                 {
-                    return queryRunner.Run(new EmployeeRequestQuery<Request>(employeeId, filter, orderInfo, ref _pageInfo));
+                    return queryHandler.Handle<EmployeeRequestQueryParam, IEnumerable<RequestDTO>, IEmployeeRequestQuery<Request>>
+					(new EmployeeRequestQueryParam
+					{
+						 EmployeeId = employeeId,
+						  Filter = filter,
+						   OrderInfo = orderInfo,
+						    PageInfo = _pageInfo
+					}, _employeeRequestQuery);
                 },
-                delegate (ref PageInfo _pageInfo)
+                delegate (PageInfo _pageInfo)
                 {
-                    return queryRunner.Run(new EmployeeRequestQuery<RequestArch>(employeeId, filter, orderInfo, ref _pageInfo));
-                },
-                filter, orderInfo, ref pageInfo);
+					return queryHandler.Handle<EmployeeRequestQueryParam, IEnumerable<RequestDTO>, IEmployeeRequestQuery<RequestArch>>
+					(new EmployeeRequestQueryParam
+					{
+						EmployeeId = employeeId,
+						Filter = filter,
+						OrderInfo = orderInfo,
+						PageInfo = _pageInfo
+					}, _employeeRequestArchQuery);
+				},
+                filter, orderInfo, pageInfo);
 
         }
 
         /// <summary>
         /// Заявки Исполнителя/Диспетчера
         /// </summary>
-        public IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
+        public IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, PageInfo pageInfo)
         {
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
                 .GetAccessRequestPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
 
             IEnumerable<RequestDTO> list = getList(
-                delegate (ref PageInfo _pageInfo)
+                delegate (PageInfo _pageInfo)
                 {
-                    return queryRunner.Run(new RequestQuery<Request>(accessPredicate, filter, orderInfo, ref _pageInfo));
-                },
-                delegate (ref PageInfo _pageInfo)
+					return queryHandler.Handle<RequestQueryParam, IEnumerable<RequestDTO>, IRequestQuery<Request>>
+					(new RequestQueryParam
+					{
+						AccessPredicate = accessPredicate,
+						Filter = filter,
+						OrderInfo = orderInfo,
+						PageInfo = _pageInfo
+					}, _requestQuery);
+				},
+                delegate (PageInfo _pageInfo)
                 {
-                    return queryRunner.Run(new RequestQuery<RequestArch>(accessPredicate, filter, orderInfo, ref _pageInfo));
-                },
-                filter, orderInfo, ref pageInfo);
+					return queryHandler.Handle<RequestQueryParam, IEnumerable<RequestDTO>, IRequestQuery<RequestArch>>
+					(new RequestQueryParam
+					{
+						AccessPredicate = accessPredicate,
+						Filter = filter,
+						OrderInfo = orderInfo,
+						PageInfo = _pageInfo
+					}, _requestArchQuery);
+				},
+                filter, orderInfo, pageInfo);
 
             if(filter.Archive)
                 return list;
@@ -462,8 +530,13 @@ namespace HelpDesk.DataService
         /// </summary>
         public IEnumerable<Year> GetListEmployeeArchiveYear(long employeeId)
         {
-            IEnumerable<Year> list = queryRunner.Run(new EmployeeArchiveYearQuery(employeeId));
-            return list;
+			var list = queryHandler.Handle<EmployeeArchiveYearQueryParam, IEnumerable<Year>, IQuery<EmployeeArchiveYearQueryParam, IEnumerable<Year>>>
+				(new EmployeeArchiveYearQueryParam
+				{
+					EmployeeId = employeeId
+				}, _employeeArchiveYearQuery);
+
+			return list;
         }
 
         /// <summary>
@@ -474,8 +547,14 @@ namespace HelpDesk.DataService
         {
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
                 .GetAccessRequestPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
-            IEnumerable<Year> list = queryRunner.Run(new ArchiveYearQuery(accessPredicate));
-            return list;
+            
+			var list = queryHandler.Handle<ArchiveYearQueryParam, IEnumerable<Year>, IQuery<ArchiveYearQueryParam, IEnumerable<Year>>>
+				(new ArchiveYearQueryParam
+				{
+					 AccessPredicate = accessPredicate
+				}, _archiveYearQuery);
+
+			return list;
         }
 
         /// <summary>
@@ -586,14 +665,12 @@ namespace HelpDesk.DataService
             
                 requestConstraintsService.CheckExistsRequest(dto.Id);
 
-                if (r.Version > dto.Version)
-                {
-                    throw new DataServiceException(Resource.ConcurrencyConstraintMsg);
-                }
+				r = requestRepository.Get(dto.Id);
 
-                r = requestRepository.Get(dto.Id);
+				if (r.Version > dto.Version)
+					throw new DataServiceException(Resource.ConcurrencyConstraintMsg);
 
-                r.DateUpdate = currentDateTime;
+				r.DateUpdate = currentDateTime;
                 r.DescriptionProblem = dto.DescriptionProblem;
                 r.User = user;
 
@@ -722,9 +799,14 @@ namespace HelpDesk.DataService
             IDictionary<long, IEnumerable<StatusRequest>> graphState = getGraphState(allowableUserStates);
 
             StatusRequest statusRequest = statusRepository.Get(dto.StatusRequestId);
-            RequestEventDTO lastEvent = queryRunner.Run(new RequestLastEventQuery(new long[] { dto.RequestId }, false)).FirstOrDefault();
             
-            RequestEvent newEvent = new RequestEvent()
+			var lastEvent = queryHandler.Handle<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>, IQuery<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>>>
+				(new RequestLastEventQueryParam
+				{
+					RequestIds = new long[] { dto.RequestId },
+					WithDateEnd = false }, _requestLastEventQuery).FirstOrDefault();
+
+			RequestEvent newEvent = new RequestEvent()
             {
                  RequestId  = request.Id,
                  DateInsert = currentDate,
@@ -831,7 +913,12 @@ namespace HelpDesk.DataService
         /// </summary>
         public IEnumerable<SimpleDTO> GetListDescriptionProblem(string name, long objectId)
         {
-            return queryRunner.Run(new DescriptionProblemQuery(name, objectId));
+            return queryHandler.Handle<DescriptionProblemQueryParam, IEnumerable<SimpleDTO> , IQuery<DescriptionProblemQueryParam, IEnumerable<SimpleDTO>>>(
+				new DescriptionProblemQueryParam
+				{
+					Name = name,
+					ObjectId = objectId
+				}, _descriptionProblemQuery);
         }
 
         /// <summary>
@@ -842,8 +929,11 @@ namespace HelpDesk.DataService
             Expression<Func<BaseRequest, bool>> accessPredicate = accessWorkerUserExpressionService
                         .GetAccessRequestPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
 
-            IEnumerable<RequestStateCountDTO> list = queryRunner.Run(new RequestStateCountQuery(accessPredicate));
-            return list;
+            return queryHandler.Handle<RequestStateCountQueryParam, IEnumerable<RequestStateCountDTO>, IQuery<RequestStateCountQueryParam, IEnumerable<RequestStateCountDTO>>>(
+				new RequestStateCountQueryParam
+				{
+					 AccessPredicate = accessPredicate
+				}, _requestStateCountQuery);
         }
     }
 }

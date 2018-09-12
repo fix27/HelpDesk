@@ -1,6 +1,7 @@
 ﻿using HelpDesk.Data.Query;
 using HelpDesk.DataService.DTO;
 using HelpDesk.Entity;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,32 @@ using System.Linq.Expressions;
 
 namespace HelpDesk.DataService.Query
 {
-    /// <summary>
-    /// Запрос: годы подачи заявок в архиве
-    /// </summary>
-    public class ArchiveYearQuery : IQuery<IEnumerable<Year>, RequestArch>
-    {
-        private readonly Expression<Func<BaseRequest, bool>> accessPredicate;
+	public class ArchiveYearQueryParam
+	{
+		public Expression<Func<BaseRequest, bool>> AccessPredicate { get; set; }
+	}
 
-        public ArchiveYearQuery(Expression<Func<BaseRequest, bool>> accessPredicate)
+	/// <summary>
+	/// Запрос: годы подачи заявок в архиве
+	/// </summary>
+	public class ArchiveYearQuery : IQuery<ArchiveYearQueryParam, IEnumerable<Year>>
+    {
+		private readonly ISession _session;
+
+		public ArchiveYearQuery(ISession session)
+		{
+			_session = session;
+		}
+
+		public IEnumerable<Year> Get(ArchiveYearQueryParam param)
         {
-            this.accessPredicate = accessPredicate;
-        }
-                
-        public IEnumerable<Year> Run(IQueryable<RequestArch> requests)
-        {
-       
-            var q = from e in requests.Where(accessPredicate)
+			if (param == null)
+				throw new ArgumentNullException("param");
+
+			if (param.AccessPredicate == null)
+				throw new ArgumentNullException("param.AccessPredicate");
+
+			var q = from e in _session.Query<RequestArch>().Where(param.AccessPredicate)
                     group e by e.DateInsert.Year into g
                     select new Year
                     {

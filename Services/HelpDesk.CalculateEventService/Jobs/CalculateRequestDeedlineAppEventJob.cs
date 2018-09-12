@@ -14,19 +14,27 @@ namespace HelpDesk.CalculateEventService.Jobs
     public class CalculateRequestDeedlineAppEventJob : IJob
     {
         private readonly IQueue<IRequestDeedlineAppEvent> queue;
-        private readonly IQueryRunner queryRunner;
-        private readonly ILog log;
-        public CalculateRequestDeedlineAppEventJob(IQueue<IRequestDeedlineAppEvent> queue, IQueryRunner queryRunner, ILog log)
+        private readonly IQueryHandler queryHandler;
+		private readonly RequestDeedlineQuery _requestDeedlineQuery;
+		private readonly ILog log;
+        public CalculateRequestDeedlineAppEventJob(IQueue<IRequestDeedlineAppEvent> queue, 
+			IQueryHandler queryHandler,
+			RequestDeedlineQuery requestDeedlineQuery,
+			ILog log)
         {
             this.queue = queue;
-            this.queryRunner = queryRunner;
-            this.log = log;
+            this.queryHandler = queryHandler;
+			_requestDeedlineQuery = requestDeedlineQuery;
+
+			this.log = log;
         }
 
         public void Execute(IJobExecutionContext context)
         {
-            IEnumerable<long> requestIds = queryRunner.Run(new RequestDeedlineQuery());
-            if(requestIds == null || !requestIds.Any())
+			var requestIds = queryHandler.Handle<object, IEnumerable<long>, RequestDeedlineQuery>(
+				null, _requestDeedlineQuery);
+			
+			if (requestIds == null || !requestIds.Any())
                 return;
 
             queue.Push(new RequestDeedlineAppEvent { RequestIds = requestIds });

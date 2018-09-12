@@ -101,7 +101,7 @@
     <Compile Include="NHibernateDataInstaller.cs" />
     <Compile Include="NHibernateSessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryRunner.cs" />
+    <Compile Include="QueryHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

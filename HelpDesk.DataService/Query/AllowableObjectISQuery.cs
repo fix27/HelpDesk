@@ -6,57 +6,54 @@ using System.Linq;
 using HelpDesk.Common.Helpers;
 using System.Linq.Expressions;
 using System;
+using NHibernate;
 
 namespace HelpDesk.DataService.Query
 {
-    /// <summary>
-    /// Запрос: доступные для выбора сотрудником-заявителем ИС
-    /// </summary>
-    public class AllowableObjectISQuery : IQuery<IEnumerable<RequestObjectISDTO>, RequestObject, OrganizationObjectTypeWorker, Employee>
+	public class AllowableObjectISQueryParam
+	{
+		public long EmployeeId { get; set; }
+		public string Name { get; set; }
+		public Expression<Func<RequestObject, bool>> AccessPredicate { get; set; }
+	}
+
+	/// <summary>
+	/// Запрос: доступные для выбора сотрудником-заявителем ИС
+	/// </summary>
+	public class AllowableObjectISQuery : IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>
     {
-        private readonly long employeeId;
-        private readonly string name;
-        private readonly Expression<Func<RequestObject, bool>> accessPredicate;
-
-        
-        public AllowableObjectISQuery(long employeeId, string name)
-            : this(employeeId)
+		private readonly ISession _session;
+		
+		public AllowableObjectISQuery(ISession session)
         {
-            this.name = name;
+			_session = session;
         }
-        public AllowableObjectISQuery(Expression<Func<RequestObject, bool>> accessPredicate, long employeeId, string name)
-            :this(employeeId)
+		
+		public IEnumerable<RequestObjectISDTO> Get(AllowableObjectISQueryParam param)
         {
-            this.name = name;
-            this.accessPredicate = accessPredicate;
-        }
-        
-        public AllowableObjectISQuery(long employeeId)
-        {
-            this.employeeId = employeeId;
-        }
+			if (param == null)
+				throw new ArgumentNullException("param");
 
-        public IEnumerable<RequestObjectISDTO> Run(IQueryable<RequestObject> objects, 
-            IQueryable<OrganizationObjectTypeWorker> organizationObjectTypeWorkers,
-            IQueryable<Employee> employees)
-        {
+			if (param.EmployeeId <= 0)
+				throw new ArgumentException("param.EmployeeId <= 0");
 
-            var q = from o in objects
-                    join ootw in organizationObjectTypeWorkers on o.ObjectType.Id equals ootw.ObjectType.Id
-                    join e in employees on ootw.Organization.Id equals e.Organization.Id
+
+            var q = from o in _session.Query<RequestObject>()
+					join ootw in _session.Query<OrganizationObjectTypeWorker>() on o.ObjectType.Id equals ootw.ObjectType.Id
+                    join e in _session.Query<Employee>() on ootw.Organization.Id equals e.Organization.Id
                     where o.ObjectType.Soft == true 
-                        && e.Id == employeeId
-                        && o.ObjectType.Archive == false 
+                        && e.Id == param.EmployeeId
+						&& o.ObjectType.Archive == false 
                         && o.Archive == false                       
                     orderby o.SoftName, o.ObjectType.Name
                     select o;
 
-            if (name != null)
-                q = q.Where(o => o.SoftName != null && o.SoftName.ToUpper().Contains(name.ToUpper()) ||
-                        o.SoftName == null && o.ObjectType.Name.ToUpper().Contains(name.ToUpper()));
+            if (param.Name != null)
+                q = q.Where(o => o.SoftName != null && o.SoftName.ToUpper().Contains(param.Name.ToUpper()) ||
+                        o.SoftName == null && o.ObjectType.Name.ToUpper().Contains(param.Name.ToUpper()));
 
-            if(accessPredicate !=null)
-                q = q.Where(accessPredicate);
+            if(param.AccessPredicate != null)
+                q = q.Where(param.AccessPredicate);
 
             return q.Select(o => new RequestObjectISDTO()
             {

@@ -8,87 +8,99 @@ using System.Linq;
 using HelpDesk.Common.Helpers;
 using System;
 using System.Linq.Expressions;
+using NHibernate;
 
 namespace HelpDesk.DataService.Query
 {
-    /// <summary>
-    /// Запрос: заявки пользователя/исполнителя/дипетчера
-    /// </summary>
-    public class RequestQuery<T> : IQuery<IEnumerable<RequestDTO>, T>
-        where T : BaseRequest
+	public interface IRequestQuery<T> : IQuery<RequestQueryParam, IEnumerable<RequestDTO>>
+		where T : BaseRequest
+	{
+
+	}
+
+	public class RequestQueryParam
+	{
+		public OrderInfo OrderInfo { get; set; }
+		public PageInfo PageInfo { get; set; }
+		public RequestFilter Filter { get; set; }
+		public Expression<Func<BaseRequest, bool>> AccessPredicate { get; set; }
+	}
+
+	/// <summary>
+	/// Запрос: заявки пользователя/исполнителя/дипетчера
+	/// </summary>
+	public class RequestQuery<T> : IRequestQuery<T>
+		where T : BaseRequest
     {
-        private readonly OrderInfo orderInfo;
-        private readonly PageInfo pageInfo;
-        private readonly RequestFilter filter;
-        private readonly Expression<Func<BaseRequest, bool>> accessPredicate;
+		private readonly ISession _session;
 
-        public RequestQuery(Expression<Func<BaseRequest, bool>> accessPredicate, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
+		public RequestQuery(ISession session)
+		{
+			_session = session;
+		}
+
+		public IEnumerable<RequestDTO> Get(RequestQueryParam param)
         {
-            this.accessPredicate = accessPredicate;
-            this.orderInfo = orderInfo;
-            this.pageInfo = pageInfo;
-            this.filter = filter;
-        }
+			if (param == null)
+				throw new ArgumentNullException("param");
 
-        public IEnumerable<RequestDTO> Run(IQueryable<T> requests)
-        {
-            Expression<Func<BaseRequest, bool>> where = t => true;
+			Expression<Func<BaseRequest, bool>> where = t => true;
 
-            if (filter != null)
+            if (param.Filter != null)
             {
-                if (!String.IsNullOrWhiteSpace(filter.ObjectName))
-                    where = where.AndAlso(t => t.Object.SoftName.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                        t.Object.HardType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                        t.Object.Model.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                        t.Object.Model.Manufacturer.Name.ToUpper().Contains(filter.ObjectName.ToUpper()) ||
-                        t.Object.ObjectType.Name.ToUpper().Contains(filter.ObjectName.ToUpper()));
+                if (!String.IsNullOrWhiteSpace(param.Filter.ObjectName))
+                    where = where.AndAlso(t => t.Object.SoftName.ToUpper().Contains(param.Filter.ObjectName.ToUpper()) ||
+                        t.Object.HardType.Name.ToUpper().Contains(param.Filter.ObjectName.ToUpper()) ||
+                        t.Object.Model.Name.ToUpper().Contains(param.Filter.ObjectName.ToUpper()) ||
+                        t.Object.Model.Manufacturer.Name.ToUpper().Contains(param.Filter.ObjectName.ToUpper()) ||
+                        t.Object.ObjectType.Name.ToUpper().Contains(param.Filter.ObjectName.ToUpper()));
 
-                where = where.AndAlso(t => (filter.DateInsert.Value1 == null || t.DateInsert >= filter.DateInsert.Value1) &&
-                        (filter.DateInsert.Value2 == null || t.DateInsert <= filter.DateInsert.Value2) &&
-                        (filter.DateEndPlan.Value1 == null || t.DateEndPlan >= filter.DateEndPlan.Value1) &&
-                        (filter.DateEndPlan.Value2 == null || t.DateEndPlan <= filter.DateEndPlan.Value2));
+                where = where.AndAlso(t => (param.Filter.DateInsert.Value1 == null || t.DateInsert >= param.Filter.DateInsert.Value1) &&
+                        (param.Filter.DateInsert.Value2 == null || t.DateInsert <= param.Filter.DateInsert.Value2) &&
+                        (param.Filter.DateEndPlan.Value1 == null || t.DateEndPlan >= param.Filter.DateEndPlan.Value1) &&
+                        (param.Filter.DateEndPlan.Value2 == null || t.DateEndPlan <= param.Filter.DateEndPlan.Value2));
                 
-                if (filter.Ids != null && filter.Ids.Any())
-                    where = where.AndAlso(t => filter.Ids.Contains(t.Id));
+                if (param.Filter.Ids != null && param.Filter.Ids.Any())
+                    where = where.AndAlso(t => param.Filter.Ids.Contains(t.Id));
 
-                if (filter.RawStatusIds != null && filter.RawStatusIds.Any())
-                    where = where.AndAlso(t => filter.RawStatusIds.Contains(t.Status.Id));
+                if (param.Filter.RawStatusIds != null && param.Filter.RawStatusIds.Any())
+                    where = where.AndAlso(t => param.Filter.RawStatusIds.Contains(t.Status.Id));
 
-                if (!String.IsNullOrWhiteSpace(filter.DescriptionProblem))
-                    where = where.AndAlso(t => t.DescriptionProblem.ToUpper().Contains(filter.DescriptionProblem.ToUpper()));
+                if (!String.IsNullOrWhiteSpace(param.Filter.DescriptionProblem))
+                    where = where.AndAlso(t => t.DescriptionProblem.ToUpper().Contains(param.Filter.DescriptionProblem.ToUpper()));
 
-                if (!String.IsNullOrWhiteSpace(filter.WorkerName))
-                    where = where.AndAlso(t => t.Worker.Name.ToUpper().Contains(filter.WorkerName.ToUpper()));
+                if (!String.IsNullOrWhiteSpace(param.Filter.WorkerName))
+                    where = where.AndAlso(t => t.Worker.Name.ToUpper().Contains(param.Filter.WorkerName.ToUpper()));
 
-                if (!String.IsNullOrWhiteSpace(filter.EmployeeInfo))
-                    where = where.AndAlso(t => t.Employee.FM.ToUpper().Contains(filter.EmployeeInfo.ToUpper()) ||
-                    t.Employee.Phone.ToUpper() == filter.EmployeeInfo.ToUpper() ||
-                    t.Employee.Cabinet.ToUpper() == filter.EmployeeInfo.ToUpper() ||
-                    t.Employee.Organization.Name.ToUpper().Contains(filter.EmployeeInfo.ToUpper()) ||
-                    t.Employee.Organization.Address.ToUpper().Contains(filter.EmployeeInfo.ToUpper()));
+                if (!String.IsNullOrWhiteSpace(param.Filter.EmployeeInfo))
+                    where = where.AndAlso(t => t.Employee.FM.ToUpper().Contains(param.Filter.EmployeeInfo.ToUpper()) ||
+                    t.Employee.Phone.ToUpper() == param.Filter.EmployeeInfo.ToUpper() ||
+                    t.Employee.Cabinet.ToUpper() == param.Filter.EmployeeInfo.ToUpper() ||
+                    t.Employee.Organization.Name.ToUpper().Contains(param.Filter.EmployeeInfo.ToUpper()) ||
+                    t.Employee.Organization.Address.ToUpper().Contains(param.Filter.EmployeeInfo.ToUpper()));
 
-                if (filter.Archive)
+                if (param.Filter.Archive)
                 {
-                    if (filter.ArchiveYear > 0)
+                    if (param.Filter.ArchiveYear > 0)
                     {
-                        if (filter.ArchiveMonth == 0)
-                            where = where.AndAlso(t => t.DateInsert.Year == filter.ArchiveYear);
+                        if (param.Filter.ArchiveMonth == 0)
+                            where = where.AndAlso(t => t.DateInsert.Year == param.Filter.ArchiveYear);
                         else
-                            where = where.AndAlso(t => t.DateInsert.Year == filter.ArchiveYear && t.DateInsert.Month == filter.ArchiveMonth);
+                            where = where.AndAlso(t => t.DateInsert.Year == param.Filter.ArchiveYear && t.DateInsert.Month == param.Filter.ArchiveMonth);
                     }
                 }
             }
                             
-            var filteredRequests = requests.Where(accessPredicate.AndAlso(where));
+            var filteredRequests = _session.Query<T>().Where(param.AccessPredicate.AndAlso(where));
             
             
 
-            if (orderInfo != null)
+            if (param.OrderInfo != null)
             {
-                switch (orderInfo.PropertyName)
+                switch (param.OrderInfo.PropertyName)
                 {
                     case "ObjectName":
-                        if (orderInfo.Asc)
+                        if (param.OrderInfo.Asc)
                             filteredRequests = filteredRequests.OrderBy(t => t.Object.ObjectType.Name)
                                 .ThenBy(t => t.Object.SoftName)
                                 .ThenBy(t => t.Object.Model.Name)
@@ -100,7 +112,7 @@ namespace HelpDesk.DataService.Query
                                 .ThenByDescending(t => t.Object.Model.Manufacturer.Name);
                         break;
                     case "EmployeeInfo":
-                        if (orderInfo.Asc)
+                        if (param.OrderInfo.Asc)
                             filteredRequests = filteredRequests.OrderBy(t => t.Employee.Organization.Name)
                                 .ThenBy(t => t.Employee.Organization.Address)
                                 .ThenBy(t => t.Employee.FM)
@@ -114,13 +126,13 @@ namespace HelpDesk.DataService.Query
                                 .ThenByDescending(t => t.Employee.OT);
                         break;
                     case "Statuses":
-                        if (orderInfo.Asc)
+                        if (param.OrderInfo.Asc)
                             filteredRequests = filteredRequests.OrderBy(t => t.Status.Name);
                         else
                             filteredRequests = filteredRequests.OrderByDescending(t => t.Status.Name);
                         break;
                     default:
-                        filteredRequests = filteredRequests.OrderBy(orderInfo.PropertyName, orderInfo.Asc);
+                        filteredRequests = filteredRequests.OrderBy(param.OrderInfo.PropertyName, param.OrderInfo.Asc);
                         break;
                 }
             }
@@ -152,15 +164,15 @@ namespace HelpDesk.DataService.Query
                 });
 
 
-            if (pageInfo != null)
+            if (param.PageInfo != null)
             {
-                pageInfo.TotalCount = requests.Where(accessPredicate).Count();
-                pageInfo.Count = filteredRequests.Count();
+                param.PageInfo.TotalCount = _session.Query<T>().Where(param.AccessPredicate).Count();
+                param.PageInfo.Count = filteredRequests.Count();
 
-                if (pageInfo.PageSize > 0)
+                if (param.PageInfo.PageSize > 0)
                     q = q
-                        .Skip(pageInfo.PageSize * pageInfo.CurrentPage)
-                        .Take(pageInfo.PageSize);
+                        .Skip(param.PageInfo.PageSize * param.PageInfo.CurrentPage)
+                        .Take(param.PageInfo.PageSize);
             }
 
             return q.ToList();

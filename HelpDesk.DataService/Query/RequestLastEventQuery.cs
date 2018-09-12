@@ -1,37 +1,48 @@
 ﻿using HelpDesk.Data.Query;
 using HelpDesk.DataService.DTO;
 using HelpDesk.Entity;
+using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HelpDesk.DataService.Query
 {
-    /// <summary>
-    /// Запрос: последнee событиe заявок из списка Id-заявок
-    /// </summary>
-    public class RequestLastEventQuery : IQuery<IEnumerable<RequestEventDTO>, RequestEvent>
+	public class RequestLastEventQueryParam
+	{
+		public IEnumerable<long> RequestIds { get; set; }
+		public bool WithDateEnd { get; set; }
+	}
+
+	/// <summary>
+	/// Запрос: последнee событиe заявок из списка Id-заявок
+	/// </summary>
+	public class RequestLastEventQuery : IQuery<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>>
     {
-        private readonly IEnumerable<long> requestIds;
-        private readonly bool withDateEnd;
-        public RequestLastEventQuery(IEnumerable<long> requestIds, bool withDateEnd = true)
+		private readonly ISession _session;
+
+		public RequestLastEventQuery(ISession session)
+		{
+			_session = session;
+		}
+
+		public IEnumerable<RequestEventDTO> Get(RequestLastEventQueryParam param)
         {
-            this.requestIds = requestIds;
-            this.withDateEnd = withDateEnd;
-        }
-                
-        public IEnumerable<RequestEventDTO> Run(IQueryable<RequestEvent> events)
-        {
-            //ВНИМАНИЕ!!! Запрос для ids сразу материализуется при помощи ToList(), 
-            //так как иначе NH не может его нормально преобразовать в sql
+
+			if (param == null)
+				throw new ArgumentNullException("param");
+
+			//ВНИМАНИЕ!!! Запрос для ids сразу материализуется при помощи ToList(), 
+			//так как иначе NH не может его нормально преобразовать в sql
 
 
-            IEnumerable<long> ids = (from z in events
-                                     where requestIds.Contains(z.RequestId) && (!withDateEnd || z.StatusRequest.Id != (long)RawStatusRequestEnum.DateEnd)
+			IEnumerable<long> ids = (from z in _session.Query<RequestEvent>()
+                                     where param.RequestIds.Contains(z.RequestId) && (!param.WithDateEnd || z.StatusRequest.Id != (long)RawStatusRequestEnum.DateEnd)
                                      group z by z.RequestId into g
                                      select g.Max(d => d.Id)).ToList();
 
-            var q = from e in events
-                    where ids.Contains(e.Id)
+            var q = from e in _session.Query<RequestEvent>()
+					where ids.Contains(e.Id)
                     select new RequestEventDTO
                     {
                         RequestId = e.RequestId,

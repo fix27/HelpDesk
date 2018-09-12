@@ -1,29 +1,42 @@
 ﻿using HelpDesk.Data.Query;
 using HelpDesk.DataService.DTO;
 using HelpDesk.Entity;
+using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HelpDesk.DataService.Query
 {
-    /// <summary>
-    /// Запрос: годы подачи заявок пользователя в архиве
-    /// </summary>
-    public class EmployeeArchiveYearQuery : IQuery<IEnumerable<Year>, RequestArch>
-    {
-        private readonly long employeeId;
+	public class EmployeeArchiveYearQueryParam
+	{
+		public long EmployeeId { get; set; }		
+	}
 
-        public EmployeeArchiveYearQuery(long employeeId)
+	/// <summary>
+	/// Запрос: годы подачи заявок пользователя в архиве
+	/// </summary>
+	public class EmployeeArchiveYearQuery : IQuery<EmployeeArchiveYearQueryParam, IEnumerable<Year>>
+    {
+		private readonly ISession _session;
+
+		public EmployeeArchiveYearQuery(ISession session)
+		{
+			_session = session;
+		}
+
+		public IEnumerable<Year> Get(EmployeeArchiveYearQueryParam param)
         {
-            this.employeeId = employeeId;
-        }
-                
-        public IEnumerable<Year> Run(IQueryable<RequestArch> requests)
-        {
-       
-            var q = from e in requests
-                    where e.Employee.Id == employeeId
-                    group e by e.DateInsert.Year into g
+
+			if (param == null)
+				throw new ArgumentNullException("param");
+
+			if (param.EmployeeId <= 0)
+				throw new ArgumentException("param.EmployeeId <= 0");
+
+			var q = from e in _session.Query<RequestArch>()
+                    where e.Employee.Id == param.EmployeeId
+					group e by e.DateInsert.Year into g
                     select new Year
                     {
                          Name = g.Key.ToString(),

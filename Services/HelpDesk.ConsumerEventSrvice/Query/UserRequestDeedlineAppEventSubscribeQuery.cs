@@ -2,31 +2,40 @@
 using HelpDesk.ConsumerEventService.Helpers;
 using HelpDesk.Data.Query;
 using HelpDesk.Entity;
+using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace HelpDesk.ConsumerEventService.Query
 {
-    /// <summary>
+	public class UserRequestDeedlineAppEventSubscribeQueryParam
+	{
+		public IEnumerable<long> RequestIds { get; set; }
+	}
+	
+	/// <summary>
     /// Запрос: список рассылки для подписанных на оповещение об истечении срока пользователей Исполнителя
     /// </summary>
-    public class UserRequestDeedlineAppEventSubscribeQuery : IQuery<IEnumerable<UserDeedlineAppEventSubscribeDTO>, Request, WorkerUserEventSubscribe, AccessWorkerUser>
+    public class UserRequestDeedlineAppEventSubscribeQuery : IQuery<UserRequestDeedlineAppEventSubscribeQueryParam, IEnumerable<UserDeedlineAppEventSubscribeDTO>>
     {
-        private readonly IEnumerable<long> requestIds;
-        public UserRequestDeedlineAppEventSubscribeQuery(IEnumerable<long> requestIds)
-        {
-            this.requestIds = requestIds;
-        }
+		private readonly ISession _session;
 
-        public IEnumerable<UserDeedlineAppEventSubscribeDTO> Run(IQueryable<Request> requests,
-            IQueryable<WorkerUserEventSubscribe> workerUserEventSubscribes,
-            IQueryable<AccessWorkerUser> accessWorkerUsers)
+		public UserRequestDeedlineAppEventSubscribeQuery(ISession session)
+		{
+			_session = session;
+		}
+
+		public IEnumerable<UserDeedlineAppEventSubscribeDTO> Get(UserRequestDeedlineAppEventSubscribeQueryParam param)
         {
-            IEnumerable<Request> deedlineRequests = requests.Where(t => requestIds.Contains(t.Id)).ToList();
+			if (param == null)
+				throw new ArgumentNullException("param");
+
+			IEnumerable<Request> deedlineRequests = _session.Query<Request>().Where(t => param.RequestIds.Contains(t.Id)).ToList();
             if (!deedlineRequests.Any())
                 return null;
 
-            var q = accessWorkerUsers.ToList()
+            var q = _session.Query<AccessWorkerUser>().ToList()
                 .Where(t => deedlineRequests.Select(r => r.Worker.Id).Contains(t.Worker.Id))
                 .GroupBy(a => a.User.Email)
                 .Select(g => new GroupedAccessWorkerUser

@@ -75,7 +75,7 @@
     <Compile Include="Command\ICommandRunner.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Query\IQuery.cs" />
-    <Compile Include="Query\IQueryRunner.cs" />
+    <Compile Include="Query\IQueryHandler.cs" />
     <Compile Include="Repository\IBaseRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

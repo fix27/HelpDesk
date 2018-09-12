@@ -19,14 +19,20 @@ namespace HelpDesk.ConsumerEventService.Handlers
     public class RequestAppEventHandler : IAppEventHandler<IRequestAppEvent>
     {
 
-        private readonly IQueryRunner queryRunner;
-        private readonly IStatusRequestMapService statusRequestMapService;
+        private readonly IQueryHandler queryHandler;
+		private readonly UserRequestAppEventSubscribeQuery _userRequestAppEventSubscribeQuery;
+		private readonly IStatusRequestMapService statusRequestMapService;
         private readonly ILog log;
         private readonly IEnumerable<ISender> senders;
-        public RequestAppEventHandler(IQueryRunner queryRunner, IStatusRequestMapService statusRequestMapService, ILog log, IEnumerable<ISender> senders)
+        public RequestAppEventHandler(IQueryHandler queryHandler,
+			UserRequestAppEventSubscribeQuery userRequestAppEventSubscribeQuery,
+			IStatusRequestMapService statusRequestMapService, 
+			ILog log, 
+			IEnumerable<ISender> senders)
         {
-            this.queryRunner = queryRunner;
-            this.statusRequestMapService = statusRequestMapService;
+            this.queryHandler = queryHandler;
+			_userRequestAppEventSubscribeQuery = userRequestAppEventSubscribeQuery;
+			this.statusRequestMapService = statusRequestMapService;
             this.log = log;
             this.senders = senders;
         }
@@ -37,7 +43,16 @@ namespace HelpDesk.ConsumerEventService.Handlers
             Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>> result = null;
             lock (lockObj)
             {
-                result = queryRunner.Run(new UserRequestAppEventSubscribeQuery(appEvent.RequestEventId, appEvent.Archive, statusRequestMapService.GetEquivalenceByElement));
+                result = queryHandler.Handle<UserRequestAppEventSubscribeQueryParam,
+					Tuple<IEnumerable<UserRequestAppEventSubscribeDTO>, IEnumerable<UserRequestAppEventSubscribeDTO>>,
+					UserRequestAppEventSubscribeQuery>(
+					new UserRequestAppEventSubscribeQueryParam
+					{
+						 RequestEventId = appEvent.RequestEventId,
+						 Archive = appEvent.Archive,
+						 GetEquivalenceByElement = statusRequestMapService.GetEquivalenceByElement
+					},
+					_userRequestAppEventSubscribeQuery);
             }
 
             if (result != null && result.Item1 != null && result.Item1.Any())

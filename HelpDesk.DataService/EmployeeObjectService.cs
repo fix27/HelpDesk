@@ -25,7 +25,7 @@ namespace HelpDesk.DataService
     public class EmployeeObjectService : BaseService, IEmployeeObjectService
     {
 
-        private readonly IQueryRunner queryRunner;
+        private readonly IQueryHandler queryHandler;
         private readonly IBaseRepository<EmployeeObject> employeeObjectRepository;
         private readonly IBaseRepository<Employee> employeeRepository;
         private readonly IBaseRepository<RequestObject> objectRepository;
@@ -36,10 +36,15 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<WorkerUser> workerUserRepository;
         private readonly IBaseRepository<AccessWorkerUser> accessWorkerUserRepository;
         private readonly IAccessWorkerUserExpressionService accessWorkerUserExpressionService;
-        private readonly IRepository repository;
+
+		private readonly IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>> _employeeObjectQuery;
+		private readonly IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>  _allowableObjectISQuery;
+		private readonly IQuery<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>> _allowableObjectTypeQuery;
+
+		private readonly IRepository repository;
 
         public EmployeeObjectService(
-            IQueryRunner queryRunner,
+            IQueryHandler queryHandler,
             IBaseRepository<EmployeeObject> employeeObjectRepository,
             IBaseRepository<Employee> employeeRepository,
             IBaseRepository<RequestObject> objectRepository,
@@ -50,9 +55,14 @@ namespace HelpDesk.DataService
             IBaseRepository<WorkerUser> workerUserRepository,
             IBaseRepository<AccessWorkerUser> accessWorkerUserRepository,
             IAccessWorkerUserExpressionService accessWorkerUserExpressionService,
-            IRepository repository)
+
+			IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>> employeeObjectQuery,
+			IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>> allowableObjectISQuery,
+			IQuery<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>> allowableObjectTypeQuery,
+			
+			IRepository repository)
         {
-            this.queryRunner                 = queryRunner;
+            this.queryHandler                 = queryHandler;
             this.employeeObjectRepository    = employeeObjectRepository;
             this.employeeRepository          = employeeRepository;
             this.objectRepository            = objectRepository;
@@ -63,42 +73,85 @@ namespace HelpDesk.DataService
             this.workerUserRepository        = workerUserRepository;
             this.accessWorkerUserRepository  = accessWorkerUserRepository;
             this.accessWorkerUserExpressionService = accessWorkerUserExpressionService;
-            this.repository                  = repository;
+
+			_employeeObjectQuery = employeeObjectQuery;
+			_allowableObjectISQuery = allowableObjectISQuery;
+			_allowableObjectTypeQuery = allowableObjectTypeQuery;
+
+			this.repository                  = repository;
         }
-        
-        public IEnumerable<EmployeeObjectDTO> GetListEmployeeObject(long employeeId, EmployeeObjectFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
-        {
-            IEnumerable<EmployeeObjectDTO> list = queryRunner.Run(new EmployeeObjectQuery(employeeId, filter, orderInfo, ref pageInfo));
-            return list;
+
+		public IEnumerable<EmployeeObjectDTO> GetListEmployeeObject(long employeeId, EmployeeObjectFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo)
+		{
+			var param = new EmployeeObjectQueryParam
+			{
+				EmployeeId = employeeId,
+				Filter = filter,
+				OrderInfo = orderInfo,
+				PageInfo = pageInfo
+			};
+			var list = queryHandler
+				.Handle<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>, IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>
+					(param, _employeeObjectQuery);
+			return list; 
         }
 
         public IEnumerable<EmployeeObjectDTO> GetListEmployeeObject(long employeeId, string objectName = null)
         {
-            IEnumerable<EmployeeObjectDTO> list = queryRunner.Run(new EmployeeObjectQuery(employeeId, new EmployeeObjectFilter() { ObjectName = objectName }));
-            return list;
+            var param = new EmployeeObjectQueryParam
+			{
+				EmployeeId = employeeId,
+				Filter = new EmployeeObjectFilter() { ObjectName = objectName }
+			};
+			var list = queryHandler
+				.Handle<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>, IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>
+					(param, _employeeObjectQuery);
+			return list;
         }
 
         public bool AllowableForSendRequest(long employeeId)
         {
-            IEnumerable<EmployeeObjectDTO> list = queryRunner.Run(new EmployeeObjectQuery(employeeId));
-            return list!=null && list.Any();
+            var param = new EmployeeObjectQueryParam
+			{
+				EmployeeId = employeeId
+			};
+			var list = queryHandler
+				.Handle<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>, IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>
+					(param, _employeeObjectQuery);
+
+			return list!=null && list.Any();
         }
 
         #region GetListAllowable
         public IEnumerable<RequestObjectISDTO> GetListAllowableObjectIS(long employeeId, string name = null)
         {
-            IEnumerable<RequestObjectISDTO> list = queryRunner.Run(new AllowableObjectISQuery(employeeId, name));
 
-            IEnumerable<long> listEmployeeObjectIds = queryRunner.Run(new EmployeeObjectQuery(employeeId))
-                .Select(t => t.ObjectId);
+			var list = queryHandler
+				.Handle<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>, IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>>
+					(new AllowableObjectISQueryParam { EmployeeId = employeeId, Name = name }, _allowableObjectISQuery);
 
-            return list.Where(t => !listEmployeeObjectIds.Contains(t.Id));
+
+			var listEmployeeObjectIds = queryHandler
+				.Handle<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>, IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>
+					(new EmployeeObjectQueryParam
+					{
+						EmployeeId = employeeId
+					}, _employeeObjectQuery)
+					.Select(t => t.ObjectId);
+
+			return list.Where(t => !listEmployeeObjectIds.Contains(t.Id));
         }
 
         public IEnumerable<SimpleDTO> GetListAllowableObjectType(long employeeId)
         {
-            IEnumerable<SimpleDTO> list = queryRunner.Run(new AllowableObjectTypeQuery(employeeId));
-            return list;
+            var list = queryHandler
+				.Handle<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>, IQuery<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>>>
+					(new AllowableObjectTypeQueryParam
+					{
+						EmployeeId = employeeId
+					}, _allowableObjectTypeQuery);
+
+			return list;
         }
 
         public IEnumerable<RequestObjectISDTO> GetListAllowableObjectIS(long userId, long employeeId, string name = null)
@@ -107,12 +160,24 @@ namespace HelpDesk.DataService
             Expression<Func<RequestObject, bool>> accessPredicate = accessWorkerUserExpressionService
                 .GetAccessRequestObjectPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
 
-            IEnumerable<RequestObjectISDTO> list = queryRunner.Run(new AllowableObjectISQuery(accessPredicate, employeeId, name));
+            var list = queryHandler
+				.Handle<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>, IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>>
+					(new AllowableObjectISQueryParam
+					{
+						EmployeeId = employeeId,
+						Name = name,
+						AccessPredicate = accessPredicate
+					}, _allowableObjectISQuery);
 
-            IEnumerable<long> listEmployeeObjectIds = queryRunner.Run(new EmployeeObjectQuery(employeeId))
-                .Select(t => t.ObjectId);
+			var listEmployeeObjectIds = queryHandler
+				.Handle<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>, IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>
+					(new EmployeeObjectQueryParam
+					{
+						EmployeeId = employeeId
+					}, _employeeObjectQuery)
+					.Select(t => t.ObjectId);
 
-            return list.Where(t => !listEmployeeObjectIds.Contains(t.Id));
+			return list.Where(t => !listEmployeeObjectIds.Contains(t.Id));
         }
 
         public IEnumerable<SimpleDTO> GetListAllowableObjectType(long userId, long employeeId)
@@ -120,9 +185,17 @@ namespace HelpDesk.DataService
             WorkerUser user = workerUserRepository.Get(userId);
             Expression<Func<OrganizationObjectTypeWorker, bool>> accessPredicate = accessWorkerUserExpressionService
                 .GetAccessOrganizationObjectTypeWorkerPredicate(accessWorkerUserRepository.GetList(a => a.User.Id == userId));
-            
-            return queryRunner.Run(new AllowableObjectTypeQuery(accessPredicate, employeeId));
-        }
+
+			var list = queryHandler
+				.Handle<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>, IQuery<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>>>
+					(new AllowableObjectTypeQueryParam
+					{
+						EmployeeId = employeeId,
+						 AccessPredicate = accessPredicate
+					}, _allowableObjectTypeQuery);
+
+			return list;
+		}
         #endregion GetListAllowable
 
         [Transaction]

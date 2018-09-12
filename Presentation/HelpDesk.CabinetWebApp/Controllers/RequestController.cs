@@ -75,7 +75,7 @@ namespace HelpDesk.CabinetWebApp.Controllers
             return execute(delegate ()
             {
                 long userId = User.Identity.GetUserId<long>();
-                IEnumerable<RequestDTO> list = requestService.GetListByEmployee(userId, filter, orderInfo, ref pageInfo);
+                IEnumerable<RequestDTO> list = requestService.GetListByEmployee(userId, filter, orderInfo, pageInfo);
                 result = Json(new { success = true, data = list, totalCount = pageInfo.TotalCount, count = pageInfo.Count });
             });
         }

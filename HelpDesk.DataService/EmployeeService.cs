@@ -21,7 +21,7 @@ namespace HelpDesk.DataService
     /// </summary>
     public class EmployeeService : BaseService, IEmployeeService
     {
-        private readonly IQueryRunner queryRunner;
+        private readonly IQueryHandler queryHandler;
         private readonly IBaseRepository<CabinetUser> userRepository;
         private readonly IBaseRepository<Employee> employeeRepository;
         private readonly IBaseRepository<EmployeeObject> employeeObjectRepository;
@@ -29,10 +29,13 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<Organization> organizationRepository;
         private readonly IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository;
         private readonly IBaseRepository<WorkerUser> workerUserRepository;
-        private readonly IRepository repository;
+
+		private readonly IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>> _employeeObjectQuery;
+
+		private readonly IRepository repository;
 
         public EmployeeService(
-            IQueryRunner queryRunner,
+            IQueryHandler queryHandler,
             IBaseRepository<CabinetUser> userRepository,
             IBaseRepository<Employee> employeeRepository,
             IBaseRepository<EmployeeObject> employeeObjectRepository,
@@ -40,9 +43,12 @@ namespace HelpDesk.DataService
             IBaseRepository<Organization> organizationRepository,
             IBaseRepository<OrganizationObjectTypeWorker> organizationObjectTypeWorkerRepository,
             IBaseRepository<WorkerUser> workerUserRepository,
-            IRepository repository)
+			
+			IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>> employeeObjectQuery,
+
+			IRepository repository)
         {
-            this.queryRunner        = queryRunner;
+            this.queryHandler        = queryHandler;
             this.userRepository     = userRepository;
             this.employeeRepository = employeeRepository;
             this.employeeObjectRepository = employeeObjectRepository;
@@ -50,7 +56,11 @@ namespace HelpDesk.DataService
             this.organizationRepository = organizationRepository;
             this.organizationObjectTypeWorkerRepository = organizationObjectTypeWorkerRepository;
             this.workerUserRepository   = workerUserRepository;
-            this.repository         = repository;
+
+			_employeeObjectQuery = employeeObjectQuery;
+
+
+			this.repository         = repository;
         }
         
         public EmployeeDTO Get(long id)
@@ -352,10 +362,14 @@ namespace HelpDesk.DataService
                 {
                     //удаляем из профиля заявителя объекты, на которые он не сможет подавать заявки,
                     //так как для них не определится Исполнитель
-                    IEnumerable<EmployeeObjectDTO> listPersonalProfileObject = queryRunner.Run(new EmployeeObjectQuery(
-                        entity.User.Id));
+                    var listPersonalProfileObject = queryHandler
+						.Handle<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>, IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>
+						(new EmployeeObjectQueryParam
+						{
+							 EmployeeId = entity.User.Id
+						}, _employeeObjectQuery);
 
-                    IEnumerable<OrganizationObjectTypeWorker> listOrganizationObjectTypeWorker =
+					IEnumerable<OrganizationObjectTypeWorker> listOrganizationObjectTypeWorker =
                         organizationObjectTypeWorkerRepository.GetList(t => t.Organization.Id == dto.OrganizationId).ToList();
 
                     IEnumerable<EmployeeObjectDTO> toRemoval = listPersonalProfileObject

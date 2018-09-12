@@ -14,8 +14,8 @@ namespace HelpDesk.DataService.Interface
         RequestParameter GetNewByRequestId(long requestId);
         RequestParameter GetNewByObjectId(long objectId);
         void Delete(long id);
-        IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo);
-        IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, ref PageInfo pageInfo);
+        IEnumerable<RequestDTO> GetListByEmployee(long employeeId, RequestFilter filter, OrderInfo orderInfo, PageInfo pageInfo);
+        IEnumerable<RequestDTO> GetList(long userId, RequestFilter filter, OrderInfo orderInfo, PageInfo pageInfo);
         int GetCountRequiresConfirmationEmployee(long employeeId);
         int GetCountRequiresReaction(long userId);
         long Save(RequestParameter dto);

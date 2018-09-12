@@ -1,4 +1,8 @@
 ﻿using HelpDesk.Common.Aspects;
+using HelpDesk.Data.Query;
+using HelpDesk.DataService.DTO;
+using HelpDesk.DataService.Query;
+using HelpDesk.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +18,21 @@ namespace HelpDesk.DataService
     {
         public static void Install(IUnityContainer container)
         {
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+			container.RegisterType<IEmployeeRequestQuery<Request>, EmployeeRequestQuery<Request>>();
+			container.RegisterType<IEmployeeRequestQuery<RequestArch>, EmployeeRequestQuery<RequestArch>>();
+			container.RegisterType<IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>, AllowableObjectISQuery>();
+			container.RegisterType<IQuery<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>>, AllowableObjectTypeQuery>();
+			container.RegisterType<IQuery<ArchiveYearQueryParam, IEnumerable<Year>>, ArchiveYearQuery>();
+			container.RegisterType<IQuery<DescriptionProblemQueryParam, IEnumerable<SimpleDTO>>, DescriptionProblemQuery>();
+			container.RegisterType<IQuery<EmployeeArchiveYearQueryParam, IEnumerable<Year>>, EmployeeArchiveYearQuery>();
+			container.RegisterType<IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>, EmployeeObjectQuery>();
+			container.RegisterType<IQuery<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>>, RequestLastEventQuery>();
+			container.RegisterType<IQuery<RequestStateCountQueryParam, IEnumerable<RequestStateCountDTO>>, RequestStateCountQuery>();
+			container.RegisterType<IRequestQuery<Request>, RequestQuery<Request>>();
+			container.RegisterType<IRequestQuery<RequestArch>, RequestQuery<RequestArch>>();
+
+			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
             
             
             container.AddNewExtension<Interception>();

@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using HelpDesk.Data.Query;
 using HelpDesk.Data.NHibernate;
 using NHibernate;
+using HelpDesk.DataService.Query;
 
 namespace HelpDesk.Test.DataService
 {
@@ -75,7 +76,7 @@ namespace HelpDesk.Test.DataService
             session.Setup(x => x.Query<Employee>())
                .Returns(() => { return listEmployee.AsQueryable(); });
 
-            IQueryRunner queryRunner = new QueryRunner(session.Object);
+            IQueryHandler queryHandler = new QueryHandler();
             
             Mock<IBaseRepository<WorkerUser>> workerUserRepository = new Mock<IBaseRepository<WorkerUser>>(MockBehavior.Strict);
             workerUserRepository.Setup(x => x.Get(It.IsAny<long>()))
@@ -85,9 +86,11 @@ namespace HelpDesk.Test.DataService
             accessWorkerUserRepository.Setup(x => x.GetList(It.IsAny<Expression<Func<AccessWorkerUser, bool>>>()))
                .Returns((Expression<Func<AccessWorkerUser, bool>> predicate) => { return listAccessUser.AsQueryable().Where(predicate); });
 
-            EmployeeObjectService employeeObjectService =
+			var allowableObjectTypeQuery = new AllowableObjectTypeQuery(session.Object);
+
+			EmployeeObjectService employeeObjectService =
                 new EmployeeObjectService(
-                    queryRunner,//*
+                    queryHandler,//*
                     Mock.Of<IBaseRepository<EmployeeObject>>(),
                     Mock.Of<IBaseRepository<Employee>>(),
                     Mock.Of<IBaseRepository<RequestObject>>(),
@@ -98,7 +101,12 @@ namespace HelpDesk.Test.DataService
                     workerUserRepository.Object,//*
                     accessWorkerUserRepository.Object,//*
                     new AccessWorkerUserExpressionService(),//*
-                    Mock.Of<IRepository>());
+
+					Mock.Of<IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>(),
+					Mock.Of<IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>>(),
+					allowableObjectTypeQuery,
+
+					Mock.Of<IRepository>());
 
             IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(1, 1);
 
@@ -116,7 +124,7 @@ namespace HelpDesk.Test.DataService
             session.Setup(x => x.Query<Employee>())
                .Returns(() => { return listEmployee.AsQueryable(); });
 
-            IQueryRunner queryRunner = new QueryRunner(session.Object);
+            IQueryHandler queryHandler = new QueryHandler();
 
             Mock<IBaseRepository<WorkerUser>> workerUserRepository = new Mock<IBaseRepository<WorkerUser>>(MockBehavior.Strict);
             workerUserRepository.Setup(x => x.Get(It.IsAny<long>()))
@@ -126,9 +134,11 @@ namespace HelpDesk.Test.DataService
             accessWorkerUserRepository.Setup(x => x.GetList(It.IsAny<Expression<Func<AccessWorkerUser, bool>>>()))
                .Returns((Expression<Func<AccessWorkerUser, bool>> predicate) => { return listAccessUser.AsQueryable().Where(predicate); });
 
-            EmployeeObjectService employeeObjectService =
+			var allowableObjectTypeQuery = new AllowableObjectTypeQuery(session.Object);
+
+			EmployeeObjectService employeeObjectService =
                 new EmployeeObjectService(
-                    queryRunner,//*
+                    queryHandler,//*
                     Mock.Of<IBaseRepository<EmployeeObject>>(),
                     Mock.Of<IBaseRepository<Employee>>(),
                     Mock.Of<IBaseRepository<RequestObject>>(),
@@ -139,7 +149,12 @@ namespace HelpDesk.Test.DataService
                     workerUserRepository.Object,//*
                     accessWorkerUserRepository.Object,//*
                     new AccessWorkerUserExpressionService(),//*
-                    Mock.Of<IRepository>());
+
+					Mock.Of<IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>(),
+					Mock.Of<IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>>(),
+					allowableObjectTypeQuery,
+
+					Mock.Of<IRepository>());
 
             IEnumerable<SimpleDTO> list = employeeObjectService.GetListAllowableObjectType(3, 3);
 
@@ -162,7 +177,7 @@ namespace HelpDesk.Test.DataService
             session.Setup(x => x.Query<EmployeeObject>())
                .Returns(() => { return listEmployeeObject.AsQueryable(); });
             
-            IQueryRunner queryRunner = new QueryRunner(session.Object);
+            IQueryHandler queryHandler = new QueryHandler();
 
             Mock<IBaseRepository<WorkerUser>> workerUserRepository = new Mock<IBaseRepository<WorkerUser>>(MockBehavior.Strict);
             workerUserRepository.Setup(x => x.Get(It.IsAny<long>()))
@@ -174,7 +189,7 @@ namespace HelpDesk.Test.DataService
 
             EmployeeObjectService employeeObjectService =
                 new EmployeeObjectService(
-                    queryRunner,//*
+                    queryHandler,//*
                     Mock.Of<IBaseRepository<EmployeeObject>>(),
                     Mock.Of<IBaseRepository<Employee>>(),
                     Mock.Of<IBaseRepository<RequestObject>>(),
@@ -185,7 +200,12 @@ namespace HelpDesk.Test.DataService
                     workerUserRepository.Object,//*
                     accessWorkerUserRepository.Object,//*
                     new AccessWorkerUserExpressionService(),//*
-                    Mock.Of<IRepository>());
+
+					Mock.Of<IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>(),
+					Mock.Of<IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>>(),
+					Mock.Of<IQuery<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>>>(),
+
+					Mock.Of<IRepository>());
 
             IEnumerable<RequestObjectISDTO> list = employeeObjectService.GetListAllowableObjectIS(1, 3);
         }
@@ -203,7 +223,7 @@ namespace HelpDesk.Test.DataService
             session.Setup(x => x.Query<EmployeeObject>())
                .Returns(() => { return listEmployeeObject.AsQueryable(); });
 
-            IQueryRunner queryRunner = new QueryRunner(session.Object);
+            IQueryHandler queryHandler = new QueryHandler();
 
             Mock<IBaseRepository<WorkerUser>> workerUserRepository = new Mock<IBaseRepository<WorkerUser>>(MockBehavior.Strict);
             workerUserRepository.Setup(x => x.Get(It.IsAny<long>()))
@@ -215,7 +235,7 @@ namespace HelpDesk.Test.DataService
 
             EmployeeObjectService employeeObjectService =
                 new EmployeeObjectService(
-                    queryRunner,//*
+                    queryHandler,//*
                     Mock.Of<IBaseRepository<EmployeeObject>>(),
                     Mock.Of<IBaseRepository<Employee>>(),
                     Mock.Of<IBaseRepository<RequestObject>>(),
@@ -226,7 +246,12 @@ namespace HelpDesk.Test.DataService
                     workerUserRepository.Object,//*
                     accessWorkerUserRepository.Object,//*
                     new AccessWorkerUserExpressionService(),//*
-                    Mock.Of<IRepository>());
+
+					Mock.Of<IQuery<EmployeeObjectQueryParam, IEnumerable<EmployeeObjectDTO>>>(),
+					Mock.Of<IQuery<AllowableObjectISQueryParam, IEnumerable<RequestObjectISDTO>>>(),
+					Mock.Of<IQuery<AllowableObjectTypeQueryParam, IEnumerable<SimpleDTO>>>(),
+
+					Mock.Of<IRepository>());
 
             IEnumerable<RequestObjectISDTO> list = employeeObjectService.GetListAllowableObjectIS(3, 3);
         }  

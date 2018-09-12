@@ -16,13 +16,17 @@ namespace HelpDesk.ConsumerEventService.Handlers
     public class RequestDeedlineAppEventHandler : IAppEventHandler<IRequestDeedlineAppEvent>
     {
         private readonly ILog log;
-        private readonly IQueryRunner queryRunner;
-        private readonly IEnumerable<ISender> senders;
-        public RequestDeedlineAppEventHandler(IQueryRunner queryRunner, ILog log,
+        private readonly IQueryHandler queryHandler;
+		private readonly UserRequestDeedlineAppEventSubscribeQuery _userRequestDeedlineAppEventSubscribeQuery;
+		private readonly IEnumerable<ISender> senders;
+        public RequestDeedlineAppEventHandler(IQueryHandler queryHandler,
+			UserRequestDeedlineAppEventSubscribeQuery userRequestDeedlineAppEventSubscribeQuery,
+			ILog log,
             IEnumerable<ISender> senders)
         {
-            this.queryRunner = queryRunner;
-            this.log = log;
+            this.queryHandler = queryHandler;
+			_userRequestDeedlineAppEventSubscribeQuery = userRequestDeedlineAppEventSubscribeQuery;
+			this.log = log;
             this.senders = senders;
         }
 
@@ -32,7 +36,12 @@ namespace HelpDesk.ConsumerEventService.Handlers
             IEnumerable<UserDeedlineAppEventSubscribeDTO> list = null;
             lock (lockObj)
             {
-                list = queryRunner.Run(new UserRequestDeedlineAppEventSubscribeQuery(appEvent.RequestIds));
+                list = queryHandler.Handle<UserRequestDeedlineAppEventSubscribeQueryParam, 
+					IEnumerable<UserDeedlineAppEventSubscribeDTO>, UserRequestDeedlineAppEventSubscribeQuery>
+					(new UserRequestDeedlineAppEventSubscribeQueryParam
+					{
+						 RequestIds = appEvent.RequestIds
+					}, _userRequestDeedlineAppEventSubscribeQuery);
             }
             log.InfoFormat("-----------------------------: list.Count = {0}", list.Count());
             if (list == null || !list.Any())

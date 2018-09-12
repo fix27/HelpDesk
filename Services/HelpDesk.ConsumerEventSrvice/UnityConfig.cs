@@ -89,7 +89,7 @@ namespace HelpDesk.ConsumerEventService
             //обработчикм сообщений из шины
             container.RegisterType<IAppEventHandler<IRequestAppEvent> , RequestAppEventHandler>(
                 new InjectionConstructor(
-                    container.Resolve<IQueryRunner>(),
+                    container.Resolve<IQueryHandler>(),
                     container.Resolve<IStatusRequestMapService>(),
                     container.Resolve<ILog>("RequestAppEventHandler"),
                     senders
@@ -97,7 +97,7 @@ namespace HelpDesk.ConsumerEventService
 
             container.RegisterType<IAppEventHandler<IRequestDeedlineAppEvent> , RequestDeedlineAppEventHandler>(
                 new InjectionConstructor(
-                    container.Resolve<IQueryRunner>(),
+                    container.Resolve<IQueryHandler>(),
                     container.Resolve<ILog>("RequestDeedlineAppEventHandler"),
                     senders
                 ));

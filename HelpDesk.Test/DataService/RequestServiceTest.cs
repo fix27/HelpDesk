@@ -14,6 +14,8 @@ using HelpDesk.EventBus.Common.Interface;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.Data.Command;
 using HelpDesk.Common.Cache;
+using HelpDesk.DataService.Query;
+using HelpDesk.DataService.DTO;
 
 namespace HelpDesk.Test.DataService
 {
@@ -86,8 +88,19 @@ namespace HelpDesk.Test.DataService
                .Returns((Expression<Func<Request, bool>> predicate) => { return listRequest.AsQueryable().Count(predicate); });
 
             RequestService requestService = new RequestService(Mock.Of<ICommandRunner>(),
-                Mock.Of<IQueryRunner>(),
-                Mock.Of<IBaseRepository<RequestObject>>(),
+                Mock.Of<IQueryHandler>(),
+
+				Mock.Of<IQuery<DescriptionProblemQueryParam, IEnumerable<SimpleDTO>>>(),
+				Mock.Of<IQuery<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>>>(),
+				Mock.Of<IQuery<ArchiveYearQueryParam, IEnumerable<Year>>>(),
+				Mock.Of<IQuery<EmployeeArchiveYearQueryParam, IEnumerable<Year>>>(),
+				Mock.Of<IQuery<RequestStateCountQueryParam, IEnumerable<RequestStateCountDTO>>>(),
+				Mock.Of<IEmployeeRequestQuery<Request>>(),
+				Mock.Of<IEmployeeRequestQuery<RequestArch>>(),
+				Mock.Of<IRequestQuery<Request>>(),
+				Mock.Of<IRequestQuery<RequestArch>>(),
+
+				Mock.Of<IBaseRepository<RequestObject>>(),
                 Mock.Of<IBaseRepository<DescriptionProblem>>(),
                 Mock.Of<ISettingsService>(),
                 Mock.Of<IBaseRepository<OrganizationObjectTypeWorker>>(),
