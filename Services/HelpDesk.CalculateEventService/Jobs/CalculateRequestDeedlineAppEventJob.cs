@@ -1,4 +1,4 @@
-﻿using HelpDesk.CalculateEventService.Query;
+﻿using HelpDesk.CalculateEventJob.Query;
 using HelpDesk.EventBus.Common.AppEvents;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.EventBus.Common.Interface;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace HelpDesk.CalculateEventService.Jobs
+namespace HelpDesk.CalculateEventJob.Jobs
 {
     public class CalculateRequestDeedlineAppEventJob : IJob
     {

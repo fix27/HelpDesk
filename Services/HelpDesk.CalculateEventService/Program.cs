@@ -1,4 +1,4 @@
-﻿using HelpDesk.CalculateEventService.Jobs;
+﻿using HelpDesk.CalculateEventJob.Jobs;
 using Quartz;
 using Quartz.Unity;
 using System;
@@ -7,7 +7,7 @@ using CommonLoggingSimple = Common.Logging.Simple;
 using CommonLogging = Common.Logging;
 using System.Configuration;
 
-namespace HelpDesk.CalculateEventService
+namespace HelpDesk.CalculateEventJob
 {
     public class Program
     {

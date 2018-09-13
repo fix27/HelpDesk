@@ -5,7 +5,7 @@ using System.Linq;
 using System;
 using NHibernate;
 
-namespace HelpDesk.CalculateEventService.Query
+namespace HelpDesk.CalculateEventJob.Query
 {
 	/// <summary>
 	/// Запрос: список Id заявок, у которых истекает срок исполнения

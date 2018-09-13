@@ -7,8 +7,8 @@
     <ProjectGuid>{355ABACB-9064-4659-A6B8-84E18DC1A2F1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HelpDesk.CalculateEventService</RootNamespace>
-    <AssemblyName>HelpDesk.CalculateEventService</AssemblyName>
+    <RootNamespace>HelpDesk.CalculateEventJob</RootNamespace>
+    <AssemblyName>HelpDesk.CalculateEventJob</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

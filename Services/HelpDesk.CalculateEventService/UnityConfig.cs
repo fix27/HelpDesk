@@ -5,11 +5,11 @@ using HelpDesk.Data.NHibernate;
 using Unity.Lifetime;
 using MassTransit.Logging;
 using Unity.Injection;
-using HelpDesk.CalculateEventService.Jobs;
+using HelpDesk.CalculateEventJob.Jobs;
 using HelpDesk.Data.NHibernate.Repository;
 using System.Configuration;
 
-namespace HelpDesk.CalculateEventService
+namespace HelpDesk.CalculateEventJob
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.

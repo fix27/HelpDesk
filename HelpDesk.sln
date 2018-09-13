@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.CabinetWebApp", "Presentation\HelpDesk.CabinetWebApp\HelpDesk.CabinetWebApp.csproj", "{EF02CF86-4885-44B3-B930-37A408252067}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.CabinetWebApp", "WebApp\HelpDesk.CabinetWebApp\HelpDesk.CabinetWebApp.csproj", "{EF02CF86-4885-44B3-B930-37A408252067}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.DataService", "HelpDesk.DataService\HelpDesk.DataService.csproj", "{B0535568-F554-4F6C-9520-B3195BE0EC62}"
 EndProject
@@ -27,11 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.Data.NHibernate", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaGenerator", "Data\Implementation\SchemaGenerator\SchemaGenerator.csproj", "{830D0361-E3E5-4E5C-967D-9BC201CDDC32}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{14B598DA-6A8E-4CAD-AA93-64B4D1DBA3B9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{14B598DA-6A8E-4CAD-AA93-64B4D1DBA3B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.WorkerWebApp", "Presentation\HelpDesk.WorkerWebApp\HelpDesk.WorkerWebApp.csproj", "{9EC84C82-F2E3-43A7-8ECD-79BD418D659B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.WorkerWebApp", "WebApp\HelpDesk.WorkerWebApp\HelpDesk.WorkerWebApp.csproj", "{9EC84C82-F2E3-43A7-8ECD-79BD418D659B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.Web.Common", "Presentation\HelpDesk.Web.Common\HelpDesk.Web.Common.csproj", "{E62D27A0-1E45-43E2-A9FE-6E7D1E7E54A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.Web.Common", "WebApp\HelpDesk.Web.Common\HelpDesk.Web.Common.csproj", "{E62D27A0-1E45-43E2-A9FE-6E7D1E7E54A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{955DF889-3A78-41F8-80D0-E2A99FFA6DB7}"
 EndProject
@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.ConsumerEventService", "Services\HelpDesk.ConsumerEventSrvice\HelpDesk.ConsumerEventService.csproj", "{3134BB07-0CC4-4EED-A927-D87351199708}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.CalculateEventService", "Services\HelpDesk.CalculateEventService\HelpDesk.CalculateEventService.csproj", "{355ABACB-9064-4659-A6B8-84E18DC1A2F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.CalculateEventJob", "Services\HelpDesk.CalculateEventService\HelpDesk.CalculateEventJob.csproj", "{355ABACB-9064-4659-A6B8-84E18DC1A2F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpDesk.DataService.Common", "HelpDesk.DataService.Common\HelpDesk.DataService.Common.csproj", "{C0FA0E99-27F2-49FE-84F3-D10E79C8636A}"
 EndProject
@@ -138,5 +138,8 @@ Global
 		{3134BB07-0CC4-4EED-A927-D87351199708} = {6ECD3FF2-ED3D-4A43-8AB6-591B94463145}
 		{355ABACB-9064-4659-A6B8-84E18DC1A2F1} = {6ECD3FF2-ED3D-4A43-8AB6-591B94463145}
 		{55804DBF-6229-4F0C-81DC-88472A707E6A} = {955DF889-3A78-41F8-80D0-E2A99FFA6DB7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71969D00-C097-4662-978D-63444D16B7CD}
 	EndGlobalSection
 EndGlobal
