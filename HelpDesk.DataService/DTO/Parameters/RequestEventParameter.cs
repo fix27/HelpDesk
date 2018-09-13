@@ -1,4 +1,5 @@
 ﻿using HelpDesk.Common.Cache;
+using HelpDesk.Common.Cache.Interface;
 using System;
 
 namespace HelpDesk.DataService.DTO.Parameters

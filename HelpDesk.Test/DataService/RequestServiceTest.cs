@@ -15,6 +15,7 @@ using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.Common.Cache;
 using HelpDesk.DataService.Query;
 using HelpDesk.DataService.DTO;
+using HelpDesk.Common.Cache.Interface;
 
 namespace HelpDesk.Test.DataService
 {

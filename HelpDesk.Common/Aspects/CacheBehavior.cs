@@ -1,4 +1,5 @@
 ﻿using HelpDesk.Common.Cache;
+using HelpDesk.Common.Cache.Interface;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace HelpDesk.Common.Aspects
                             string cacheKey = String.Format(cacheAttribute.CacheKeyTemplate, methodPapameters.ToArray());
 
                             result.ReturnValue = cacheImplementation
-                                    .AddOrGetExisting(result.ReturnValue.GetType(), cacheKey,
+                                    .AddOrGetExisting(cacheKey,
                                     () =>
                                     {
                                         return result.ReturnValue;

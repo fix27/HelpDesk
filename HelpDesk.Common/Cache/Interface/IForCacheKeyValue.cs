@@ -1,4 +1,4 @@
-﻿namespace HelpDesk.Common.Cache
+﻿namespace HelpDesk.Common.Cache.Interface
 {
     /// <summary>
     /// Если в качестве параметра для кэша используется объект не примитивного типа 

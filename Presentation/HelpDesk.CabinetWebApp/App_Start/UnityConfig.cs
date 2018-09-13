@@ -73,10 +73,8 @@ namespace HelpDesk.CabinetWebApp.App_Start
             CacheLocation defaultLocation = CacheLocation.InMemory;
             Enum.TryParse(WebConfigurationManager.AppSettings["cache:DefaultLocation"], out defaultLocation);
 
-            int defaultExpirationSeconds = 0;
-            Int32.TryParse(WebConfigurationManager.AppSettings["cache:DefaultExpirationSeconds"], out defaultExpirationSeconds);
-
-            CacheInstaller.Install(redisConnectionString, defaultLocation, defaultExpirationSeconds, container, new PerRequestLifetimeManager());
+            
+            CacheInstaller.Install(redisConnectionString, defaultLocation, container, new PerRequestLifetimeManager());
 
             //регистрация Мигратора
             MigratorInstaller.Install(container, connectionString);

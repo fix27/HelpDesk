@@ -22,6 +22,7 @@ using HelpDesk.EventBus.Common.AppEvents.Interface;
 using HelpDesk.DataService.Common.Interface;
 using HelpDesk.DataService.Common.DTO;
 using HelpDesk.Common.Cache;
+using HelpDesk.Common.Cache.Interface;
 
 namespace HelpDesk.DataService
 {

@@ -1,4 +1,6 @@
-﻿using ServiceStack.Redis;
+﻿using HelpDesk.Common.Cache.Interface;
+using StackExchange.Redis.Extensions.Core;
+using System;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
@@ -10,24 +12,25 @@ namespace HelpDesk.Common.Cache
         private static IUnityContainer _container;
         private static CacheLocation _defaultLocation;
         
-        public static void Install(string redisConnectionString, CacheLocation defaultLocation, int defaultExpirationSeconds, IUnityContainer container, LifetimeManager lifetimeManager)
+        public static void Install(string redisConnectionString, CacheLocation defaultLocation, IUnityContainer container, LifetimeManager lifetimeManager)
         {
             _container = container;
             _defaultLocation = defaultLocation;
 
-            int _defaultExpirationSeconds = defaultExpirationSeconds > 0 ? defaultExpirationSeconds : 1000;
+            if (!String.IsNullOrWhiteSpace(redisConnectionString))
+            {
+                _container.RegisterType<ICacheClient>(lifetimeManager,
+                    new InjectionFactory(c => RedisClientFactory.Instance.GetCurrent(redisConnectionString)));
 
-            container.RegisterType<ICache, InMemoryCache>(
-                new InjectionConstructor(_defaultExpirationSeconds));
-            container.RegisterType<ICache, InMemoryCache>(CacheLocation.InMemory.ToString(),
-                new InjectionConstructor(_defaultExpirationSeconds));
+                _container.RegisterType<ICache, RedisCache>(_defaultLocation.ToString());
+            }
+            else
+            {
+                _container.RegisterType<ICache, MemoryCache>(_defaultLocation.ToString());
+            }
 
 
-            container.RegisterType<ICache, RedisCache>(CacheLocation.Redis.ToString(),
-                lifetimeManager,
-                new InjectionConstructor(
-                    new BasicRedisClientManager(redisConnectionString),
-                    _defaultExpirationSeconds));
+            _container.RegisterType<IMemoryCache, MemoryCache>();
         }
         public static ICache GetCache(CacheLocation? location = null)
         {
