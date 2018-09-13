@@ -72,8 +72,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\ICommandRunner.cs" />
-    <Compile Include="Command\ICommand.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\IQueryHandler.cs" />
     <Compile Include="Repository\IBaseRepository.cs" />
@@ -98,6 +96,9 @@
       <Project>{ea577097-d2c0-4290-9cb6-26e93abdeb43}</Project>
       <Name>HelpDesk.Entity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Command\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

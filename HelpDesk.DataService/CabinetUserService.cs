@@ -12,8 +12,7 @@ using HelpDesk.DataService.Common.Interface;
 using HelpDesk.DataService.Common.DTO;
 using System.Collections.Generic;
 using HelpDesk.Common.Helpers;
-using HelpDesk.Data.Command;
-using HelpDesk.DataService.Command;
+
 
 namespace HelpDesk.DataService
 {
@@ -32,7 +31,6 @@ namespace HelpDesk.DataService
         private readonly IBaseRepository<CabinetUserEventSubscribe> userEventSubscribeRepository;
         private readonly IBaseRepository<StatusRequest> statusRepository;
         private readonly IStatusRequestMapService       statusRequestMapService;
-        private readonly ICommandRunner                 commandRunner;
         private readonly IRepository                    repository;
 
         public CabinetUserService(IBaseRepository<CabinetUser> userRepository,
@@ -43,7 +41,6 @@ namespace HelpDesk.DataService
             IBaseRepository<CabinetUserEventSubscribe> userEventSubscribeRepository,
             IBaseRepository<StatusRequest> statusRepository,
             IStatusRequestMapService statusRequestMapService,
-            ICommandRunner commandRunner,
             IRepository repository)
         {
             this.userRepository = userRepository;
@@ -54,7 +51,6 @@ namespace HelpDesk.DataService
             this.userEventSubscribeRepository = userEventSubscribeRepository;
             this.statusRepository = statusRepository;
             this.statusRequestMapService = statusRequestMapService;
-            this.commandRunner = commandRunner;
             this.repository = repository;
         }
 
@@ -198,7 +194,7 @@ namespace HelpDesk.DataService
             }
             else
             {
-                commandRunner.Run(new DeleteCabinetUserEventSubscribeCommand(userId, statusRequestIds));
+                userEventSubscribeRepository.Delete(s => s.User.Id == userId && statusRequestIds.Contains(s.StatusRequest.Id));
             }
 
             repository.SaveChanges();

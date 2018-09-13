@@ -12,7 +12,6 @@ using HelpDesk.DataService.Interface;
 using HelpDesk.DataService.Common.Interface;
 using HelpDesk.EventBus.Common.Interface;
 using HelpDesk.EventBus.Common.AppEvents.Interface;
-using HelpDesk.Data.Command;
 using HelpDesk.Common.Cache;
 using HelpDesk.DataService.Query;
 using HelpDesk.DataService.DTO;
@@ -87,7 +86,7 @@ namespace HelpDesk.Test.DataService
             requestRepository.Setup(x => x.Count(It.IsAny<Expression<Func<Request, bool>>>()))
                .Returns((Expression<Func<Request, bool>> predicate) => { return listRequest.AsQueryable().Count(predicate); });
 
-            RequestService requestService = new RequestService(Mock.Of<ICommandRunner>(),
+            RequestService requestService = new RequestService(
                 Mock.Of<IQueryHandler>(),
 
 				Mock.Of<IQuery<DescriptionProblemQueryParam, IEnumerable<SimpleDTO>>>(),

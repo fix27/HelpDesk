@@ -31,5 +31,9 @@ namespace HelpDesk.Data.Repository
         void Insert(T entity, long id);
 
         int Count(Expression<Func<T, bool>> predicate = null);
+
+        void Update(object values, Expression<Func<T, bool>> predicate);
+        void Delete(Expression<Func<T, bool>> predicate);
+
     }
 }

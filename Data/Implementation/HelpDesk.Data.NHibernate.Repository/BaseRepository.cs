@@ -5,6 +5,7 @@ using NHibernate.Criterion;
 using System.Linq;
 using System;
 using HelpDesk.Data.Specification;
+using NHibernate.Linq;
 
 namespace HelpDesk.Data.NHibernate.Repository
 {
@@ -57,9 +58,9 @@ namespace HelpDesk.Data.NHibernate.Repository
 
         public virtual void Delete(long id)
         {
-            var query = session.CreateQuery(String.Format("delete from {0} where Id = :id", typeof(T).Name));
-            query.SetParameter("id", id);
-            query.ExecuteUpdate();
+            session.Query<T>()
+                .Where(c => c.Id == id)
+                .Delete();
         }
 
         public virtual T Get(long id)
@@ -102,6 +103,19 @@ namespace HelpDesk.Data.NHibernate.Repository
         public virtual void Insert(T entity, long id)
         {
             session.Save(entity, id);
+        }
+
+        public virtual void Update(object values, System.Linq.Expressions.Expression<Func<T, bool>> predicate)
+        {
+            session.Query<T>()
+                .Where(predicate)
+                .Update(c => values);
+        }
+        public virtual void Delete(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
+        {
+            session.Query<T>()
+                .Where(predicate)
+                .Delete();
         }
     }
 }

@@ -7,8 +7,6 @@ using System.Linq;
 using HelpDesk.Common;
 using HelpDesk.DataService.Filters;
 using HelpDesk.DataService.DTO;
-using HelpDesk.Data.Command;
-using HelpDesk.DataService.Command;
 using HelpDesk.DataService.Resources;
 using HelpDesk.DataService.Common;
 using HelpDesk.Data.Query;
@@ -53,7 +51,6 @@ namespace HelpDesk.DataService
             (long)RawStatusRequestEnum.Passive
         };
 
-        private readonly ICommandRunner commandRunner;
         private readonly IQueryHandler queryHandler;
         private readonly IBaseRepository<RequestObject> objectRepository;
         private readonly IBaseRepository<DescriptionProblem> descriptionProblemRepository;
@@ -86,8 +83,7 @@ namespace HelpDesk.DataService
 		private readonly IRequestQuery<Request> _requestQuery;
 		private readonly IRequestQuery<RequestArch> _requestArchQuery;
 
-		public RequestService(ICommandRunner commandRunner,
-            IQueryHandler queryHandler,
+		public RequestService(IQueryHandler queryHandler,
 
 			IQuery<DescriptionProblemQueryParam, IEnumerable<SimpleDTO>> descriptionProblemQuery,
 			IQuery<RequestLastEventQueryParam, IEnumerable<RequestEventDTO>> requestLastEventQuery,
@@ -135,7 +131,6 @@ namespace HelpDesk.DataService
 
 			this.objectRepository       = objectRepository;
             this.descriptionProblemRepository = descriptionProblemRepository;
-            this.commandRunner          = commandRunner;
             this.settingsService     = settingsService;
             this.organizationObjectTypeWorkerRepository = organizationObjectTypeWorkerRepository;
             this.employeeRepository = employeeRepository;
@@ -249,7 +244,7 @@ namespace HelpDesk.DataService
         {
             requestConstraintsService.CheckExistsRequest(id);
 
-            commandRunner.Run(new DeleteRequestFileCommand(id));
+            requestFileRepository.Delete(f => f.RequestId == id);
             requestRepository.Delete(id);
             repository.SaveChanges();
         }
@@ -675,8 +670,10 @@ namespace HelpDesk.DataService
                 r.User = user;
 
                 requestRepository.Save(r);
+                
+                requestFileRepository.Update(new { RequestId = dto.Id }, f => f.TempRequestKey == dto.TempRequestKey);
+
                 repository.SaveChanges();
-                commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, dto.Id));
                 return dto.Id;
             }
 
@@ -753,10 +750,10 @@ namespace HelpDesk.DataService
             }
             #endregion DescriptionProblem
 
+            requestFileRepository.Update(new { RequestId = r.Id }, f => f.TempRequestKey == dto.TempRequestKey);
+            
             repository.SaveChanges();
-
-            commandRunner.Run(new UpdateRequestFileCommand(dto.TempRequestKey, r.Id));
-
+                        
             queue.Push(new RequestAppEvent() { RequestEventId = newEvent.Id, Archive = false });
 
             return r.Id;
@@ -856,14 +853,53 @@ namespace HelpDesk.DataService
             request.Status      = statusRequest;
             requestRepository.Save(request);
                        
-            repository.SaveChanges();
+            
 
             bool transferRequestToArchive = dto.StatusRequestId == (long)RawStatusRequestEnum.ApprovedComplete ||
                 dto.StatusRequestId == (long)RawStatusRequestEnum.ApprovedRejected ||
                 dto.StatusRequestId == (long)RawStatusRequestEnum.Passive;
             //перенос заявки в архив
             if (transferRequestToArchive)
-                commandRunner.Run(new TransferRequestToArchiveCommand(request.Id, currentDate));
+            {
+                var requestArch = new RequestArch
+                {
+                    CountCorrectionDateEndPlan = request.CountCorrectionDateEndPlan,
+                    DateEndFact = currentDate,
+                    DateEndPlan = request.DateEndPlan,
+                    DateInsert = request.DateInsert,
+                    DateUpdate = request.DateUpdate,
+                    DescriptionProblem = request.DescriptionProblem,
+                    Employee = request.Employee,
+                    Object = request.Object,
+                    Status = request.Status,
+                    Worker = request.Worker,
+                    Version = request.Version,
+                    User = request.User,
+                    Id = request.Id
+                };
+                requestArchRepository.Insert(requestArch, requestArch.Id);
+                var requestEvents = requestEventRepository.GetList(r => r.RequestId == request.Id).ToList();
+                foreach (var evnt in requestEvents)
+                {
+                    var evntArch = new RequestEventArch
+                    {
+                        DateEvent = evnt.DateEvent,
+                        DateInsert = evnt.DateInsert,
+                        Note = evnt.Note,
+                        OrdGroup = evnt.OrdGroup,
+                        RequestId = evnt.RequestId,
+                        StatusRequest = evnt.StatusRequest,
+                        User = evnt.User,
+                        Id = evnt.Id
+                    };
+                    requestEventArchRepository.Insert(evntArch, evntArch.Id);
+                }
+                requestEventRepository.Delete(e => e.RequestId == request.Id);
+                requestRepository.Delete(request.Id);
+            }
+            
+
+            repository.SaveChanges();
 
             queue.Push(new RequestAppEvent()
             {

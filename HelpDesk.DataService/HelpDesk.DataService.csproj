@@ -92,8 +92,6 @@
     <Compile Include="AccessWorkerUserExpressionService.cs" />
     <Compile Include="BaseDataService.cs" />
     <Compile Include="BaseService.cs" />
-    <Compile Include="Command\DeleteCabinetUserEventSubscribeCommand.cs" />
-    <Compile Include="Command\TransferRequestToArchiveCommand.cs" />
     <Compile Include="DTO\CabinetUserDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\EmployeeObjectDTO.cs" />
@@ -135,8 +133,6 @@
     <Compile Include="Query\RequestStateCountQuery.cs" />
     <Compile Include="Query\RequestQuery.cs" />
     <Compile Include="WorkerUserService.cs" />
-    <Compile Include="Command\DeleteRequestFileCommand.cs" />
-    <Compile Include="Command\UpdateRequestFileCommand.cs" />
     <Compile Include="Common\DataServiceException.cs" />
     <Compile Include="Common\DataServiceExceptionData.cs" />
     <Compile Include="Common\DataServiceInfo.cs" />
@@ -231,6 +227,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Command\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
